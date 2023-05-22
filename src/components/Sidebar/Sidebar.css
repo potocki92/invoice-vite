@@ -1,0 +1,64 @@
+.sidebar {
+  width: 345px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+}
+
+.sidebar__title {
+  padding-top: 48px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 54px;
+  color: #222132;
+}
+.sidebar__navlink {
+  padding: calc(86px - 21.75px) 0 0 25px;
+  width: 100%;
+}
+.sidebar__button {
+  background-color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0;
+  color: #9babc5;
+}
+
+.sidebar__span {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: #9babc5;
+}
+
+.sidebar__list {
+  width: 100%;
+}
+.sidebar__item {
+  margin: 21.75px 0;
+}
+
+.sidebar__item:hover path,
+.sidebar__item:hover .sidebar__span {
+  color: #428777;
+  transition: color 0.250s ease-in-out;
+  
+}
+
+.sidebar__item:hover {
+  border-right: 6px solid #428777;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    min-width: 200px;
+  }
+  .sidebar__navlink {
+    padding: calc(86px - 21.75px) 0 0 10px;
+  }
+}

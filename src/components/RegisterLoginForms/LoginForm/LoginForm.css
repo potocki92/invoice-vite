@@ -1,0 +1,13 @@
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  transition: transform 0.5s ease-in-out;
+}
+
+.move-right {
+  transform: translateX(100%);
+}

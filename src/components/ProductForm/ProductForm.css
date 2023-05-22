@@ -1,0 +1,25 @@
+.container-product .details__box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox__container {
+  display: flex;
+  gap: 15px;
+}
+
+.form__group .input-checkbox{
+  margin: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.checkbox__card {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form__group .checkbox__text {
+  margin: 0;
+}

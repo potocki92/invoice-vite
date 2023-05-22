@@ -1,0 +1,36 @@
+.client__list--container {
+  display: flex;
+  gap: 48px;
+}
+
+.card__wrapper {
+  width: 470px;
+  height: 386px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+}
+.client__profile {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.client__icon {
+  width: 80px;
+  height: 80px;
+  background: #efefef;
+  border-radius: 50px;
+}
+.client__name {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: #222132;
+}
+
+.section__content {
+  margin: 48px 0 128px 0;
+}

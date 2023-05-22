@@ -1,0 +1,40 @@
+.circle-button {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: #e3e3e3;
+  margin-top: 10px;
+  padding: 0;
+}
+.custom-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px dotted #999;
+  padding: 4px 5px;
+  background-color: #fdf4db;
+  transition: background 0.1s ease-in-out, border-color 0.2s ease-in-out;
+
+  border-radius: 3px;
+}
+.custom-select:hover {
+  background-color: #fdf4db;
+  border: 1px dotted #999;
+  transition: background 0.1s ease-in-out, border-color 0.2s ease-in-out;
+}
+.custom-select:focus {
+  border: 1px solid #999;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+/* remove default arrow in IE */
+select::-ms-expand {
+  display: none;
+}
+.delete {
+  position: absolute;
+  right: -25px;
+}
+.relative {
+  position: relative;
+}

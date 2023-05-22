@@ -1,0 +1,59 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 16px;
+  font-family: "Nunito", sans-serif;
+  color: #555;
+}
+input {
+  height: 45px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+button {
+  outline: none;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#root {
+  height: 100vh;
+}
+/* .container {
+  width: 1200px;
+  margin: 0 auto;
+} */
+
+/*======================================================*/
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.section {
+  padding: 40px 48px;
+}
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .container {
+    max-width: 1600px;
+    margin: 0 60px;
+  }
+}
