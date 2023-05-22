@@ -1,0 +1,86 @@
+.header {
+    padding: 20px 0;
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #ffffff;
+  }
+  .header__userName {
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    color: #222132;
+  }
+  .header .container {
+    margin: 0 59px;
+  }
+  .button {
+    border-radius: 20px;
+    border: 1px solid #fff;
+    background-color: #ff4b2b;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+  }
+  .header-button:active {
+    transform: scale(0.95);
+  }
+  .header-circle {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: #efefef;
+    box-shadow: 0px 0px 3px 2px #428777;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: 1;
+    flex-grow: 0;
+    padding: 0;
+  }
+  .header__button--logout {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    order: 1;
+    flex-grow: 0;
+    padding: 0;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px 2px #9babc5;
+    color: #9babc5;
+    justify-content: center;
+    align-items: center;
+    transition: color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+  }
+  .header__button--logout:hover {
+    color: #428777;
+    box-shadow: 0px 0px 3px 2px #428777;
+  }
+  .header__flex-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .header__textContainer {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+  }
+  .header__userSpecification {
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #9babc5;
+  }
+  

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Login.css";
+import axios from "../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ setShowRegister, setLoginUser }) => {
