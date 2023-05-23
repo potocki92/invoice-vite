@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
-import "./Sidebar.css";
 import { ReactComponent as DashboardIcon } from "../../assets/images/svg/dashboard.svg";
 import { ReactComponent as AddInvoiceIcon } from "../../assets/images/svg/addInvoice.svg";
 import { ReactComponent as ClientsIcon } from "../../assets/images/svg/clients.svg";
 import { homeLink } from "../../utils/linkConfig";
-import { BurgerIcon, MobileSidebar, SidebarStyled, ToggleMenuButton } from "./Sidebar.styled";
+import { BurgerIcon, MobileSidebar, SidebarButton, SidebarItem, SidebarList, SidebarNavlink, SidebarSpan, SidebarStyled, SidebarTitle, ToggleMenuButton } from "./Sidebar.styled";
 import { useState } from "react";
 
 const Sidebar = () => {
@@ -24,51 +23,51 @@ const Sidebar = () => {
         </ToggleMenuButton>
       </MobileSidebar>
     <SidebarStyled className={`${isClick ? "menu-open" : ""}`}>
-      <span className="sidebar__title">InvCom</span>
-      <nav className="sidebar__navlink">
-        <ul className="sidebar__list">
-          <li className="sidebar__item">
-            <Link to={homeLink}>
-              <button className="sidebar__button">
+      <SidebarTitle>InvCom</SidebarTitle>
+      <SidebarNavlink>
+        <SidebarList>
+          <Link to={homeLink}>
+          <SidebarItem>
+              <SidebarButton>
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>
                   <DashboardIcon />
                 </svg>
-                <span className="sidebar__span">Dashboard</span>
-              </button>
-            </Link>
-          </li>
-          <li className="sidebar__item">
-            <Link to={`invoice`}>
-              <button className="sidebar__button">
+                <SidebarSpan>Dashboard</SidebarSpan>
+              </SidebarButton>
+          </SidebarItem>
+          </Link>
+          <Link to={`invoice`}>
+          <SidebarItem>
+              <SidebarButton>
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>
                   <AddInvoiceIcon />
                 </svg>
-                <span className="sidebar__span">Create Invoice</span>
-              </button>
-            </Link>
-          </li>
-          <li className="sidebar__item">
-            <Link to={`products`}>
-              <button className="sidebar__button">
+                <SidebarSpan>Create Invoice</SidebarSpan>
+              </SidebarButton>
+          </SidebarItem>
+          </Link>
+          <Link to={`products`}>
+          <SidebarItem>
+              <SidebarButton>
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>
                   <DashboardIcon />
                 </svg>
-                <span className="sidebar__span">Products</span>
-              </button>
-            </Link>
-          </li>
-          <li className="sidebar__item">
-            <Link to={`clients`}>
-              <button className="sidebar__button">
+                <SidebarSpan>Products</SidebarSpan>
+              </SidebarButton>
+          </SidebarItem>
+          </Link>
+          <Link to={`clients`}>
+          <SidebarItem>
+              <SidebarButton>
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>
                   <ClientsIcon />
                 </svg>
-                <span className="sidebar__span">Clients</span>
-              </button>
-            </Link>
-          </li>
-        </ul>
-      </nav>
+                <SidebarSpan>Clients</SidebarSpan>
+              </SidebarButton>
+          </SidebarItem>
+          </Link>
+        </SidebarList>
+      </SidebarNavlink>
     </SidebarStyled>
     </>
   );

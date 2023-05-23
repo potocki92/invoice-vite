@@ -12,15 +12,72 @@ export const SidebarStyled = styled.div`
   align-items: center;
   background: #ffffff;
   transition: all 0.5s ease;
+  min-width: 200px;
+  transform: translateX(-100%);
+  &.menu-open {
+    transform: translateX(0);
+  }
 
-  @media (max-width: 768px) {
-    transform: translateX(-100%);
-    &.menu-open {
-      transform: translateX(0);
-    }
+  @media (min-width: 769px) {
+    transform: translateX(0)
   }
 `;
 
+export const SidebarTitle = styled.span`
+  padding-top: 48px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 54px;
+  color: #222132;
+`
+
+export const SidebarNavlink = styled.nav`
+  padding: calc(86px - 21.75px) 0 0 25px;
+  width: 100%;
+  @media (max-width: 768px) {
+    padding: calc(86px - 21.75px) 0 0 10px;
+  }
+`
+
+export const SidebarButton = styled.button`
+  background-color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0;
+  color: #9babc5;
+`
+
+export const SidebarSpan = styled.span`
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: #9babc5;
+`
+
+export const SidebarList = styled.ul`
+  width: 100%;
+`
+
+export const SidebarItem = styled.li`
+  margin: 21.75px 0;
+  cursor: pointer;
+  &:hover 
+  { 
+    border-right: 6px solid #428777;
+    path {
+      color: #428777;
+      transition: color 0.250s ease-in-out;
+    }
+    ${SidebarSpan} {
+      color: #428777;
+      transition: color 0.250s ease-in-out;
+    }
+  }
+`
 export const MobileSidebar = styled.div`
   position: fixed;
   right: 20px;
@@ -32,6 +89,7 @@ export const MobileSidebar = styled.div`
     display: none;
   }
 `;
+
 export const ToggleMenuButton = styled.div`
   width: 45px;
   height: 45px;
