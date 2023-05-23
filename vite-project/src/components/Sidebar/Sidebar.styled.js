@@ -19,7 +19,8 @@ export const SidebarStyled = styled.div`
   }
 
   @media (min-width: 769px) {
-    transform: translateX(0)
+    transform: translateX(0);
+    position: relative;
   }
 `;
 

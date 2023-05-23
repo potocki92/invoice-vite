@@ -1,41 +1,34 @@
 import { Link } from "react-router-dom";
-import { Container, CardWrapper, ProductName } from "./InvoiceList.styled";
+import { InvoiceListItem, InvoiceInner, InvoiceListStyled, EditButton, DeleteButton } from "./InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
 
-const InvoiceList = ({ id, invoices, onDelete }) => {
+const InvoiceList = ({ invoices, onDelete }) => {
   const reversedInvoices = [...invoices].reverse();
 
   return (
-    <Container>
+    <InvoiceListStyled>
       {reversedInvoices?.map((invoice, index) => (
-        <CardWrapper key={index}>
-          <ProductName>
-            <div>
-              <p>Invoice:</p>
+        <InvoiceListItem key={index}>
+          <InvoiceInner>
+            <p>
               {invoice.invoiceNumber}
-            </div>
-            <div>
-              <p>Client:</p>
+            </p>
+            <p>
               {invoice.client.clientName}
-            </div>
-            <div>
-              <p>Invoice Date:</p>
+            </p>
+            <p>
               {invoice.date.invoiceDate}
-            </div>
-            <div>
-              <p>Invoice Due:</p>
-              {invoice.date.dueDate}
-            </div>
-          </ProductName>
+            </p>
+          </InvoiceInner>
           <Link to={`${homeLink}/invoice/${invoice._id}`}>
-            <button className="button">Edit</button>
+            <EditButton>Edit</EditButton>
           </Link>
-          <button className="button" onClick={() => onDelete(invoice._id)}>
+          <DeleteButton onClick={() => onDelete(invoice._id)}>
             Delete
-          </button>
-        </CardWrapper>
+          </DeleteButton>
+        </InvoiceListItem>
       ))}
-    </Container>
+    </InvoiceListStyled>
   );
 };
 
