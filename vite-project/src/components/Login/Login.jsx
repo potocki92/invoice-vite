@@ -31,14 +31,11 @@ const Login = ({ setShowRegister, setLoginUser }) => {
       // Wykonaj zapytanie do serwera, aby zalogować użytkownika
       const response = await axios.post("/login", formData);
       const token = response.data.token;
+      console.log(token);
       // Zapisz token w localStorage
-      const localStorageUser = {
-        id: response.data.user._id,
-        username: response.data.user.user.name,
-      };
+      
       // Zapisanie danych użytkownika do localStorage po zalogowaniu
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(localStorageUser));
       setLoginUser({ token });
       // Przekieruj użytkownika na stronę główną
       navigation(homeLink);

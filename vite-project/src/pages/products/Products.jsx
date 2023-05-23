@@ -22,9 +22,6 @@ const Products = () => {
     productsTax: 1,
   });
   const token = localStorage.getItem("token");
-  const getUserFromLocalStorage = localStorage.getItem("user");
-  const parsedUser = JSON.parse(getUserFromLocalStorage);
-  const userId = parsedUser.id;
   const [allProducts, setAllProducts] = useState(
     JSON.parse(localStorage.getItem("products")) || []
   );
@@ -39,7 +36,6 @@ const Products = () => {
         const response = await axios.get(`/products`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setAllProducts(response.data);
@@ -84,14 +80,13 @@ const Products = () => {
       .post(`/addProduct`, newProduct, {
         headers: {
           Authorization: `Bearer ${token}`,
-          UserId: userId,
         },
       })
       .then((res) => {
         console.log(res.data, newProduct);
         setAllProducts([...allProducts, newProduct]); // aktualizujemy stan listy produktów
         setNewProduct({
-          _id: Types.ObjectId(), // wygeneruj nowe ID
+          _id: new Types.ObjectId(), // wygeneruj nowe ID
           productsName: "",
           qty: 1,
           productsPrice: 0.0,

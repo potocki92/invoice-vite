@@ -39,9 +39,6 @@ const Invoices = () => {
     },
   });
   const token = localStorage.getItem("token");
-  const getUserFromLocalStorage = localStorage.getItem("user");
-  const parsedUser = JSON.parse(getUserFromLocalStorage);
-  const userId = parsedUser.id;
   const [user, setUser] = useState({});
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [allInvoices, setAllInvoices] = useState([]);
@@ -79,7 +76,6 @@ const Invoices = () => {
         const response = await axios.get(`/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setUser(response.data);
@@ -103,7 +99,6 @@ const Invoices = () => {
         const response = await axios.get(`/clients`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setClients(response.data);
@@ -123,7 +118,6 @@ const Invoices = () => {
         const response = await axios.get(`/products`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setProducts(response.data);
@@ -155,7 +149,6 @@ const Invoices = () => {
         const responseInvoice = await axios.get(`/invoices`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setAllInvoices(responseInvoice.data);
@@ -183,7 +176,6 @@ const Invoices = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              UserId: userId,
             },
           }
         )

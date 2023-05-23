@@ -24,9 +24,6 @@ const InvoiceEdit = () => {
     products: [],
   });
   const token = localStorage.getItem("token");
-  const getUserFromLocalStorage = localStorage.getItem("user");
-  const parsedUser = JSON.parse(getUserFromLocalStorage);
-  const userId = parsedUser.id;
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [clients, setClients] = useState([]);
@@ -38,7 +35,6 @@ const InvoiceEdit = () => {
         const response = await axios.get(`/invoice/${invoiceId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setInvoice(response.data);
@@ -57,7 +53,6 @@ const InvoiceEdit = () => {
         const response = await axios.get(`/clients`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setClients(response.data);
@@ -74,7 +69,6 @@ const InvoiceEdit = () => {
         const response = await axios.get(`/products`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setProducts(response.data);

@@ -4,11 +4,26 @@ import { ReactComponent as DashboardIcon } from "../../assets/images/svg/dashboa
 import { ReactComponent as AddInvoiceIcon } from "../../assets/images/svg/addInvoice.svg";
 import { ReactComponent as ClientsIcon } from "../../assets/images/svg/clients.svg";
 import { homeLink } from "../../utils/linkConfig";
-import { SidebarStyled } from "./Sidebar.styled";
+import { BurgerIcon, MobileSidebar, SidebarStyled, ToggleMenuButton } from "./Sidebar.styled";
+import { useState } from "react";
 
 const Sidebar = () => {
+  const [isClick, setIsClick] = useState(false);
+  const handleBurgerClick = () => {
+    setIsClick(!isClick);
+  };
   return (
-    <SidebarStyled>
+    <>
+    <MobileSidebar>
+        <ToggleMenuButton onClick={handleBurgerClick}>
+          <BurgerIcon className={isClick ? "active" : ""}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </BurgerIcon>
+        </ToggleMenuButton>
+      </MobileSidebar>
+    <SidebarStyled className={`${isClick ? "menu-open" : ""}`}>
       <span className="sidebar__title">InvCom</span>
       <nav className="sidebar__navlink">
         <ul className="sidebar__list">
@@ -55,6 +70,7 @@ const Sidebar = () => {
         </ul>
       </nav>
     </SidebarStyled>
+    </>
   );
 };
 

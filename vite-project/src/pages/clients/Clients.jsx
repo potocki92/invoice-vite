@@ -26,9 +26,6 @@ const Clients = () => {
     clientAddress: "",
   });
   const token = localStorage.getItem("token");
-  const getUserFromLocalStorage = localStorage.getItem("user");
-  const parsedUser = JSON.parse(getUserFromLocalStorage);
-  const userId = parsedUser.id;
   /* This line defines the initial state for all clients, either by retrieving them from local storage, or setting an empty array */
   const [allClients, setAllClients] = useState(
     JSON.parse(localStorage.getItem("clients")) || []
@@ -44,7 +41,6 @@ const Clients = () => {
         const response = await axios.get(`/clients`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setAllClients(response.data);
@@ -66,14 +62,13 @@ const Clients = () => {
       .post(`/addClient`, newClient, {
         headers: {
           Authorization: `Bearer ${token}`,
-          UserId: userId,
         },
       })
       .then((res) => {
         console.log(res.data);
         setAllClients([...allClients, newClient]);
         setNewClient({
-          _id: Types.ObjectId(),
+          _id: new Types.ObjectId(),
           clientName: "",
           clientNip: "",
           clientRegon: "",
@@ -92,7 +87,6 @@ const Clients = () => {
       .delete(`/clients/${clientId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          UserId: userId,
         },
       })
       .then((res) => {

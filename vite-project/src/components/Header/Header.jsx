@@ -4,23 +4,14 @@ import "./Header.css";
 import { ReactComponent as LogoffIcon } from "../../assets/images/svg/logout.svg";
 import { homeLink } from "../../utils/linkConfig";
 import {
-  BurgerIcon,
   HeaderStyled,
-  MobileHeader,
-  ToggleMenuButton,
 } from "./Header.styled";
 
 const Header = ({ setLoginUser }) => {
-  const [isClick, setIsClick] = useState(false);
-  const handleBurgerClick = () => {
-    setIsClick(!isClick);
-  };
-
   const [user, setItems] = useState([]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
     setLoginUser({});
   };
   useEffect(() => {
@@ -31,15 +22,6 @@ const Header = ({ setLoginUser }) => {
   }, []);
   return (
     <>
-      <MobileHeader>
-        <ToggleMenuButton>
-          <BurgerIcon className={isClick ? "active" : ""}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </BurgerIcon>
-        </ToggleMenuButton>
-      </MobileHeader>
       <HeaderStyled>
         <div className="container">
           <div className="header__flex-row">

@@ -16,9 +16,6 @@ const User = () => {
   const [postalCode, setPostalCode] = useState("");
   const [street, setStreet] = useState("");
   const token = localStorage.getItem("token");
-  const getUserFromLocalStorage = localStorage.getItem("user");
-  const parsedUser = JSON.parse(getUserFromLocalStorage);
-  const userId = parsedUser.id;
   
   useEffect(() => {
     const fetchUser = async () => {
@@ -26,7 +23,6 @@ const User = () => {
         const response = await axios.get(`/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         const user = response.data;

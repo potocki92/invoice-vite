@@ -8,17 +8,13 @@ const Home = () => {
   const [allInvoices, setAllInvoices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
-  const getUserFromLocalStorage = localStorage.getItem("user");
-  const parsedUser = JSON.parse(getUserFromLocalStorage);
-  const userId = parsedUser.id;
-
+  
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
         const response = await axios.get(`/invoices`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            UserId: userId,
           },
         });
         setAllInvoices(response.data);
@@ -36,7 +32,6 @@ const Home = () => {
       .delete(`/invoice/${invoiceId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          UserId: userId,
         },
       })
       .then((res) => {
