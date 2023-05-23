@@ -4,10 +4,11 @@ import { ReactComponent as DashboardIcon } from "../../assets/images/svg/dashboa
 import { ReactComponent as AddInvoiceIcon } from "../../assets/images/svg/addInvoice.svg";
 import { ReactComponent as ClientsIcon } from "../../assets/images/svg/clients.svg";
 import { homeLink } from "../../utils/linkConfig";
+import { SidebarStyled } from "./Sidebar.styled";
 
 const Sidebar = () => {
   return (
-    <div className="sidebar">
+    <SidebarStyled>
       <span className="sidebar__title">InvCom</span>
       <nav className="sidebar__navlink">
         <ul className="sidebar__list">
@@ -53,7 +54,7 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
-    </div>
+    </SidebarStyled>
   );
 };
 

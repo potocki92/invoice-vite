@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import "./Header.css";
 import { ReactComponent as LogoffIcon } from "../../assets/images/svg/logout.svg";
 import { homeLink } from "../../utils/linkConfig";
+import { HeaderStyled } from "./Header.styled";
 
 const Header = ({ setLoginUser }) => {
   let { id } = useParams();
@@ -20,7 +21,7 @@ const Header = ({ setLoginUser }) => {
     }
   }, []);
   return (
-    <header className="header">
+    <HeaderStyled>
       <div className="container">
         <div className="header__flex-row">
           <div className="header__textContainer">
@@ -42,7 +43,7 @@ const Header = ({ setLoginUser }) => {
           </button>
         </div>
       </div>
-    </header>
+    </HeaderStyled>
   );
 };
 
