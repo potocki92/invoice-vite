@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Register.css";
+import axios from "../../utils/axiosConfig";
 
 const Register = ({ setShowRegister }) => {
   const [formData, setFormData] = useState({

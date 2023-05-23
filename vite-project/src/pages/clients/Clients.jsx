@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
 import "./Clients.css";import ClientCard from "../../components/ClientCard/ClientCard";
 import ClientForm from "../../components/ClientForm/ClientForm";
+import { homeLink } from "../../utils/linkConfig";
 /* 
   This function defines the main Client component, 
   which fetches all clients data for the current user from the database, 
@@ -109,7 +110,7 @@ const Clients = () => {
         <h1>Customers</h1>
         {allClients && <p>There are total {allClients.length} clients</p>}
       </div>
-      <Link to={`/`}>
+      <Link to={homeLink}>
         <button className="button back_button">Go Back</button>
       </Link>
 

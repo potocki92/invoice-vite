@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import InvoicePDF from "../../../components/InvoicePDF/InvoicePDF";
 import { StyledBox } from "../../../components/InvoiceList/InvoiceList.styled";
+import { homeLink } from "../../../utils/linkConfig";
 
 
 const InvoiceEdit = () => {
@@ -155,7 +156,7 @@ const InvoiceEdit = () => {
         <div className="invoice__home-logo">
           <h1>Edit Invoice {invoice._id}</h1>
           <p>Invoice number: {invoice.invoiceNumber}</p>
-          <Link to={`/`}>
+          <Link to={homeLink}>
             <button className="button back_button">Go Back</button>
           </Link>
         </div>

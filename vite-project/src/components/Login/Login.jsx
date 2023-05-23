@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Login.css";
 import axios from "../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import { homeLink } from "../../utils/linkConfig";
 
 const Login = ({ setShowRegister, setLoginUser }) => {
   const [formData, setFormData] = useState({
@@ -16,10 +17,10 @@ const Login = ({ setShowRegister, setLoginUser }) => {
     const getLocalStorageToken = localStorage.getItem("token");
     if (getLocalStorageToken) {
       setLoginUser({ token: getLocalStorageToken });
-      navigation("/");
+      navigation(homeLink);
     }
   }, []);
-  
+
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -40,7 +41,7 @@ const Login = ({ setShowRegister, setLoginUser }) => {
       localStorage.setItem("user", JSON.stringify(localStorageUser));
       setLoginUser({ token });
       // Przekieruj użytkownika na stronę główną
-      navigation("/");
+      navigation(homeLink);
     } catch (error) {
       console.error(error);
     }

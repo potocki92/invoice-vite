@@ -7,12 +7,11 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 const Homepage = ({ setLoginUser, user }) => {
   let location = useLocation();
 
-  const [items, setItems] = useState([]);
   return (
     <Fragment>
       <div className="homepage">
         <Sidebar />
-        {location.pathname === "/" && user && user._id ? (
+        {location.pathname === "/invoice-vite/" && user && user._id ? (
             <div>
                 <h1>Hello, {user.name}!</h1>
                 <p>Your ID: {user._id}</p>

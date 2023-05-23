@@ -1,6 +1,7 @@
 import axios from "../../utils/axiosConfig";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { homeLink } from "../../utils/linkConfig";
 
 const User = () => {
   let { id } = useParams();
@@ -102,7 +103,7 @@ const User = () => {
 
   return (
     <div className="container">
-      <Link to={`/`}>
+      <Link to={homeLink}>
         <button className="button back_button">Go Back</button>
       </Link>
       User {id}

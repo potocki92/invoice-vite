@@ -1,18 +1,18 @@
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Sidebar.css";
 import { ReactComponent as DashboardIcon } from "../../assets/images/svg/dashboard.svg";
 import { ReactComponent as AddInvoiceIcon } from "../../assets/images/svg/addInvoice.svg";
 import { ReactComponent as ClientsIcon } from "../../assets/images/svg/clients.svg";
+import { homeLink } from "../../utils/linkConfig";
 
 const Sidebar = () => {
-  let { id } = useParams();
   return (
     <div className="sidebar">
       <span className="sidebar__title">InvCom</span>
       <nav className="sidebar__navlink">
         <ul className="sidebar__list">
           <li className="sidebar__item">
-            <Link to={`/`}>
+            <Link to={homeLink}>
               <button className="sidebar__button">
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>
                   <DashboardIcon />

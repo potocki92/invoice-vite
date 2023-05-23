@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Container, CardWrapper, ProductName } from "./InvoiceList.styled";
+import { homeLink } from "../../utils/linkConfig";
 
 const InvoiceList = ({ id, invoices, onDelete }) => {
   const reversedInvoices = [...invoices].reverse();
@@ -26,7 +27,7 @@ const InvoiceList = ({ id, invoices, onDelete }) => {
               {invoice.date.dueDate}
             </div>
           </ProductName>
-          <Link to={`/invoice/${invoice._id}`}>
+          <Link to={`${homeLink}/invoice/${invoice._id}`}>
             <button className="button">Edit</button>
           </Link>
           <button className="button" onClick={() => onDelete(invoice._id)}>

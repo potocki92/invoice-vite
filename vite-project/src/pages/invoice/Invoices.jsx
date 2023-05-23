@@ -6,6 +6,7 @@ import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
 import InvoicePDF from "../../components/InvoicePDF/InvoicePDF";
 import InvoiceInputs from "../../components/InvoiceInputs/InvoiceInputs";
 import { StyledBox } from "../../components/InvoiceList/InvoiceList.styled";
+import { homeLink } from "../../utils/linkConfig";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -226,7 +227,7 @@ const Invoices = () => {
         <div className="invoice__home-logo">
           <h1>Invoice</h1>
           {allInvoices && <p>There are total {allInvoices.length} invoices</p>}
-          <Link to={`/`}>
+          <Link to={`/invoice-vite`}>
             <button className="button back_button">Go Back</button>
           </Link>
         </div>
@@ -250,7 +251,7 @@ const Invoices = () => {
         />
       </div>
       <Link
-        to={`/`}
+        to={homeLink}
         // sprawdza czy wszystkie inputy zostały uzupełnione, jeżeli tak to link zadziała
         onClick={isFormValid ? null : (e) => e.preventDefault()}
       >

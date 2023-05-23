@@ -5,6 +5,7 @@ import axios from "../../utils/axiosConfig";
 import ProductForm from "../../components/ProductForm/ProductForm";
 import taxRate from "./taxRateArray";
 import ProductList from "../../components/ProductList/ProductList";
+import { homeLink } from "../../utils/linkConfig";
 
 /**
 Component for managing products.
@@ -128,7 +129,7 @@ const Products = () => {
         <h1>Products</h1>
         {allProducts && <p>There are total {allProducts.length} products</p>}
       </div>
-      <Link to={`/`}>
+      <Link to={homeLink}>
         <button className="button back_button">Go Back</button>
       </Link>
 
