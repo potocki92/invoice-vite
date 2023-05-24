@@ -1,32 +1,25 @@
 import { Link } from "react-router-dom";
-import { InvoiceListItem, InvoiceInner, InvoiceListStyled, EditButton, DeleteButton } from "./InvoiceList.styled";
+import {
+  InvoiceListItem,
+  InvoiceInner,
+  InvoiceListStyled,
+  EditButton,
+  DeleteButton,
+} from "./InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
+import InvoiceItem from "./InvoiceItem";
 
 const InvoiceList = ({ invoices, onDelete }) => {
   const reversedInvoices = [...invoices].reverse();
 
+  const handleRemove = (invoiceId) => {
+    onDelete(invoiceId);
+  };
+
   return (
     <InvoiceListStyled>
       {reversedInvoices?.map((invoice, index) => (
-        <InvoiceListItem key={index}>
-          <InvoiceInner>
-            <p>
-              {invoice.invoiceNumber}
-            </p>
-            <p>
-              {invoice.client.clientName}
-            </p>
-            <p>
-              {invoice.date.invoiceDate}
-            </p>
-          </InvoiceInner>
-          <Link to={`${homeLink}/invoice/${invoice._id}`}>
-            <EditButton>Edit</EditButton>
-          </Link>
-          <DeleteButton onClick={() => onDelete(invoice._id)}>
-            Delete
-          </DeleteButton>
-        </InvoiceListItem>
+        <InvoiceItem key={index} invoice={invoice} onRemove={handleRemove} />
       ))}
     </InvoiceListStyled>
   );

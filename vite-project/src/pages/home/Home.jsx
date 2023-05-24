@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
 import InvoiceList from "../../components/InvoiceList/InvoiceList";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Home = () => {
   let { id } = useParams();
   const [allInvoices, setAllInvoices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
-  
+
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
@@ -53,7 +55,13 @@ const Home = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <InvoiceList id={id} invoices={allInvoices} onDelete={deleteProduct} />
+        <DndProvider backend={HTML5Backend}>
+          <InvoiceList
+            id={id}
+            invoices={allInvoices}
+            onDelete={deleteProduct}
+          />
+        </DndProvider>
       )}
     </main>
   );
