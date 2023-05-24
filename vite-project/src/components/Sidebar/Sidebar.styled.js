@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SidebarStyled = styled.div`
+  z-index: 100;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   width: 345px;
   display: flex;

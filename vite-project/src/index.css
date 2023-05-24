@@ -12,6 +12,9 @@ body {
   font-family: "Nunito", sans-serif;
   color: #555;
 }
+#root {
+  height: 100%
+}
 input {
   height: 45px;
   padding: 10px 15px;

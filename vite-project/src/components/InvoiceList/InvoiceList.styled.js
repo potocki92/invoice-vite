@@ -15,7 +15,6 @@ export const InvoiceListItem = styled.li`
   border-radius: 4px;
   width: 100%;
   padding: 8px;
-  background-color: red;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   > a {
     text-decoration: none;

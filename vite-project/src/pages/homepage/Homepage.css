@@ -20,4 +20,5 @@
   
   .homepage__content {
     width: 100%;
+    overflow-x: hidden;
   }
