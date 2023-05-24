@@ -1,12 +1,6 @@
-import { Link } from "react-router-dom";
 import {
-  InvoiceListItem,
-  InvoiceInner,
-  InvoiceListStyled,
-  EditButton,
-  DeleteButton,
+  InvoiceListStyled
 } from "./InvoiceList.styled";
-import { homeLink } from "../../utils/linkConfig";
 import InvoiceItem from "./InvoiceItem";
 
 const InvoiceList = ({ invoices, onDelete }) => {
