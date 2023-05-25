@@ -4,7 +4,7 @@ import { ReactComponent as LogoffIcon } from "../../assets/images/svg/logout.svg
 import { useState } from "react";
 import { useEffect } from "react";
 import { homeLink } from "../../utils/linkConfig";
-const UserMenu = ({setLoginUser}) => {
+const UserMenu = ({setLoginUser, handleLinkClick}) => {
     const [user, setItems] = useState([]);
 
     const handleLogout = () => {
@@ -19,7 +19,7 @@ const UserMenu = ({setLoginUser}) => {
     }, []);
     return (
         <UserMenuStyled>
-            <Link to={`${homeLink}/user`}>
+            <Link to={`${homeLink}/user`} onClick={handleLinkClick}>
                 <UserLogo/>
             </Link>
             <UserLogoutButton onClick={() => handleLogout()}>

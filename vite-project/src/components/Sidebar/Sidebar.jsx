@@ -73,7 +73,7 @@ const Sidebar = ({setLoginUser}) => {
           </Link>
         </SidebarList>
       </SidebarNavlink>
-      <UserMenu setLoginUser={setLoginUser}/>
+      <UserMenu setLoginUser={setLoginUser} handleLinkClick={handleLinkClick}/>
     </SidebarStyled>
     </>
   );
