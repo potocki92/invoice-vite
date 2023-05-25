@@ -17,11 +17,10 @@ export const InvoiceListContent = styled.div`
   background-color: #ffffff;
   cursor: pointer;
   display: flex;
-  gap: 20px;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 80px;
   padding: 8px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   > a {
@@ -43,7 +42,7 @@ export const InvoiceInner = styled.div`
 `;
 export const InvoiceButton = styled.button`
   width: 50px;
-  height: 50px;
+  height: 80px;
   display: none;
   z-index: 1;
   background-color: transparent;
