@@ -12,6 +12,10 @@ const Sidebar = ({setLoginUser}) => {
   const handleBurgerClick = () => {
     setIsClick(!isClick);
   };
+
+  const handleLinkClick = () => {
+    setIsClick(false);
+  };
   return (
     <>
     <MobileSidebar>
@@ -27,7 +31,7 @@ const Sidebar = ({setLoginUser}) => {
       <SidebarTitle>InvCom</SidebarTitle>
       <SidebarNavlink>
         <SidebarList>
-          <Link to={homeLink}>
+          <Link to={homeLink} onClick={handleLinkClick}>
           <SidebarItem>
               <SidebarButton>
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>
@@ -37,7 +41,7 @@ const Sidebar = ({setLoginUser}) => {
               </SidebarButton>
           </SidebarItem>
           </Link>
-          <Link to={`invoice`}>
+          <Link to={`invoice`} onClick={handleLinkClick}>
           <SidebarItem>
               <SidebarButton>
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>
@@ -47,7 +51,7 @@ const Sidebar = ({setLoginUser}) => {
               </SidebarButton>
           </SidebarItem>
           </Link>
-          <Link to={`products`}>
+          <Link to={`products`} onClick={handleLinkClick}>
           <SidebarItem>
               <SidebarButton>
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>
@@ -57,7 +61,7 @@ const Sidebar = ({setLoginUser}) => {
               </SidebarButton>
           </SidebarItem>
           </Link>
-          <Link to={`clients`}>
+          <Link to={`clients`} onClick={handleLinkClick}>
           <SidebarItem>
               <SidebarButton>
                 <svg className="sidebar__svg" width={"32px"} height={"32px"}>

@@ -1,4 +1,4 @@
-
+import styled from "styled-components";
 export const InvoiceListContent = styled.div`
   position: relative;
   background-color: #ffffff;
@@ -50,7 +50,3 @@ export const InvoiceButton = styled.button`
   }
 `;
 
-export const StyledBox = styled.div`
-  margin-bottom: 1.9rem;
-  width: 100%;
-`;

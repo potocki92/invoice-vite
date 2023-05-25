@@ -11,3 +11,8 @@ export const InvoiceListStyled = styled.ul`
     position: relative;
   }
 `;
+
+export const StyledBox = styled.div`
+  margin-bottom: 1.9rem;
+  width: 100%;
+`;

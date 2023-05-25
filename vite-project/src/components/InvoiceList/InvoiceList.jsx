@@ -1,7 +1,7 @@
+import InvoiceItem from "../InvoiceItem/InvoiceItem";
 import {
   InvoiceListStyled
 } from "./InvoiceList.styled";
-import InvoiceItem from "./InvoiceItem";
 
 const InvoiceList = ({ invoices, onDelete }) => {
   const reversedInvoices = [...invoices].reverse();
