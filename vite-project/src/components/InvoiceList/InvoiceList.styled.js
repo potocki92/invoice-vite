@@ -3,16 +3,23 @@ import styled from "styled-components";
 export const InvoiceListStyled = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  @media (min-width: 769px) {
+    width: 100%;
+    position: relative;
+  }
 `;
 
-export const InvoiceListItem = styled.li`
+export const InvoiceListContent = styled.div`
+  position: relative;
+  background-color: #ffffff;
   cursor: pointer;
   display: flex;
   gap: 20px;
   justify-content: space-between;
   align-items: center;
-  border-radius: 4px;
   width: 100%;
   height: 50px;
   padding: 8px;
@@ -20,6 +27,13 @@ export const InvoiceListItem = styled.li`
   > a {
     text-decoration: none;
   }
+`;
+export const InvoiceListItem = styled.li`
+  width: 100%;
+  height: 100%;
+  background-color: #71e086;
+  left: 0;
+  top: 0;
 `;
 
 export const InvoiceInner = styled.div`

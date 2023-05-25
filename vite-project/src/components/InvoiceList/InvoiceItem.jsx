@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FaEdit } from 'react-icons/fa';
-import { RiDeleteBin2Fill } from 'react-icons/ri';
+import { FaEdit } from "react-icons/fa";
+import { RiDeleteBin2Fill } from "react-icons/ri";
 import {
   InvoiceButton,
   InvoiceInner,
+  InvoiceListContent,
   InvoiceListItem,
 } from "./InvoiceList.styled";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +15,7 @@ const InvoiceItem = ({ invoice, onRemove }) => {
   const [startX, setStartX] = useState(0);
   const [offsetX, setOffsetX] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const navigation = useNavigate()
+  const navigation = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,10 +23,10 @@ const InvoiceItem = ({ invoice, onRemove }) => {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -35,17 +36,18 @@ const InvoiceItem = ({ invoice, onRemove }) => {
     if (offsetX === 50) {
       timeoutId = setTimeout(() => {
         navigation(`${homeLink}/invoice/${invoice._id}`);
-      }, 1000)
+      }, 1000);
     }
 
     if (offsetX === -50) {
       timeoutId = setTimeout(() => {
-        onRemove
-      }, 1000)
+        onRemove(invoice._id);
+      }, 1000);
     }
+
     return () => {
-      clearTimeout(timeoutId)
-    }
+      clearTimeout(timeoutId);
+    };
   }, [offsetX, navigation, invoice, onRemove]);
 
   const handleMouseDown = (event) => {
@@ -75,34 +77,43 @@ const InvoiceItem = ({ invoice, onRemove }) => {
   };
 
   return (
-    <InvoiceListItem
-      className={`list-item ${isDragging ? 'dragging' : ''}`}
-      style={{
-        transform: `translateX(${offsetX}px)`,
-        
-        transition: isDragging ? 'none' : 'transform 0.3s ease-out',
-      }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-    >
-      <InvoiceInner>
-        <p>{invoice.invoiceNumber}</p>
-        <p>{invoice.client.clientName}</p>
-        <p>{invoice.date.invoiceDate}</p>
-      </InvoiceInner>
-      <Link to={`${homeLink}/invoice/${invoice._id}`}>
-        <InvoiceButton className={`
-          ${offsetX === 50 ? "left" : ""}`}>
-          <FaEdit/>
-        </InvoiceButton>
-      </Link>
-      <InvoiceButton onClick={onRemove} className={`
-          ${offsetX === -50 ? "right" : ""}`}>
-          <RiDeleteBin2Fill/>
-      </InvoiceButton>
-    </InvoiceListItem>
+    <>
+      <InvoiceListItem>
+        <InvoiceListContent
+          className={`list-item ${isDragging ? "dragging" : ""}`}
+          style={{
+            transform: `translateX(${offsetX}px)`,
+            borderRadius: isDragging ? "5px" : "",
+            transition: isDragging ? "none" : "transform 0.3s ease-out",
+          }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
+          <InvoiceInner>
+            <p>{invoice.invoiceNumber}</p>
+            <p>{invoice.client.clientName}</p>
+            <p>{invoice.date.invoiceDate}</p>
+          </InvoiceInner>
+          <Link to={`${homeLink}/invoice/${invoice._id}`}>
+            <InvoiceButton
+              className={`
+            ${offsetX === 50 ? "left" : ""}`}
+            >
+              <FaEdit />
+            </InvoiceButton>
+          </Link>
+          <InvoiceButton
+            onClick={onRemove}
+            className={`
+          ${offsetX === -50 ? "right" : ""}`}
+          >
+            <RiDeleteBin2Fill />
+          </InvoiceButton>
+        </InvoiceListContent>
+      </InvoiceListItem>
+    </>
   );
 };
 
