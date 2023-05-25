@@ -107,37 +107,67 @@ const InvoiceItem = ({ invoice, onRemove }) => {
       setOffsetX(0);
     }
   };
-  const handleTouchStart = (e) => {
-    const touchDown = e.touches[0].clientX;
-    setTouchPosition(touchDown);
-    setTouchStart(touchDown);
-  };
+  /**
+   *  handleMouseLeave function is used to handle the mouse leave event on the invoice item. 
+   *  It is used to set the isDragging state to false and set the offsetX state to 0.
+   *  The offsetX state is used to translate the invoice item to the left or right when the user swipes the item.
+   *  The isDragging state is used to add the dragging class to the invoice item.
+   *  @param {object} event - the mouse leave event object. 
+   * @returns 
+   */
+  const handleTouchStart = (event) =>{
+    if (!isMobile) return;
+    setIsDragging(true);
+    setStartX(event.touches[0].clientX);
+    setOffsetX(0);
+  }
+  /**
+   *  handleTouchMove function is used to handle the touch move event on the invoice item.
+   *  It is used to calculate the new offsetX value and set it to the offsetX state.
+   *  The new offsetX value is calculated by subtracting the startX value from the current clientX position.
+   *  The new offsetX value is bounded between -50 and 50.
+   *  The offsetX state is used to translate the invoice item to the left or right when the user swipes the item.
+   *  The isDragging state is used to add the dragging class to the invoice item.
+   * @param {object} event - the touch move event object.
+   * @returns 
+   */
+  const handleTouchMove = (event) => {
+    if (!isDragging) return;
 
-  const handleTouchMove = (e) => {
-    const touchDown = touchPosition;
-    if (touchDown === null) {
-      return;
-    }
-    const currentTouch = e.touches[0].clientX;
-    const diff = touchDown - currentTouch;
-    setTouchEnd(currentTouch);
-    setOffsetX(diff);
-  };
-
+    const newOffsetX = event.touches[0].clientX - startX;
+    const boundedOffsetX = Math.min(50, Math.max(-50, newOffsetX))
+    setOffsetX(boundedOffsetX)
+  }
+  /**
+   *  handleTouchEnd function is used to handle the touch end event on the invoice item.  
+   *  It is used to set the isDragging state to false and set the offsetX state to 0.
+   *  The offsetX state is used to translate the invoice item to the left or right when the user swipes the item.
+   *  The isDragging state is used to add the dragging class to the invoice item.
+   *  @param {object} event - the touch end event object.
+   * @returns 
+   */
   const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    if (touchStart - touchEnd > 50) {
-      setOffsetX(-50);
-    }
-    if (touchStart - touchEnd < -50) {
-      setOffsetX(50);
-    }
-  };
+    if (!isDragging) return;
 
+    setIsDragging(false)
+    if (offsetX !== 0) {
+      setOffsetX(0)
+    }
+  }
+
+  /**
+   * handleTouchCancel function is used to handle the touch cancel event on the invoice item.
+   *  It is used to set the isDragging state to false and set the offsetX state to 0.
+   *  The offsetX state is used to translate the invoice item to the left or right when the user swipes the item.
+   *  The isDragging state is used to add the dragging class to the invoice item.
+   *  @param {object} event - the touch cancel event object.
+   * @returns
+   */
   const handleTouchCancel = () => {
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
+    if (!isDragging) return;
+    setIsDragging(false)
+    setOffsetX(0)
+  }
   return (
     <InvoiceListItem>
       <InvoiceListContent
@@ -155,7 +185,6 @@ const InvoiceItem = ({ invoice, onRemove }) => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchCancel}
-        
       >
         <InvoiceInner>
           <p>{invoice.invoiceNumber}</p>
