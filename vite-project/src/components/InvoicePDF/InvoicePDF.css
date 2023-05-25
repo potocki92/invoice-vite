@@ -24,9 +24,6 @@
     flex-direction: column;
     min-height: 29.7cm;
   }
-  .invoice__content {
-    display: flex;
-  }
   .input {
     display: inline-block;
     width: 98%;

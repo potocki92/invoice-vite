@@ -7,6 +7,7 @@ import InvoicePDF from "../../components/InvoicePDF/InvoicePDF";
 import InvoiceInputs from "../../components/InvoiceInputs/InvoiceInputs";
 import { StyledBox } from "../../components/InvoiceList/InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
+import { InvoiceContainer } from "./Invoice.styled";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -224,7 +225,7 @@ const Invoices = () => {
           </Link>
         </div>
       </StyledBox>
-      <div className="invoice__content">
+      <InvoiceContainer>
         <InvoiceInputs
           invoice={newInvoice}
           setNewInvoice={setNewInvoice}
@@ -241,7 +242,7 @@ const Invoices = () => {
           selectedProduct={selectedProduct}
           selectedProductIndex={selectedProductIndex}
         />
-      </div>
+      </InvoiceContainer>
       <Link
         to={homeLink}
         // sprawdza czy wszystkie inputy zostały uzupełnione, jeżeli tak to link zadziała

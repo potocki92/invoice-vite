@@ -173,7 +173,6 @@ const InvoiceItem = ({ invoice, onRemove }) => {
         className={`list-item ${isDragging ? "dragging" : ""}`}
         style={{
           transform: `translateX(${offsetX}px)`,
-          borderRadius: "5px",
           transition: isDragging ? "none" : "transform 0.3s ease-out",
         }}
         onMouseDown={handleMouseDown}
