@@ -94,7 +94,6 @@ const InvoiceItem = ({ invoice, onRemove }) => {
     if (!isMobile) return;
     setIsDragging(true);
     setStartX(event.touches[0].clientX - offsetX);
-    setOffsetX(0);
   }
   /**
    * handleTouchMove function is used to handle the touch move event on the invoice item.
