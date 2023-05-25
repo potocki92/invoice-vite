@@ -6,7 +6,7 @@ import {
   InvoiceInner,
   InvoiceListContent,
   InvoiceListItem,
-} from "./InvoiceList.styled";
+} from "../InvoiceItem/InvoiceItem.styled";
 import { Link } from "react-router-dom";
 import { homeLink } from "../../utils/linkConfig";
 import { useRef } from "react";
