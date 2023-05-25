@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
+import { InvoiceInputsContainer } from "./InvoiceInputs.styled";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -204,7 +205,7 @@ const InvoiceInputs = ({
   };
 
   return (
-    <div className="flex col">
+    <InvoiceInputsContainer>
       <div>
         <h1>INVOICE</h1>
         <p>{invoice.invoiceNumber}</p>
@@ -331,7 +332,7 @@ const InvoiceInputs = ({
           onChange={handleChangeNotes}
         ></textarea>
       </div>
-    </div>
+    </InvoiceInputsContainer>
   );
 };
 
