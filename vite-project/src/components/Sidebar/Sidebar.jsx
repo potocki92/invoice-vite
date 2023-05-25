@@ -5,8 +5,9 @@ import { ReactComponent as ClientsIcon } from "../../assets/images/svg/clients.s
 import { homeLink } from "../../utils/linkConfig";
 import { BurgerIcon, MobileSidebar, SidebarButton, SidebarItem, SidebarList, SidebarNavlink, SidebarSpan, SidebarStyled, SidebarTitle, ToggleMenuButton } from "./Sidebar.styled";
 import { useState } from "react";
+import UserMenu from "../UserMenu/UserMenu";
 
-const Sidebar = () => {
+const Sidebar = ({setLoginUser}) => {
   const [isClick, setIsClick] = useState(false);
   const handleBurgerClick = () => {
     setIsClick(!isClick);
@@ -68,6 +69,7 @@ const Sidebar = () => {
           </Link>
         </SidebarList>
       </SidebarNavlink>
+      <UserMenu setLoginUser={setLoginUser}/>
     </SidebarStyled>
     </>
   );

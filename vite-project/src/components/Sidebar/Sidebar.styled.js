@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import { UserMenuStyled } from "../UserMenu/UserMenu.styled";
 
 export const SidebarStyled = styled.div`
-  z-index: 100;
+  z-index: 98;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
-  width: 345px;
+  width: 100%;
   display: flex;
   position: fixed;
   top: 0;
@@ -18,12 +19,22 @@ export const SidebarStyled = styled.div`
     transform: translateX(0);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 769px) {
     height: 100%;
   }
+  
   @media (min-width: 769px) {
     transform: translateX(0);
     position: relative;
+
+  }
+  ${UserMenuStyled} {
+    display: none;
+    @media (max-width: 769px) {
+      display: flex;
+      margin-left: auto;
+      margin-top: auto;
+    }
   }
 `;
 
