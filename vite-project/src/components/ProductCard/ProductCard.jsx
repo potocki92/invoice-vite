@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./ProductCard.css";
+import {
+  Amount,
+  AmountSpan,
+  Input,
+  InputSpan,
+  InputsContainer,
+  InputsContent,
+  Option,
+  Select,
+} from "../InvoiceInputs/InvoiceInputs.styled";
+import isFloating from "../../utils/isFloating";
 
 /**********************************************************************************************
 
@@ -155,13 +166,11 @@ import "./ProductCard.css";
 
 const ProductCard = (props) => {
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [productQty, setProductQty] = useState(props.product.productsQty || 1);
-  const [productPrice, setProductPrice] = useState(
-    props.product.productsPrice || 1
-  );
-  const [productTax, setProductTax] = useState(props.product.productsTax || 0);
+  const [productQty, setProductQty] = useState(props.product.productsQty);
+  const [productPrice, setProductPrice] = useState(props.product.productsPrice);
+  const [productTax, setProductTax] = useState(props.product.productsTax);
   const [productTaxRate, setProductTaxRate] = useState(
-    props.product.productsRateTax || 0
+    props.product.productsRateTax
   );
   const [amount, setAmount] = useState(1);
 
@@ -213,7 +222,7 @@ const ProductCard = (props) => {
     setProductQty(props.product.productsQty);
 
     const updateTaxRate =
-      productTax !== 1 ? productQty * productPrice * productTax.value : 0;
+      productTax !== 1 ? productQty * productPrice * productTax?.value : 0;
     setProductTaxRate(updateTaxRate);
     const updateAmount = productQty * productPrice + productTaxRate;
     setAmount(updateAmount);
@@ -295,56 +304,87 @@ const ProductCard = (props) => {
       updatedProduct("productsPrice", value);
     }
   };
+
+  const isFloating = (value) => {
+    if (value) {
+      return "floating";
+    } else {
+      return "";
+    }
+  };
   return (
     <div>
       {props.products.length ? (
-        <div className="flex">
-          <select
+        <InputsContainer>
+          <Select
             value={selectedProduct.productsName || ""}
             onChange={(event) => handleProductChange(event)}
           >
-            <option value={""}>
+            <Option value={""}>
               {props.product.productsName
                 ? props.product.productsName
                 : "Select the product"}
-            </option>
+            </Option>
             {props.products.map((product) => (
-              <option key={product._id} value={product._id}>
-                {product.productsName}
-              </option>
+              <Option key={product._id} value={product._id}>
+                <InputSpan>{product.productsName}</InputSpan>
+              </Option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </InputsContainer>
       ) : (
         <div></div>
       )}
-      <input
-        name="productsQty"
-        placeholder="1"
-        value={productQty}
-        onChange={handleChange}
-      />
-      <input
-        name="productsTax"
-        placeholder="0"
-        value={productTax.name || "0%"}
-        onChange={handleChange}
-      />
-      <input
-        name="productsPrice"
-        placeholder="0000.00"
-        value={productPrice}
-        onChange={handleChange}
-      />
-      <input
-        name="productsRateTax"
-        placeholder="0000.00"
-        value={productTaxRate || 0}
-        onChange={handleChange}
-      />
-      <div className="view w-18 p-4-8 pb-10 right">
-        <span className="span dark">{amount}</span>
-      </div>
+      <InputsContent className="products" style={{ alignItems: "center" }}>
+        <InputsContainer className="mobile-up-1">
+          <InputSpan className={isFloating(productQty)}>
+            Product quantity
+          </InputSpan>
+          <Input
+            className={isFloating(productQty)}
+            name="productsQty"
+            placeholder="Quantity"
+            value={productQty}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="mobile-up-2">
+          <InputSpan className={isFloating(productTax?.name)}>Tax</InputSpan>
+          <Input
+            className={isFloating(productTax?.name)}
+            name="productsTax"
+            placeholder="Tax"
+            value={productTax?.name || "0%"}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="mobile-up-1">
+          <InputSpan className={isFloating(productPrice)}>Price</InputSpan>
+          <Input
+            className={isFloating(productPrice)}
+            name="productsPrice"
+            placeholder="Price"
+            value={productPrice}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="mobile-up-1">
+          <InputSpan className={isFloating(productTaxRate)}>Tax Rate</InputSpan>
+          <Input
+            className={isFloating(productTaxRate)}
+            name="productsRateTax"
+            placeholder="Tax Rate"
+            value={productTaxRate || "Tax Rate"}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="mobile-up-1">
+          <div>
+            <AmountSpan>Amount</AmountSpan>
+            <Amount>{amount || 0.0}</Amount>
+          </div>
+        </InputsContainer>
+      </InputsContent>
       <button className="circle-button delete" onClick={handleRemoveProduct}>
         -
       </button>

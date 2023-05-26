@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
-import { InvoiceInputsContainer } from "./InvoiceInputs.styled";
+import {
+  Input,
+  InputSpan,
+  InputsContainer,
+  InputsContent,
+  TextArea,
+} from "./InvoiceInputs.styled";
+import isFloating from "../../utils/isFloating";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -205,29 +212,31 @@ const InvoiceInputs = ({
   };
 
   return (
-    <InvoiceInputsContainer>
+    <InputsContent>
       <div>
         <h1>INVOICE</h1>
         <p>{invoice.invoiceNumber}</p>
       </div>
-      <div>
-        <p>Invoice Date:</p>
-        <input
+      <InputsContainer>
+        <InputSpan className="floating">Invoice Date:</InputSpan>
+        <Input
+          className="floating"
           type="date"
           name="invoiceDate"
           value={invoiceDate}
           onChange={handleChange}
         />
-      </div>
-      <div>
-        <p>Due Date:</p>
-        <input
+      </InputsContainer>
+      <InputsContainer>
+        <InputSpan className="floating">Due Date:</InputSpan>
+        <Input
+          className="floating"
           type="date"
           name="dueDate"
           value={dueDate}
           onChange={handleChange}
         />
-      </div>
+      </InputsContainer>
 
       <div>
         <h2>Bill to:</h2>
@@ -250,58 +259,85 @@ const InvoiceInputs = ({
             <div></div>
           )}
         </div>
-        <input
-          type={"tel"}
-          name={"clientPhone"}
-          placeholder="Client Phone"
-          value={clientPhone}
-          onChange={handleChange}
-        />
-        <input
-          type={"email"}
-          name={"clientEmail"}
-          placeholder="Client Email"
-          value={clientEmail}
-          onChange={handleChange}
-        />
-        <input
-          type={"text"}
-          name={"clientNip"}
-          placeholder="NIP"
-          value={clientNip}
-          onChange={handleChange}
-        />
-        <input
-          type={"text"}
-          name={"clientRegon"}
-          placeholder="REGON"
-          value={clientRegon}
-          onChange={handleChange}
-        />
-        <input
-          type={"text"}
-          name={"clientAddress"}
-          placeholder="Company's Address"
-          value={clientAddress}
-          onChange={handleChange}
-        />
-        <div className="flex w-98">
-          <input
+        <InputsContainer>
+          <InputSpan className={isFloating(clientPhone)}>
+            Client phone
+          </InputSpan>
+          <Input
+            className={isFloating(clientPhone)}
+            type={"tel"}
+            name={"clientPhone"}
+            placeholder="Client phone"
+            value={clientPhone}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer>
+          <InputSpan className={isFloating(clientEmail)}>Email</InputSpan>
+          <Input
+            className={isFloating(clientEmail)}
+            type={"email"}
+            name={"clientEmail"}
+            placeholder="Client Email"
+            value={clientEmail}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer>
+          <InputSpan className={isFloating(clientNip)}>NIP</InputSpan>
+          <Input
+            className={isFloating(clientNip)}
+            type={"text"}
+            name={"clientNip"}
+            placeholder="NIP"
+            value={clientNip}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer>
+          <InputSpan className={isFloating(clientRegon)}>REGON</InputSpan>
+          <Input
+            className={isFloating(clientRegon)}
+            type={"text"}
+            name={"clientRegon"}
+            placeholder="REGON"
+            value={clientRegon}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer>
+          <InputSpan className={isFloating(clientAddress)}> Address</InputSpan>
+          <Input
+            className={isFloating(clientAddress)}
+            type={"text"}
+            name={"clientAddress"}
+            placeholder="Company's Address"
+            value={clientAddress}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer>
+          <InputSpan className={isFloating(clientCity)}>City</InputSpan>
+          <Input
+            className={isFloating(clientCity)}
+            type={"text"}
+            name={"clientCity"}
+            placeholder="City"
+            value={clientCity}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer>
+          <InputSpan className={isFloating(clientPostal)}>Postal</InputSpan>
+          <Input
+            className={isFloating(clientPostal)}
             type={"text"}
             name={"clientPostal"}
             placeholder="Postal"
             value={clientPostal}
             onChange={handleChange}
           />
-          <input
-            type={"text"}
-            name={"clientCity"}
-            
-            placeholder="City"
-            value={clientCity}
-            onChange={handleChange}
-          />
-        </div>
+        </InputsContainer>
       </div>
 
       {invoice.products.items.map((product, index) => (
@@ -323,16 +359,17 @@ const InvoiceInputs = ({
           </button>
         </div>
       </div>
-      <div className="mt-20">
-        <span className="span bold">Notes</span>
-        <textarea
+      <InputsContainer>
+        <InputSpan className={isFloating(notes)}>Notes</InputSpan>
+        <TextArea
+          className={isFloating(notes)}
           name={"notes"}
-          className="w-100 h-50 t-area"
+          placeholder="Notes"
           value={notes}
           onChange={handleChangeNotes}
-        ></textarea>
-      </div>
-    </InvoiceInputsContainer>
+        ></TextArea>
+      </InputsContainer>
+    </InputsContent>
   );
 };
 

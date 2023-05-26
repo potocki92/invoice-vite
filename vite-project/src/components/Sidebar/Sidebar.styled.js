@@ -24,6 +24,7 @@ export const SidebarStyled = styled.div`
   }
   
   @media (min-width: 769px) {
+    width: 350px;
     transform: translateX(0);
     position: relative;
 
