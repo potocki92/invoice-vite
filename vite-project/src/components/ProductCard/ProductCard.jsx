@@ -314,28 +314,32 @@ const ProductCard = (props) => {
   };
   return (
     <div>
-      {props.products.length ? (
-        <InputsContainer>
-          <Select
-            value={selectedProduct.productsName || ""}
-            onChange={(event) => handleProductChange(event)}
-          >
-            <Option value={""}>
-              {props.product.productsName
-                ? props.product.productsName
-                : "Select the product"}
-            </Option>
-            {props.products.map((product) => (
-              <Option key={product._id} value={product._id}>
-                <InputSpan>{product.productsName}</InputSpan>
-              </Option>
-            ))}
-          </Select>
-        </InputsContainer>
-      ) : (
-        <div></div>
-      )}
       <InputsContent className="products" style={{ alignItems: "center" }}>
+        {props.products.length ? (
+          <InputsContainer className="mobile-up-2">
+            <InputSpan className={isFloating(selectedProduct.productsName)}>
+              Product name
+            </InputSpan>
+            <Select
+              className={isFloating(selectedProduct.productsName)}
+              value={selectedProduct.productsName || ""}
+              onChange={(event) => handleProductChange(event)}
+            >
+              <option value={""}>
+                {props.product.productsName
+                  ? props.product.productsName
+                  : "Select the product"}
+              </option>
+              {props.products.map((product) => (
+                <Option key={product._id} value={product._id}>
+                  {product.productsName}
+                </Option>
+              ))}
+            </Select>
+          </InputsContainer>
+        ) : (
+          <div></div>
+        )}
         <InputsContainer className="mobile-up-1">
           <InputSpan className={isFloating(productQty)}>
             Product quantity
@@ -348,7 +352,7 @@ const ProductCard = (props) => {
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer className="mobile-up-2">
+        <InputsContainer className="mobile-up-1">
           <InputSpan className={isFloating(productTax?.name)}>Tax</InputSpan>
           <Input
             className={isFloating(productTax?.name)}
