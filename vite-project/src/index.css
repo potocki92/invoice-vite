@@ -17,11 +17,6 @@ body {
 #root {
   height: 100%;
 }
-input {
-  height: 45px;
-  padding: 10px 15px;
-  margin-bottom: 15px;
-}
 button {
   outline: none;
   border: none;

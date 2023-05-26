@@ -158,3 +158,11 @@ export const Amount = styled.div`
   font-weight: 500;
   font-family: ShopifySans, Helvetica, Arial, sans-serif;
 `;
+
+export const ClientModalButton = styled.button`
+  position: absolute;
+  height: calc(100% - 15px);
+  width: 50px;
+  right: 2px;
+  background-color: transparent;
+`

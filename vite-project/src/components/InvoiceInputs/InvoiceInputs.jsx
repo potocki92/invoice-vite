@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import {
+  ClientModalButton,
   Input,
   InputSpan,
   InputsContainer,
@@ -8,6 +9,9 @@ import {
   TextArea,
 } from "./InvoiceInputs.styled";
 import isFloating from "../../utils/isFloating";
+import { HiUsers} from "react-icons/hi";
+import { createPortal } from "react-dom";
+import Modal from "../Modal/Modal";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -51,8 +55,9 @@ const InvoiceInputs = ({
   const [invoiceDate, setInvoiceDate] = useState(invoice.date?.invoiceDate);
   const [total, setTotal] = useState(0);
   const [notes, setNotes] = useState(
-    invoice.notes?.notes ?? "It was great doing business with you."
+    invoice.notes?.notes || ""
   );
+  const [showModal, setShowModal] = useState(false);
 
   /*
       This code uses the useEffect hook to calculate the total amount of the products in an invoice 
@@ -259,6 +264,30 @@ const InvoiceInputs = ({
             <div></div>
           )}
         </div>
+        <InputsContainer>
+            <InputSpan className={isFloating(clientName)}>
+              Client name
+            </InputSpan>
+            <Input 
+              className={isFloating(clientName)}
+              type={"text"}
+              name={"clientName"}
+              placeholder="Client name"
+              value={clientName}
+              onChange={handleChange}
+            />
+            <ClientModalButton onClick={() => (setShowModal(true), console.log(showModal))}>
+              <HiUsers />  
+            </ClientModalButton>
+            {showModal && 
+              createPortal(
+                <Modal 
+                onClose={()=> setShowModal(false)}
+                className={showModal ? "show" : ""}
+                />
+              , document.body
+            )}
+        </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientPhone)}>
             Client phone
