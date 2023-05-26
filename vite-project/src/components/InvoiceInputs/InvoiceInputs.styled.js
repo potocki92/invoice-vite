@@ -8,6 +8,7 @@ export const InputsContent = styled.div`
   border-radius: 5px;
 
   &.products {
+    margin-bottom: 5px;
     flex-wrap: wrap;
     flex-direction: row;
   }

@@ -97,8 +97,8 @@ export const CloseModal = styled.button`
   display: flex;
   position: absolute;
   z-index: 4;
-  right: 0;
-  top: 0;
+  right: 5px;
+  top: 5px;
   border-radius: 50%;
   cursor: pointer;
   background-color: transparent;
