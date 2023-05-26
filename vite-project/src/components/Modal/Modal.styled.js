@@ -33,7 +33,7 @@ export const ModalInner = styled.div`
   height: 75vh;
   width: 968px;
   overflow-y: auto;
-
+  padding: 1.5rem;
   @media (max-width: 420px) {
     width: 320px;
   }
@@ -49,15 +49,58 @@ export const ModalInner = styled.div`
   }
 `;
 
+export const ModalHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e3e3e3;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+`
+
+export const ModalCard = styled.div`
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 1px 3px 0 rgba(0,0,0,.15);
+    border: 1px solid transparent;
+    transition: box-shadow 150ms ease;
+    &:hover {
+        box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 2px 8px 0 rgba(0,0,0,.2);
+    }
+
+`
+export const ModalCardWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+`
+export const ModalButton = styled.button`
+  position: absolute;
+  height: calc(100% - 15px);
+  width: 58px;
+  right: 2px;
+  background-color: transparent;
+  color: #555;
+`
+
 export const CloseModal = styled.button`
   border: none;
   display: flex;
-  width: 45px;
-  height: 45px;
   position: absolute;
   z-index: 4;
-  right: 8px;
-  top: 8px;
+  right: 0;
+  top: 0;
   border-radius: 50%;
   cursor: pointer;
+  background-color: transparent;
+  color: #555;
 `;

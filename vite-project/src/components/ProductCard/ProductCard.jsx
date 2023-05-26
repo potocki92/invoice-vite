@@ -7,173 +7,32 @@ import {
   InputSpan,
   InputsContainer,
   InputsContent,
-  Option,
-  Select,
 } from "../InvoiceInputs/InvoiceInputs.styled";
 import isFloating from "../../utils/isFloating";
-
-/**********************************************************************************************
-
-  The code defines a component named "ProductCard" that takes in props such 
-  as invoice, setNewInvoice, product, products, index, and handleRemoveCard.
-
-  It also defines functions such as updatedProduct, handleProductChange, and handleChange. 
-  The updatedProduct function is used to update the products array of the invoice object 
-  whenever a user makes changes to a product's quantity or price. 
-  The handleProductChange function is called when the user selects a product from a list. 
-  The handleChange function updates the productQty or productPrice state
-  when the corresponding input is changed and updates the corresponding 
-  product in the invoice by calling the updatedProduct function.
-
-  The code returns a component that renders a view containing a select element, 
-  two input elements, and a remove button. 
-  The select element allows the user to select a product from a list. 
-  The input elements allow the user to update the quantity and price of the selected product. 
-  The remove button allows the user to remove the selected product from the invoice.
-
-**********************************************************************************************/
-////////// KOMPONENT KLASOWY TEST
-
-// class ProductCard extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       selectedProduct: {},
-//     };
-//   }
-
-//   handleProductChange = (event) => {
-//     const selectedProductId = event.target.value;
-//     const selectedProduct = this.props.products.find(
-//       (product) => product._id === selectedProductId
-//     );
-//     this.setState({ selectedProduct });
-//     console.log(selectedProduct);
-//   };
-
-//   handleChange = (event) => {
-//     const { name, value } = event.target;
-//     this.setState({ [name]: value });
-//   };
-
-//   calculateAmount = () => {
-//     const { productQty, productPrice, productTaxRate, productTax } = this.state;
-//     const amount =
-//       productQty *
-//       (parseFloat(productPrice || 0) +
-//         (parseFloat(productPrice || 0) * parseFloat(productTaxRate || 0)) /
-//           100 +
-//         parseFloat(productTax || 0));
-//     this.setState({ amount });
-//   };
-
-//   componentDidUpdate(prevProps, prevState) {
-//     if (
-//       prevState.productQty !== this.state.productQty ||
-//       prevState.productPrice !== this.state.productPrice ||
-//       prevState.productTaxRate !== this.state.productTaxRate ||
-//       prevState.productTax !== this.state.productTax
-//     ) {
-//       this.calculateAmount();
-//     }
-//   }
-//   render() {
-//     const {
-//       selectedProduct,
-//       productQty,
-//       productPrice,
-//       productTax,
-//       productTaxRate,
-//       amount,
-//     } = this.state;
-//     const { products } = this.props;
-//     return (
-//       <div className="view row flex b-b p-10 flex-align relative">
-//         <div className="view w-25 p-4-8 flex-align flex">
-//           {products.length ? (
-//             <div className="flex">
-//               <select
-//                 className="custom-select"
-//                 value={selectedProduct.productsName || ""}
-//                 onChange={(event) => this.handleProductChange(event)}
-//               >
-//                 <option value={""}>
-//                   {selectedProduct.productsName
-//                     ? selectedProduct.productsName
-//                     : "Select the product"}
-//                 </option>
-//                 {products.map((product) => (
-//                   <option key={product._id} value={product._id}>
-//                     {product.productsName}
-//                   </option>
-//                 ))}
-//               </select>
-//             </div>
-//           ) : (
-//             <div></div>
-//           )}
-//         </div>
-//         <div className="view w-22 p-4-8 flex">
-//           <div className="view w-50 p-4-8 pb-10">
-//             <input
-//               className="input dark right p-0"
-//               name="productsQty"
-//               placeholder="1"
-//               value={productQty}
-//               onChange={this.handleChange}
-//             />
-//           </div>
-//           <div className="view w-50 p-4-8 pb-10 ">
-//             <input
-//               className="input dark right p-0"
-//               name="productsTax"
-//               placeholder="0.00"
-//               value={productTax}
-//               onChange={this.handleChange}
-//             />
-//           </div>
-//         </div>
-//         <div className="view w-35 p-4-8 flex">
-//           <div className="view w-50 p-4-8 pb-10 ">
-//             <input
-//               className="input dark right p-0"
-//               name="productsPrice"
-//               placeholder="0000.00"
-//               value={productPrice}
-//               onChange={this.handleChange}
-//             />
-//           </div>
-//           <div className="view w-50 p-4-8 pb-10">
-//             <input
-//               className="input dark right p-0"
-//               name="productsRateTax"
-//               placeholder="0000.00"
-//               value={productTaxRate}
-//               onChange={this.handleChange}
-//             />
-//           </div>
-//         </div>
-//         <div className="view w-18 p-4-8 pb-10 right">
-//           <span className="span dark">{amount}</span>
-//         </div>
-//         <button className="circle-button delete">-</button>
-//       </div>
-//     );
-//   }
-// }
-
-// export default ProductCard;
-
-const ProductCard = (props) => {
+import { ModalButton } from "../Modal/Modal.styled";
+import { HiUsers} from "react-icons/hi";
+import Modal from "../Modal/Modal";
+import { createPortal } from "react-dom";
+import productCardMarkup from "../../markups/productCardMarkup";
+/**
+ *   This component renders a product card with the product name, quantity, price, tax, and amount.
+ *  It also renders a button to remove the product from the invoice.
+ * The component takes the following props:
+ * 
+ * @param {*} props 
+ * @returns 
+ */
+const ProductCard = ({index, product, invoice, setNewInvoice, products}) => {
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [productQty, setProductQty] = useState(props.product.productsQty);
-  const [productPrice, setProductPrice] = useState(props.product.productsPrice);
-  const [productTax, setProductTax] = useState(props.product.productsTax);
+  const [productName, setProductName] = useState(product.productsName);
+  const [productQty, setProductQty] = useState(product.productsQty);
+  const [productPrice, setProductPrice] = useState(product.productsPrice);
+  const [productTax, setProductTax] = useState(product.productsTax);
   const [productTaxRate, setProductTaxRate] = useState(
-    props.product.productsRateTax
+    product.productsRateTax
   );
   const [amount, setAmount] = useState(1);
-
+  const [showModal, setShowModal] = useState(false);
   /*
   This function takes in two arguments, key and value, and updates the invoice object with the new value.
   The function first creates a new array of updatedProducts by iterating over the invoice.products.items array using the map method.
@@ -183,8 +42,8 @@ const ProductCard = (props) => {
   This function is used in the component to update the products array of the invoice object whenever a user makes changes to a product's quantity or price.
 */
   const updatedProduct = (key, value) => {
-    const updatedProducts = props.invoice.products.items.map((product, i) => {
-      if (i === props.index) {
+    const updatedProducts = invoice.products.items.map((product, i) => {
+      if (i === index) {
         return {
           ...product,
           [key]: value,
@@ -193,9 +52,9 @@ const ProductCard = (props) => {
       return product;
     });
     console.log(updatedProducts);
-    props.setNewInvoice({
-      ...props.invoice,
-      products: { ...props.invoice.products, items: updatedProducts },
+    setNewInvoice({
+      ...invoice,
+      products: { ...invoice.products, items: updatedProducts },
     });
   };
   /*
@@ -204,13 +63,13 @@ const ProductCard = (props) => {
   It takes an index as an argument, removes the corresponding item from the "updateItems" array, and updates the state.
 */
   const handleRemoveProduct = () => {
-    const updateItems = [...props.invoice.products.items];
-    updateItems.splice(props.index, 1);
+    const updateItems = [...invoice.products.items];
+    updateItems.splice(index, 1);
 
-    props.setNewInvoice({
-      ...props.invoice,
+    setNewInvoice({
+      ...invoice,
       products: {
-        ...props.invoice.products,
+        ...invoice.products,
         items: updateItems,
       },
     });
@@ -218,8 +77,8 @@ const ProductCard = (props) => {
 
   // Update amount for every change of productQty, productPrice, product.productsQty, product.productsPrice, productTaxRate or amount
   useEffect(() => {
-    setProductPrice(props.product.productsPrice);
-    setProductQty(props.product.productsQty);
+    setProductPrice(product.productsPrice);
+    setProductQty(product.productsQty);
 
     const updateTaxRate =
       productTax !== 1 ? productQty * productPrice * productTax?.value : 0;
@@ -231,8 +90,8 @@ const ProductCard = (props) => {
   }, [
     productQty,
     productPrice,
-    props.product.productsQty,
-    props.product.productsPrice,
+    product.productsQty,
+    product.productsPrice,
     productTaxRate,
     amount,
   ]);
@@ -246,10 +105,9 @@ const ProductCard = (props) => {
   Then, the function updates the product at the specified index in the copied array with the selected product's name, quantity, price, and a zero amount.
   Finally, the function sets the state of the newInvoice object with the updated items array and the previous invoice object's products object using the spread operator.
   */
-  const handleProductChange = (event) => {
-    const selectedProductId = event.target.value;
-    const selectedProduct = props.products.find(
-      (product) => product._id === selectedProductId
+  const handleProductChange = (id) => {
+    const selectedProduct = products.find(
+      (product) => product._id === id
     );
     setSelectedProduct({
       productsName: selectedProduct.productsName,
@@ -257,14 +115,15 @@ const ProductCard = (props) => {
       productsPrice: selectedProduct.productsPrice,
       productsTax: selectedProduct.productsTax,
     });
+    setProductName(selectedProduct.productsName);
     setProductPrice(selectedProduct.productsPrice);
     setProductQty(selectedProduct.qty);
     setProductTax(selectedProduct.productsTax);
 
-    const updateProduct = [...props.invoice.products.items]; // copy all products from invoice.products
+    const updateProduct = [...invoice.products.items]; // copy all products from invoice.products
 
     // updates a specific product in an array of products
-    updateProduct[props.index] = {
+    updateProduct[index] = {
       productsName: selectedProduct.productsName,
       productsQty: selectedProduct.qty,
       productsPrice: selectedProduct.productsPrice,
@@ -272,9 +131,9 @@ const ProductCard = (props) => {
     };
 
     // updates the products object of the invoice object
-    props.setNewInvoice({
-      ...props.invoice,
-      products: { ...props.invoice.products, items: updateProduct },
+    setNewInvoice({
+      ...invoice,
+      products: { ...invoice.products, items: updateProduct },
     });
   };
 
@@ -312,34 +171,38 @@ const ProductCard = (props) => {
       return "";
     }
   };
+
+  
   return (
     <div>
       <InputsContent className="products" style={{ alignItems: "center" }}>
-        {props.products.length ? (
-          <InputsContainer className="mobile-up-2">
-            <InputSpan className={isFloating(selectedProduct.productsName)}>
-              Product name
-            </InputSpan>
-            <Select
-              className={isFloating(selectedProduct.productsName)}
-              value={selectedProduct.productsName || ""}
-              onChange={(event) => handleProductChange(event)}
-            >
-              <option value={""}>
-                {props.product.productsName
-                  ? props.product.productsName
-                  : "Select the product"}
-              </option>
-              {props.products.map((product) => (
-                <Option key={product._id} value={product._id}>
-                  {product.productsName}
-                </Option>
-              ))}
-            </Select>
-          </InputsContainer>
-        ) : (
-          <div></div>
-        )}
+        <InputsContainer className="mobile-up-2">
+          <InputSpan className={isFloating(productName)}>
+            Product name
+          </InputSpan>
+          <Input
+            className={isFloating(productName)}
+            name="productsName"
+            placeholder="Product name"
+            value={productName}
+            onChange={handleChange}
+          />
+          <ModalButton onClick={() => (setShowModal(true))}>
+            <HiUsers size={25}/>
+          </ModalButton>
+          {
+            showModal && createPortal(
+              <Modal
+                handleChange={handleProductChange}
+                markup={productCardMarkup}
+                headerText={"Products"}
+                data={products}
+                onClose={() => setShowModal(false)}
+                className={showModal ? "show" : ""}
+              />
+            ,document.body
+          )}
+        </InputsContainer>
         <InputsContainer className="mobile-up-1">
           <InputSpan className={isFloating(productQty)}>
             Product quantity

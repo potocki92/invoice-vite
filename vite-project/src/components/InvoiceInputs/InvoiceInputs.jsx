@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import {
-  ClientModalButton,
   Input,
   InputSpan,
   InputsContainer,
@@ -12,6 +11,8 @@ import isFloating from "../../utils/isFloating";
 import { HiUsers} from "react-icons/hi";
 import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
+import { ModalButton } from "../Modal/Modal.styled";
+import clientCardMarkup from "../../markups/clientCardMarkup,js";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -132,13 +133,11 @@ const InvoiceInputs = ({
 
   /**
    * Updates the selected client and invoice state based on the selected client ID.
-   *
-   * @param {Object} event - The event object that triggered the function call.
-   * @param {string} event.target.value - The ID of the selected client.
+   * @param {string} id - The ID of the selected client.
+   * @returns {void}
    */
-  const handleClientChange = (event) => {
-    const clientId = event.target.value;
-    const client = clients.find((client) => client._id === clientId);
+  const handleClientChange = (id) => {
+    const client = clients.find((client) => client._id === id);
     setSelectedClient(client);
     setClientName(client.clientName);
     setClientNip(client.clientNip);
@@ -245,25 +244,6 @@ const InvoiceInputs = ({
 
       <div>
         <h2>Bill to:</h2>
-        <div>
-          {clients.length ? (
-            <select
-              value={selectedClient}
-              onChange={(event) => handleClientChange(event)}
-            >
-              <option value={""}>
-                {clientName ? invoice.client.clientName : "Select the client"}
-              </option>
-              {clients.map((client) => (
-                <option key={client._id} value={client._id}>
-                  {client.clientName}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <div></div>
-          )}
-        </div>
         <InputsContainer>
             <InputSpan className={isFloating(clientName)}>
               Client name
@@ -276,16 +256,21 @@ const InvoiceInputs = ({
               value={clientName}
               onChange={handleChange}
             />
-            <ClientModalButton onClick={() => (setShowModal(true), console.log(showModal))}>
-              <HiUsers />  
-            </ClientModalButton>
-            {showModal && 
+            <ModalButton onClick={() => (setShowModal(true))}>
+              <HiUsers size={25}/>  
+            </ModalButton>
+            {
+            showModal && 
               createPortal(
                 <Modal 
-                onClose={()=> setShowModal(false)}
-                className={showModal ? "show" : ""}
+                  handleChange={handleClientChange}
+                  markup={clientCardMarkup}
+                  headerText={"Clients"}
+                  data={clients}
+                  onClose={()=> setShowModal(false)}
+                  className={showModal ? "show" : ""}
                 />
-              , document.body
+              ,document.body
             )}
         </InputsContainer>
         <InputsContainer>
