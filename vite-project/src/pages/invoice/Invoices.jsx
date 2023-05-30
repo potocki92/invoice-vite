@@ -183,7 +183,7 @@ const Invoices = () => {
         .then((res) => {
           setAllInvoices([...allInvoices, newInvoice]); // aktualizujemy stan listy produktów
           setNewInvoice({
-            _id: Types.ObjectId(), // wygeneruj nowe ID
+            _id: new Types.ObjectId(), // wygeneruj nowe ID
             invoiceNumber: "",
             client: {
               clientName: "",
@@ -245,7 +245,6 @@ const Invoices = () => {
       </InvoiceContainer>
       <Link
         to={homeLink}
-        // sprawdza czy wszystkie inputy zostały uzupełnione, jeżeli tak to link zadziała
         onClick={isFormValid ? null : (e) => e.preventDefault()}
       >
         <button className="button mark__as-btn" onClick={handleClick}>

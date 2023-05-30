@@ -8,13 +8,14 @@ import {
   TextArea,
 } from "./InvoiceInputs.styled";
 import isFloating from "../../utils/isFloating";
-import { HiUsers} from "react-icons/hi";
+import { HiUsers } from "react-icons/hi";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
 import { ModalButton } from "../Modal/Modal.styled";
 import clientCardMarkup from "../../markups/clientCardMarkup,js";
-import { AddButton } from "../buttons.styled";
+import { AddButton, AddButtonWrapper } from "../buttons.styled";
+import TotalSummary from "../TotalSummary/TotalSummary";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -57,9 +58,9 @@ const InvoiceInputs = ({
   const [dueDate, setDueDate] = useState(invoice.date?.dueDate);
   const [invoiceDate, setInvoiceDate] = useState(invoice.date?.invoiceDate);
   const [total, setTotal] = useState(0);
-  const [notes, setNotes] = useState(
-    invoice.notes?.notes || ""
-  );
+  const [productTaxRate, setProductTaxRate] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  const [notes, setNotes] = useState(invoice.notes?.notes || "");
   const [showModal, setShowModal] = useState(false);
 
   /*
@@ -78,6 +79,8 @@ const InvoiceInputs = ({
     */
   useEffect(() => {
     let totalAmount = 0;
+    let productTaxRate = 0;
+    let subtotal = 0;
 
     if (invoice?.products?.items) {
       const items = invoice.products.items;
@@ -85,6 +88,18 @@ const InvoiceInputs = ({
         (accumulator, currentAmount) => accumulator + currentAmount.amount,
         0
       );
+      productTaxRate = items.reduce(
+        (accumulator, currentAmount) =>
+          accumulator + currentAmount.productTaxRate,
+        0
+      );
+      subtotal = items.reduce(
+        (accumulator, currentAmount) =>
+          accumulator + currentAmount.productsPrice * currentAmount.productsQty,
+        0
+      );
+      setSubtotal(subtotal);
+      setProductTaxRate(productTaxRate);
       setTotal(totalAmount);
       setNewInvoice({
         ...invoice,
@@ -219,62 +234,59 @@ const InvoiceInputs = ({
 
   return (
     <>
-    <InputsContent>
-      <div>
-        <h1>INVOICE</h1>
-        <p>{invoice.invoiceNumber}</p>
-      </div>
-      <InputsContainer>
-        <InputSpan className="floating">Invoice Date:</InputSpan>
-        <Input
-          className="floating"
-          type="date"
-          name="invoiceDate"
-          value={invoiceDate}
-          onChange={handleChange}
+      <InputsContent>
+        <div>
+          <h1>INVOICE</h1>
+          <p>{invoice.invoiceNumber}</p>
+        </div>
+        <InputsContainer>
+          <InputSpan className="floating">Invoice Date:</InputSpan>
+          <Input
+            className="floating"
+            type="date"
+            name="invoiceDate"
+            value={invoiceDate}
+            onChange={handleChange}
           />
-      </InputsContainer>
-      <InputsContainer>
-        <InputSpan className="floating">Due Date:</InputSpan>
-        <Input
-          className="floating"
-          type="date"
-          name="dueDate"
-          value={dueDate}
-          onChange={handleChange}
+        </InputsContainer>
+        <InputsContainer>
+          <InputSpan className="floating">Due Date:</InputSpan>
+          <Input
+            className="floating"
+            type="date"
+            name="dueDate"
+            value={dueDate}
+            onChange={handleChange}
           />
-      </InputsContainer>
-    </InputsContent>
-    <InputsContent>
+        </InputsContainer>
+      </InputsContent>
+      <InputsContent>
         <h2>Bill to:</h2>
         <InputsContainer>
-            <InputSpan className={isFloating(clientName)}>
-              Client name
-            </InputSpan>
-            <Input 
-              className={isFloating(clientName)}
-              type={"text"}
-              name={"clientName"}
-              placeholder="Client name"
-              value={clientName}
-              onChange={handleChange}
-              />
-            <ModalButton onClick={() => (setShowModal(true))}>
-              <HiUsers size={25}/>  
-            </ModalButton>
-            {
-              showModal && 
-              createPortal(
-                <Modal 
+          <InputSpan className={isFloating(clientName)}>Client name</InputSpan>
+          <Input
+            className={isFloating(clientName)}
+            type={"text"}
+            name={"clientName"}
+            placeholder="Client name"
+            value={clientName}
+            onChange={handleChange}
+          />
+          <ModalButton onClick={() => setShowModal(true)}>
+            <HiUsers size={25} />
+          </ModalButton>
+          {showModal &&
+            createPortal(
+              <Modal
                 handleChange={handleClientChange}
-                  markup={clientCardMarkup}
-                  headerText={"Clients"}
-                  data={clients}
-                  onClose={()=> setShowModal(false)}
-                  className={showModal ? "show" : ""}
-                />
-              ,document.body
-              )}
+                markup={clientCardMarkup}
+                headerText={"Clients"}
+                data={clients}
+                onClose={() => setShowModal(false)}
+                className={showModal ? "show" : ""}
+              />,
+              document.body
+            )}
         </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientPhone)}>
@@ -287,7 +299,7 @@ const InvoiceInputs = ({
             placeholder="Client phone"
             value={clientPhone}
             onChange={handleChange}
-            />
+          />
         </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientEmail)}>Email</InputSpan>
@@ -298,7 +310,7 @@ const InvoiceInputs = ({
             placeholder="Client Email"
             value={clientEmail}
             onChange={handleChange}
-            />
+          />
         </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientNip)}>NIP</InputSpan>
@@ -309,7 +321,7 @@ const InvoiceInputs = ({
             placeholder="NIP"
             value={clientNip}
             onChange={handleChange}
-            />
+          />
         </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientRegon)}>REGON</InputSpan>
@@ -320,7 +332,7 @@ const InvoiceInputs = ({
             placeholder="REGON"
             value={clientRegon}
             onChange={handleChange}
-            />
+          />
         </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientAddress)}> Address</InputSpan>
@@ -331,7 +343,7 @@ const InvoiceInputs = ({
             placeholder="Company's Address"
             value={clientAddress}
             onChange={handleChange}
-            />
+          />
         </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientCity)}>City</InputSpan>
@@ -342,7 +354,7 @@ const InvoiceInputs = ({
             placeholder="City"
             value={clientCity}
             onChange={handleChange}
-            />
+          />
         </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientPostal)}>Postal</InputSpan>
@@ -353,43 +365,44 @@ const InvoiceInputs = ({
             placeholder="Postal"
             value={clientPostal}
             onChange={handleChange}
-            />
+          />
         </InputsContainer>
-    </InputsContent>
-    <InputsContent>
-      {invoice.products.items.map((product, index) => (
-        <ProductCard
-        key={index}
-        index={index}
-        product={product}
-        invoice={invoice}
-        setNewInvoice={setNewInvoice}
-        selectedProduct={selectedProduct}
-        selectedProductIndex={selectedProductIndex}
-        products={products}
-        />
-        ))}
-    </InputsContent>
-      <div className="flex">
-        <div className="view p-4-8 w-50">
-          <AddButton>
-            <IoMdAddCircleOutline onClick={handleAddCard} size={20}/>
-           Add new product
-          </AddButton>
-        </div>
-      </div>
+      </InputsContent>
       <InputsContent>
-      <InputsContainer>
-        <InputSpan className={isFloating(notes)}>Notes</InputSpan>
-        <TextArea
-          className={isFloating(notes)}
-          name={"notes"}
-          placeholder="Notes"
-          value={notes}
-          onChange={handleChangeNotes}
+        {invoice.products.items.map((product, index) => (
+          <ProductCard
+            key={index}
+            index={index}
+            product={product}
+            invoice={invoice}
+            setNewInvoice={setNewInvoice}
+            selectedProduct={selectedProduct}
+            selectedProductIndex={selectedProductIndex}
+            products={products}
+          />
+        ))}
+      </InputsContent>
+      <AddButtonWrapper>
+          <AddButton onClick={handleAddCard}>
+            <IoMdAddCircleOutline size={25} />
+            Add new product
+          </AddButton>
+      </AddButtonWrapper>
+      <InputsContent>
+        <InputsContainer>
+          <InputSpan className={isFloating(notes)}>Notes</InputSpan>
+          <TextArea
+            className={isFloating(notes)}
+            name={"notes"}
+            placeholder="Notes"
+            value={notes}
+            onChange={handleChangeNotes}
           ></TextArea>
-      </InputsContainer>
-    </InputsContent>
+        </InputsContainer>
+        <InputsContainer>
+          <TotalSummary total={total} productTaxRate={productTaxRate} subtotal={subtotal}/>
+        </InputsContainer>
+      </InputsContent>
     </>
   );
 };

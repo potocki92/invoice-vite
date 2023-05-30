@@ -8,29 +8,29 @@ import {
   InputsContainer,
   InputsContent,
 } from "../InvoiceInputs/InvoiceInputs.styled";
-import isFloating from "../../utils/isFloating";
 import { ModalButton } from "../Modal/Modal.styled";
-import { HiUsers} from "react-icons/hi";
+import { HiUsers } from "react-icons/hi";
 import Modal from "../Modal/Modal";
 import { createPortal } from "react-dom";
 import productCardMarkup from "../../markups/productCardMarkup";
+import { HiOutlineMinusCircle } from "react-icons/hi";
+import { RemoveButton } from "../buttons.styled";
+import { ProductCardContainer } from "./ProductCard.styled";
 /**
  *   This component renders a product card with the product name, quantity, price, tax, and amount.
  *  It also renders a button to remove the product from the invoice.
  * The component takes the following props:
- * 
- * @param {*} props 
- * @returns 
+ *
+ * @param {*} props
+ * @returns
  */
-const ProductCard = ({index, product, invoice, setNewInvoice, products}) => {
+const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [productName, setProductName] = useState(product.productsName);
   const [productQty, setProductQty] = useState(product.productsQty);
   const [productPrice, setProductPrice] = useState(product.productsPrice);
   const [productTax, setProductTax] = useState(product.productsTax);
-  const [productTaxRate, setProductTaxRate] = useState(
-    product.productsRateTax
-  );
+  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax);
   const [amount, setAmount] = useState(1);
   const [showModal, setShowModal] = useState(false);
   /*
@@ -47,6 +47,7 @@ const ProductCard = ({index, product, invoice, setNewInvoice, products}) => {
         return {
           ...product,
           [key]: value,
+          productTaxRate: productTaxRate,
         };
       }
       return product;
@@ -106,9 +107,7 @@ const ProductCard = ({index, product, invoice, setNewInvoice, products}) => {
   Finally, the function sets the state of the newInvoice object with the updated items array and the previous invoice object's products object using the spread operator.
   */
   const handleProductChange = (id) => {
-    const selectedProduct = products.find(
-      (product) => product._id === id
-    );
+    const selectedProduct = products.find((product) => product._id === id);
     setSelectedProduct({
       productsName: selectedProduct.productsName,
       productsQty: selectedProduct.qty,
@@ -172,9 +171,8 @@ const ProductCard = ({index, product, invoice, setNewInvoice, products}) => {
     }
   };
 
-  
   return (
-    <div>
+    <ProductCardContainer>
       <InputsContent className="products" style={{ alignItems: "center" }}>
         <InputsContainer className="mobile-up-2">
           <InputSpan className={isFloating(productName)}>
@@ -187,11 +185,11 @@ const ProductCard = ({index, product, invoice, setNewInvoice, products}) => {
             value={productName}
             onChange={handleChange}
           />
-          <ModalButton onClick={() => (setShowModal(true))}>
-            <HiUsers size={25}/>
+          <ModalButton onClick={() => setShowModal(true)}>
+            <HiUsers size={25} />
           </ModalButton>
-          {
-            showModal && createPortal(
+          {showModal &&
+            createPortal(
               <Modal
                 handleChange={handleProductChange}
                 markup={productCardMarkup}
@@ -199,13 +197,13 @@ const ProductCard = ({index, product, invoice, setNewInvoice, products}) => {
                 data={products}
                 onClose={() => setShowModal(false)}
                 className={showModal ? "show" : ""}
-              />
-            ,document.body
-          )}
+              />,
+              document.body
+            )}
         </InputsContainer>
         <InputsContainer className="mobile-up-1">
           <InputSpan className={isFloating(productQty)}>
-            Product quantity
+            Quantity
           </InputSpan>
           <Input
             className={isFloating(productQty)}
@@ -251,11 +249,13 @@ const ProductCard = ({index, product, invoice, setNewInvoice, products}) => {
             <Amount>{amount || 0.0}</Amount>
           </div>
         </InputsContainer>
+        <InputsContainer className="mobile-up-1">
+          <RemoveButton onClick={handleRemoveProduct}>
+            <HiOutlineMinusCircle size={25} />
+          </RemoveButton>
+        </InputsContainer>
       </InputsContent>
-      <button className="circle-button delete" onClick={handleRemoveProduct}>
-        -
-      </button>
-    </div>
+    </ProductCardContainer>
   );
 };
 

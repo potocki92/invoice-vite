@@ -67,6 +67,9 @@ class ClientCard extends React.Component {
               {this.props.client.clientAddress}
             </h6>
           </div>
+      
+
+          
         </div>
         <button
           className="clientCard__button"
