@@ -8,8 +8,24 @@ import {
   TotalSummaryContainer,
 } from "./TotalSummary.styled";
 
+/**
+ * This component displays the total summary of the invoice.
+ * @component 
+ * @param {Object} props 
+ * @param {number} props.total - The total amount of the invoice
+ * @param {number} props.productTaxRate - The tax rate of the invoice
+ * @param {number} props.subtotal - The subtotal of the invoice
+ * @returns {JSX.Element} - JSX component
+ * @example 
+ * return (
+ *  <TotalSummary
+ *    total={total}
+ *    productTaxRate={productTaxRate}
+ *    subtotal={subtotal}
+ *  />
+ * );
+ */
 const TotalSummary = ({ total, productTaxRate, subtotal }) => {
-  console.log(total);
   return (
     <TotalSummaryContainer>
       <SubtotalContainer>
