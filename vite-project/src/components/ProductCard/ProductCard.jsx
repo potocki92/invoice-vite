@@ -21,8 +21,12 @@ import { ProductCardContainer } from "./ProductCard.styled";
  *  It also renders a button to remove the product from the invoice.
  * The component takes the following props:
  *
- * @param {*} props
- * @returns
+ * @param {number} index - The index of the product in the invoice products array
+ * @param {Object} product - The product object
+ * @param {Object} invoice - The invoice object
+ * @param {Function} setNewInvoice - The function to update the invoice object
+ * @param {Array} products - The list of products
+ * @returns {JSX} - Returns the product card component
  */
 const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -33,14 +37,19 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
   const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax);
   const [amount, setAmount] = useState(1);
   const [showModal, setShowModal] = useState(false);
-  /*
-  This function takes in two arguments, key and value, and updates the invoice object with the new value.
-  The function first creates a new array of updatedProducts by iterating over the invoice.products.items array using the map method.
-  For the current product, identified by the index, the function creates a new object with the updated key and value.
-  For all other products, the function returns the original product object.
-  Finally, the function calls setNewInvoice with a new invoice object that merges the updated products array with the existing invoice object.
-  This function is used in the component to update the products array of the invoice object whenever a user makes changes to a product's quantity or price.
-*/
+
+  /**
+   * updatedProduct:
+   * This function takes in two arguments, key and value, and updates the invoice object with the new value.
+   * The function first creates a new array of updatedProducts by iterating over the invoice.products.items array using the map method.
+   * For the current product, identified by the index, the function creates a new object with the updated key and value.
+   * For all other products, the function returns the original product object.
+   * Finally, the function calls setNewInvoice with a new invoice object that merges the updated products array with the existing invoice object.
+   * This function is used in the component to update the products array of the invoice object whenever a user makes changes to a product's quantity or price.
+   * @param {*} key - The key to be updated in the invoice object products array at the specified index
+   * @param {*} value - The value to be updated in the invoice object products array at the specified index
+   * @returns
+   */
   const updatedProduct = (key, value) => {
     const updatedProducts = invoice.products.items.map((product, i) => {
       if (i === index) {
@@ -52,17 +61,17 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
       }
       return product;
     });
-    console.log(updatedProducts);
     setNewInvoice({
       ...invoice,
       products: { ...invoice.products, items: updatedProducts },
     });
   };
-  /*
-  handleRemoveProduct:
-  This is a function used to remove a product items from the invoice.
-  It takes an index as an argument, removes the corresponding item from the "updateItems" array, and updates the state.
-*/
+  /**
+   * handleRemoveProduct:
+   * This is a function used to remove a product items from the invoice.
+   * It takes an index as an argument, removes the corresponding item from the "updateItems" array, and updates the state.
+   * @returns
+   */
   const handleRemoveProduct = () => {
     const updateItems = [...invoice.products.items];
     updateItems.splice(index, 1);
@@ -76,7 +85,15 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
     });
   };
 
-  // Update amount for every change of productQty, productPrice, product.productsQty, product.productsPrice, productTaxRate or amount
+  /**
+   * useEffect:
+   * This hook is used to update the amount whenever the product quantity, price, or tax rate changes.
+   * The hook takes a callback function as an argument that is called whenever the productQty, productPrice, product.productsQty, product.productsPrice, productTaxRate, or amount variables change.
+   * The callback function updates the productTaxRate variable with the product quantity, price, and tax rate.
+   * Then, it updates the amount variable with the product quantity, price, and tax rate.
+   * Finally, it calls the updatedProduct function to update the invoice object with the new amount.
+   * @returns
+   */
   useEffect(() => {
     setProductPrice(product.productsPrice);
     setProductQty(product.productsQty);
@@ -97,15 +114,17 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
     amount,
   ]);
 
-  /*
-  This code defines a function handleProductChange that is called when the user selects a product from a list.
-  First, the function extracts the ID of the selected product from the event object and finds the corresponding product object in the products array.
-  Then, it updates the state of the selectedProduct object with the name, quantity, and price of the selected product, and sets the amount to 0.
-  The function also updates the state of the productPrice and productQty variables with the selected product's price and quantity.
-  Next, the function creates a copy of the invoice object's products.items array using the spread operator.
-  Then, the function updates the product at the specified index in the copied array with the selected product's name, quantity, price, and a zero amount.
-  Finally, the function sets the state of the newInvoice object with the updated items array and the previous invoice object's products object using the spread operator.
-  */
+  /**
+   * handleProductChange:
+   * This function is used to update the invoice object with the selected product.
+   * It takes the product ID as an argument, finds the corresponding product object in the products array, and updates the state of the selectedProduct object with the product name, quantity, and price.
+   * It also updates the state of the productPrice and productQty variables with the selected product's price and quantity.
+   * Then, it creates a copy of the invoice object's products.items array using the spread operator.
+   * Next, it updates the product at the specified index in the copied array with the selected product's name, quantity, price, and a zero amount.
+   * Finally, it sets the state of the newInvoice object with the updated items array and the previous invoice object's products object using the spread operator.
+   * @param {*} id - The ID of the selected product
+   * @returns
+   */
   const handleProductChange = (id) => {
     const selectedProduct = products.find((product) => product._id === id);
     setSelectedProduct({
@@ -119,9 +138,8 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
     setProductQty(selectedProduct.qty);
     setProductTax(selectedProduct.productsTax);
 
-    const updateProduct = [...invoice.products.items]; // copy all products from invoice.products
+    const updateProduct = [...invoice.products.items];
 
-    // updates a specific product in an array of products
     updateProduct[index] = {
       productsName: selectedProduct.productsName,
       productsQty: selectedProduct.qty,
@@ -129,27 +147,23 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
       productsTax: selectedProduct.productsTax,
     };
 
-    // updates the products object of the invoice object
     setNewInvoice({
       ...invoice,
       products: { ...invoice.products, items: updateProduct },
     });
   };
 
-  /*
-  This code defines a function called handleChange which takes an event object as an argument.
-  Inside the function, the name and value properties of the event target are destructured and assigned to constants.
-
-  The function then checks if the name property is equal to "productsQty" or "productsPrice".
-  If the name is "productsQty", the value is set to the productQty state using the setProductQty function,
-  and then the updatedProduct function is called with the "productsQty" key and the new value as arguments.
-
-  Similarly, if the name is "productsPrice", the value is set to the productPrice state using the setProductPrice function,
-  and then the updatedProduct function is called with the "productsPrice" key and the new value as arguments.
-
-  Overall, this function updates the productQty or productPrice state when the corresponding input is changed,
-  and then updates the corresponding product in the invoice by calling the updatedProduct function.
-*/
+  /**
+   * handleChange:
+   * This function is used to update the product quantity or price whenever the corresponding input is changed.
+   * It takes an event object as an argument, destructures the name and value properties from the event target, and assigns them to constants.
+   * Then, it checks if the name is "productsQty" or "productsPrice".
+   * If the name is "productsQty", the value is set to the productQty state using the setProductQty function, and then the updatedProduct function is called with the "productsQty" key and the new value as arguments.
+   * Similarly, if the name is "productsPrice", the value is set to the productPrice state using the setProductPrice function, and then the updatedProduct function is called with the "productsPrice" key and the new value as arguments.
+   * Overall, this function updates the productQty or productPrice state when the corresponding input is changed, and then updates the corresponding product in the invoice by calling the updatedProduct function.
+   * @param {*} event - The event object
+   * @returns
+   */
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -163,6 +177,13 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
     }
   };
 
+  /**
+   * isFloating:
+   * This function is used to add the "floating" class to the input label when the input is focused or has a value.
+   * It takes a value as an argument and returns the "floating" class if the value is truthy, or an empty string if the value is falsy.
+   *  @param {*} value - The value of the input field
+   *  @returns
+   */
   const isFloating = (value) => {
     if (value) {
       return "floating";
@@ -202,9 +223,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
             )}
         </InputsContainer>
         <InputsContainer className="mobile-up-1">
-          <InputSpan className={isFloating(productQty)}>
-            Quantity
-          </InputSpan>
+          <InputSpan className={isFloating(productQty)}>Quantity</InputSpan>
           <Input
             className={isFloating(productQty)}
             name="productsQty"
