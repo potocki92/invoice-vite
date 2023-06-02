@@ -4,7 +4,11 @@
  * @returns {string}  The class name "floating" if the value is not empty.
  */
 const isFloating = (value) => {
-  return value.length > 0 ? "floating" : "";
+  if (value) {
+    return "floating";
+  } else {
+    return "";
+  }
 };
 
 export default isFloating;

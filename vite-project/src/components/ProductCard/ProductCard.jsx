@@ -16,6 +16,7 @@ import productCardMarkup from "../../markups/productCardMarkup";
 import { HiOutlineMinusCircle } from "react-icons/hi";
 import { RemoveButton } from "../buttons.styled";
 import { ProductCardContainer } from "./ProductCard.styled";
+import isFloating from "../../utils/isFloating";
 /**
  *   This component renders a product card with the product name, quantity, price, tax, and amount.
  *  It also renders a button to remove the product from the invoice.
@@ -29,7 +30,7 @@ import { ProductCardContainer } from "./ProductCard.styled";
  * @returns {JSX} - Returns the product card component
  */
 const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState({});
   const [productName, setProductName] = useState(product.productsName);
   const [productQty, setProductQty] = useState(product.productsQty);
   const [productPrice, setProductPrice] = useState(product.productsPrice);
@@ -99,7 +100,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
     setProductQty(product.productsQty);
 
     const updateTaxRate =
-      productTax !== 1 ? productQty * productPrice * productTax?.value : 0;
+      productTax !== 1 ? productQty * productPrice * (productTax / 100) : 0;
     setProductTaxRate(updateTaxRate);
     const updateAmount = productQty * productPrice + productTaxRate;
     setAmount(updateAmount);
@@ -175,20 +176,9 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
       setProductPrice(value);
       updatedProduct("productsPrice", value);
     }
-  };
-
-  /**
-   * isFloating:
-   * This function is used to add the "floating" class to the input label when the input is focused or has a value.
-   * It takes a value as an argument and returns the "floating" class if the value is truthy, or an empty string if the value is falsy.
-   *  @param {*} value - The value of the input field
-   *  @returns
-   */
-  const isFloating = (value) => {
-    if (value) {
-      return "floating";
-    } else {
-      return "";
+    if (name === "productsTax") {
+      const numericValue = value;
+      setProductTax(numericValue);
     }
   };
 
@@ -233,12 +223,13 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
           />
         </InputsContainer>
         <InputsContainer className="mobile-up-1">
-          <InputSpan className={isFloating(productTax?.name)}>Tax</InputSpan>
+          <InputSpan className={isFloating(productTax)}>Tax</InputSpan>
           <Input
-            className={isFloating(productTax?.name)}
+            className={isFloating(productTax)}
             name="productsTax"
+            type="number"
             placeholder="Tax"
-            value={productTax?.name || "0%"}
+            value={productTax}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -258,7 +249,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
             className={isFloating(productTaxRate)}
             name="productsRateTax"
             placeholder="Tax Rate"
-            value={productTaxRate || "Tax Rate"}
+            value={productTaxRate}
             onChange={handleChange}
           />
         </InputsContainer>

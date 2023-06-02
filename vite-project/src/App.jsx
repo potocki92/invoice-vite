@@ -20,6 +20,41 @@ import { homeLink } from "./utils/linkConfig";
 function App() {
   const [user, setLoginUser] = useState({});
 
+  
+    const decodedToken = (token) => {
+      try {
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace("/-/g", "+").replace("/_/g", "/");
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split("")
+            .map((c) => {
+              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+        );
+        return JSON.parse(jsonPayload);
+      } catch (error) {
+        console.log("Error in decodedToken: ", error);
+        return null;
+      }
+    };
+  const isTokenExpired = () => {
+    const token = localStorage.getItem("token");
+    if (user && user.token) {
+      const decodedToken = decodedToken(token);
+      if (decodedToken && decodedToken.exp * 1000 < Date.now()) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const checkAutheontication = () => {
+    if (!user || !user.token || isTokenExpired()) {
+      Navigate(`${homeLink}/login`, { replace: true });
+    }
+  };
   return (
     <div className="App is-flex">
       <Router>
@@ -34,15 +69,36 @@ function App() {
               )
             }
           >
-            <Route path="/invoice-vite" element={<Home />} />
-            <Route path={`${homeLink}/invoice`} element={<Invoices />} />
+            <Route
+              path="/invoice-vite"
+              element={<Home />}
+              onEnter={checkAutheontication}
+            />
+            <Route
+              path={`${homeLink}/invoice`}
+              element={<Invoices />}
+              onEnter={checkAutheontication}
+            />
             <Route
               path={`${homeLink}/invoice/:invoiceId`}
               element={<InvoiceEdit />}
+              onEnter={checkAutheontication}
             />
-            <Route path={`${homeLink}/user`} element={<User />} />
-            <Route path={`${homeLink}/products`} element={<Products />} />
-            <Route path={`${homeLink}/clients`} element={<Clients />} />
+            <Route
+              path={`${homeLink}/user`}
+              element={<User />}
+              onEnter={checkAutheontication}
+            />
+            <Route
+              path={`${homeLink}/products`}
+              element={<Products />}
+              onEnter={checkAutheontication}
+            />
+            <Route
+              path={`${homeLink}/clients`}
+              element={<Clients />}
+              onEnter={checkAutheontication}
+            />
           </Route>
           <Route
             path={`${homeLink}/login`}

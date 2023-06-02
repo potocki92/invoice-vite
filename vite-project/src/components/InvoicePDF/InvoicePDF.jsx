@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 /*
   Page, Text, View: These are components and functions provided by the "@react-pdf/renderer" package used for generating a PDF document in a React application.
-*/ import ReactToPdf from "react-to-pdf";
+*/ 
+import ReactToPdf from "react-to-pdf";
 import { Page, Text, View } from "@react-pdf/renderer";
 import "./InvoicePDF.css";
 // import ProductCard from "../ProductCard/ProductCard";

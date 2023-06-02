@@ -8,6 +8,7 @@ import InvoiceInputs from "../../components/InvoiceInputs/InvoiceInputs";
 import { StyledBox } from "../../components/InvoiceList/InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
 import { InvoiceContainer } from "./Invoice.styled";
+import InvoicePreview from "../../components/InvoicePreview/InvoicePreview";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -234,6 +235,7 @@ const Invoices = () => {
           selectedProduct={selectedProduct}
           selectedProductIndex={selectedProductIndex}
         />
+        <InvoicePreview invoice={newInvoice} />
         <InvoicePDF
           invoice={newInvoice}
           setNewInvoice={setNewInvoice}
