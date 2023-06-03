@@ -58,6 +58,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
           ...product,
           [key]: value,
           productTaxRate: productTaxRate,
+          productTax: productTax,
         };
       }
       return product;
@@ -101,7 +102,8 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
 
     const updateTaxRate =
       productTax !== 1 ? productQty * productPrice * (productTax / 100) : 0;
-    setProductTaxRate(updateTaxRate);
+    const formattedTaxRate = parseFloat(updateTaxRate.toFixed(2));
+    setProductTaxRate(formattedTaxRate);
     const updateAmount = productQty * productPrice + productTaxRate;
     setAmount(updateAmount);
     updatedProduct("productsRateTax", updateTaxRate);
@@ -109,6 +111,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
   }, [
     productQty,
     productPrice,
+    productTax,
     product.productsQty,
     product.productsPrice,
     productTaxRate,

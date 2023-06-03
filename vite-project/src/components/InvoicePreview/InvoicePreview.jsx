@@ -10,12 +10,17 @@ import {
 const styles = 
     {
         textAlign: "right",
+        productPadding: "0.5rem 0.5rem 0.5rem",
+        productSummaryPadding: "0.5rem 0.5rem 0.5rem",
+        borderBottom: "1px solid #e3e3e3"
     }
 
 const InvoicePreview = ({ invoice }) => {
   return (
+    // Invoice preview container
     <InvoicePreviewContainer>
-      <InvoicePreviewContent>
+      {/* Invoice preview header */}
+      <InvoicePreviewContent padding={"0.5rem 0 1rem 0"} borderBottom={styles.borderBottom}>
         <InvoicePreviewWrapper>
           <InvoicePreviewText>{invoice.invoiceNumber}</InvoicePreviewText>
           <InvoicePreviewWrapper>
@@ -28,10 +33,12 @@ const InvoicePreview = ({ invoice }) => {
           </InvoicePreviewWrapper>
         </InvoicePreviewWrapper>
         <InvoicePreviewWrapper width="50%">
-          <InvoicePreviewTitle>Invoice</InvoicePreviewTitle>
+          <InvoicePreviewTitle textAlign={styles.textAlign}>Invoice</InvoicePreviewTitle>
         </InvoicePreviewWrapper>
       </InvoicePreviewContent>
-      <InvoicePreviewContent>
+      {/* Invoice preview content */}
+      <InvoicePreviewContent padding={"1rem 0 1rem 0"}>
+        {/* Invoice preview user */}
         <InvoicePreviewWrapper width="50%">
           <InvoicePreviewTitle fontSize="1rem">
             Your Company
@@ -44,6 +51,7 @@ const InvoicePreview = ({ invoice }) => {
           <InvoicePreviewText fontSize="0.5rem">{invoice.user?.address.street}</InvoicePreviewText>
           <InvoicePreviewText fontSize="0.5rem">{invoice.user?.address.postalCode}, {invoice.user?.address.city}</InvoicePreviewText>
         </InvoicePreviewWrapper>
+        {/* Invoice preview client */}
         <InvoicePreviewWrapper width="50%">
           <InvoicePreviewTitle fontSize="1rem" textAlign={styles.textAlign}>
             Bill to
@@ -57,12 +65,13 @@ const InvoicePreview = ({ invoice }) => {
           {invoice.client?.clientPostal && <InvoicePreviewText fontSize="0.5rem" textAlign={styles.textAlign}>{invoice.client?.clientPostal}, {invoice.client?.clientCity}</InvoicePreviewText>}
         </InvoicePreviewWrapper>
       </InvoicePreviewContent>
-      <InvoicePreviewContent backgroundColor="#666" color="#fff">
-        <InvoicePreviewWrapper width="25%">
+      {/* Invoice preview products summary*/}
+      <InvoicePreviewContent backgroundColor="#666" color="#fff" padding={styles.productSummaryPadding}>
+        <InvoicePreviewWrapper width="25%" justifyContent="center">
             <InvoicePreviewTitle fontSize="0.8rem">Item</InvoicePreviewTitle>
         </InvoicePreviewWrapper>
         <InvoicePreviewWrapper width="22%" flexDirection="raw">
-            <InvoicePreviewWrapper width="50%">
+            <InvoicePreviewWrapper width="50%" justifyContent="center">
                 <InvoicePreviewTitle fontSize="0.8rem">Qty</InvoicePreviewTitle>
             </InvoicePreviewWrapper>
             <InvoicePreviewWrapper width="50%">
@@ -77,8 +86,50 @@ const InvoicePreview = ({ invoice }) => {
                 <InvoicePreviewTitle textAlign="right" fontSize="0.8rem">Tax Rate</InvoicePreviewTitle>
             </InvoicePreviewWrapper>
         </InvoicePreviewWrapper>
-        <InvoicePreviewWrapper width="18%">
+        <InvoicePreviewWrapper width="18%"  justifyContent="center">
             <InvoicePreviewTitle textAlign="right" fontSize="0.8rem">Amount</InvoicePreviewTitle>
+        </InvoicePreviewWrapper>
+      </InvoicePreviewContent>
+      {/* Invoice preview products */}
+      {invoice.products?.items.map((product) => (
+        <InvoicePreviewContent key={product.id} padding={styles.productPadding} borderBottom={styles.borderBottom}>
+          <InvoicePreviewWrapper width="25%" justifyContent="center">
+            <InvoicePreviewText fontSize="0.5rem">{product.productsName}</InvoicePreviewText> 
+          </InvoicePreviewWrapper>
+          <InvoicePreviewWrapper width="22%" flexDirection="raw">
+            <InvoicePreviewWrapper width="50%" justifyContent="center">
+              <InvoicePreviewText fontSize="0.5rem">{product.productsQty}</InvoicePreviewText>
+            </InvoicePreviewWrapper>
+            <InvoicePreviewWrapper width="50%" justifyContent="center">
+              <InvoicePreviewText fontSize="0.5rem">{product.productTax}</InvoicePreviewText>
+            </InvoicePreviewWrapper>
+          </InvoicePreviewWrapper>
+          <InvoicePreviewWrapper width="35%" flexDirection="raw">
+            <InvoicePreviewWrapper width="50%">
+              <InvoicePreviewText textAlign="right" fontSize="0.5rem">{product.productsPrice}</InvoicePreviewText>
+            </InvoicePreviewWrapper>
+            <InvoicePreviewWrapper width="50%">
+              <InvoicePreviewText textAlign="right" fontSize="0.5rem">{product.productTaxRate}</InvoicePreviewText>
+            </InvoicePreviewWrapper>
+          </InvoicePreviewWrapper>
+          <InvoicePreviewWrapper width="18%"  justifyContent="center">
+            <InvoicePreviewText textAlign="right" fontSize="0.5rem">{product.amount}</InvoicePreviewText>
+          </InvoicePreviewWrapper>
+        </InvoicePreviewContent>
+        ))  
+      }
+      {/* Invoice preview total */}
+      <InvoicePreviewContent padding={"10px 0"}>
+        <InvoicePreviewWrapper width="50%" justifyContent="center"></InvoicePreviewWrapper>
+        <InvoicePreviewWrapper width="50%"  backgroundColor={"#e3e3e3"} padding={"5px"}>
+          <InvoicePreviewWrapper flexDirection="raw">
+            <InvoicePreviewWrapper width="50%" padding={"5px"}>
+              <InvoicePreviewText fontSize="0.75rem">Total</InvoicePreviewText>
+            </InvoicePreviewWrapper>
+            <InvoicePreviewWrapper width="50%" padding={"5px"}>
+              <InvoicePreviewText textAlign="right" fontSize="0.75rem">{invoice.products?.totalAmount}</InvoicePreviewText>
+            </InvoicePreviewWrapper>
+          </InvoicePreviewWrapper>
         </InvoicePreviewWrapper>
       </InvoicePreviewContent>
     </InvoicePreviewContainer>

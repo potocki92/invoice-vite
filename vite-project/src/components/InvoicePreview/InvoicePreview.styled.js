@@ -14,12 +14,18 @@ export const InvoicePreviewContent = styled.div`
   justify-content: flex-end;
   background-color: ${(props) => props.backgroundColor}};
   color: ${(props) => props.color}};
+  border-bottom: ${(props) => props.borderBottom}};
+  padding: ${(props) => props.padding || "0"}};
+  margin: ${(props) => props.margin || "0"}};
 `;
 
 export const InvoicePreviewWrapper = styled.div`
+  padding: ${(props) => props.padding || "0"}}; 
   display: flex;
+  justify-content: ${(props) => props.justifyContent || "flex-start"}};
   flex-direction: ${(props) => props.flexDirection || "column"}};
   width: ${(props) => props.width || "100%"}};
+  background-color: ${(props) => props.backgroundColor}};
 `;
 export const InvoicePreviewBody = styled.div``;
 
