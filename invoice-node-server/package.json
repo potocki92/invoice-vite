@@ -1,0 +1,25 @@
+{
+  "name": "invoice-node-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.9.0",
+    "netlify-lambda": "^1.6.3",
+    "node": "^18.13.0",
+    "serverless-http": "^1.10.1"
+  },
+  "scripts": {
+    "build": "netlify deploy --prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/potocki92/invoice-vite/invoice-node-server"
+  },
+  "author": "Mateusz Potocki",
+  "license": "ISC"
+}
