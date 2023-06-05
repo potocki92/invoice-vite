@@ -38,6 +38,20 @@ export const InvoicePreviewTitle = styled.span`
   text-transform: uppercase;
 `;
 
+export const InvoicePreviewSpan = styled.span`
+  text-align: ${(props) => props.textAlign || "left"}};
+  font-size: ${(props) => props.fontSize || "0.7rem"};
+  font-weight: 700;
+  text-transform: uppercase;  
+  
+  @media (max-width: 393px ) {  
+    font-size: 0.5rem;
+  }
+  @media (min-width: 412px ) {
+    font-size: 0.6rem;
+  }
+`;
+
 export const InvoicePreviewText = styled.p`
   font-size: ${(props) => props.fontSize || "1rem"};
   text-align: ${(props) => props.textAlign || "left"}};

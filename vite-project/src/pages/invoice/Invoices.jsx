@@ -236,14 +236,14 @@ const Invoices = () => {
           selectedProductIndex={selectedProductIndex}
         />
         <InvoicePreview invoice={newInvoice} />
-        <InvoicePDF
+        {/* <InvoicePDF
           invoice={newInvoice}
           setNewInvoice={setNewInvoice}
           clients={clients}
           products={products}
           selectedProduct={selectedProduct}
           selectedProductIndex={selectedProductIndex}
-        />
+        /> */}
       </InvoiceContainer>
       <Link
         to={homeLink}

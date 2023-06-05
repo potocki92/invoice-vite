@@ -171,6 +171,10 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
+    if (name === "productsName") {
+      setProductName(value);
+      updatedProduct("productsName", value);
+    }
     if (name === "productsQty") {
       setProductQty(value);
       updatedProduct("productsQty", value);

@@ -10,13 +10,13 @@ import {
 
 /**
  * This component displays the total summary of the invoice.
- * @component 
- * @param {Object} props 
+ * @component
+ * @param {Object} props
  * @param {number} props.total - The total amount of the invoice
  * @param {number} props.productTaxRate - The tax rate of the invoice
  * @param {number} props.subtotal - The subtotal of the invoice
  * @returns {JSX.Element} - JSX component
- * @example 
+ * @example
  * return (
  *  <TotalSummary
  *    total={total}
@@ -31,16 +31,18 @@ const TotalSummary = ({ total, productTaxRate, subtotal }) => {
       <SubtotalContainer>
         <SubtotalWrapper>
           <TotalHeading>Subtotal</TotalHeading>
-          <TotalSpan>{subtotal}</TotalSpan>
+          <TotalSpan>{isNaN(subtotal) ? "0.00" : subtotal}</TotalSpan>
         </SubtotalWrapper>
         <SubtotalWrapper>
           <TotalHeading>Tax</TotalHeading>
-          <TotalSpan>{productTaxRate}</TotalSpan>
+          <TotalSpan>
+            {isNaN(productTaxRate) ? "0.00" : productTaxRate}
+          </TotalSpan>
         </SubtotalWrapper>
       </SubtotalContainer>
       <Total>
         <TotalHeading>Total</TotalHeading>
-        <TotalSpan>{total}</TotalSpan>
+        <TotalSpan>{isNaN(total) ? "0.00" : total}</TotalSpan>
       </Total>
     </TotalSummaryContainer>
   );
