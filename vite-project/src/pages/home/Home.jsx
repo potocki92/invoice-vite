@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
-import InvoiceList from "../../components/InvoiceList/InvoiceList";
+import InvoiceList from "../../components/Invoice/InvoiceList/InvoiceList";
 
 const Home = () => {
   let { id } = useParams();

@@ -6,9 +6,9 @@ import {
   InvoiceInner,
   InvoiceListContent,
   InvoiceListItem,
-} from "../InvoiceItem/InvoiceItem.styled";
+} from "./InvoiceItem.styled";
 import { Link } from "react-router-dom";
-import { homeLink } from "../../utils/linkConfig";
+import { homeLink } from "../../../utils/linkConfig";
 import { useRef } from "react";
 
 /**

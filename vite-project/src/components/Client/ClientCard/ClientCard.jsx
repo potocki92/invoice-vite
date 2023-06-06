@@ -1,9 +1,9 @@
 import React from "react";
 import "./ClientCard.css";
-import { ReactComponent as PhoneSvg } from "../../assets/images/svg/phone.svg";
-import { ReactComponent as EmailSvg } from "../../assets/images/svg/email.svg";
-import { ReactComponent as DeleteSvg } from "../../assets/images/svg/delete.svg";
-import PlaceholderImg from "../../assets/images/jpg/Placeholder.jpg";
+import { ReactComponent as PhoneSvg } from "../../../assets/images/svg/phone.svg";
+import { ReactComponent as EmailSvg } from "../../../assets/images/svg/email.svg";
+import { ReactComponent as DeleteSvg } from "../../../assets/images/svg/delete.svg";
+import PlaceholderImg from "../../../assets/images/jpg/Placeholder.jpg";
 
 class ClientCard extends React.Component {
   render() {

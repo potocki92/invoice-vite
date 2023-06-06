@@ -2,8 +2,8 @@ import { Types } from "mongoose";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
-import ProductForm from "../../components/ProductForm/ProductForm";
-import ProductList from "../../components/ProductList/ProductList";
+import ProductForm from "../../components/Product/ProductForm/ProductForm";
+import ProductList from "../../components/Product/ProductList/ProductList";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
 

@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "../../Product/ProductCard/ProductCard";
 import {
-  InputSpan,
   InvoiceInputsContainer,
   TextArea,
 } from "./InvoiceInputs.styled";
-import isFloating from "../../utils/isFloating";
+import isFloating from "../../../utils/isFloating";
 import { HiUsers } from "react-icons/hi";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { createPortal } from "react-dom";
-import Modal from "../Modal/Modal";
-import { ModalButton } from "../Modal/Modal.styled";
-import clientCardMarkup from "../../markups/clientCardMarkup,js";
-import { AddButton, AddButtonWrapper } from "../buttons.styled";
-import TotalSummary from "../TotalSummary/TotalSummary";
-import { InputsContent, InputsContainer, Input } from "../InputField/Input.styled";
+import Modal from "../../Modal/Modal";
+import { ModalButton } from "../../Modal/Modal.styled";
+import clientCardMarkup from "../../../markups/clientCardMarkup,js";
+import { AddButton, AddButtonWrapper } from "../../buttons.styled";
+import TotalSummary from "../../TotalSummary/TotalSummary";
+import { InputsContent, InputsContainer, Input, InputSpan } from "../../InputField/Input.styled";
 
 /**
 Component for displaying and editing invoice input fields.

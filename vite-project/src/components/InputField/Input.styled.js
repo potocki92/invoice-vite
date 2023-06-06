@@ -68,3 +68,25 @@ export const Input = styled.input`
     padding-bottom: 0.5em;
   }
 `;
+
+export const InputSpan = styled.span`
+  position: absolute;
+  left: 1rem;
+  top: 0.5rem;
+  font-size: 0.6875em;
+  font-weight: 400;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  -webkit-transform: translateY(3px);
+  transform: translateY(3px);
+  transition-property: opacity, -webkit-transform;
+  transition-property: opacity, transform;
+  transition-property: opacity, transform, -webkit-transform;
+  transition-duration: 150ms;
+
+  &.floating {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;

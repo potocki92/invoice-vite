@@ -8,7 +8,7 @@ The handleClick function is called when the form is submitted.
 
 import React from "react";
 import clientFormInput from "./clientFormInputs";
-import InputField from "../InputField/InputField";
+import InputField from "../../InputField/InputField";
 
 class ClientForm extends React.Component {
   render() {

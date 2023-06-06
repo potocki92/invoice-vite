@@ -1,7 +1,5 @@
 
-import { InputSpan } from "../InvoiceInputs/InvoiceInputs.styled";
-import { Input } from "../ProductForm/ProductForm.styled";
-import { InputsContainer } from "./Input.styled";
+import { Input, InputSpan, InputsContainer } from "./Input.styled";
 
 /**
 The InputField component is used to display a form field

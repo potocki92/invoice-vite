@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { Input, InputsContainer, InputsForm } from "../InputField/Input.styled";
-import { InputSpan } from "../InvoiceInputs/InvoiceInputs.styled";
-import isFloating from "../../utils/isFloating";
-import { DefaultButton } from "../buttons.styled";
+import React from "react";
+import { Input, InputSpan, InputsContainer, InputsForm } from "../../InputField/Input.styled";
+import isFloating from "../../../utils/isFloating";
+import { DefaultButton } from "../../buttons.styled";
 
 /**
  * @class

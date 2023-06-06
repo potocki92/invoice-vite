@@ -1,9 +1,9 @@
 import axios from "../../../utils/axiosConfig";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import InvoicePDF from "../../../components/InvoicePDF/InvoicePDF";
-import { StyledBox } from "../../../components/InvoiceList/InvoiceList.styled";
+import InvoicePDF from "../../../components/Invoice/InvoicePDF/InvoicePDF";
 import { homeLink } from "../../../utils/linkConfig";
+import { StyledBox } from "../../../components/Invoice/InvoiceList/InvoiceList.styled";
 
 
 const InvoiceEdit = () => {

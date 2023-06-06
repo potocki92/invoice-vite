@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
 import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
-import InvoicePDF from "../../components/InvoicePDF/InvoicePDF";
-import InvoiceInputs from "../../components/InvoiceInputs/InvoiceInputs";
-import { StyledBox } from "../../components/InvoiceList/InvoiceList.styled";
+import InvoicePDF from "../../components/Invoice/InvoicePDF/InvoicePDF";
+import InvoiceInputs from "../../components/Invoice/InvoiceInputs/InvoiceInputs";
+import { StyledBox } from "../../components/Invoice/InvoiceList/InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
 import { InvoiceContainer } from "./Invoice.styled";
-import InvoicePreview from "../../components/InvoicePreview/InvoicePreview";
+import InvoicePreview from "../../components/Invoice/InvoicePreview/InvoicePreview";
 import { DefaultButton } from "../../components/buttons.styled";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.

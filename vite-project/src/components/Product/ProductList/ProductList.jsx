@@ -1,4 +1,5 @@
-import { RemoveButton } from "../buttons.styled";
+
+import { RemoveButton } from "../../buttons.styled";
 import { Container, CardWrapper, ProductName } from "./ProductList.styled";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 

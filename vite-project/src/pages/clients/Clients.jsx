@@ -3,10 +3,11 @@ import { Types } from "mongoose";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
-import "./Clients.css";import ClientCard from "../../components/ClientCard/ClientCard";
-import ClientForm from "../../components/ClientForm/ClientForm";
+import "./Clients.css";
+import ClientForm from "../../components/Client/ClientForm/ClientForm";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
+import ClientCard from "../../components/Client/ClientCard/ClientCard";
 /* 
   This function defines the main Client component, 
   which fetches all clients data for the current user from the database, 
