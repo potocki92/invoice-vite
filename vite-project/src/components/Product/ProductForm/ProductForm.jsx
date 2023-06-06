@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, InputSpan, InputsContainer, InputsForm } from "../../InputField/Input.styled";
+import { Input, InputSpan, InputsContainer, InputsForm } from "../../Common/InputField/Input.styled";
 import isFloating from "../../../utils/isFloating";
 import { DefaultButton } from "../../buttons.styled";
 

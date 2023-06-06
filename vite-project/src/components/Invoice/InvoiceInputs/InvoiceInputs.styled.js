@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ModalButton } from "../../../components/Common/Modal/Modal.styled";
 
 export const InvoiceInputsContainer = styled.div`
   display: flex;
@@ -7,6 +8,12 @@ export const InvoiceInputsContainer = styled.div`
   @media (min-width: 1199px) {
     width: 50%;
   }
+
+  ${props => props.showButtons && css`
+    ${ModalButton} {
+      display: none;
+    }
+  `}
 `
 
 export const Select = styled.select`

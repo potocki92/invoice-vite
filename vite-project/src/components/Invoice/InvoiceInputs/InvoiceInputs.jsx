@@ -8,12 +8,12 @@ import isFloating from "../../../utils/isFloating";
 import { HiUsers } from "react-icons/hi";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { createPortal } from "react-dom";
-import Modal from "../../Modal/Modal";
-import { ModalButton } from "../../Modal/Modal.styled";
+import Modal from "../../Common/Modal/Modal";
+import { ModalButton } from "../../Common/Modal/Modal.styled";
 import clientCardMarkup from "../../../markups/clientCardMarkup,js";
-import { AddButton, AddButtonWrapper } from "../../buttons.styled";
-import TotalSummary from "../../TotalSummary/TotalSummary";
-import { InputsContent, InputsContainer, Input, InputSpan } from "../../InputField/Input.styled";
+import { AddButton, AddButtonWrapper, DefaultButton } from "../../buttons.styled";
+import TotalSummary from "../../Common/TotalSummary/TotalSummary";
+import { InputsContent, InputsContainer, Input, InputSpan } from "../../Common/InputField/Input.styled";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -34,31 +34,31 @@ const InvoiceInputs = ({
   selectedProduct,
   selectedProductIndex,
 }) => {
-  const [clientName, setClientName] = useState(invoice.client.clientName || "");
-  const [clientNip, setClientNip] = useState(invoice.client.clientNip || "");
+  const [clientName, setClientName] = useState(invoice?.client.clientName || "");
+  const [clientNip, setClientNip] = useState(invoice?.client.clientNip || "");
   const [clientRegon, setClientRegon] = useState(
-    invoice.client.clientRegon || ""
+    invoice?.client.clientRegon || ""
   );
   const [clientEmail, setClientEmail] = useState(
-    invoice.client.clientEmail || ""
+    invoice?.client.clientEmail || ""
   );
   const [clientPhone, setClientPhone] = useState(
-    invoice.client.clientPhone || ""
+    invoice?.client.clientPhone || ""
   );
-  const [clientCity, setClientCity] = useState(invoice.client.clientCity || "");
+  const [clientCity, setClientCity] = useState(invoice?.client.clientCity || "");
   const [clientPostal, setClientPostal] = useState(
-    invoice.client.clientPostal || ""
+    invoice?.client.clientPostal || ""
   );
   const [clientAddress, setClientAddress] = useState(
-    invoice.client.clientAddress || ""
+    invoice?.client.clientAddress || ""
   );
-  const [selectedClient, setSelectedClient] = useState(invoice.client || "");
-  const [dueDate, setDueDate] = useState(invoice.date?.dueDate);
-  const [invoiceDate, setInvoiceDate] = useState(invoice.date?.invoiceDate);
+  const [selectedClient, setSelectedClient] = useState(invoice?.client || "");
+  const [dueDate, setDueDate] = useState(invoice?.date?.dueDate);
+  const [invoiceDate, setInvoiceDate] = useState(invoice?.date?.invoiceDate);
   const [total, setTotal] = useState(0);
   const [productTaxRate, setProductTaxRate] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
-  const [notes, setNotes] = useState(invoice.notes?.notes || "");
+  const [notes, setNotes] = useState(invoice?.notes?.notes || "");
   const [showModal, setShowModal] = useState(false);
 
   /*
@@ -107,7 +107,7 @@ const InvoiceInputs = ({
         },
       });
     }
-  }, [invoice.products.items, setTotal]);
+  }, [invoice?.products.items, setTotal]);
 
   /**
    * This function updates the client data in the invoice.
@@ -235,7 +235,7 @@ const InvoiceInputs = ({
       <InputsContent>
         <div>
           <h1>INVOICE</h1>
-          <p>{invoice.invoiceNumber}</p>
+          <p>{invoice?.invoiceNumber}</p>
         </div>
         <InputsContainer>
           <InputSpan className="floating">Invoice Date:</InputSpan>
@@ -367,7 +367,7 @@ const InvoiceInputs = ({
         </InputsContainer>
       </InputsContent>
       <InputsContent>
-        {invoice.products.items.map((product, index) => (
+        {invoice?.products.items.map((product, index) => (
           <ProductCard
             key={index}
             index={index}
@@ -399,6 +399,9 @@ const InvoiceInputs = ({
         </InputsContainer>
         <InputsContainer>
           <TotalSummary total={total} productTaxRate={productTaxRate} subtotal={subtotal}/>
+        </InputsContainer>
+        <InputsContainer>
+          <DefaultButton className="submit">Submit</DefaultButton>
         </InputsContainer>
       </InputsContent>
     </InvoiceInputsContainer>

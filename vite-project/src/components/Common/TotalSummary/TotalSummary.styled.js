@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const TotalSummaryContainer = styled.div`
   margin-top: 2em;
+  width: 100%;
 `;
 
 export const TotalSpan = styled.span`

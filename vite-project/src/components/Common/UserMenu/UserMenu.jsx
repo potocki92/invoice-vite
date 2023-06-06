@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { UserLogo, UserLogoutButton, UserMenuStyled } from "./UserMenu.styled";
-import { ReactComponent as LogoffIcon } from "../../assets/images/svg/logout.svg";
+import { ReactComponent as LogoffIcon } from "../../../assets/images/svg/logout.svg";
 import { useState } from "react";
 import { useEffect } from "react";
-import { homeLink } from "../../utils/linkConfig";
+import { homeLink } from "../../../utils/linkConfig";
 const UserMenu = ({setLoginUser, handleLinkClick}) => {
     const [user, setItems] = useState([]);
 

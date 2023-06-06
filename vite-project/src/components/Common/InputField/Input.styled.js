@@ -16,7 +16,7 @@ export const InputsContent = styled.div`
 
 export const InputsContainer = styled.div`
     position: relative;
-    display: block;
+    display: flex;
     padding-left: 4px;
     padding-right: 4px;
     &.mobile-up-1 {

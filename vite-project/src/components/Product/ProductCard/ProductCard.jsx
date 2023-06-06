@@ -5,9 +5,9 @@ import {
   AmountSpan,
   
 } from "../../Invoice/InvoiceInputs/InvoiceInputs.styled";
-import { ModalButton } from "../../Modal/Modal.styled";
+import { ModalButton } from "../../Common/Modal/Modal.styled";
 import { HiUsers } from "react-icons/hi";
-import Modal from "../../Modal/Modal";
+import Modal from "../../Common/Modal/Modal";
 import { createPortal } from "react-dom";
 import productCardMarkup from "../../../markups/productCardMarkup";
 import { HiOutlineMinusCircle } from "react-icons/hi";
@@ -19,7 +19,7 @@ import {
   InputsContainer,
   Input,
   InputSpan,
-} from "../../InputField/Input.styled";
+} from "../../Common/InputField/Input.styled";
 /**
  *   This component renders a product card with the product name, quantity, price, tax, and amount.
  *  It also renders a button to remove the product from the invoice.

@@ -30,14 +30,15 @@ export const RemoveButton = styled.button`
 
 export const DefaultButton = styled.button`
   background: #3498db;
-  width: 100px;
-  height: 40px;
   border-radius: 5px;
   color: #ffffff;
-  font-size: 15px;
-  padding: 5px 20px 5px 20px;
+  font-weight: 700;
+  font-size: 1em;
+  line-height: 1.133;
+  padding: 1em 1.8125em;
   text-decoration: none;
   margin-left: auto;
+  appearance: none;
 
   @media (min-width: 1199px) {
     margin-left: 0;
@@ -55,4 +56,16 @@ export const DefaultButton = styled.button`
         background: #e94c4f;
         text-decoration: none;
     }
+  }
+
+  &.submit {
+    background-color: #008060;
+    margin-top: 1em;
+
+    &:hover {
+      box-shadow: 0 5px 25px 0 rgba(0,0,0,0.25);
+      background-color: #004c3f;
+      color: #ffffff;
+    }
+  }
 `;

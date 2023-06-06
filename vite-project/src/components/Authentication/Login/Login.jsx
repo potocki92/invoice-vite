@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Login.css";
-import axios from "../../utils/axiosConfig";
+import axios from "../../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
-import { homeLink } from "../../utils/linkConfig";
+import { homeLink } from "../../../utils/linkConfig";
+import { InvoiceInputsContainer } from "../../Invoice/InvoiceInputs/InvoiceInputs.styled";
 
 const Login = ({ setShowRegister, setLoginUser }) => {
   const [formData, setFormData] = useState({
@@ -45,6 +46,7 @@ const Login = ({ setShowRegister, setLoginUser }) => {
   };
 
   return (
+    <>
     <div className="form-container is-flex">
       <h1 className="form-title">Login</h1>
       <form className="form is-flex" onSubmit={(e) => onSubmit(e)}>
@@ -56,7 +58,7 @@ const Login = ({ setShowRegister, setLoginUser }) => {
           value={email}
           onChange={(e) => onChange(e)}
           required
-        />
+          />
         <input
           className="form-input"
           type="password"
@@ -65,7 +67,7 @@ const Login = ({ setShowRegister, setLoginUser }) => {
           value={password}
           onChange={(e) => onChange(e)}
           minLength="6"
-        />
+          />
         <button className="form-button" type="submit" value="Login">
           Login
         </button>
@@ -75,6 +77,7 @@ const Login = ({ setShowRegister, setLoginUser }) => {
         <button onClick={() => setShowRegister(false)}>Register</button>
       </p>
     </div>
+          </>
   );
 };
 

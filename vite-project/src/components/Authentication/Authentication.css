@@ -1,6 +1,9 @@
 .authentication-container {
     width: 100%;
     height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   
   .form {
@@ -14,11 +17,12 @@
     background-size: cover;
     background-position: 0 0;
     color: #ffffff;
-    height: 535px;
-    width: 380px;
+    height: 100vh;
+    width: 100%;
     flex-direction: column;
     justify-content: space-between;
     padding: 40px 20px;
+    margin-bottom: 80px;
   }
   
   .form-paragraph {

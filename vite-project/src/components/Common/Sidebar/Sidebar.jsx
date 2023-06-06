@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { ReactComponent as DashboardIcon } from "../../assets/images/svg/dashboard.svg";
-import { ReactComponent as AddInvoiceIcon } from "../../assets/images/svg/addInvoice.svg";
-import { ReactComponent as ClientsIcon } from "../../assets/images/svg/clients.svg";
-import { homeLink } from "../../utils/linkConfig";
+import { ReactComponent as DashboardIcon } from "../../../assets/images/svg/dashboard.svg";
+import { ReactComponent as AddInvoiceIcon } from "../../../assets/images/svg/addInvoice.svg";
+import { ReactComponent as ClientsIcon } from "../../../assets/images/svg/clients.svg";
+import { homeLink } from "../../../utils/linkConfig";
 import { BurgerIcon, MobileSidebar, SidebarButton, SidebarItem, SidebarList, SidebarNavlink, SidebarSpan, SidebarStyled, SidebarTitle, ToggleMenuButton } from "./Sidebar.styled";
 import { useState } from "react";
-import UserMenu from "../UserMenu/UserMenu";
+import UserMenu from "../../Common/UserMenu/UserMenu";
 
 const Sidebar = ({setLoginUser}) => {
   const [isClick, setIsClick] = useState(false);
