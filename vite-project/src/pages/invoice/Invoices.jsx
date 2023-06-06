@@ -9,6 +9,7 @@ import { StyledBox } from "../../components/InvoiceList/InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
 import { InvoiceContainer } from "./Invoice.styled";
 import InvoicePreview from "../../components/InvoicePreview/InvoicePreview";
+import { DefaultButton } from "../../components/buttons.styled";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -219,10 +220,8 @@ const Invoices = () => {
     <div className="container section is-flex col">
       <StyledBox>
         <div className="invoice__home-logo">
-          <h1>Invoice</h1>
-          {allInvoices && <p>There are total {allInvoices.length} invoices</p>}
           <Link to={`/invoice-vite`}>
-            <button className="button back_button">Go Back</button>
+            <DefaultButton className="back">Go Back</DefaultButton>
           </Link>
         </div>
       </StyledBox>

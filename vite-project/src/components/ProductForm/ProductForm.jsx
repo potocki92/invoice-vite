@@ -1,7 +1,8 @@
-import React from "react";
-import "./ProductForm.css";
-import productFormInput from "./productFormInputs";
-import InputField from "../InputField/InputField";
+import React, { useState } from "react";
+import { Input, InputsContainer, InputsForm } from "../InputField/Input.styled";
+import { InputSpan } from "../InvoiceInputs/InvoiceInputs.styled";
+import isFloating from "../../utils/isFloating";
+import { DefaultButton } from "../buttons.styled";
 
 /**
  * @class
@@ -11,42 +12,16 @@ import InputField from "../InputField/InputField";
  * and manages the state of the selected tax rate.
  * @extends React.Component
  */
-class ProductForm extends React.Component {
-  state = {
-    checked: false,
-    selectedTaxIndex: -1,
-  };
-
-  /**
-   * This function is triggered when the user selects or unselects a tax rate checkbox.
-   * @function
-   * @param {event} event - The event object.
-   * @returns {void}
-   */
-  handleCheckboxChange = (event) => {
-    console.log(event);
-    const index = parseInt(event.target.value);
-    const value = this.props.taxRate[index];
-    console.table(value);
-
-    if (this.state.selectedTaxIndex === index) {
-      this.setState({ selectedTaxIndex: -1 });
-      this.props.handleVatChange(event, -1);
-    } else {
-      this.setState({ selectedTaxIndex: index });
-      this.props.handleVatChange(event, index);
-    }
-  };
+const ProductForm = ({ newProduct, handleClick, handleChange }) => {
   /**
    * This function is triggered when the user submits the form.
    * @function
    * @param {event} event - The event object.
    * @returns {void}
    */
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    this.props.handleClick(event);
-    this.setState({ selectedTaxIndex: -1, checked: false });
+    handleClick(event);
 
     // Reset inputs
     const inputs = document.querySelectorAll(".input");
@@ -55,38 +30,53 @@ class ProductForm extends React.Component {
     });
   };
 
-  render() {
-    return (
-      <div className="container-product">
-        <form className="details__box" onSubmit={this.handleSubmit}>
-          {productFormInput(this.props).map((input) => (
-            <InputField input={input} handleChange={this.props.handleChange} />
-          ))}
-          <div className="form__group ">
-            <p>Tax</p>
-            <div className="checkbox__container">
-              {this.props.taxRate.map((tax, index) => (
-                <div className="checkbox__card" key={index}>
-                  <input
-                    className="input-checkbox"
-                    name={"productsTax"}
-                    type="checkbox"
-                    value={index}
-                    checked={this.state.selectedTaxIndex === index}
-                    onChange={this.handleCheckboxChange}
-                  />
-                  <p className="checkbox__text">{tax.name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <button className="button" type="submit">
-            Add
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <InputsForm onSubmit={handleSubmit}>
+      <InputsContainer>
+        <InputSpan className={isFloating(newProduct.productsName)}>
+          Product name
+        </InputSpan>
+        <Input
+          className={isFloating(newProduct.productsName)}
+          type="text"
+          name="productsName"
+          value={newProduct.productsName}
+          onChange={handleChange}
+          placeholder="Enter product name"
+          required
+        />
+      </InputsContainer>
+      <InputsContainer>
+        <InputSpan className={isFloating(newProduct.productsPrice)}>
+          Price
+        </InputSpan>
+        <Input
+          className={isFloating(newProduct.productsPrice)}
+          type="number"
+          name="productsPrice"
+          value={newProduct.productsPrice}
+          onChange={handleChange}
+          placeholder="Enter price"
+          required
+        />
+      </InputsContainer>
+      <InputsContainer>
+        <InputSpan className={isFloating(newProduct.productsTax)}>
+          Tax
+        </InputSpan>
+        <Input
+          className={isFloating(newProduct.productsTax)}
+          type="number"
+          name="productsTax"
+          value={newProduct.productsTax}
+          onChange={handleChange}
+          placeholder="Enter tax"
+          required
+        />
+      </InputsContainer>
+      <DefaultButton type="submit">Add</DefaultButton>
+    </InputsForm>
+  );
+};
 
 export default ProductForm;

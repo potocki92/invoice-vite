@@ -25,4 +25,34 @@ export const RemoveButton = styled.button`
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.2;
+  width: 66px;
+`;
+
+export const DefaultButton = styled.button`
+  background: #3498db;
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 5px 20px 5px 20px;
+  text-decoration: none;
+  margin-left: auto;
+
+  @media (min-width: 1199px) {
+    margin-left: 0;
+  }
+
+  &:hover {
+      background: #3cb0fd;
+      text-decoration: none;
+  }
+
+  &.back {
+    background: #e74c3c;
+
+    &:hover {
+        background: #e94c4f;
+        text-decoration: none;
+    }
 `;

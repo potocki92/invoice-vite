@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import {
-  Input,
   InputSpan,
-  InputsContainer,
-  InputsContent,
+  InvoiceInputsContainer,
   TextArea,
 } from "./InvoiceInputs.styled";
 import isFloating from "../../utils/isFloating";
@@ -16,6 +14,7 @@ import { ModalButton } from "../Modal/Modal.styled";
 import clientCardMarkup from "../../markups/clientCardMarkup,js";
 import { AddButton, AddButtonWrapper } from "../buttons.styled";
 import TotalSummary from "../TotalSummary/TotalSummary";
+import { InputsContent, InputsContainer, Input } from "../InputField/Input.styled";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -233,7 +232,7 @@ const InvoiceInputs = ({
   };
 
   return (
-    <>
+    <InvoiceInputsContainer>
       <InputsContent>
         <div>
           <h1>INVOICE</h1>
@@ -403,7 +402,7 @@ const InvoiceInputs = ({
           <TotalSummary total={total} productTaxRate={productTaxRate} subtotal={subtotal}/>
         </InputsContainer>
       </InputsContent>
-    </>
+    </InvoiceInputsContainer>
   );
 };
 

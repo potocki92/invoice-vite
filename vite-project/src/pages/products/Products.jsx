@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
 import ProductForm from "../../components/ProductForm/ProductForm";
-import taxRate from "./taxRateArray";
 import ProductList from "../../components/ProductList/ProductList";
 import { homeLink } from "../../utils/linkConfig";
+import { DefaultButton } from "../../components/buttons.styled";
 
 /**
 Component for managing products.
@@ -19,13 +19,12 @@ const Products = () => {
     qty: 1,
     productsPrice: 0.0,
     amount: 0,
-    productsTax: 1,
+    productsTax: 0,
   });
   const token = localStorage.getItem("token");
   const [allProducts, setAllProducts] = useState(
     JSON.parse(localStorage.getItem("products")) || []
   );
-
   useEffect(() => {
     localStorage.setItem("products", JSON.stringify(allProducts));
   }, [allProducts]);
@@ -53,21 +52,6 @@ const Products = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setNewProduct({ ...newProduct, [name]: value });
-  };
-
-  /**
-   * Updates the state of newProduct object when VAT rate changes.
-   * @param {Object} event - The event object.
-   * @param {Number} index - The index of the selected VAT rate.
-   */
-  const handleVatChange = (event, index) => {
-    const indexTarget = event.target.value;
-    const selectedVatRate = taxRate[indexTarget];
-    if (index === -1) {
-      setNewProduct({ ...newProduct, productsTax: 1 });
-    } else {
-      setNewProduct({ ...newProduct, productsTax: selectedVatRate });
-    }
   };
 
   /**
@@ -106,7 +90,6 @@ const Products = () => {
       .delete(`/products/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          UserId: userId,
         },
       })
       .then((res) => {
@@ -125,13 +108,11 @@ const Products = () => {
         {allProducts && <p>There are total {allProducts.length} products</p>}
       </div>
       <Link to={homeLink}>
-        <button className="button back_button">Go Back</button>
+        <DefaultButton className="back">Go Back</DefaultButton>
       </Link>
 
       <ProductForm
         newProduct={newProduct}
-        taxRate={taxRate}
-        handleVatChange={handleVatChange}
         handleClick={handleClick}
         handleChange={handleChange}
       />

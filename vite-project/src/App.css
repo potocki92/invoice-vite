@@ -24,6 +24,12 @@ span {
 
 .section {
   padding: 70px 0;
+
+}
+@media (min-width: 768px) {
+  .section {
+    padding: 0;
+  }
 }
 
 .is-flex {

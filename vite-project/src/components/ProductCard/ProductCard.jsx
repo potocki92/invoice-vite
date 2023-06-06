@@ -3,10 +3,7 @@ import "./ProductCard.css";
 import {
   Amount,
   AmountSpan,
-  Input,
   InputSpan,
-  InputsContainer,
-  InputsContent,
 } from "../InvoiceInputs/InvoiceInputs.styled";
 import { ModalButton } from "../Modal/Modal.styled";
 import { HiUsers } from "react-icons/hi";
@@ -17,6 +14,11 @@ import { HiOutlineMinusCircle } from "react-icons/hi";
 import { RemoveButton } from "../buttons.styled";
 import { ProductCardContainer } from "./ProductCard.styled";
 import isFloating from "../../utils/isFloating";
+import {
+  InputsContent,
+  InputsContainer,
+  Input,
+} from "../InputField/Input.styled";
 /**
  *   This component renders a product card with the product name, quantity, price, tax, and amount.
  *  It also renders a button to remove the product from the invoice.
@@ -256,7 +258,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
             className={isFloating(productTaxRate)}
             name="productsRateTax"
             placeholder="Tax Rate"
-            value={productTaxRate}
+            value={isNaN(productTaxRate) ? 0.0 : productTaxRate}
             onChange={handleChange}
           />
         </InputsContainer>

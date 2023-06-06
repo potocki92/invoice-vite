@@ -6,6 +6,7 @@ import axios from "../../utils/axiosConfig";
 import "./Clients.css";import ClientCard from "../../components/ClientCard/ClientCard";
 import ClientForm from "../../components/ClientForm/ClientForm";
 import { homeLink } from "../../utils/linkConfig";
+import { DefaultButton } from "../../components/buttons.styled";
 /* 
   This function defines the main Client component, 
   which fetches all clients data for the current user from the database, 
@@ -105,7 +106,7 @@ const Clients = () => {
         {allClients && <p>There are total {allClients.length} clients</p>}
       </div>
       <Link to={homeLink}>
-        <button className="button back_button">Go Back</button>
+        <DefaultButton className="back">Go Back</DefaultButton>
       </Link>
 
       <ClientForm

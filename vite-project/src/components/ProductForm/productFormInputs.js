@@ -26,6 +26,13 @@ const productFormInput = (newProduct) => [
       placeholder: "Enter Product Price",
       required: true,
     },
+    {
+      className: "input",
+      name: "productsTax",
+      value: newProduct.productsTax,
+      placeholder: "Enter Product Tax",
+      required: true,
+    }
   ];
   export default productFormInput;
   

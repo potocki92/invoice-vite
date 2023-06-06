@@ -7,11 +7,16 @@ export const InvoicePreviewContainer = styled.div`
   position: relative;
   background-color: rgb(255, 255, 255);
   padding: 2rem;
+  margin: 2rem 0;
+
+  @media (min-width: 1199px) {
+    width: 50%;
+    height: 100%;
+  }
 `;
 
 export const InvoicePreviewContent = styled.div`
   display: flex;
-  justify-content: flex-end;
   background-color: ${(props) => props.backgroundColor}};
   color: ${(props) => props.color}};
   border-bottom: ${(props) => props.borderBottom}};
@@ -27,10 +32,6 @@ export const InvoicePreviewWrapper = styled.div`
   width: ${(props) => props.width || "100%"}};
   background-color: ${(props) => props.backgroundColor}};
 `;
-export const InvoicePreviewBody = styled.div``;
-
-export const InvoicePreviewFooter = styled.div``;
-
 export const InvoicePreviewTitle = styled.span`
   text-align: ${(props) => props.textAlign || "left"}};
   font-size: ${(props) => props.fontSize || "2rem"};
@@ -41,7 +42,7 @@ export const InvoicePreviewTitle = styled.span`
 export const InvoicePreviewSpan = styled.span`
   text-align: ${(props) => props.textAlign || "left"}};
   font-size: ${(props) => props.fontSize || "0.7rem"};
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;  
   
   @media (max-width: 393px ) {  
@@ -50,9 +51,10 @@ export const InvoicePreviewSpan = styled.span`
   @media (min-width: 412px ) {
     font-size: 0.6rem;
   }
-`;
-
-export const InvoicePreviewText = styled.p`
+  `;
+  
+  export const InvoicePreviewText = styled.p`
   font-size: ${(props) => props.fontSize || "1rem"};
   text-align: ${(props) => props.textAlign || "left"}};
+  font-weight: ${(props) => props.fontWeight || "400"};
 `;

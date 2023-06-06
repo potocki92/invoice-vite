@@ -1,3 +1,8 @@
+
+import { InputSpan } from "../InvoiceInputs/InvoiceInputs.styled";
+import { Input } from "../ProductForm/ProductForm.styled";
+import { InputsContainer } from "./Input.styled";
+
 /**
 The InputField component is used to display a form field
 @param {Object} props - Object containing input parameters
@@ -6,10 +11,11 @@ The InputField component is used to display a form field
 @returns {JSX.Element} - Returns a JSX element representing the form field
 */
 const InputField = (props) => {
+
     return (
-      <div className="form__group">
-        <p>{props.input.name}</p>
-        <input
+      <InputsContainer>
+        <InputSpan>{props.input.name}</InputSpan>
+        <Input
           className={props.input.className}
           type={props.input.typeText}
           name={props.input.name}
@@ -18,7 +24,7 @@ const InputField = (props) => {
           placeholder={props.input.placeholder}
           required={props.input.required}
         />
-      </div>
+      </InputsContainer>
     );
   };
   

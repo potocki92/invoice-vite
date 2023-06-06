@@ -195,6 +195,15 @@ const InvoicePreview = ({ invoice }) => {
           </InvoicePreviewWrapper>
         </InvoicePreviewWrapper>
       </InvoicePreviewContent>
+      {/* Invoice preview notes */}
+      <InvoicePreviewContent padding={"180px 0 10px"}>
+        <InvoicePreviewWrapper width="50%">
+          <InvoicePreviewText fontSize="0.6rem" fontWeight="bold">Notes</InvoicePreviewText>
+          <InvoicePreviewText fontSize="0.5rem">
+            {invoice.notes}
+          </InvoicePreviewText>
+        </InvoicePreviewWrapper>
+      </InvoicePreviewContent>
     </InvoicePreviewContainer>
   );
 };

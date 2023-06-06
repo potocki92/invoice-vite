@@ -1,4 +1,6 @@
+import { RemoveButton } from "../buttons.styled";
 import { Container, CardWrapper, ProductName } from "./ProductList.styled";
+import { RiDeleteBin2Fill } from "react-icons/ri";
 
 const ProductList = ({ products, onDelete }) => {
   return (
@@ -19,9 +21,9 @@ const ProductList = ({ products, onDelete }) => {
               {product.productsPrice}
             </div>
           </ProductName>
-          <button className="button" onClick={() => onDelete(product._id)}>
-            Delete
-          </button>
+          <RemoveButton onClick={() => onDelete(product._id)}>
+            <RiDeleteBin2Fill size={25}/>
+          </RemoveButton>
         </CardWrapper>
       ))}
     </Container>
