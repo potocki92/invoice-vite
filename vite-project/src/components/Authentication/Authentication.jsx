@@ -32,7 +32,7 @@ const Authentication = ({ setLoginUser }) => {
         <Register setShowRegister={setShowRegister} />
       </CSSTransition>
       <div className="container">
-      <InvoiceInputs/>
+      <InvoiceInputs isInAuthentication={true}/>
       </div>
     </div>
   );

@@ -33,6 +33,7 @@ const InvoiceInputs = ({
   products,
   selectedProduct,
   selectedProductIndex,
+  isInAuthentication,
 }) => {
   const [clientName, setClientName] = useState(invoice?.client.clientName || "");
   const [clientNip, setClientNip] = useState(invoice?.client.clientNip || "");
@@ -270,9 +271,11 @@ const InvoiceInputs = ({
             value={clientName}
             onChange={handleChange}
           />
+          {!isInAuthentication ? (
           <ModalButton onClick={() => setShowModal(true)}>
             <HiUsers size={25} />
           </ModalButton>
+          ) : null}
           {showModal &&
             createPortal(
               <Modal
