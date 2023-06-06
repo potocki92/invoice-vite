@@ -37,6 +37,10 @@ export const InvoicePreviewTitle = styled.span`
   font-size: ${(props) => props.fontSize || "2rem"};
   font-weight: 700;
   text-transform: uppercase;
+
+  @media (min-width: 1199px) {
+    font-size: 2.5rem;
+  }
 `;
 
 export const InvoicePreviewSpan = styled.span`
@@ -51,10 +55,18 @@ export const InvoicePreviewSpan = styled.span`
   @media (min-width: 412px ) {
     font-size: 0.6rem;
   }
+
+  @media (min-width: 1199px) {
+    font-size: 1rem;
+  }
   `;
   
   export const InvoicePreviewText = styled.p`
   font-size: ${(props) => props.fontSize || "1rem"};
   text-align: ${(props) => props.textAlign || "left"}};
   font-weight: ${(props) => props.fontWeight || "400"};
+
+  @media (min-width: 1199px) {
+    font-size: 0.9rem;
+  }
 `;
