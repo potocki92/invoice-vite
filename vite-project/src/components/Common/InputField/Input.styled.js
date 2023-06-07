@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const InputsContent = styled.div`
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   width: 100%;
   margin-bottom: 20px;
@@ -12,20 +13,31 @@ export const InputsContent = styled.div`
     flex-wrap: wrap;
     flex-direction: row;
   }
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+  }
 `;
 
 export const InputsContainer = styled.div`
     position: relative;
     display: flex;
-    padding-left: 4px;
-    padding-right: 4px;
-    &.mobile-up-1 {
+    &.mobile-up-25 {
         width: 25%;
     }
-    &.mobile-up-2 {
+    &.mobile-up-75 {
         width: 75%;
     }
-}
+
+    @media (min-width: 1024px) {
+      &.full-33 {
+        width: 33.33%;
+      }
+
+      &.full-66 {
+        width: 66.66%;
+      }
+    }
 `;
 
 export const InputsForm = styled.form`
@@ -82,6 +94,11 @@ export const Input = styled.input`
   &.authentication {
     box-shadow: none;
     border: 0.0625rem solid #8C9196;
+
+    &:focus {
+      outline: none;
+      border-color: #008060;
+    }
   }
 `;
 

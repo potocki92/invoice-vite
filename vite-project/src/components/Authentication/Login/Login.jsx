@@ -4,9 +4,10 @@ import axios from "../../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { homeLink } from "../../../utils/linkConfig";
 import { InvoiceInputsContainer } from "../../Invoice/InvoiceInputs/InvoiceInputs.styled";
-import { LoginStyled, LoginTitle } from "./Login.styled";
-import { Input, InputsForm } from "../../Common/InputField/Input.styled";
+import { LoginStyled, LoginText, LoginTitle } from "./Login.styled";
+import { Input, InputSpan, InputsContainer, InputsForm } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
+import isFloating from "../../../utils/isFloating";
 
 const Login = ({ setShowRegister, setLoginUser }) => {
   const [formData, setFormData] = useState({
@@ -14,9 +15,7 @@ const Login = ({ setShowRegister, setLoginUser }) => {
     password: "",
   });
   const navigation = useNavigate();
-
   const { email, password } = formData;
-
   useEffect(() => {
     const getLocalStorageToken = localStorage.getItem("token");
     if (getLocalStorageToken) {
@@ -52,32 +51,38 @@ const Login = ({ setShowRegister, setLoginUser }) => {
     <LoginStyled>
       <LoginTitle>Login</LoginTitle>
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
-        <Input
-          className="authentication"
-          type="email"
-          placeholder="Email"
-          name="email"
-          value={email}
-          onChange={(e) => onChange(e)}
-          required
-        />
-        <Input
-          className="authentication"
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={password}
-          onChange={(e) => onChange(e)}
-          minLength="6"
-        />
+        <InputsContainer>
+          <InputSpan className={isFloating(formData.email)}>Email</InputSpan>
+          <Input
+            className={isFloating(formData.email) ? `authentication floating` : `authentication`} 
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={(e) => onChange(e)}
+            required
+            />
+        </InputsContainer>
+        <InputsContainer>
+          <InputSpan className={isFloating(formData.password)}>Password</InputSpan>
+          <Input
+            className={isFloating(formData.password) ? `authentication floating` : `authentication`}
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={(e) => onChange(e)}
+            minLength="6"
+            />
+        </InputsContainer>
         <DefaultButton style={{ marginLeft: "0" }} type="submit" value="Login">
           Login
         </DefaultButton>
       </InputsForm>
-      <p className="form-paragraph is-flex">
+      <LoginText>
         Don't have an account?{" "}
-        <button onClick={() => setShowRegister(false)}>Register</button>
-      </p>
+        <a onClick={() => setShowRegister(false)}>Register</a>
+      </LoginText>
     </LoginStyled>
   );
 };

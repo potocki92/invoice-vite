@@ -14,6 +14,7 @@ import clientCardMarkup from "../../../markups/clientCardMarkup,js";
 import { AddButton, AddButtonWrapper, DefaultButton } from "../../buttons.styled";
 import TotalSummary from "../../Common/TotalSummary/TotalSummary";
 import { InputsContent, InputsContainer, Input, InputSpan } from "../../Common/InputField/Input.styled";
+import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -35,6 +36,7 @@ const InvoiceInputs = ({
   selectedProductIndex,
   isInAuthentication,
 }) => {
+  const [invoiceNumber, setInvoiceNumber] = useState(invoice?.invoiceNumber || "");
   const [clientName, setClientName] = useState(invoice?.client.clientName || "");
   const [clientNip, setClientNip] = useState(invoice?.client.clientNip || "");
   const [clientRegon, setClientRegon] = useState(
@@ -143,10 +145,12 @@ const InvoiceInputs = ({
    * @param {string} value - The new value for the notes property.
    */
   const updateNotes = (value) => {
-    console.log(value);
     setNewInvoice({ ...invoice, notes: value });
   };
 
+  const updateInvoiceNumber = (value) => {
+    setNewInvoice({ ...invoice, invoiceNumber: value });
+  };
   /**
    * Updates the selected client and invoice state based on the selected client ID.
    * @param {string} id - The ID of the selected client.
@@ -203,6 +207,7 @@ const InvoiceInputs = ({
     const { name, value } = event.target;
 
     const updateFunctions = {
+      invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
       clientName: [setClientName, updateClient],
       clientNip: [setClientNip, updateClient],
       clientRegon: [setClientRegon, updateClient],
@@ -234,11 +239,18 @@ const InvoiceInputs = ({
   return (
     <InvoiceInputsContainer>
       <InputsContent>
-        <div>
-          <h1>INVOICE</h1>
-          <p>{invoice?.invoiceNumber}</p>
-        </div>
-        <InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(invoiceNumber)}>Invoice Number:</InputSpan>
+          <Input
+              className={isFloating(invoiceNumber)}
+              type="text"
+              name="invoiceNumber" 
+              placeholder="Enter invoice number"
+              value={invoiceNumber}
+              onChange={handleChange}
+            />
+        </InputsContainer>
+        <InputsContainer className="full-33">
           <InputSpan className="floating">Invoice Date:</InputSpan>
           <Input
             className="floating"
@@ -248,7 +260,7 @@ const InvoiceInputs = ({
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer>
+        <InputsContainer className="full-33">
           <InputSpan className="floating">Due Date:</InputSpan>
           <Input
             className="floating"
@@ -259,9 +271,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
       </InputsContent>
+      <InfoWrapper title={"Bill to:"}/>
       <InputsContent>
-        <h2>Bill to:</h2>
-        <InputsContainer>
+        <InputsContainer className="full-66">
           <InputSpan className={isFloating(clientName)}>Client name</InputSpan>
           <Input
             className={isFloating(clientName)}
@@ -289,6 +301,17 @@ const InvoiceInputs = ({
               document.body
             )}
         </InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(clientEmail)}>Email</InputSpan>
+          <Input
+            className={isFloating(clientEmail)}
+            type={"email"}
+            name={"clientEmail"}
+            placeholder="Client Email"
+            value={clientEmail}
+            onChange={handleChange}
+          />
+        </InputsContainer>
         <InputsContainer>
           <InputSpan className={isFloating(clientPhone)}>
             Client phone
@@ -299,17 +322,6 @@ const InvoiceInputs = ({
             name={"clientPhone"}
             placeholder="Client phone"
             value={clientPhone}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer>
-          <InputSpan className={isFloating(clientEmail)}>Email</InputSpan>
-          <Input
-            className={isFloating(clientEmail)}
-            type={"email"}
-            name={"clientEmail"}
-            placeholder="Client Email"
-            value={clientEmail}
             onChange={handleChange}
           />
         </InputsContainer>

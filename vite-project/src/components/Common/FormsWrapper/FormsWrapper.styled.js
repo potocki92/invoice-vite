@@ -67,15 +67,20 @@ export const FormContainer = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  width: 50%;
-
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @media (min-width: 1025px) {
-    width: 100%;
-    height: 100%;
   }
 `;
 export const FormHeader = styled.div`
-  margin-bottom: 2.5rem;
+  margin-bottom: 5.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 export const FormTitle = styled.h1`
