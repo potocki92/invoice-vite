@@ -44,6 +44,12 @@ export const InputsForm = styled.form`
         flex-direction: row;
         gap: 20px;
     }
+
+    &.authentication {
+      @media (min-width: 1025px){
+        flex-direction: column;
+      }  
+    }
 }
 `;
 export const Input = styled.input`
@@ -66,6 +72,16 @@ export const Input = styled.input`
   &.floating {
     padding-top: 1.5em;
     padding-bottom: 0.5em;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #008060;
+  }
+
+  &.authentication {
+    box-shadow: none;
+    border: 0.0625rem solid #8C9196;
   }
 `;
 

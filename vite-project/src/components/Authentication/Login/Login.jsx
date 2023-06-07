@@ -4,6 +4,9 @@ import axios from "../../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { homeLink } from "../../../utils/linkConfig";
 import { InvoiceInputsContainer } from "../../Invoice/InvoiceInputs/InvoiceInputs.styled";
+import { LoginStyled, LoginTitle } from "./Login.styled";
+import { Input, InputsForm } from "../../Common/InputField/Input.styled";
+import { DefaultButton } from "../../buttons.styled";
 
 const Login = ({ setShowRegister, setLoginUser }) => {
   const [formData, setFormData] = useState({
@@ -34,7 +37,7 @@ const Login = ({ setShowRegister, setLoginUser }) => {
       const token = response.data.token;
       console.log(token);
       // Zapisz token w localStorage
-      
+
       // Zapisanie danych użytkownika do localStorage po zalogowaniu
       localStorage.setItem("token", token);
       setLoginUser({ token });
@@ -46,38 +49,36 @@ const Login = ({ setShowRegister, setLoginUser }) => {
   };
 
   return (
-    <>
-    <div className="form-container is-flex">
-      <h1 className="form-title">Login</h1>
-      <form className="form is-flex" onSubmit={(e) => onSubmit(e)}>
-        <input
-          className="form-input"
+    <LoginStyled>
+      <LoginTitle>Login</LoginTitle>
+      <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
+        <Input
+          className="authentication"
           type="email"
           placeholder="Email"
           name="email"
           value={email}
           onChange={(e) => onChange(e)}
           required
-          />
-        <input
-          className="form-input"
+        />
+        <Input
+          className="authentication"
           type="password"
           placeholder="Password"
           name="password"
           value={password}
           onChange={(e) => onChange(e)}
           minLength="6"
-          />
-        <button className="form-button" type="submit" value="Login">
+        />
+        <DefaultButton style={{ marginLeft: "0" }} type="submit" value="Login">
           Login
-        </button>
-      </form>
+        </DefaultButton>
+      </InputsForm>
       <p className="form-paragraph is-flex">
         Don't have an account?{" "}
         <button onClick={() => setShowRegister(false)}>Register</button>
       </p>
-    </div>
-          </>
+    </LoginStyled>
   );
 };
 

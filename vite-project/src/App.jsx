@@ -56,7 +56,7 @@ function App() {
     }
   };
   return (
-    <div className="App is-flex">
+    <div className="App">
       <Router>
         <Routes>
           <Route

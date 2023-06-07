@@ -37,7 +37,7 @@ export const DefaultButton = styled.button`
   line-height: 1.133;
   padding: 1em 1.8125em;
   text-decoration: none;
-  margin-left: auto;
+  margin-left: ${(props) => (props.marginLeft ? props.marginLeft : "auto")};
   appearance: none;
 
   @media (min-width: 1199px) {
