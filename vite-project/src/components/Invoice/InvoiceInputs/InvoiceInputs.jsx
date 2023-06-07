@@ -63,7 +63,6 @@ const InvoiceInputs = ({
   const [subtotal, setSubtotal] = useState(0);
   const [notes, setNotes] = useState(invoice?.notes?.notes || "");
   const [showModal, setShowModal] = useState(false);
-
   /*
       This code uses the useEffect hook to calculate the total amount of the products in an invoice 
       whenever the invoice.products.items array changes.
@@ -187,13 +186,16 @@ const InvoiceInputs = ({
     @returns {void}
     */
   const handleAddCard = () => {
-    setNewInvoice({
-      ...invoice,
-      products: {
-        ...invoice.products,
-        items: [...invoice.products.items, {}],
-      },
-    });
+    if (!isInAuthentication) {
+      setNewInvoice({
+        ...invoice,
+        products: {
+          ...invoice.products,
+          items: [...invoice.products.items, {}],
+        },
+      });
+    } else {
+      }
   };
 
   /**
@@ -273,13 +275,13 @@ const InvoiceInputs = ({
       </InputsContent>
       <InfoWrapper title={"Bill to:"}/>
       <InputsContent>
-        <InputsContainer className="full-66">
+        <InputsContainer className="full-33">
           <InputSpan className={isFloating(clientName)}>Client name</InputSpan>
           <Input
             className={isFloating(clientName)}
             type={"text"}
             name={"clientName"}
-            placeholder="Client name"
+            placeholder="Customer's name"
             value={clientName}
             onChange={handleChange}
           />
@@ -307,12 +309,12 @@ const InvoiceInputs = ({
             className={isFloating(clientEmail)}
             type={"email"}
             name={"clientEmail"}
-            placeholder="Client Email"
+            placeholder="Customer's Email"
             value={clientEmail}
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer>
+        <InputsContainer className="full-33">
           <InputSpan className={isFloating(clientPhone)}>
             Client phone
           </InputSpan>
@@ -320,45 +322,34 @@ const InvoiceInputs = ({
             className={isFloating(clientPhone)}
             type={"tel"}
             name={"clientPhone"}
-            placeholder="Client phone"
+            placeholder="Customer's Phone"
             value={clientPhone}
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer>
-          <InputSpan className={isFloating(clientNip)}>NIP</InputSpan>
-          <Input
-            className={isFloating(clientNip)}
-            type={"text"}
-            name={"clientNip"}
-            placeholder="NIP"
-            value={clientNip}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer>
-          <InputSpan className={isFloating(clientRegon)}>REGON</InputSpan>
-          <Input
-            className={isFloating(clientRegon)}
-            type={"text"}
-            name={"clientRegon"}
-            placeholder="REGON"
-            value={clientRegon}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer>
+        <InputsContainer className="full-66">
           <InputSpan className={isFloating(clientAddress)}> Address</InputSpan>
           <Input
             className={isFloating(clientAddress)}
             type={"text"}
             name={"clientAddress"}
-            placeholder="Company's Address"
+            placeholder="Customer's Address"
             value={clientAddress}
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(clientNip)}>NIP</InputSpan>
+          <Input
+            className={isFloating(clientNip)}
+            type={"text"}
+            name={"clientNip"}
+            placeholder="Customer's NIP"
+            value={clientNip}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="full-33">
           <InputSpan className={isFloating(clientCity)}>City</InputSpan>
           <Input
             className={isFloating(clientCity)}
@@ -369,7 +360,7 @@ const InvoiceInputs = ({
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer>
+        <InputsContainer className="full-33">
           <InputSpan className={isFloating(clientPostal)}>Postal</InputSpan>
           <Input
             className={isFloating(clientPostal)}
@@ -380,21 +371,37 @@ const InvoiceInputs = ({
             onChange={handleChange}
           />
         </InputsContainer>
-      </InputsContent>
-      <InputsContent>
-        {invoice?.products.items.map((product, index) => (
-          <ProductCard
-            key={index}
-            index={index}
-            product={product}
-            invoice={invoice}
-            setNewInvoice={setNewInvoice}
-            selectedProduct={selectedProduct}
-            selectedProductIndex={selectedProductIndex}
-            products={products}
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(clientRegon)}>REGON</InputSpan>
+          <Input
+            className={isFloating(clientRegon)}
+            type={"text"}
+            name={"clientRegon"}
+            placeholder="Customer's REGON"
+            value={clientRegon}
+            onChange={handleChange}
           />
-        ))}
+        </InputsContainer>
       </InputsContent>
+      {!isInAuthentication ? (
+        <InputsContent>
+          {invoice?.products.items.map((product, index) => (
+            <ProductCard
+              key={index}
+              index={index}
+              product={product}
+              invoice={invoice}
+              setNewInvoice={setNewInvoice}
+              selectedProduct={selectedProduct}
+              selectedProductIndex={selectedProductIndex}
+              products={products}
+            />
+          ))}
+        </InputsContent>
+      ) : <InputsContent>
+      
+    </InputsContent>
+        }
       <AddButtonWrapper>
           <AddButton onClick={handleAddCard}>
             <IoMdAddCircleOutline size={25} />

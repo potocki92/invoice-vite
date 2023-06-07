@@ -55,7 +55,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
    * @returns
    */
   const updatedProduct = (key, value) => {
-    const updatedProducts = invoice.products.items.map((product, i) => {
+    const updatedProducts = invoice?.products.items.map((product, i) => {
       if (i === index) {
         return {
           ...product,
@@ -68,7 +68,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
     });
     setNewInvoice({
       ...invoice,
-      products: { ...invoice.products, items: updatedProducts },
+      products: { ...invoice?.products, items: updatedProducts },
     });
   };
   /**
@@ -78,7 +78,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
    * @returns
    */
   const handleRemoveProduct = () => {
-    const updateItems = [...invoice.products.items];
+    const updateItems = [...invoice?.products.items];
     updateItems.splice(index, 1);
 
     setNewInvoice({

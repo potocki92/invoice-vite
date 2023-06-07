@@ -5,7 +5,7 @@ import Login from "../Authentication/Login/Login";
 import Register from "../Authentication/Register/Register";
 import InvoiceInputs from "../Invoice/InvoiceInputs/InvoiceInputs";
 import FormsWrapper from "../Common/FormsWrapper/FormsWrapper";
-import { AuthenticationStyled } from "./Authentication.styled";
+import { AuthenticationInputsContent, AuthenticationStyled } from "./Authentication.styled";
 import {
   FormContainer,
   FormHeader,
@@ -47,9 +47,9 @@ const Authentication = ({ setLoginUser }) => {
           </Wrapper>
         </FormContainer>
       </FormsWrapper>
-      <div className="container">
+      <AuthenticationInputsContent>
         <InvoiceInputs isInAuthentication={true} />
-      </div>
+      </AuthenticationInputsContent>
     </AuthenticationStyled>
   );
 };

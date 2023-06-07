@@ -22,6 +22,8 @@ export const InputsContent = styled.div`
 export const InputsContainer = styled.div`
     position: relative;
     display: flex;
+    padding-left: 9px;
+    padding-right: 9px;
     &.mobile-up-25 {
         width: 25%;
     }
