@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { Types, set } from "mongoose";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
@@ -10,6 +10,9 @@ import { homeLink } from "../../utils/linkConfig";
 import { InvoiceContainer } from "./Invoice.styled";
 import InvoicePreview from "../../components/Invoice/InvoicePreview/InvoicePreview";
 import { DefaultButton } from "../../components/buttons.styled";
+import updateDate from "../../utils/updateDate";
+import updateClient from "../../utils/updateClient";
+import updateNotes from "../../utils/updateNotes";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -51,6 +54,46 @@ const Invoices = () => {
   const [products, setProducts] = useState([]);
 
   const [isFormValid, setIsFormValid] = useState(false);
+  const [invoiceNumber, setInvoiceNumber] = useState(
+    new CurrentMonthInvoices(currentMonthInvoices).generateInvoiceNumber(
+      currentMonthInvoices
+    )
+  );
+  const [clientName, setClientName] = useState(
+    newInvoice?.client.clientName || ""
+  );
+  const [clientNip, setClientNip] = useState(
+    newInvoice?.client.clientNip || ""
+  );
+  const [clientRegon, setClientRegon] = useState(
+    newInvoice?.client.clientRegon || ""
+  );
+  const [clientEmail, setClientEmail] = useState(
+    newInvoice?.client.clientEmail || ""
+  );
+  const [clientPhone, setClientPhone] = useState(
+    newInvoice?.client.clientPhone || ""
+  );
+  const [clientCity, setClientCity] = useState(
+    newInvoice?.client.clientCity || ""
+  );
+  const [clientPostal, setClientPostal] = useState(
+    newInvoice?.client.clientPostal || ""
+  );
+  const [clientAddress, setClientAddress] = useState(
+    newInvoice?.client.clientAddress || ""
+  );
+  const [selectedClient, setSelectedClient] = useState(
+    newInvoice?.client || ""
+  );
+  const [dueDate, setDueDate] = useState(newInvoice?.date?.dueDate);
+  const [invoiceDate, setInvoiceDate] = useState(newInvoice?.date?.invoiceDate);
+
+  const [notes, setNotes] = useState(newInvoice?.notes?.notes || "");
+
+  const [total, setTotal] = useState(0);
+  const [productTaxRate, setProductTaxRate] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
   /**
    * Validates whether the new invoice data is valid.
    * @returns {boolean} - true if the form data is valid, false otherwise.
@@ -136,9 +179,9 @@ const Invoices = () => {
   @param {number} currentMonthInvoices - The current month's total number of invoices.
   @returns {string} - The generated invoice number.
   */
-  const invoiceNumber = new CurrentMonthInvoices(
-    currentMonthInvoices
-  ).generateInvoiceNumber(currentMonthInvoices);
+  // const invoiceNumber = new CurrentMonthInvoices(
+  //   currentMonthInvoices
+  // ).generateInvoiceNumber(currentMonthInvoices);
 
   // Sets the new invoice state with the generated invoice number
   useEffect(() => {
@@ -216,6 +259,146 @@ const Invoices = () => {
     setIsFormValid(validateForm());
   }, [newInvoice]);
 
+  const updateInvoiceNumber = (invoiceNumber) => {
+    setNewInvoice({ ...newInvoice, invoiceNumber: invoiceNumber });
+  };
+
+  /**
+   * Handles the change event of the invoice number input.
+   * Sets the invoice number state to the input value.
+   * @param {*} e
+   * @returns {void}
+   */
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    const updateFunctions = {
+      invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
+      clientName: [setClientName, updateClient],
+      clientNip: [setClientNip, updateClient],
+      clientRegon: [setClientRegon, updateClient],
+      clientEmail: [setClientEmail, updateClient],
+      clientPhone: [setClientPhone, updateClient],
+      clientCity: [setClientCity, updateClient],
+      clientPostal: [setClientPostal, updateClient],
+      clientAddress: [setClientAddress, updateClient],
+      dueDate: [setDueDate, updateDate],
+      invoiceDate: [setInvoiceDate, updateDate],
+      notes: [setNotes, updateNotes],
+    };
+
+    const [setFunction, updateFunction] = updateFunctions[name];
+    setFunction(value);
+
+    if (updateFunction === updateDate) {
+      const updateInvoice = updateFunction(name, value, newInvoice);
+      setNewInvoice(updateInvoice);
+    } else if (updateFunction === updateClient) {
+      const updateInvoice = updateFunction(name, value, newInvoice);
+      setNewInvoice(updateInvoice);
+    } else if (updateFunction === updateNotes) {
+      const updateInvoice = updateFunction(name, value, newInvoice);
+      setNewInvoice(updateInvoice);
+    } 
+    else {
+      updateFunction(name, value);
+    }
+  };
+
+  /**
+   * Updates the selected client and invoice state based on the selected client ID.
+   * @param {string} id - The ID of the selected client.
+   * @returns {void}
+   */
+  const handleClientChange = (id) => {
+    const client = clients.find((client) => client._id === id);
+    setSelectedClient(client);
+    setClientName(client.clientName);
+    setClientNip(client.clientNip);
+    setClientRegon(client.clientRegon);
+    setClientEmail(client.clientEmail);
+    setClientPhone(client.clientPhone);
+    setClientCity(client.clientCity);
+    setClientPostal(client.clientPostal);
+    setClientAddress(client.clientAddress);
+    setNewInvoice({
+      ...newInvoice,
+      client: {
+        clientName: client.clientName,
+        clientNip: client.clientNip,
+        clientRegon: client.clientRegon,
+        clientEmail: client.clientEmail,
+        clientPhone: client.clientPhone,
+        clientCity: client.clientCity,
+        clientPostal: client.clientPostal,
+        clientAddress: client.clientAddress,
+      },
+    });
+  };
+
+  /**
+    Adds an empty product item to the invoice's product list.
+    @returns {void}
+    */
+  const handleAddCard = () => {
+    setNewInvoice({
+      ...newInvoice,
+      products: {
+        ...newInvoice.products,
+        items: [...newInvoice.products.items, {}],
+      },
+    });
+  };
+
+  /*
+      This code uses the useEffect hook to calculate the total amount of the products in an invoice 
+      whenever the invoice.products.items array changes.
+  
+      Inside the hook, it first initializes the totalAmount variable to zero. 
+      Then, it checks if the invoice.products.items array exists by using optional chaining (?.). 
+      If it does, it uses the reduce method to iterate over each item in the array and accumulate 
+      the amount property of each item into the totalAmount variable.
+  
+      Finally, the setTotal function is called with the totalAmount value to update the state of the component.
+  
+      This code demonstrates the use of the reduce method to perform a calculation on an array 
+      and how to update the state of a React component using the setTotal function.
+    */
+  useEffect(() => {
+    let totalAmount = 0;
+    let productTaxRate = 0;
+    let subtotal = 0;
+
+    if (newInvoice?.products?.items) {
+      const items = newInvoice.products.items;
+      totalAmount = items.reduce(
+        (accumulator, currentAmount) => accumulator + currentAmount.amount,
+        0
+      );
+      productTaxRate = items.reduce(
+        (accumulator, currentAmount) =>
+          accumulator + currentAmount.productTaxRate,
+        0
+      );
+      subtotal = items.reduce(
+        (accumulator, currentAmount) =>
+          accumulator + currentAmount.productsPrice * currentAmount.productsQty,
+        0
+      );
+      setSubtotal(subtotal);
+      setProductTaxRate(productTaxRate);
+      setTotal(totalAmount);
+      setNewInvoice({
+        ...newInvoice,
+        products: {
+          ...newInvoice.products,
+          totalAmount: totalAmount,
+        },
+      });
+    }
+  }, [newInvoice?.products.items, setTotal]);
+
   return (
     <div className="container section is-flex col">
       <StyledBox>
@@ -227,6 +410,24 @@ const Invoices = () => {
       </StyledBox>
       <InvoiceContainer>
         <InvoiceInputs
+          invoiceNumber={invoiceNumber}
+          clientName={clientName}
+          clientEmail={clientEmail}
+          clientPhone={clientPhone}
+          clientCity={clientCity}
+          clientPostal={clientPostal}
+          clientAddress={clientAddress}
+          clientNip={clientNip}
+          clientRegon={clientRegon}
+          invoiceDate={invoiceDate}
+          dueDate={dueDate}
+          notes={notes}
+          total={total}
+          productTaxRate={productTaxRate}
+          subtotal={subtotal}
+          handleAddCard={handleAddCard}
+          handleClientChange={handleClientChange}
+          handleChange={handleChange}
           invoice={newInvoice}
           setNewInvoice={setNewInvoice}
           clients={clients}
