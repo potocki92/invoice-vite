@@ -14,6 +14,7 @@ import updateDate from "../../utils/updateDate";
 import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
+import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -283,6 +284,15 @@ const Invoices = () => {
     notes: [setNotes, updateNotes],
   };
 
+  /**
+   * Handles the change event of the input fields.
+   * Sets the new invoice state to the input value.
+   * @param {*} e - The event object.
+   * @param {*} updateFunctions - The object containing the update functions.
+   * @param {*} newInvoice - The new invoice state.
+   * @param {*} setNewInvoice - The function to set the new invoice state.
+   * @returns {void} 
+   */
   const handleChange = (e) => {
     handleInputChange(e, updateFunctions, newInvoice, setNewInvoice);
   };
@@ -331,54 +341,15 @@ const Invoices = () => {
     });
   };
 
-  /*
-      This code uses the useEffect hook to calculate the total amount of the products in an invoice 
-      whenever the invoice.products.items array changes.
-  
-      Inside the hook, it first initializes the totalAmount variable to zero. 
-      Then, it checks if the invoice.products.items array exists by using optional chaining (?.). 
-      If it does, it uses the reduce method to iterate over each item in the array and accumulate 
-      the amount property of each item into the totalAmount variable.
-  
-      Finally, the setTotal function is called with the totalAmount value to update the state of the component.
-  
-      This code demonstrates the use of the reduce method to perform a calculation on an array 
-      and how to update the state of a React component using the setTotal function.
-    */
   useEffect(() => {
-    let totalAmount = 0;
-    let productTaxRate = 0;
-    let subtotal = 0;
-
-    if (newInvoice?.products?.items) {
-      const items = newInvoice.products.items;
-      totalAmount = items.reduce(
-        (accumulator, currentAmount) => accumulator + currentAmount.amount,
-        0
-      );
-      productTaxRate = items.reduce(
-        (accumulator, currentAmount) =>
-          accumulator + currentAmount.productTaxRate,
-        0
-      );
-      subtotal = items.reduce(
-        (accumulator, currentAmount) =>
-          accumulator + currentAmount.productsPrice * currentAmount.productsQty,
-        0
-      );
-      setSubtotal(subtotal);
-      setProductTaxRate(productTaxRate);
-      setTotal(totalAmount);
-      setNewInvoice({
-        ...newInvoice,
-        products: {
-          ...newInvoice.products,
-          totalAmount: totalAmount,
-        },
-      });
-    }
-  }, [newInvoice?.products.items, setTotal]);
-
+    calculateInvoiceTotal(newInvoice?.products?.items, setSubtotal,setProductTaxRate, setTotal)
+  }, [newInvoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
+  
+  /**
+   * Updates the product list in the invoice state with the new product list.
+   * @param {object[]} products - The new product list.
+   * @returns {void} 
+   */
   const handleInvoiceNumberChange = (e) => {
     setInvoiceNumber(e.target.value);
   };

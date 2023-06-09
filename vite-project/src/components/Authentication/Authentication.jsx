@@ -20,7 +20,18 @@ import updateDate from "../../utils/updateDate";
 import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
+import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
 
+/**
+ * Authentication component.
+ * @component
+ * @param {function} setLoginUser - Function to set the logged in user.
+ * @returns {JSX.Element}
+ * @example
+ * return (
+ *  <Authentication setLoginUser={setLoginUser} />
+ * )
+ */
 const Authentication = ({ setLoginUser }) => {
   const [invoice, setInvoice] = useState({
     invoiceNumber: "",
@@ -76,9 +87,22 @@ const Authentication = ({ setLoginUser }) => {
     });
   };
 
+  /**
+   * Handles the change of the invoice number.
+   *
+   * @param {Event} e - The change event object containing information about the field value change.
+   * @returns {void}
+   */
   const handleInvoiceNumberChange = (e) => {
     setInvoiceNumber(e.target.value);
   };
+
+  /**
+   * Updates the invoice number.
+   *
+   * @param {string} newInvoiceNumber - The new invoice number.
+   * @returns {void}
+   */
   const updateInvoiceNumber = (newInvoiceNumber) => {
     setInvoice((prevInvoice) => ({
       ...prevInvoice,
@@ -103,10 +127,23 @@ const Authentication = ({ setLoginUser }) => {
     invoiceDate: [setInvoiceDate, updateDate],
     notes: [setNotes, updateNotes],
   };
+
+  /**
+   *  Handles the change event of the invoice inputs.
+   * Sets the invoice state to the input value.
+   * @param {*} e
+   * @param {*} updateFunctions
+   * @param {*} invoice
+   * @param {*} setInvoice
+   * @returns {void}
+   */
   const handleChange = (e) => {
     handleInputChange(e, updateFunctions, invoice, setInvoice);
   };
 
+  useEffect(() => {
+    calculateInvoiceTotal(invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal);
+  }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
   return (
     <AuthenticationStyled>
       <FormsWrapper>

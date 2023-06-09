@@ -17,9 +17,9 @@ const Products = () => {
     _id: new Types.ObjectId(), // wygeneruj nowe ID
     productsName: "",
     qty: 1,
-    productsPrice: 0.0,
+    productsPrice: "",
     amount: 0,
-    productsTax: 0,
+    productsTax: "",
   });
   const token = localStorage.getItem("token");
   const [allProducts, setAllProducts] = useState(
@@ -73,9 +73,9 @@ const Products = () => {
           _id: new Types.ObjectId(), // wygeneruj nowe ID
           productsName: "",
           qty: 1,
-          productsPrice: 0.0,
+          productsPrice: "",
           amount: 0,
-          productsTax: 1,
+          productsTax: "",
         }); // resetujemy dane dotyczące produktu
       })
       .catch((err) => console.error(err));
