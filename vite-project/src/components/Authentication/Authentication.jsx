@@ -40,7 +40,7 @@ const Authentication = ({ setLoginUser }) => {
     },
     client: {},
     products: {
-      items: [],
+      items: [{}],
       totalAmount: 0,
     },
     date: {

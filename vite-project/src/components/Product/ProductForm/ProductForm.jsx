@@ -31,7 +31,7 @@ const ProductForm = ({ newProduct, handleClick, handleChange }) => {
 
   return (
     <InputsForm onSubmit={handleSubmit}>
-      <InputsContainer>
+      <InputsContainer className="full-33">
         <InputSpan className={isFloating(newProduct.productsName)}>
           Product name
         </InputSpan>

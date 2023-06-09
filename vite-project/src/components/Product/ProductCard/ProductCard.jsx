@@ -32,7 +32,7 @@ import {
  * @param {Array} products - The list of products
  * @returns {JSX} - Returns the product card component
  */
-const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
+const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAuthentication }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [productName, setProductName] = useState(product.productsName);
   const [productQty, setProductQty] = useState(product.productsQty);
@@ -195,7 +195,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
   return (
     <ProductCardContainer>
       <InputsContent className="products" style={{ alignItems: "center" }}>
-        <InputsContainer className="mobile-up-2">
+        <InputsContainer className="full-33">
           <InputSpan className={isFloating(productName)}>
             Product name
           </InputSpan>
@@ -206,9 +206,12 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
             value={productName}
             onChange={handleChange}
           />
-          <ModalButton onClick={() => setShowModal(true)}>
-            <HiUsers size={25} />
-          </ModalButton>
+          {!isInAuthentication ? (
+            <ModalButton
+            onClick={() => setShowModal(true)}>
+              <HiUsers size={25} />
+            </ModalButton>
+          ) : null}
           {showModal &&
             createPortal(
               <Modal
@@ -221,6 +224,16 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
               />,
               document.body
             )}
+        </InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(productPrice)}>Price</InputSpan>
+          <Input
+            className={isFloating(productPrice)}
+            name="productsPrice"
+            placeholder="Price"
+            value={productPrice}
+            onChange={handleChange}
+          />
         </InputsContainer>
         <InputsContainer className="mobile-up-1">
           <InputSpan className={isFloating(productQty)}>Quantity</InputSpan>
@@ -243,16 +256,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer className="mobile-up-1">
-          <InputSpan className={isFloating(productPrice)}>Price</InputSpan>
-          <Input
-            className={isFloating(productPrice)}
-            name="productsPrice"
-            placeholder="Price"
-            value={productPrice}
-            onChange={handleChange}
-          />
-        </InputsContainer>
+        
         <InputsContainer className="mobile-up-1">
           <InputSpan className={isFloating(productTaxRate)}>Tax Rate</InputSpan>
           <Input
@@ -270,9 +274,11 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products }) => {
           </div>
         </InputsContainer>
         <InputsContainer className="mobile-up-1">
-          <RemoveButton onClick={handleRemoveProduct}>
-            <HiOutlineMinusCircle size={25} />
-          </RemoveButton>
+          {index > 0 ? (
+            <RemoveButton onClick={handleRemoveProduct}>
+              <HiOutlineMinusCircle size={25} />
+            </RemoveButton>
+          ) : ( null )}
         </InputsContainer>
       </InputsContent>
     </ProductCardContainer>

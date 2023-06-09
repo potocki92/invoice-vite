@@ -237,6 +237,7 @@ const InvoiceInputs = ({
             selectedProduct={selectedProduct}
             selectedProductIndex={selectedProductIndex}
             products={products}
+            isInAuthentication={isInAuthentication}
           />
         ))}
       </InputsContent>

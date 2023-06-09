@@ -38,7 +38,7 @@ const Invoices = () => {
     },
     client: {},
     products: {
-      items: [],
+      items: [{}],
       totalAmount: 0,
     },
     date: {
