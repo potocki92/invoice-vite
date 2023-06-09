@@ -19,6 +19,7 @@ import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
 import updateDate from "../../utils/updateDate";
 import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
+import handleInputChange from "../../utils/handleInputChange";
 
 const Authentication = ({ setLoginUser }) => {
   const [invoice, setInvoice] = useState({
@@ -50,8 +51,8 @@ const Authentication = ({ setLoginUser }) => {
   const [clientCity, setClientCity] = useState("");
   const [clientPostal, setClientPostal] = useState("");
   const [clientAddress, setClientAddress] = useState("");
-  const [dueDate, setDueDate] = useState(invoice.date.dueDate);
-  const [invoiceDate, setInvoiceDate] = useState(invoice.date.invoiceDate);
+  const [dueDate, setDueDate] = useState(invoice?.date?.dueDate);
+  const [invoiceDate, setInvoiceDate] = useState(invoice?.date?.invoiceDate);
 
   const [notes, setNotes] = useState("");
 
@@ -75,44 +76,35 @@ const Authentication = ({ setLoginUser }) => {
     });
   };
 
-  const updateInvoiceNumber = (invoiceNumber) => {
-    setInvoice({ ...invoice, invoiceNumber: invoiceNumber });
+  const handleInvoiceNumberChange = (e) => {
+    setInvoiceNumber(e.target.value);
   };
-
+  const updateInvoiceNumber = (newInvoiceNumber) => {
+    setInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      invoiceNumber: newInvoiceNumber,
+    }));
+  };
+  /**
+   * Handles the change event of the invoice number input.
+   * Sets the invoice number state to the input value.
+   */
+  const updateFunctions = {
+    invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
+    clientName: [setClientName, updateClient],
+    clientNip: [setClientNip, updateClient],
+    clientRegon: [setClientRegon, updateClient],
+    clientEmail: [setClientEmail, updateClient],
+    clientPhone: [setClientPhone, updateClient],
+    clientCity: [setClientCity, updateClient],
+    clientPostal: [setClientPostal, updateClient],
+    clientAddress: [setClientAddress, updateClient],
+    dueDate: [setDueDate, updateDate],
+    invoiceDate: [setInvoiceDate, updateDate],
+    notes: [setNotes, updateNotes],
+  };
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    const updateFunctions = {
-      invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
-      clientName: [setClientName, updateClient],
-      clientNip: [setClientNip, updateClient],
-      clientRegon: [setClientRegon, updateClient],
-      clientEmail: [setClientEmail, updateClient],
-      clientPhone: [setClientPhone, updateClient],
-      clientCity: [setClientCity, updateClient],
-      clientPostal: [setClientPostal, updateClient],
-      clientAddress: [setClientAddress, updateClient],
-      dueDate: [setDueDate, updateDate],
-      invoiceDate: [setInvoiceDate, updateDate],
-      notes: [setNotes, updateNotes],
-    };
-
-    const [setFunction, updateFunction] = updateFunctions[name];
-    setFunction(value);
-
-    if (updateFunction === updateDate) {
-      const updateInvoice = updateFunction(name, value, invoice);
-      setInvoice(updateInvoice);
-    } else if (updateFunction === updateClient) {
-      const updateInvoice = updateFunction(name, value, invoice);
-      setInvoice(updateInvoice);
-    } else if (updateFunction === updateNotes) {
-      const updateInvoice = updateFunction(name, value, invoice);
-      setInvoice(updateInvoice);
-    }
-    else {
-      updateFunction(name, value);
-    }
+    handleInputChange(e, updateFunctions, invoice, setInvoice);
   };
 
   return (
@@ -149,6 +141,7 @@ const Authentication = ({ setLoginUser }) => {
       </FormsWrapper>
       <AuthenticationInputsContent>
         <InvoiceInputs
+          handleInvoiceNumberChange={handleInvoiceNumberChange}
           invoiceNumber={invoiceNumber}
           clientName={clientName}
           clientEmail={clientEmail}

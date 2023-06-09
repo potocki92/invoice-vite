@@ -34,6 +34,7 @@ Component for displaying and editing invoice input fields.
 @returns {JSX.Element} - Rendered component
 */
 const InvoiceInputs = ({
+  handleInvoiceNumberChange,
   invoiceNumber,
   clientName,
   clientEmail,
@@ -75,7 +76,7 @@ const InvoiceInputs = ({
             name="invoiceNumber"
             placeholder="Enter invoice number"
             value={invoiceNumber}
-            onChange={handleChange}
+            onChange={handleInvoiceNumberChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">

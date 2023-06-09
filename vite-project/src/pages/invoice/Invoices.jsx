@@ -264,7 +264,6 @@ const Invoices = () => {
     setNewInvoice({ ...newInvoice, invoiceNumber: invoiceNumber });
   };
 
-  
   /**
    * Handles the change event of the invoice number input.
    * Sets the invoice number state to the input value.
@@ -380,6 +379,9 @@ const Invoices = () => {
     }
   }, [newInvoice?.products.items, setTotal]);
 
+  const handleInvoiceNumberChange = (e) => {
+    setInvoiceNumber(e.target.value);
+  };
   return (
     <div className="container section is-flex col">
       <StyledBox>
@@ -391,6 +393,7 @@ const Invoices = () => {
       </StyledBox>
       <InvoiceContainer>
         <InvoiceInputs
+          handleInvoiceNumberChange={handleInvoiceNumberChange}
           invoiceNumber={invoiceNumber}
           clientName={clientName}
           clientEmail={clientEmail}
