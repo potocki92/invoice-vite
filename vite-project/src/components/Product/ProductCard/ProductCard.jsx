@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./ProductCard.css";
 import {
-  Amount,
-  AmountSpan,
-  
+  InfoCount,
+  InfoCountSpan,
 } from "../../Invoice/InvoiceInputs/InvoiceInputs.styled";
 import { ModalButton } from "../../Common/Modal/Modal.styled";
 import { HiUsers } from "react-icons/hi";
@@ -195,7 +194,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAut
   return (
     <ProductCardContainer>
       <InputsContent className="products" style={{ alignItems: "center" }}>
-        <InputsContainer className="full-33">
+        <InputsContainer className="full-66">
           <InputSpan className={isFloating(productName)}>
             Product name
           </InputSpan>
@@ -225,27 +224,29 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAut
               document.body
             )}
         </InputsContainer>
-        <InputsContainer className="full-33">
+        <InputsContainer className="full-33 full-50">
           <InputSpan className={isFloating(productPrice)}>Price</InputSpan>
           <Input
             className={isFloating(productPrice)}
+            type="number"
             name="productsPrice"
             placeholder="Price"
             value={productPrice}
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer className="mobile-up-1">
+        <InputsContainer className="full-33 full-50">
           <InputSpan className={isFloating(productQty)}>Quantity</InputSpan>
           <Input
             className={isFloating(productQty)}
+            type="number"
             name="productsQty"
             placeholder="Quantity"
             value={productQty}
             onChange={handleChange}
           />
         </InputsContainer>
-        <InputsContainer className="mobile-up-1">
+        <InputsContainer className="full-33 full-50">
           <InputSpan className={isFloating(productTax)}>Tax</InputSpan>
           <Input
             className={isFloating(productTax)}
@@ -257,28 +258,20 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAut
           />
         </InputsContainer>
         
-        <InputsContainer className="mobile-up-1">
-          <InputSpan className={isFloating(productTaxRate)}>Tax Rate</InputSpan>
-          <Input
-            className={isFloating(productTaxRate)}
-            name="productsRateTax"
-            placeholder="Tax Rate"
-            value={isNaN(productTaxRate) ? 0.0 : productTaxRate}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="mobile-up-1">
+        <InputsContainer className="full-33 full-50 productInfo">
           <div>
-            <AmountSpan>Amount</AmountSpan>
-            <Amount>{amount || 0.0}</Amount>
+            <InfoCountSpan>Tax Rate</InfoCountSpan>
+            <InfoCount>{productTaxRate || 0.0}</InfoCount>
           </div>
-        </InputsContainer>
-        <InputsContainer className="mobile-up-1">
+          <div>
+            <InfoCountSpan>Amount</InfoCountSpan>
+            <InfoCount>{amount || 0.0}</InfoCount>
+          </div>
           {index > 0 ? (
             <RemoveButton onClick={handleRemoveProduct}>
               <HiOutlineMinusCircle size={25} />
             </RemoveButton>
-          ) : ( null )}
+          ) : ( <div></div> )}
         </InputsContainer>
       </InputsContent>
     </ProductCardContainer>

@@ -85,7 +85,7 @@ export const TextArea = styled.textarea`
 
 
 
-export const AmountSpan = styled.span`
+export const InfoCountSpan = styled.span`
   position: relative;
   opacity: 1;
   display: block;
@@ -95,7 +95,7 @@ export const AmountSpan = styled.span`
   font-size: 0.8125em;
   color: #42474c;
 `;
-export const Amount = styled.div`
+export const InfoCount = styled.div`
   display: block;
   margin-bottom: 0.625em;
   color: #212326;

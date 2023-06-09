@@ -24,13 +24,20 @@ export const InputsContainer = styled.div`
     display: flex;
     padding-left: 9px;
     padding-right: 9px;
-    &.mobile-up-25 {
-        width: 25%;
-    }
-    &.mobile-up-75 {
-        width: 75%;
+    width: 100%;
+
+    &.full-50 {
+      width: 50%;
     }
 
+    &.productInfo {
+      display: flex;
+        gap: 20px;
+      @media (min-width: 1024px){
+        display: flex;
+        gap: 20px;
+      }
+    }
     @media (min-width: 1024px) {
       &.full-33 {
         width: 33.33%;
@@ -38,6 +45,10 @@ export const InputsContainer = styled.div`
 
       &.full-66 {
         width: 66.66%;
+      }
+
+      &.full-10 {
+        width: 10%;
       }
     }
 `;
