@@ -142,7 +142,15 @@ const Authentication = ({ setLoginUser }) => {
   };
 
   useEffect(() => {
-    calculateInvoiceTotal(invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal);
+    if (invoice?.products?.items?.length > 0) { 
+      calculateInvoiceTotal(invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal);
+    } else {
+      setTotal(0);
+      setSubtotal(0);
+      setProductTaxRate(0);
+    }
+    
+    console.log(total, subtotal, productTaxRate);
   }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
   return (
     <AuthenticationStyled>

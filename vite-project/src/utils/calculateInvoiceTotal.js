@@ -30,16 +30,16 @@
     let subtotal = 0;
   
     if (items) {
-      totalAmount = items.reduce(
+      totalAmount += items.reduce(
         (accumulator, currentAmount) => accumulator + currentAmount.amount,
         0
       );
-      productTaxRate = items.reduce(
+      productTaxRate += items.reduce(
         (accumulator, currentAmount) =>
           accumulator + currentAmount.productTaxRate,
         0
       );
-      subtotal = items.reduce(
+      subtotal += items.reduce(
         (accumulator, currentAmount) =>
           accumulator + currentAmount.productsPrice * currentAmount.productsQty,
         0
