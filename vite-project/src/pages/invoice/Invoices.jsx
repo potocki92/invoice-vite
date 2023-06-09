@@ -13,6 +13,7 @@ import { DefaultButton } from "../../components/buttons.styled";
 import updateDate from "../../utils/updateDate";
 import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
+import handleInputChange from "../../utils/handleInputChange";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -263,49 +264,29 @@ const Invoices = () => {
     setNewInvoice({ ...newInvoice, invoiceNumber: invoiceNumber });
   };
 
+  
   /**
    * Handles the change event of the invoice number input.
    * Sets the invoice number state to the input value.
-   * @param {*} e
-   * @returns {void}
    */
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    const updateFunctions = {
-      invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
-      clientName: [setClientName, updateClient],
-      clientNip: [setClientNip, updateClient],
-      clientRegon: [setClientRegon, updateClient],
-      clientEmail: [setClientEmail, updateClient],
-      clientPhone: [setClientPhone, updateClient],
-      clientCity: [setClientCity, updateClient],
-      clientPostal: [setClientPostal, updateClient],
-      clientAddress: [setClientAddress, updateClient],
-      dueDate: [setDueDate, updateDate],
-      invoiceDate: [setInvoiceDate, updateDate],
-      notes: [setNotes, updateNotes],
-    };
-
-    const [setFunction, updateFunction] = updateFunctions[name];
-    setFunction(value);
-
-    if (updateFunction === updateDate) {
-      const updateInvoice = updateFunction(name, value, newInvoice);
-      setNewInvoice(updateInvoice);
-    } else if (updateFunction === updateClient) {
-      const updateInvoice = updateFunction(name, value, newInvoice);
-      setNewInvoice(updateInvoice);
-    } else if (updateFunction === updateNotes) {
-      const updateInvoice = updateFunction(name, value, newInvoice);
-      setNewInvoice(updateInvoice);
-    } 
-    else {
-      updateFunction(name, value);
-    }
+  const updateFunctions = {
+    invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
+    clientName: [setClientName, updateClient],
+    clientNip: [setClientNip, updateClient],
+    clientRegon: [setClientRegon, updateClient],
+    clientEmail: [setClientEmail, updateClient],
+    clientPhone: [setClientPhone, updateClient],
+    clientCity: [setClientCity, updateClient],
+    clientPostal: [setClientPostal, updateClient],
+    clientAddress: [setClientAddress, updateClient],
+    dueDate: [setDueDate, updateDate],
+    invoiceDate: [setInvoiceDate, updateDate],
+    notes: [setNotes, updateNotes],
   };
 
+  const handleChange = (e) => {
+    handleInputChange(e, updateFunctions, newInvoice, setNewInvoice);
+  };
   /**
    * Updates the selected client and invoice state based on the selected client ID.
    * @param {string} id - The ID of the selected client.

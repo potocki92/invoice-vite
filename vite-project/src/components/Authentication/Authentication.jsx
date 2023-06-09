@@ -16,7 +16,6 @@ import {
   Wrapper,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
 import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
-import { set } from "mongoose";
 import updateDate from "../../utils/updateDate";
 import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
@@ -115,7 +114,7 @@ const Authentication = ({ setLoginUser }) => {
       updateFunction(name, value);
     }
   };
-  
+
   return (
     <AuthenticationStyled>
       <FormsWrapper>
