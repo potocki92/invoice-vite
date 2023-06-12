@@ -31,13 +31,20 @@ import {
  * @param {Array} products - The list of products
  * @returns {JSX} - Returns the product card component
  */
-const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAuthentication }) => {
+const ProductCard = ({
+  index,
+  product,
+  invoice,
+  setNewInvoice,
+  products,
+  isInAuthentication,
+}) => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [productName, setProductName] = useState(product.productsName);
-  const [productQty, setProductQty] = useState(product.productsQty);
-  const [productPrice, setProductPrice] = useState(product.productsPrice);
-  const [productTax, setProductTax] = useState(product.productsTax);
-  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax);
+  const [productQty, setProductQty] = useState(product.productsQty || 1);
+  const [productPrice, setProductPrice] = useState(product.productsPrice || 0);
+  const [productTax, setProductTax] = useState(product.productsTax || 0);
+  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax || 0);
   const [amount, setAmount] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
@@ -105,9 +112,13 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAut
     const updateTaxRate =
       productTax !== 1 ? productQty * productPrice * (productTax / 100) : 0;
     const formattedTaxRate = parseFloat(updateTaxRate.toFixed(2));
-    setProductTaxRate(formattedTaxRate);
+    if (!isNaN(updateTaxRate) && isFinite(updateTaxRate)) {
+      setProductTaxRate(formattedTaxRate);
+    }
     const updateAmount = productQty * productPrice + productTaxRate;
-    setAmount(updateAmount);
+    if (!isNaN(updateAmount) && isFinite(updateAmount)) {
+      setAmount(updateAmount);
+    }
     updatedProduct("productsRateTax", updateTaxRate);
     updatedProduct("amount", updateAmount);
   }, [
@@ -181,13 +192,15 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAut
       setProductQty(value);
       updatedProduct("productsQty", value);
     }
+
     if (name === "productsPrice") {
       setProductPrice(value);
       updatedProduct("productsPrice", value);
     }
+
     if (name === "productsTax") {
-      const numericValue = value;
-      setProductTax(numericValue);
+      setProductTax(value);
+      updatedProduct("productsTax", value);
     }
   };
 
@@ -206,8 +219,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAut
             onChange={handleChange}
           />
           {!isInAuthentication ? (
-            <ModalButton
-            onClick={() => setShowModal(true)}>
+            <ModalButton onClick={() => setShowModal(true)}>
               <HiUsers size={25} />
             </ModalButton>
           ) : null}
@@ -257,7 +269,7 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAut
             onChange={handleChange}
           />
         </InputsContainer>
-        
+
         <InputsContainer className="full-33 full-50 productInfo">
           <div>
             <InfoCountSpan>Tax Rate</InfoCountSpan>
@@ -271,7 +283,9 @@ const ProductCard = ({ index, product, invoice, setNewInvoice, products, isInAut
             <RemoveButton onClick={handleRemoveProduct}>
               <HiOutlineMinusCircle size={25} />
             </RemoveButton>
-          ) : ( <div></div> )}
+          ) : (
+            <div></div>
+          )}
         </InputsContainer>
       </InputsContent>
     </ProductCardContainer>

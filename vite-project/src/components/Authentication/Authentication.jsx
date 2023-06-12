@@ -40,7 +40,15 @@ const Authentication = ({ setLoginUser }) => {
     },
     client: {},
     products: {
-      items: [{}],
+      items: [
+        {
+          amount: 0,
+          productTax: 0,
+          productTaxRate: 0,
+          productsPrice: 0.0,
+          productsQty: 1,
+        },
+      ],
       totalAmount: 0,
     },
     date: {
@@ -48,6 +56,7 @@ const Authentication = ({ setLoginUser }) => {
       invoiceDate: new Date().toISOString().substring(0, 10),
     },
   });
+
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [invoiceNumber, setInvoiceNumber] = useState(
     new CurrentMonthInvoices(currentMonthInvoices).generateInvoiceNumber(
@@ -67,7 +76,7 @@ const Authentication = ({ setLoginUser }) => {
 
   const [notes, setNotes] = useState("");
 
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(0.0);
   const [productTaxRate, setProductTaxRate] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [showRegister, setShowRegister] = useState(true);
@@ -82,7 +91,16 @@ const Authentication = ({ setLoginUser }) => {
       ...invoice,
       products: {
         ...invoice.products,
-        items: [...invoice.products.items, {}],
+        items: [
+          ...invoice.products.items,
+          {
+            productTaxRate: 0,
+            productTax: 0,
+            productsPrice: 0.0,
+            productsQty: 1,
+            amount: 0,
+          },
+        ],
       },
     });
   };
@@ -142,14 +160,19 @@ const Authentication = ({ setLoginUser }) => {
   };
 
   useEffect(() => {
-    if (invoice?.products?.items?.length > 0) { 
-      calculateInvoiceTotal(invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal);
+    if (invoice?.products?.items?.length > 0) {
+      calculateInvoiceTotal(
+        invoice?.products?.items,
+        setSubtotal,
+        setProductTaxRate,
+        setTotal
+      );
     } else {
       setTotal(0);
       setSubtotal(0);
       setProductTaxRate(0);
     }
-    
+
     console.log(total, subtotal, productTaxRate);
   }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
   return (
