@@ -65,6 +65,7 @@ const InvoiceInputs = ({
   
   return (
     <InvoiceInputsContainer>
+      <InfoWrapper title={"Invoice:"} />
       <InputsContent>
         <InputsContainer className="full-33">
           <InputSpan className={isFloating(invoiceNumber)}>
@@ -210,6 +211,7 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
       </InputsContent>
+      <InfoWrapper title={"Products:"} />
       {!isInAuthentication ? (
         <InputsContent>
           {invoice?.products.items.map((product, index) => (
