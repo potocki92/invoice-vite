@@ -21,6 +21,9 @@ import {
   InputSpan,
 } from "../../Common/InputField/Input.styled";
 import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
+import InvoicePDF from "../InvoicePDF/InvoicePDF";
+import { Link } from "react-router-dom";
+import { homeLink } from "../../../utils/linkConfig";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -60,9 +63,11 @@ const InvoiceInputs = ({
   selectedProductIndex,
   handleClientChange,
   isInAuthentication,
+  handleClick,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  
+  const [pdfGenerated, setPdfGenerated] = useState(false);
+
   return (
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
@@ -214,6 +219,24 @@ const InvoiceInputs = ({
       <InfoWrapper title={"Products:"} />
       {!isInAuthentication ? (
         <InputsContent>
+          {invoice &&
+            invoice.products &&
+            invoice.products.items &&
+            invoice?.products?.items.map((product, index) => (
+              <ProductCard
+                key={index}
+                index={index}
+                product={product}
+                invoice={invoice}
+                setNewInvoice={setNewInvoice}
+                selectedProduct={selectedProduct}
+                selectedProductIndex={selectedProductIndex}
+                products={products}
+              />
+            ))}
+        </InputsContent>
+      ) : (
+        <InputsContent>
           {invoice?.products.items.map((product, index) => (
             <ProductCard
               key={index}
@@ -224,25 +247,10 @@ const InvoiceInputs = ({
               selectedProduct={selectedProduct}
               selectedProductIndex={selectedProductIndex}
               products={products}
+              isInAuthentication={isInAuthentication}
             />
           ))}
         </InputsContent>
-      ) : (
-        <InputsContent>
-        {invoice?.products.items.map((product, index) => (
-          <ProductCard
-            key={index}
-            index={index}
-            product={product}
-            invoice={invoice}
-            setNewInvoice={setNewInvoice}
-            selectedProduct={selectedProduct}
-            selectedProductIndex={selectedProductIndex}
-            products={products}
-            isInAuthentication={isInAuthentication}
-          />
-        ))}
-      </InputsContent>
       )}
       <AddButtonWrapper>
         <AddButton onClick={handleAddCard}>
@@ -268,9 +276,17 @@ const InvoiceInputs = ({
             subtotal={subtotal}
           />
         </InputsContainer>
-        <InputsContainer>
-          <DefaultButton className="submit">Submit</DefaultButton>
-        </InputsContainer>
+        <Link to={homeLink}>
+          {pdfGenerated ? (
+            <InvoicePDF invoice={invoice} />
+          ) : (
+            <InputsContainer>
+              <DefaultButton className="submit" onClick={handleClick}>
+                Submit
+              </DefaultButton>
+            </InputsContainer>
+          )}
+        </Link>
       </InputsContent>
     </InvoiceInputsContainer>
   );

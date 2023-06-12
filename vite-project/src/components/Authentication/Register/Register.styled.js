@@ -1,19 +1,19 @@
 import styled from "styled-components";
 
-export const AuthFormStyled = styled.div`
+export const RegisterStyled = styled.div`
 display: flex;
 flex-direction: column;
 width: 100%;
 `;
 
-export const AuthFormTitle = styled.h1`
+export const LoginTitle = styled.h1`
   font-size: 1.5rem;
   line-height: 1.2em;
   margin-bottom: 1rem;
   font-weight: 500;
 `;
 
-export const AuthFormText = styled.p`
+export const LoginText = styled.p`
   margin-top: 1.5rem;
   display: flex;
   gap: 0.5rem;

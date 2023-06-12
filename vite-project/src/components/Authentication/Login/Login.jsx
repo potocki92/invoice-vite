@@ -3,9 +3,13 @@ import "./Login.css";
 import axios from "../../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { homeLink } from "../../../utils/linkConfig";
-import { InvoiceInputsContainer } from "../../Invoice/InvoiceInputs/InvoiceInputs.styled";
-import { LoginStyled, LoginText, LoginTitle } from "./Login.styled";
-import { Input, InputSpan, InputsContainer, InputsForm } from "../../Common/InputField/Input.styled";
+import { AuthFormStyled, AuthFormText, AuthFormTitle } from "./Login.styled";
+import {
+  Input,
+  InputSpan,
+  InputsContainer,
+  InputsForm,
+} from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
 import isFloating from "../../../utils/isFloating";
 
@@ -48,42 +52,52 @@ const Login = ({ setShowRegister, setLoginUser }) => {
   };
 
   return (
-    <LoginStyled>
-      <LoginTitle>Login</LoginTitle>
+    <AuthFormStyled>
+      <AuthFormTitle>Login</AuthFormTitle>
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         <InputsContainer>
           <InputSpan className={isFloating(formData.email)}>Email</InputSpan>
           <Input
-            className={isFloating(formData.email) ? `authentication floating` : `authentication`} 
+            className={
+              isFloating(formData.email)
+                ? `authentication floating`
+                : `authentication`
+            }
             type="email"
             placeholder="Email"
             name="email"
             value={email}
             onChange={(e) => onChange(e)}
             required
-            />
+          />
         </InputsContainer>
         <InputsContainer>
-          <InputSpan className={isFloating(formData.password)}>Password</InputSpan>
+          <InputSpan className={isFloating(formData.password)}>
+            Password
+          </InputSpan>
           <Input
-            className={isFloating(formData.password) ? `authentication floating` : `authentication`}
+            className={
+              isFloating(formData.password)
+                ? `authentication floating`
+                : `authentication`
+            }
             type="password"
             placeholder="Password"
             name="password"
             value={password}
             onChange={(e) => onChange(e)}
             minLength="6"
-            />
+          />
         </InputsContainer>
         <DefaultButton style={{ marginLeft: "0" }} type="submit" value="Login">
           Login
         </DefaultButton>
       </InputsForm>
-      <LoginText>
+      <AuthFormText>
         Don't have an account?{" "}
         <a onClick={() => setShowRegister(false)}>Register</a>
-      </LoginText>
-    </LoginStyled>
+      </AuthFormText>
+    </AuthFormStyled>
   );
 };
 
