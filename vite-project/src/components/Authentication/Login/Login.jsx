@@ -1,19 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Login.css";
 import axios from "../../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { homeLink } from "../../../utils/linkConfig";
 import { AuthFormStyled, AuthFormText, AuthFormTitle } from "./Login.styled";
-import {
-  Input,
-  InputSpan,
-  InputsContainer,
-  InputsForm,
-} from "../../Common/InputField/Input.styled";
+// import {
+//   Input,
+//   InputSpan,
+//   InputsContainer,
+//   InputsForm,
+// } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
 import isFloating from "../../../utils/isFloating";
+import {
+  BoxContainer,
+  BoldLink,
+  FormContainer,
+  Input,
+  MutedLink,
+  SubmitButton,
+} from "../../Common/FormsWrapper/FormsWrapper.styled";
+import { AccountContext } from "../accountContext";
+import { Marginer } from "../marginer";
 
-const Login = ({ setShowRegister, setLoginUser }) => {
+const Login = ({ props }) => {
+
+  const { switchToSignup } = useContext(AccountContext)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -52,8 +64,8 @@ const Login = ({ setShowRegister, setLoginUser }) => {
   };
 
   return (
-    <AuthFormStyled>
-      <AuthFormTitle>Login</AuthFormTitle>
+    <BoxContainer>
+      {/* <AuthFormTitle>Login</AuthFormTitle>
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         <InputsContainer>
           <InputSpan className={isFloating(formData.email)}>Email</InputSpan>
@@ -96,8 +108,24 @@ const Login = ({ setShowRegister, setLoginUser }) => {
       <AuthFormText>
         Don't have an account?{" "}
         <a onClick={() => setShowRegister(false)}>Register</a>
-      </AuthFormText>
-    </AuthFormStyled>
+      </AuthFormText> */}
+
+      <FormContainer>
+        <Input type="email" placeholder="Email" />
+        <Input type="password" placeholder="Password" />
+      </FormContainer>
+      <Marginer direction="vertical" margin={10} />
+      <MutedLink href="#">Forget your password?</MutedLink>
+      <Marginer direction="vertical" margin="1.6em" />
+      <SubmitButton type="submit">Signin</SubmitButton>
+      <Marginer direction="vertical" margin="1em" />
+      <MutedLink href="#">
+        Don't have an accoun?{" "}
+        <BoldLink href="#" onClick={switchToSignup}>
+          Signup
+        </BoldLink>
+      </MutedLink>
+    </BoxContainer>
   );
 };
 

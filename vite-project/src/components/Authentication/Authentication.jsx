@@ -4,16 +4,20 @@ import "./Authentication.css";
 import Login from "../Authentication/Login/Login";
 import Register from "../Authentication/Register/Register";
 import InvoiceInputs from "../Invoice/InvoiceInputs/InvoiceInputs";
-import FormsWrapper from "../Common/FormsWrapper/FormsWrapper";
 import {
   AuthenticationInputsContent,
   AuthenticationStyled,
 } from "./Authentication.styled";
 import {
-  FormContainer,
-  FormHeader,
-  FormTitle,
-  Wrapper,
+  SmallText,
+  BackDrop,
+  HeaderContainer,
+  HeaderText,
+  TopContainer,
+  BoxContainer,
+  expandingTransition,
+  InnerContainer,
+  backdropVariants,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
 import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
 import updateDate from "../../utils/updateDate";
@@ -21,6 +25,7 @@ import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
 import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
+import { AccountContext } from "./accountContext";
 
 /**
  * Authentication component.
@@ -81,6 +86,31 @@ const Authentication = ({ setLoginUser }) => {
   const [subtotal, setSubtotal] = useState(0);
   const [showRegister, setShowRegister] = useState(true);
 
+  const [isExpanded, setExpanded] = useState(false);
+  const [active, setActive] = useState("signin");
+
+  const playExpandingAnimation = () => {
+    setExpanded(true);
+    setTimeout(() => {
+      setExpanded(false);
+    }, expandingTransition.duration * 1000 - 1500);
+  };
+
+  const switchToSignup = () => {
+    playExpandingAnimation();
+    setTimeout(() => {
+      setActive("signup");
+    }, 400);
+  };
+
+  const switchToSignin = () => {
+    playExpandingAnimation();
+    setTimeout(() => {
+      setActive("signin");
+    }, 400);
+  };
+
+  const contextValue = { switchToSignup, switchToSignin };
   /**
     Adds an empty product item to the invoice's product list.
     @returns {void}
@@ -177,36 +207,49 @@ const Authentication = ({ setLoginUser }) => {
   }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
   return (
     <AuthenticationStyled>
-      <FormsWrapper>
-        <FormContainer>
-          <Wrapper>
-            <FormHeader>
-              <FormTitle>Invoice</FormTitle>
-            </FormHeader>
-            <CSSTransition
-              in={showRegister}
-              timeout={300}
-              classNames="form"
-              unmountOnExit
-              onExit={() => setShowRegister(false)}
-            >
-              <Login
-                setShowRegister={setShowRegister}
-                setLoginUser={setLoginUser}
-              />
-            </CSSTransition>
-            <CSSTransition
-              in={!showRegister}
-              timeout={300}
-              classNames="form"
-              unmountOnExit
-              onExit={() => setShowRegister(true)}
-            >
-              <Register setShowRegister={setShowRegister} />
-            </CSSTransition>
-          </Wrapper>
-        </FormContainer>
-      </FormsWrapper>
+      <div class="custom-shape-divider-bottom-1686686263">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+            class="shape-fill"
+          ></path>
+        </svg>
+      </div>
+      <AccountContext.Provider value={contextValue}>
+        <BoxContainer>
+          <TopContainer>
+            <BackDrop
+              initial={false}
+              animate={isExpanded ? "expanded" : "collapsed"}
+              variants={backdropVariants}
+              transition={expandingTransition}
+            />
+            {active === "signin" && (
+              <HeaderContainer>
+                <HeaderText>Welcome</HeaderText>
+                <HeaderText>Back</HeaderText>
+                <SmallText>Please sign-in to continue!</SmallText>
+              </HeaderContainer>
+            )}
+            {active === "signup" && (
+              <HeaderContainer>
+                <HeaderText>Create</HeaderText>
+                <HeaderText>Account</HeaderText>
+                <SmallText>Please sign-up to continue!</SmallText>
+              </HeaderContainer>
+            )}
+          </TopContainer>
+          <InnerContainer>
+            {active === "signin" && <Login />}
+            {active === "signup" && <Register />}
+          </InnerContainer>
+        </BoxContainer>
+      </AccountContext.Provider>
       <AuthenticationInputsContent>
         <InvoiceInputs
           handleInvoiceNumberChange={handleInvoiceNumberChange}

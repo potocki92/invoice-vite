@@ -1,90 +1,172 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-export const FormsWrapperStyled = styled.div`
-  background: linear-gradient(153.13deg, #c7edec 10.04%, #eefab3 91.46%),
-    #e5fbba;
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-bottom: 15rem;
-
-  @media (min-width: 1025px) {
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-  }
-
-  @media (min-width: 500px) {
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-  }
-`;
-
-export const FormContainer = styled.div`
+export const BoxContainer = styled.div`
+  width: 280px;
+  min-height: 550px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  padding: 2.5rem;
+  border-radius: 19px;
   background-color: #fff;
-  @media screen and (min-width: 1024px) {
-    margin-left: 10vw;
-    margin-right: 10vw;
-    border-radius: 8px;
-    max-width: 34rem;
-    max-height: 40rem;
-    -webkit-box-shadow: 6px 12px 60px rgba(0, 0, 0, 0.2);
-    box-shadow: 6px 12px 60px rgba(0, 0, 0, 0.2);
-  }
-
-  @media (min-width: 500px) {
-    width: 100%;
-  }
-`;
-
-export const Wrapper = styled.div`
+  box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
   position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media (min-width: 1025px) {
-  }
-`;
-export const FormHeader = styled.div`
-  margin-bottom: 5.5rem;
-  position: absolute;
-  top: 0;
-  left: 0;
+  overflow: hidden;
 `;
 
-export const FormTitle = styled.h1`
-  width: 7.3125rem;
-  font-size: 2rem;
-  line-height: 1;
+export const TopContainer = styled.div`
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 1.8em;
+  padding-bottom: 5em;
+`;
+
+export const BackDrop = styled(motion.div)`
+  width: 160%;
+  height: 550px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  transform: rotate(60deg);
+  top: -290px;
+  left: -70px;
+  background: rgb(241, 196, 15);
+  background: linear-gradient(
+    58deg,
+    rgba(241, 196, 15, 1) 20%,
+    rgba(243, 172, 18, 1) 100%
+  );
+  z-index: 1;
+`;
+
+export const HeaderContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const HeaderText = styled.h2`
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.24;
+  color: #fff;
+  z-index: 10;
+  margin: 0;
+`;
+
+export const SmallText = styled.h5`
+  color: #fff;
+  font-weight: 500;
+  font-size: 11px;
+  z-index: 10;
+  margin: 0;
+  margin-top: 7px;
+`;
+
+export const InnerContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.8em;
+`;
+
+export const backdropVariants = {
+  expanded: {
+    width: "233%",
+    height: "1050px",
+    borderRadius: "20%",
+    transform: "rotate(60deg)",
+  },
+  collapsed: {
+    width: "160%",
+    height: "550px",
+    borderRadius: "50%",
+    transform: "rotate(60deg)",
+  },
+};
+
+export const expandingTransition = {
+  type: "spring",
+  duration: 2.3,
+  stiffness: 30,
+};
+
+
+export const AccountBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+export const FormContainer = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 2.5px rgba(15, 15, 15, 0.19);
+`;
+
+export const MutedLink = styled.a`
+  font-size: 11px;
+  color: rgba(200, 200, 200, 0.8);
+  font-weight: 500;
+  text-decoration: none;
+`;
+
+export const BoldLink = styled.a`
+  font-size: 11px;
+  color: rgb(241, 196, 15);
+  font-weight: 500;
+  text-decoration: none;
+  margin: 0 4px;
+`;
+
+export const Input = styled.input`
+  width: 100%;
+  height: 42px;
+  outline: none;
+  border: 1px solid rgba(200, 200, 200, 0.3);
+  padding: 0px 10px;
+  border-bottom: 1.4px solid transparent;
+  transition: all 200ms ease-in-out;
+  font-size: 12px;
+
+  &::placeholder {
+    color: rgba(200, 200, 200, 1);
+  }
+
+  &:not(:last-of-type) {
+    border-bottom: 1.5px solid rgba(200, 200, 200, 0.4);
+  }
+
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(241, 196, 15);
+  }
+`;
+
+export const SubmitButton = styled.button`
+  width: 100%;
+  padding: 11px 40%;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px 100px 100px 100px;
+  cursor: pointer;
+  transition: all, 240ms ease-in-out;
+  background: rgb(241, 196, 15);
+  background: linear-gradient(
+    58deg,
+    rgba(241, 196, 15, 1) 20%,
+    rgba(243, 172, 18, 1) 100%
+  );
+
+  &:hover {
+    filter: brightness(1.03);
+  }
 `;
