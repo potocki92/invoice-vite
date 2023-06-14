@@ -102,10 +102,10 @@ const Invoices = () => {
    */
   const validateForm = () => {
     if (
-      newInvoice?.invoiceNumber === "" ||
-      Object.keys(newInvoice?.client)?.length === 0 ||
-      newInvoice?.products?.items?.length === 0 ||
-      Object.keys(newInvoice?.date)?.length === 0
+      newInvoice.invoiceNumber === "" ||
+      Object.keys(newInvoice.client).length === 0 ||
+      newInvoice.products.items.length === 0 ||
+      Object.keys(newInvoice.date).length === 0
     ) {
       return false;
     }
@@ -353,7 +353,6 @@ const Invoices = () => {
   const handleInvoiceNumberChange = (e) => {
     setInvoiceNumber(e.target.value);
   };
-  
   return (
     <div className="container section is-flex col">
       <StyledBox>
@@ -390,18 +389,25 @@ const Invoices = () => {
           products={products}
           selectedProduct={selectedProduct}
           selectedProductIndex={selectedProductIndex}
-          handleClick={handleClick}
         />
         <InvoicePreview invoice={newInvoice} />
-        <InvoicePDF
+        {/* <InvoicePDF
           invoice={newInvoice}
           setNewInvoice={setNewInvoice}
           clients={clients}
           products={products}
           selectedProduct={selectedProduct}
           selectedProductIndex={selectedProductIndex}
-        />
+        /> */}
       </InvoiceContainer>
+      <Link
+        to={homeLink}
+        onClick={isFormValid ? null : (e) => e.preventDefault()}
+      >
+        <button className="button mark__as-btn" onClick={handleClick}>
+          Create Invoice
+        </button>
+      </Link>
     </div>
   );
 };

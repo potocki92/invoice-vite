@@ -4,20 +4,16 @@ import "./Authentication.css";
 import Login from "../Authentication/Login/Login";
 import Register from "../Authentication/Register/Register";
 import InvoiceInputs from "../Invoice/InvoiceInputs/InvoiceInputs";
+import FormsWrapper from "../Common/FormsWrapper/FormsWrapper";
 import {
   AuthenticationInputsContent,
   AuthenticationStyled,
 } from "./Authentication.styled";
 import {
-  SmallText,
-  BackDrop,
-  HeaderContainer,
-  HeaderText,
-  TopContainer,
-  BoxContainer,
-  expandingTransition,
-  InnerContainer,
-  backdropVariants,
+  FormContainer,
+  FormHeader,
+  FormTitle,
+  Wrapper,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
 import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
 import updateDate from "../../utils/updateDate";
@@ -25,7 +21,6 @@ import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
 import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
-import { AccountContext } from "./accountContext";
 
 /**
  * Authentication component.
@@ -86,31 +81,6 @@ const Authentication = ({ setLoginUser }) => {
   const [subtotal, setSubtotal] = useState(0);
   const [showRegister, setShowRegister] = useState(true);
 
-  const [isExpanded, setExpanded] = useState(false);
-  const [active, setActive] = useState("signin");
-
-  const playExpandingAnimation = () => {
-    setExpanded(true);
-    setTimeout(() => {
-      setExpanded(false);
-    }, expandingTransition.duration * 1000 - 1500);
-  };
-
-  const switchToSignup = () => {
-    playExpandingAnimation();
-    setTimeout(() => {
-      setActive("signup");
-    }, 400);
-  };
-
-  const switchToSignin = () => {
-    playExpandingAnimation();
-    setTimeout(() => {
-      setActive("signin");
-    }, 400);
-  };
-
-  const contextValue = { switchToSignup, switchToSignin };
   /**
     Adds an empty product item to the invoice's product list.
     @returns {void}
@@ -220,36 +190,36 @@ const Authentication = ({ setLoginUser }) => {
           ></path>
         </svg>
       </div>
-      <AccountContext.Provider value={contextValue}>
-        <BoxContainer>
-          <TopContainer>
-            <BackDrop
-              initial={false}
-              animate={isExpanded ? "expanded" : "collapsed"}
-              variants={backdropVariants}
-              transition={expandingTransition}
-            />
-            {active === "signin" && (
-              <HeaderContainer>
-                <HeaderText>Welcome</HeaderText>
-                <HeaderText>Back</HeaderText>
-                <SmallText>Please sign-in to continue!</SmallText>
-              </HeaderContainer>
-            )}
-            {active === "signup" && (
-              <HeaderContainer>
-                <HeaderText>Create</HeaderText>
-                <HeaderText>Account</HeaderText>
-                <SmallText>Please sign-up to continue!</SmallText>
-              </HeaderContainer>
-            )}
-          </TopContainer>
-          <InnerContainer>
-            {active === "signin" && <Login />}
-            {active === "signup" && <Register />}
-          </InnerContainer>
-        </BoxContainer>
-      </AccountContext.Provider>
+      <FormsWrapper>
+        <FormContainer>
+          <Wrapper>
+            <FormHeader>
+              <FormTitle>Invoice</FormTitle>
+            </FormHeader>
+            <CSSTransition
+              in={showRegister}
+              timeout={300}
+              classNames="form"
+              unmountOnExit
+              onExit={() => setShowRegister(false)}
+            >
+              <Login
+                setShowRegister={setShowRegister}
+                setLoginUser={setLoginUser}
+              />
+            </CSSTransition>
+            <CSSTransition
+              in={!showRegister}
+              timeout={300}
+              classNames="form"
+              unmountOnExit
+              onExit={() => setShowRegister(true)}
+            >
+              <Register setShowRegister={setShowRegister} />
+            </CSSTransition>
+          </Wrapper>
+        </FormContainer>
+      </FormsWrapper>
       <AuthenticationInputsContent>
         <InvoiceInputs
           handleInvoiceNumberChange={handleInvoiceNumberChange}

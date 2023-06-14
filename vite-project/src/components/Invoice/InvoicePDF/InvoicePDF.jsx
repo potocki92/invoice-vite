@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 /*
   Page, Text, View: These are components and functions provided by the "@react-pdf/renderer" package used for generating a PDF document in a React application.
-*/
+*/ 
 import ReactToPdf from "react-to-pdf";
 import { Page, Text, View } from "@react-pdf/renderer";
 import "./InvoicePDF.css";
@@ -21,13 +21,8 @@ import { GeneratePDF } from "./InvoicePDF.styled";
   @param {object} invoice - Object containing data to be displayed on the PDF document.
   @returns {JSX.Element} Returns a React component.
  */
-const InvoicePDF = ({ invoice, pdfGenerated }) => {
+const InvoicePDF = ({ invoice }) => {
   const ref = useRef();
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  const handleGeneratePDF = () => {
-    pdfGenerated(re)
-  };
 
   const pdfComponent = (
     <Page size="A4" className="page invoice-wrapper">
@@ -154,15 +149,10 @@ const InvoicePDF = ({ invoice, pdfGenerated }) => {
 
   return (
     <div ref={ref}>
-        <>
-          {pdfComponent}
-          <ReactToPdf targetRef={ref} filename="invoice.pdf">
-            {({ toPdf }) => (
-              <GeneratePDF onClick={toPdf}>Generate PDF</GeneratePDF>
-            )}
-          </ReactToPdf>
-        </>
-      
+      {pdfComponent}
+      <ReactToPdf targetRef={ref} filename="invoice.pdf">
+        {({ toPdf }) => <GeneratePDF onClick={toPdf}>Generate PDF</GeneratePDF>}
+      </ReactToPdf>
     </div>
   );
 };

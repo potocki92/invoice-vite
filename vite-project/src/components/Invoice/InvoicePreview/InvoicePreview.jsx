@@ -128,7 +128,7 @@ const InvoicePreview = ({ invoice }) => {
         </InvoicePreviewWrapper>
       </InvoicePreviewContent>
       {/* Invoice preview products */}
-      {invoice?.products?.items?.map((product) => (
+      {invoice.products?.items.map((product) => (
         <InvoicePreviewContent
           key={product.id}
           padding={styles.productPadding}
@@ -187,9 +187,9 @@ const InvoicePreview = ({ invoice }) => {
             </InvoicePreviewWrapper>
             <InvoicePreviewWrapper width="50%" padding={"5px"}>
               <InvoicePreviewText textAlign="right" fontSize="0.75rem">
-                {isNaN(invoice?.products?.totalAmount)
+                {isNaN(invoice.products?.totalAmount)
                   ? "0.00"
-                  : invoice?.products?.totalAmount}
+                  : invoice.products?.totalAmount}
               </InvoicePreviewText>
             </InvoicePreviewWrapper>
           </InvoicePreviewWrapper>
