@@ -9,7 +9,7 @@ import { Input, InputSpan, InputsContainer, InputsForm } from "../../Common/Inpu
 import { DefaultButton } from "../../buttons.styled";
 import isFloating from "../../../utils/isFloating";
 
-const Login = ({ props }) => {
+const Login = ({ setLoginUser }) => {
 
   const [formData, setFormData] = useState({
     email: "",

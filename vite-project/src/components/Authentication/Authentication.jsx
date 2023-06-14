@@ -21,6 +21,7 @@ import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
 import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
+import updateUser from "../../utils/updateUser";
 
 /**
  * Authentication component.
@@ -63,6 +64,15 @@ const Authentication = ({ setLoginUser }) => {
       currentMonthInvoices
     )
   );
+  const [companyName, setCompanyName] = useState("");
+  const [companyNip, setCompanyNip] = useState("");
+  const [companyRegon, setCompanyRegon] = useState("");
+  const [companyEmail, setCompanyEmail] = useState("");
+  const [companyPhone, setCompanyPhone] = useState("");
+  const [companyCity, setCompanyCity] = useState("");
+  const [companyPostal, setCompanyPostal] = useState("");
+  const [companyAddress, setCompanyAddress] = useState("");
+
   const [clientName, setClientName] = useState("");
   const [clientNip, setClientNip] = useState("");
   const [clientRegon, setClientRegon] = useState("");
@@ -133,6 +143,14 @@ const Authentication = ({ setLoginUser }) => {
    */
   const updateFunctions = {
     invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
+    companyName: [setCompanyName, updateUser],
+    companyEmail: [setCompanyEmail, updateUser],
+    companyPhone: [setCompanyPhone, updateUser],
+    companyCity: [setCompanyCity, updateUser],
+    companyPostal: [setCompanyPostal, updateUser],
+    companyAddress: [setCompanyAddress, updateUser],
+    companyNip: [setCompanyNip, updateUser],
+    companyRegon: [setCompanyRegon, updateUser],
     clientName: [setClientName, updateClient],
     clientNip: [setClientNip, updateClient],
     clientRegon: [setClientRegon, updateClient],
@@ -224,6 +242,14 @@ const Authentication = ({ setLoginUser }) => {
         <InvoiceInputs
           handleInvoiceNumberChange={handleInvoiceNumberChange}
           invoiceNumber={invoiceNumber}
+          companyName={companyName}
+          companyEmail={companyEmail}
+          companyPhone={companyPhone}
+          companyCity={companyCity}
+          companyPostal={companyPostal}
+          companyAddress={companyAddress}
+          companyNip={companyNip}
+          companyRegon={companyRegon}
           clientName={clientName}
           clientEmail={clientEmail}
           clientPhone={clientPhone}

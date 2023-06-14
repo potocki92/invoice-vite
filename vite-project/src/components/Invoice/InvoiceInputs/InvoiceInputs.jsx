@@ -36,6 +36,14 @@ Component for displaying and editing invoice input fields.
 const InvoiceInputs = ({
   handleInvoiceNumberChange,
   invoiceNumber,
+  companyName,
+  companyEmail,
+  companyAddress,
+  companyCity,
+  companyPostal,
+  companyPhone,
+  companyNip,
+  companyRegon,
   clientName,
   clientEmail,
   clientPhone,
@@ -62,7 +70,7 @@ const InvoiceInputs = ({
   isInAuthentication,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  
+
   return (
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
@@ -97,6 +105,101 @@ const InvoiceInputs = ({
             type="date"
             name="dueDate"
             value={dueDate}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+      </InputsContent>
+      <InfoWrapper title={"Bill from:"} />
+      <InputsContent>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(companyName)}>
+            Company name:
+          </InputSpan>
+          <Input
+            className={isFloating(companyName)}
+            type="text"
+            name="companyName"
+            placeholder="Enter company name"
+            value={companyName}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(companyEmail)}>Email:</InputSpan>
+          <Input
+            className={isFloating(companyEmail)}
+            type="email"
+            name="companyEmail"
+            placeholder="Enter email"
+            value={companyEmail}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(companyPhone)}>Phone:</InputSpan>
+          <Input
+            className={isFloating(companyPhone)}
+            type="text"
+            name="companyPhone"
+            placeholder="Enter phone number"
+            value={companyPhone}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="full-66">
+          <InputSpan className={isFloating(companyAddress)}>Address:</InputSpan>
+          <Input
+            className={isFloating(companyAddress)}
+            type="text"
+            name="companyAddress"
+            placeholder="Enter address"
+            value={companyAddress}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(companyNip)}>NIP:</InputSpan>
+          <Input
+            className={isFloating(companyNip)}
+            type="text"
+            name="companyNip"
+            placeholder="Enter NIP"
+            value={companyNip}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(companyCity)}>City:</InputSpan>
+          <Input
+            className={isFloating(companyCity)}
+            type="text"
+            name="companyCity"
+            placeholder="Enter city"
+            value={companyCity}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(companyPostal)}>
+            Postal code:
+          </InputSpan>
+          <Input
+            className={isFloating(companyPostal)}
+            type="text"
+            name="companyPostal"
+            placeholder="Enter postal code"
+            value={companyPostal}
+            onChange={handleChange}
+          />
+        </InputsContainer>
+        <InputsContainer className="full-33">
+          <InputSpan className={isFloating(companyRegon)}>REGON:</InputSpan>
+          <Input
+            className={isFloating(companyRegon)}
+            type="text"
+            name="companyRegon"
+            placeholder="Enter REGON"
+            value={companyRegon}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -229,20 +332,20 @@ const InvoiceInputs = ({
         </InputsContent>
       ) : (
         <InputsContent>
-        {invoice?.products.items.map((product, index) => (
-          <ProductCard
-            key={index}
-            index={index}
-            product={product}
-            invoice={invoice}
-            setNewInvoice={setNewInvoice}
-            selectedProduct={selectedProduct}
-            selectedProductIndex={selectedProductIndex}
-            products={products}
-            isInAuthentication={isInAuthentication}
-          />
-        ))}
-      </InputsContent>
+          {invoice?.products.items.map((product, index) => (
+            <ProductCard
+              key={index}
+              index={index}
+              product={product}
+              invoice={invoice}
+              setNewInvoice={setNewInvoice}
+              selectedProduct={selectedProduct}
+              selectedProductIndex={selectedProductIndex}
+              products={products}
+              isInAuthentication={isInAuthentication}
+            />
+          ))}
+        </InputsContent>
       )}
       <AddButtonWrapper>
         <AddButton onClick={handleAddCard}>
