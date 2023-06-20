@@ -3,7 +3,7 @@ import React, { useState, useContext } from "react";
 import "./Register.css";
 import axios from "../../../utils/axiosConfig";
 
-const Register = ({ setShowRegister }) => {
+const Register = ({ setLoginUser }) => {
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,7 +22,7 @@ const Register = ({ setShowRegister }) => {
       axios.post("/register", formData).then((res) => {
         console.log("Successfully Registered");
         alert(res.data.message);
-        setShowRegister(false);
+        setLoginUser(false);
       });
     } else {
       alert("invalid");
@@ -66,7 +66,7 @@ const Register = ({ setShowRegister }) => {
       </form>
       <p className="form-paragraph is-flex">
         Already have an account?{" "}
-        <button onClick={() => setShowRegister(true)}>Login</button>
+        <button onClick={() => setLoginUser(true)}>Login</button>
       </p>
     </div>
   );
