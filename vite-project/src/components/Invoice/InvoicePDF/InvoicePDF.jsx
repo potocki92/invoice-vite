@@ -150,9 +150,9 @@ const InvoicePDF = ({ invoice }) => {
   return (
     <div ref={ref}>
       {pdfComponent}
-      <ReactToPdf targetRef={ref} filename="invoice.pdf">
+      {/* <ReactToPdf targetRef={ref} filename="invoice.pdf">
         {({ toPdf }) => <GeneratePDF onClick={toPdf}>Generate PDF</GeneratePDF>}
-      </ReactToPdf>
+      </ReactToPdf> */}
     </div>
   );
 };

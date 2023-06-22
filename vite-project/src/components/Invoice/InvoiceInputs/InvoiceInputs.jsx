@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactToPdf from "react-to-pdf";
 import ProductCard from "../../Product/ProductCard/ProductCard";
 import { InvoiceInputsContainer, TextArea } from "./InvoiceInputs.styled";
 import isFloating from "../../../utils/isFloating";
@@ -21,6 +22,10 @@ import {
   InputSpan,
 } from "../../Common/InputField/Input.styled";
 import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
+import InvoicePreview from "../InvoicePreview/InvoicePreview";
+import { useRef } from "react";
+import { View } from "@react-pdf/renderer";
+import InvoicePDF from "../InvoicePDF/InvoicePDF";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -70,8 +75,7 @@ const InvoiceInputs = ({
   isInAuthentication,
 }) => {
   const [showModal, setShowModal] = useState(false);
-
-  
+  const ref = useRef();
   return (
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
@@ -373,8 +377,15 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer>
-          <DefaultButton className="submit">Submit</DefaultButton>
+          <ReactToPdf targetRef={ref} filename="invoice.pdf">
+            {({ toPdf }) => (
+              <DefaultButton className="submit" onClick={toPdf}>Submit</DefaultButton>
+            )}
+          </ReactToPdf>
         </InputsContainer>
+        <View ref={ref} className="pdf-container">
+          <InvoicePDF styled={{display: "none"}} invoice={invoice} />
+        </View>
       </InputsContent>
     </InvoiceInputsContainer>
   );
