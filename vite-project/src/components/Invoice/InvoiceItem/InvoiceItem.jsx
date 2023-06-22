@@ -17,7 +17,7 @@ import { useRef } from "react";
  * @param {function} onRemove - function that is used to remove the invoice from the list of invoices.
  * @returns
  */
-const InvoiceItem = ({ invoice, onRemove }) => {
+const InvoiceItem = ({ invoice, onDelete }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [offsetX, setOffsetX] = useState(0);
@@ -187,7 +187,7 @@ const InvoiceItem = ({ invoice, onRemove }) => {
       >
         <InvoiceInner>
           <p>{invoice.invoiceNumber}</p>
-          <p>{invoice.client.clientName}</p>
+          <p>{invoice.clientName}</p>
           <p>{invoice.date.invoiceDate}</p>
         </InvoiceInner>
         <Link to={`${homeLink}/invoice/${invoice._id}`}>
@@ -199,7 +199,7 @@ const InvoiceItem = ({ invoice, onRemove }) => {
           </InvoiceButton>
         </Link>
         <InvoiceButton
-          onClick={onRemove}
+          onClick={() => onDelete(invoice._id)}
           className={`
           ${offsetX === -50 ? "right" : ""}`}
         >

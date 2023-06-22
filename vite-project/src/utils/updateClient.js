@@ -13,7 +13,7 @@ const updateClient = (key, value, invoice) => {
 
   return {
     ...invoice,
-    date: updatedClient,
+    client: updatedClient,
   };
 };
 

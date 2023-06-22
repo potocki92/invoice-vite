@@ -71,6 +71,7 @@ const InvoiceInputs = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
 
+  
   return (
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
@@ -118,7 +119,7 @@ const InvoiceInputs = ({
           <Input
             className={isFloating(companyName)}
             type="text"
-            name="companyName"
+            name="name"
             placeholder="Enter company name"
             value={companyName}
             onChange={handleChange}
@@ -129,7 +130,7 @@ const InvoiceInputs = ({
           <Input
             className={isFloating(companyEmail)}
             type="email"
-            name="companyEmail"
+            name="email"
             placeholder="Enter email"
             value={companyEmail}
             onChange={handleChange}
@@ -140,20 +141,20 @@ const InvoiceInputs = ({
           <Input
             className={isFloating(companyPhone)}
             type="text"
-            name="companyPhone"
+            name="phone"
             placeholder="Enter phone number"
             value={companyPhone}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-66">
-          <InputSpan className={isFloating(companyAddress)}>Address:</InputSpan>
+          <InputSpan className={isFloating(companyCity)}>City:</InputSpan>
           <Input
-            className={isFloating(companyAddress)}
+            className={isFloating(companyCity)}
             type="text"
-            name="companyAddress"
-            placeholder="Enter address"
-            value={companyAddress}
+            name="city"
+            placeholder="Enter city"
+            value={companyCity}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -162,20 +163,20 @@ const InvoiceInputs = ({
           <Input
             className={isFloating(companyNip)}
             type="text"
-            name="companyNip"
+            name="NIP"
             placeholder="Enter NIP"
             value={companyNip}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(companyCity)}>City:</InputSpan>
+          <InputSpan className={isFloating(companyAddress)}>Address:</InputSpan>
           <Input
-            className={isFloating(companyCity)}
+            className={isFloating(companyAddress)}
             type="text"
-            name="companyCity"
-            placeholder="Enter city"
-            value={companyCity}
+            name="street"
+            placeholder="Enter address (street)"
+            value={companyAddress}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -186,7 +187,7 @@ const InvoiceInputs = ({
           <Input
             className={isFloating(companyPostal)}
             type="text"
-            name="companyPostal"
+            name="postalCode"
             placeholder="Enter postal code"
             value={companyPostal}
             onChange={handleChange}
@@ -197,7 +198,7 @@ const InvoiceInputs = ({
           <Input
             className={isFloating(companyRegon)}
             type="text"
-            name="companyRegon"
+            name="REGON"
             placeholder="Enter REGON"
             value={companyRegon}
             onChange={handleChange}

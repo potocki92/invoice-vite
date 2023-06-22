@@ -82,7 +82,7 @@ const Login = ({ setLoginUser }) => {
       </InputsForm>
       <LoginText>
         Don't have an account?{" "}
-        <a onClick={() => setLoginUser(false)}>Register</a>
+        <a onClick={() => setShowRegister(false)}>Register</a>
       </LoginText>
     </LoginStyled>
   );

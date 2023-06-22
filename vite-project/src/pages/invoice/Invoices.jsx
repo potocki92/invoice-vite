@@ -15,6 +15,7 @@ import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
 import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
+import updateUser from "../../utils/updateUser";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -61,6 +62,16 @@ const Invoices = () => {
       currentMonthInvoices
     )
   );
+
+  const [companyName, setCompanyName] = useState("");
+  const [companyNip, setCompanyNip] = useState("");
+  const [companyRegon, setCompanyRegon] = useState("");
+  const [companyEmail, setCompanyEmail] = useState("");
+  const [companyPhone, setCompanyPhone] = useState("");
+  const [companyCity, setCompanyCity] = useState("");
+  const [companyPostal, setCompanyPostal] = useState("");
+  const [companyAddress, setCompanyAddress] = useState("");
+
   const [clientName, setClientName] = useState(
     newInvoice?.client.clientName || ""
   );
@@ -127,6 +138,14 @@ const Invoices = () => {
           },
         });
         setUser(response.data);
+        setCompanyName(response.data.name);
+        setCompanyNip(response.data.NIP);
+        setCompanyRegon(response.data.REGON);
+        setCompanyEmail(response.data.email);
+        setCompanyPhone(response.data.phone);
+        setCompanyCity(response.data.address.city);
+        setCompanyPostal(response.data.address.postalCode);
+        setCompanyAddress(response.data.address.street);
         setNewInvoice((prevInvoice) => ({
           ...prevInvoice,
           user: response.data,
@@ -271,6 +290,14 @@ const Invoices = () => {
    */
   const updateFunctions = {
     invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
+    name: [setCompanyName, updateUser],
+    email: [setCompanyEmail, updateUser],
+    phone: [setCompanyPhone, updateUser],
+    city: [setCompanyCity, updateUser],
+    postalCode: [setCompanyPostal, updateUser],
+    street: [setCompanyAddress, updateUser],
+    NIP: [setCompanyNip, updateUser],
+    REGON: [setCompanyRegon, updateUser],
     clientName: [setClientName, updateClient],
     clientNip: [setClientNip, updateClient],
     clientRegon: [setClientRegon, updateClient],
@@ -366,6 +393,14 @@ const Invoices = () => {
         <InvoiceInputs
           handleInvoiceNumberChange={handleInvoiceNumberChange}
           invoiceNumber={invoiceNumber}
+          companyName={companyName}
+          companyEmail={companyEmail}
+          companyPhone={companyPhone}
+          companyCity={companyCity}
+          companyPostal={companyPostal}
+          companyAddress={companyAddress}
+          companyNip={companyNip}
+          companyRegon={companyRegon}
           clientName={clientName}
           clientEmail={clientEmail}
           clientPhone={clientPhone}

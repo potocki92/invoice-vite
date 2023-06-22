@@ -1,19 +1,14 @@
+import { getInvoicesFromLocalStorage } from "../../../api/localStorageAPI";
 import InvoiceItem from "../InvoiceItem/InvoiceItem";
-import {
-  InvoiceListStyled
-} from "./InvoiceList.styled";
+import { InvoiceListStyled } from "./InvoiceList.styled";
 
 const InvoiceList = ({ invoices, onDelete }) => {
   const reversedInvoices = [...invoices].reverse();
 
-  const handleRemove = (invoiceId) => {
-    onDelete(invoiceId);
-  };
-
   return (
     <InvoiceListStyled>
-      {reversedInvoices?.map((invoice, index) => (
-        <InvoiceItem key={index} invoice={invoice} onRemove={handleRemove} />
+      {reversedInvoices?.map((invoice) => (
+        <InvoiceItem key={invoice._id} invoice={invoice} onDelete={onDelete} />
       ))}
     </InvoiceListStyled>
   );
