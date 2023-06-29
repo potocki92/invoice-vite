@@ -24,7 +24,7 @@ import {
 import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
 import InvoicePreview from "../InvoicePreview/InvoicePreview";
 import { useRef } from "react";
-import { View } from "@react-pdf/renderer";
+import { PDFDownloadLink, View } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
 
 /**
@@ -76,6 +76,7 @@ const InvoiceInputs = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const ref = useRef();
+
   return (
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
@@ -377,15 +378,19 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer>
-          <ReactToPdf targetRef={ref} filename="invoice.pdf">
-            {({ toPdf }) => (
-              <DefaultButton className="submit" onClick={toPdf}>Submit</DefaultButton>
-            )}
-          </ReactToPdf>
+          <PDFDownloadLink
+            document={<InvoicePDF invoice={invoice} />}
+            fileName="invoice"
+          >
+            {({ loading }) =>
+              loading ? (
+                `Loading document...`
+              ) : (
+                <DefaultButton className="submit">Submit</DefaultButton>
+              )
+            }
+          </PDFDownloadLink>
         </InputsContainer>
-        <View ref={ref} className="pdf-container">
-          <InvoicePDF styled={{display: "none"}} invoice={invoice} />
-        </View>
       </InputsContent>
     </InvoiceInputsContainer>
   );

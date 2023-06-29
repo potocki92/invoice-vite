@@ -20,37 +20,37 @@ export const InputsContent = styled.div`
 `;
 
 export const InputsContainer = styled.div`
-    position: relative;
+  position: relative;
+  display: flex;
+  padding-left: 9px;
+  padding-right: 9px;
+  width: 100%;
+
+  &.full-50 {
+    width: 50%;
+  }
+
+  &.productInfo {
     display: flex;
-    padding-left: 9px;
-    padding-right: 9px;
-    width: 100%;
-
-    &.full-50 {
-      width: 50%;
-    }
-
-    &.productInfo {
-      display: flex;
-        gap: 20px;
-      @media (min-width: 1024px){
-        display: flex;
-        gap: 20px;
-      }
-    }
+    gap: 20px;
     @media (min-width: 1024px) {
-      &.full-33 {
-        width: 33.33%;
-      }
-
-      &.full-66 {
-        width: 66.66%;
-      }
-
-      &.full-10 {
-        width: 10%;
-      }
+      display: flex;
+      gap: 20px;
     }
+  }
+  @media (min-width: 1024px) {
+    &.full-33 {
+      width: 33.33%;
+    }
+
+    &.full-66 {
+      width: 66.66%;
+    }
+
+    &.full-10 {
+      width: 10%;
+    }
+  }
 `;
 
 export const InputsForm = styled.form`
@@ -106,7 +106,7 @@ export const Input = styled.input`
 
   &.authentication {
     box-shadow: none;
-    border: 0.0625rem solid #8C9196;
+    border: 0.0625rem solid #8c9196;
 
     &:focus {
       outline: none;

@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
   Navigate,
-  useNavigate,
 } from "react-router-dom";
 import "./App.css";
 import Authentication from "./components/Authentication/Authentication";

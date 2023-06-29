@@ -1,12 +1,175 @@
 import React, { useRef } from "react";
 /*
   Page, Text, View: These are components and functions provided by the "@react-pdf/renderer" package used for generating a PDF document in a React application.
-*/ 
-import ReactToPdf from "react-to-pdf";
-import { Page, Text, View } from "@react-pdf/renderer";
+*/
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  PDFViewer,
+} from "@react-pdf/renderer";
 import "./InvoicePDF.css";
+const styles = StyleSheet.create({
+  invoiceWrapper: {
+    position: "relative",
+    backgroundColor: "#fff",
+    padding: "40px 35px",
+    minWidth: "21cm",
+    minHeight: "29.7cm",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  relative: {
+    position: "relative",
+  },
+  absolute: {
+    position: "absolute",
+  },
+  flex: {
+    display: "flex",
+  },
+  flexEnd: {
+    justifyContent: "flex-end",
+  },
+
+  alignItemsCenter: {
+    alignItems: "center",
+  },
+  column: {
+    flexDirection: "column",
+  },
+  row: {
+    flexDirection: "row",
+  },
+  fontSize11: {
+    fontSize: "11px",
+  },
+  fontSize14: {
+    fontSize: "14px",
+  },
+  fontSize15: {
+    fontSize: "15px",
+  },
+  fontSize20: {
+    fontSize: "20px",
+  },
+  fontSize45: {
+    fontSize: "45px",
+  },
+  width12: {
+    width: "12%",
+  },
+  width17: {
+    width: "17%",
+  },
+  width18: {
+    width: "18%",
+  },
+  width22: {
+    width: "22%",
+  },
+  width25: {
+    width: "25%",
+  },
+  width30: {
+    width: "30%",
+  },
+  width35: {
+    width: "35%",
+  },
+  width40: {
+    width: "40%",
+  },
+  width48: {
+    width: "48%",
+  },
+  width50: {
+    width: "50%",
+  },
+  width98: {
+    width: "98%",
+  },
+  width100: {
+    width: "100%",
+  },
+  height50: {
+    height: "50px",
+  },
+  gap15: {
+    gap: "15px",
+  },
+  textAlignRight: {
+    textAlign: "right",
+  },
+  marginTop15: {
+    marginTop: "15px",
+  },
+  marginTop20: {
+    marginTop: "20px",
+  },
+  marginTop30: {
+    marginTop: "30px",
+  },
+  marginBottom1: {
+    marginBottom: "1px",
+  },
+  bottom40px: {
+    bottom: "40px",
+  },
+  left40px: {
+    left: "40px",
+  },
+  bold: {
+    fontWeight: "bold",
+  },
+  backgroundColorGray: {
+    backgroundColor: "#e3e3e3",
+  },
+  backgroundColorDark: {
+    backgroundColor: "#666",
+  },
+  placeholderColor: {
+    color: "#aaa",
+  },
+  colorWhite: {
+    color: "#fff",
+  },
+  secondColor: {
+    color: "#555",
+  },
+  padding4px04px0: {
+    padding: "4px 4px",
+  },
+  padding4px12px4px0: {
+    padding: "4px 12px 4px 0",
+  },
+  padding4px8px: {
+    padding: "4px 8px",
+  },
+  padding010px: {
+    padding: "0 10px",
+  },
+  padding5px: {
+    padding: "5px",
+  },
+  padding00010px: {
+    padding: "0 0 0 10px",
+  },
+  padding0: {
+    padding: "0",
+  },
+  padding10px0: {
+    padding: "10px 0",
+  },
+  borderBottom: {
+    borderBottom: "1px solid #e3e3e3",
+  },
+});
+
 // import ProductCard from "../ProductCard/ProductCard";
-import { GeneratePDF } from "./InvoicePDF.styled";
 
 /**
  * This is a React component called "InvoicePDF". It generates a PDF document based on the data provided as props. It uses the "@react-pdf/renderer" package for generating PDF documents and "ReactToPdf" for downloading the PDF.
@@ -22,138 +185,532 @@ import { GeneratePDF } from "./InvoicePDF.styled";
   @returns {JSX.Element} Returns a React component.
  */
 const InvoicePDF = ({ invoice }) => {
-  const ref = useRef();
-
-  const pdfComponent = (
-    <Page size="A4" className="page invoice-wrapper">
-      <View className="view flex flex-end">
-        <View className="view w-50 flex column">
-          <Text className="fs-45 bold right">INVOICE</Text>
-          <Text className="fs-20 right">{invoice.invoiceNumber}</Text>
-          <View className="flex flex-end flex-ai gap-15">
-            <Text className="w-35 fs-11 text14">
-              Invoice Date: {invoice.date?.invoiceDate}
+  return (
+    <Document>
+      <Page size="A4" style={styles.invoiceWrapper}>
+        <View style={{ ...styles.flex, ...styles.textAlignRight }}>
+          <View style={{ ...styles.flex, ...styles.column }}>
+            <Text
+              style={{
+                ...styles.fontSize45,
+                ...styles.bold,
+              }}
+            >
+              INVOICE
+            </Text>
+            <Text style={{ ...styles.fontSize20 }}>
+              {invoice.invoiceNumber}
             </Text>
           </View>
-          <View className="flex flex-end flex-ai gap-15">
-            <Text className="w-35 fs-11 text14">
+        </View>
+        <View style={{ ...styles.flex, ...styles.textAlignRight }}>
+          <View style={{ ...styles.flex, ...styles.column }}>
+            <Text
+              style={{
+                ...styles.fontSize11,
+                ...styles.bold,
+              }}
+            >
+              Invoice Date: {invoice.date?.invoiceDate}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize11,
+                ...styles.bold,
+              }}
+            >
               Due Date: {invoice.date?.dueDate}
             </Text>
           </View>
         </View>
-      </View>
-      <View className="view flex m-t">
-        <View className="view w-50 flex column">
-          <Text className="fs-20 bold p-color">Your Company</Text>
-          <Text className="text14">{invoice.user?.name}</Text>
-          <Text className="text14">{invoice.user?.phone}</Text>
-          <Text className="text14">{invoice.user?.email}</Text>
-          <Text className="text14">{invoice.user?.NIP}</Text>
-          <Text className="text14">{invoice.user?.REGON}</Text>
-          <Text className="text14">{invoice.user?.address.street}</Text>
-          <Text className="text14">
-            {invoice.user?.address.postalCode}, {invoice.user?.address.city}
+        <View
+          style={{
+            ...styles.flex,
+            ...styles.row,
+            ...styles.marginTop15,
+            ...styles.flexEnd,
+          }}
+        >
+          <View style={{ ...styles.flex, ...styles.column, ...styles.width50 }}>
+            <Text
+              style={{
+                ...styles.fontSize20,
+                ...styles.bold,
+                ...styles.placeholderColor,
+              }}
+            >
+              Your Company
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.user?.name}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.user?.phone}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.user?.email}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.user?.NIP}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.user?.REGON}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.user?.address.street}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.user?.address.postalCode}, {invoice.user?.address.city}
+            </Text>
+          </View>
+          <View style={{ ...styles.flex, ...styles.column, ...styles.width50 }}>
+            <Text
+              style={{
+                ...styles.fontSize20,
+                ...styles.bold,
+                ...styles.placeholderColor,
+              }}
+            >
+              Bill to
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.client?.clientName}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.client?.clientPhone}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.client?.clientEmail}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.client?.clientNip}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.client?.clientRegon}
+            </Text>
+            <Text
+              style={{
+                ...styles.fontSize14,
+                ...styles.secondColor,
+                ...styles.padding4px12px4px0,
+                ...styles.width98,
+                ...styles.bold,
+                ...styles.marginBottom1,
+              }}
+            >
+              {invoice.client?.clientAddress}
+            </Text>
+            {invoice.client?.clientPostal && invoice.client?.clientCity && (
+              <Text
+                style={{
+                  ...styles.fontSize14,
+                  ...styles.secondColor,
+                  ...styles.padding4px12px4px0,
+                  ...styles.width98,
+                  ...styles.bold,
+                  ...styles.marginBottom1,
+                }}
+              >
+                {invoice.client?.clientPostal}, {invoice.client?.clientCity}
+              </Text>
+            )}
+          </View>
+        </View>
+        <View
+          style={{
+            ...styles.flex,
+            ...styles.row,
+            ...styles.alignItemsCenter,
+            ...styles.backgroundColorDark,
+            ...styles.marginTop30,
+          }}
+        >
+          <View style={{ ...styles.width25, ...styles.padding4px8px }}>
+            <Text
+              style={{
+                ...styles.bold,
+                ...styles.colorWhite,
+                ...styles.marginBottom1,
+                ...styles.padding4px04px0,
+                ...styles.fontSize11,
+              }}
+            >
+              Item Description
+            </Text>
+          </View>
+          <View
+            style={{
+              ...styles.width22,
+              ...styles.padding4px8px,
+              ...styles.flex,
+              ...styles.row,
+            }}
+          >
+            <View style={{ ...styles.width50, ...styles.padding4px8px }}>
+              <Text
+                style={{
+                  ...styles.bold,
+                  ...styles.colorWhite,
+                  ...styles.marginBottom1,
+                  ...styles.padding4px04px0,
+                  ...styles.textAlignRight,
+                  ...styles.fontSize11,
+                }}
+              >
+                Qty
+              </Text>
+            </View>
+            <View style={{ ...styles.width50, ...styles.padding4px8px }}>
+              <Text
+                style={{
+                  ...styles.bold,
+                  ...styles.colorWhite,
+                  ...styles.marginBottom1,
+                  ...styles.padding4px04px0,
+                  ...styles.textAlignRight,
+                  ...styles.fontSize11,
+                }}
+              >
+                Tax
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              ...styles.width35,
+              ...styles.padding4px8px,
+              ...styles.flex,
+              ...styles.row,
+            }}
+          >
+            <View style={{ ...styles.width50, ...styles.padding4px8px }}>
+              <Text
+                style={{
+                  ...styles.bold,
+                  ...styles.colorWhite,
+                  ...styles.marginBottom1,
+                  ...styles.padding4px04px0,
+                  ...styles.textAlignRight,
+                  ...styles.fontSize11,
+                }}
+              >
+                Rate
+              </Text>
+            </View>
+            <View style={{ ...styles.width50, ...styles.padding4px8px }}>
+              <Text
+                style={{
+                  ...styles.bold,
+                  ...styles.colorWhite,
+                  ...styles.marginBottom1,
+                  ...styles.padding4px04px0,
+                  ...styles.textAlignRight,
+                  ...styles.fontSize11,
+                }}
+              >
+                Tax Rate
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              ...styles.width25,
+              ...styles.padding4px8px,
+              ...styles.textAlignRight,
+            }}
+          >
+            <Text
+              style={{
+                ...styles.bold,
+                ...styles.colorWhite,
+                ...styles.marginBottom1,
+                ...styles.padding4px04px0,
+                ...styles.textAlignRight,
+                ...styles.fontSize11,
+              }}
+            >
+              Amount
+            </Text>
+          </View>
+        </View>
+
+        {invoice.products?.items.map((product) => (
+          <View
+            style={{
+              ...styles.flex,
+              ...styles.row,
+              ...styles.relative,
+              ...styles.borderBottom,
+              ...styles.padding10px0,
+            }}
+          >
+            <View style={{ ...styles.width25, ...styles.padding4px8px }}>
+              <Text
+                style={{
+                  ...styles.fontSize11,
+                }}
+              >
+                {product.productsName}
+              </Text>
+            </View>
+            <View
+              style={{
+                ...styles.width22,
+                ...styles.padding4px8px,
+                ...styles.flex,
+                ...styles.row,
+              }}
+            >
+              <View
+                style={{
+                  ...styles.width50,
+                  ...styles.padding4px8px,
+                }}
+              >
+                <Text
+                  style={{
+                    ...styles.fontSize11,
+                  }}
+                >
+                  {product.productsQty}
+                </Text>
+              </View>
+              <View
+                style={{
+                  ...styles.width50,
+                  ...styles.padding4px8px,
+                }}
+              >
+                <Text
+                  style={{
+                    ...styles.fontSize11,
+                  }}
+                >
+                  {product.productsTax?.name || "0%"}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                ...styles.width35,
+                ...styles.padding4px8px,
+                ...styles.flex,
+                ...styles.row,
+              }}
+            >
+              <View style={{ ...styles.width50, ...styles.padding4px8px }}>
+                <Text
+                  style={{
+                    ...styles.fontSize11,
+                  }}
+                >
+                  {product.productsPrice}
+                </Text>
+              </View>
+              <View style={{ ...styles.width50, ...styles.padding4px8px }}>
+                <Text
+                  style={{
+                    ...styles.fontSize11,
+                  }}
+                >
+                  {product.productsRateTax || 0}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                ...styles.width18,
+                ...styles.padding4px8px,
+                ...styles.textAlignRight,
+              }}
+            >
+              <Text
+                style={{
+                  ...styles.fontSize11,
+                }}
+              >
+                {product.amount}
+              </Text>
+            </View>
+          </View>
+        ))}
+        <View style={{ ...styles.flex, ...styles.flexEnd }}>
+          <View style={{ ...styles.width50, ...styles.padding4px8px }}></View>
+          <View style={{ ...styles.width50, ...styles.marginTop15 }}>
+            <View
+              style={{
+                ...styles.flex,
+                ...styles.backgroundColorGray,
+                ...styles.padding5px,
+              }}
+            >
+              <View style={{ ...styles.width50, ...styles.padding5px }}>
+                <Text
+                  style={{
+                    ...styles.bold,
+                    ...styles.marginBottom1,
+                    ...styles.borderBottom,
+                    ...styles.padding4px04px0,
+                    ...styles.fontSize14,
+                  }}
+                >
+                  Total
+                </Text>
+              </View>
+              <View style={{ ...styles.width50, ...styles.padding5px }}>
+                <Text
+                  style={{
+                    ...styles.bold,
+                    ...styles.marginBottom1,
+                    ...styles.borderBottom,
+                    ...styles.padding4px04px0,
+                    ...styles.fontSize14,
+                  }}
+                >
+                  {invoice.products?.totalAmount}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            ...styles.marginTop20,
+            ...styles.absolute,
+            ...styles.bottom40px,
+            ...styles.left40px,
+          }}
+        >
+          <Text
+            style={{
+              ...styles.bold,
+              ...styles.marginBottom1,
+              ...styles.padding4px04px0,
+              ...styles.fontSize14,
+            }}
+          >
+            Notes
+          </Text>
+          <Text
+            style={{
+              ...styles.fontSize11,
+              ...styles.padding4px04px0,
+              ...styles.secondColor,
+            }}
+          >
+            {invoice.notes}
           </Text>
         </View>
-        <View className="view w-50 flex column">
-          <Text className="fs-20 bold p-color">Bill to</Text>
-          <Text className="text14">{invoice.client?.clientName}</Text>
-          <Text className="text14">{invoice.client?.clientPhone}</Text>
-          <Text className="text14">{invoice.client?.clientEmail}</Text>
-          <Text className="text14">{invoice.client?.clientNip}</Text>
-          <Text className="text14">{invoice.client?.clientRegon}</Text>
-          <Text className="text14">{invoice.client?.clientAddress}</Text>
-          {invoice.client?.clientPostal && invoice.client?.clientCity && (
-            <Text className="text14">
-              {invoice.client?.clientPostal}, {invoice.client?.clientCity}
-            </Text>
-          )}
-        </View>
-      </View>
-      <View className="view mt-30 bg-dark flex flex-ai">
-        <View className="view w-25 p-4-8">
-          <Text className="span white bold">Item Description</Text>
-        </View>
-        <View className="view w-22 p-4-8 flex">
-          <View className="view w-50 p-4-8">
-            <Text className="span white bold right">Qty</Text>
-          </View>
-          <View className="view w-50 p-4-8">
-            <Text className="span white bold right">Tax</Text>
-          </View>
-        </View>
-        <View className="view w-35 p-4-8 flex">
-          <View className="view w-50 p-4-8">
-            <Text className="span white bold right">Rate</Text>
-          </View>
-          <View className="view w-50 p-4-8">
-            <Text className="span white bold right">Tax Rate</Text>
-          </View>
-        </View>
-        <View className="view w-18 p-4-8">
-          <Text className="span white bold right">Amount</Text>
-        </View>
-      </View>
-
-      {invoice.products?.items.map((product) => (
-        <View className="view row flex b-b p-10 flex-align relative">
-          <View className="view w-25 p-4-8 flex-align flex">
-            <Text className="">{product.productsName}</Text>
-          </View>
-          <View className="view w-22 p-4-8 flex">
-            <View className="view w-50 p-4-8 pb-10 ta-right">
-              <Text className="dark right p-0">{product.productsQty}</Text>
-            </View>
-            <View className="view w-50 p-4-8 pb-10 ta-right">
-              <Text className="dark right p-0">
-                {product.productsTax?.name || "0%"}
-              </Text>
-            </View>
-          </View>
-          <View className="view w-35 p-4-8 flex">
-            <View className="view w-50 p-4-8 pb-10 ta-right">
-              <Text className="dark right p-0">{product.productsPrice}</Text>
-            </View>
-            <View className="view w-50 p-4-8 pb-10 ta-right">
-              <Text className="dark right p-0">
-                {product.productsRateTax || 0}
-              </Text>
-            </View>
-          </View>
-          <View className="view w-18 p-4-8 pb-10 right">
-            <Text className="span dark">{product.amount}</Text>
-          </View>
-        </View>
-      ))}
-      <View className="flex">
-        <View className="view p-4-8 w-50"></View>
-        <View className="view w-50 m-t">
-          <View className="view flex bg-gray p-5">
-            <View className="view w-50 p-5">
-              <Text className="span bold">Total</Text>
-            </View>
-            <View className="w-50 p-5">
-              <Text class="span right bold dark">
-                {invoice.products?.totalAmount}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-      <View className="mt-20 absolute bottom40">
-        <Text className="span bold">Notes</Text>
-        <Text className="">{invoice.notes}</Text>
-      </View>
-    </Page>
-  );
-
-  return (
-    <div ref={ref}>
-      {pdfComponent}
-      {/* <ReactToPdf targetRef={ref} filename="invoice.pdf">
-        {({ toPdf }) => <GeneratePDF onClick={toPdf}>Generate PDF</GeneratePDF>}
-      </ReactToPdf> */}
-    </div>
+      </Page>
+    </Document>
   );
 };
 
