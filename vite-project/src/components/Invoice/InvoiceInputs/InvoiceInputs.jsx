@@ -391,6 +391,7 @@ const InvoiceInputs = ({
             }
           </PDFDownloadLink>
         </InputsContainer>
+          <InvoicePreview invoice={invoice}/>
       </InputsContent>
     </InvoiceInputsContainer>
   );

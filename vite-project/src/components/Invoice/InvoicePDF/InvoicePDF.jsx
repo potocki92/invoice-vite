@@ -8,9 +8,17 @@ import {
   Text,
   View,
   StyleSheet,
-  PDFViewer,
+  Font,
 } from "@react-pdf/renderer";
 import "./InvoicePDF.css";
+import OpenSans from "../../../assets/Open_Sans/static/OpenSans-Bold.ttf";
+
+Font.register({
+  family: "Open Sans",
+  format: "truetype",
+  src: OpenSans,
+});
+
 const styles = StyleSheet.create({
   invoiceWrapper: {
     position: "relative",
@@ -43,6 +51,9 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
+  },
+  fontSize9: {
+    fontSize: "9px",
   },
   fontSize11: {
     fontSize: "11px",
@@ -125,6 +136,12 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: "bold",
   },
+  fontWeight600: {
+    fontWeight: "600",
+  },
+  fontWeight700: {
+    fontWeight: "700",
+  },
   backgroundColorGray: {
     backgroundColor: "#e3e3e3",
   },
@@ -164,8 +181,14 @@ const styles = StyleSheet.create({
   padding10px0: {
     padding: "10px 0",
   },
+  paddingInvoiceTitle: {
+    padding: "8px 0px 16px",
+  },
   borderBottom: {
     borderBottom: "1px solid #e3e3e3",
+  },
+  title: {
+    fontFamily: "Open Sans",
   },
 });
 
@@ -188,39 +211,59 @@ const InvoicePDF = ({ invoice }) => {
   return (
     <Document>
       <Page size="A4" style={styles.invoiceWrapper}>
-        <View style={{ ...styles.flex, ...styles.textAlignRight }}>
-          <View style={{ ...styles.flex, ...styles.column }}>
-            <Text
-              style={{
-                ...styles.fontSize45,
-                ...styles.bold,
-              }}
-            >
-              INVOICE
-            </Text>
-            <Text style={{ ...styles.fontSize20 }}>
-              {invoice.invoiceNumber}
-            </Text>
+        <View
+          style={{
+            ...styles.flex,
+            ...styles.row,
+            ...styles.borderBottom,
+            ...styles.paddingInvoiceTitle,
+          }}
+        >
+          <View style={{ ...styles.flex, ...styles.width50 }}>
+            <View style={{ ...styles.flex, ...styles.column }}>
+              <Text style={{ ...styles.fontSize20, ...styles.secondColor }}>
+                {invoice.invoiceNumber}
+              </Text>
+              <Text
+                style={{
+                  ...styles.fontSize9,
+                  ...styles.bold,
+                  ...styles.secondColor,
+                }}
+              >
+                Invoice Date: {invoice.date?.invoiceDate}
+              </Text>
+              <Text
+                style={{
+                  ...styles.fontSize9,
+                  ...styles.bold,
+                  ...styles.secondColor,
+                }}
+              >
+                Due Date: {invoice.date?.dueDate}
+              </Text>
+            </View>
           </View>
-        </View>
-        <View style={{ ...styles.flex, ...styles.textAlignRight }}>
-          <View style={{ ...styles.flex, ...styles.column }}>
-            <Text
-              style={{
-                ...styles.fontSize11,
-                ...styles.bold,
-              }}
-            >
-              Invoice Date: {invoice.date?.invoiceDate}
-            </Text>
-            <Text
-              style={{
-                ...styles.fontSize11,
-                ...styles.bold,
-              }}
-            >
-              Due Date: {invoice.date?.dueDate}
-            </Text>
+          <View
+            style={{
+              ...styles.flex,
+              ...styles.textAlignRight,
+              ...styles.width50,
+            }}
+          >
+            <View style={{ ...styles.flex, ...styles.column }}>
+              <Text
+                style={{
+                  ...styles.fontSize45,
+                  ...styles.bold,
+                  ...styles.fontWeight500,
+                  ...styles.secondColor,
+                  ...styles.title,
+                }}
+              >
+                INVOICE
+              </Text>
+            </View>
           </View>
         </View>
         <View
@@ -642,7 +685,7 @@ const InvoicePDF = ({ invoice }) => {
             </View>
           </View>
         ))}
-        <View style={{ ...styles.flex, ...styles.flexEnd }}>
+        <View style={{ ...styles.flex, ...styles.row }}>
           <View style={{ ...styles.width50, ...styles.padding4px8px }}></View>
           <View style={{ ...styles.width50, ...styles.marginTop15 }}>
             <View
