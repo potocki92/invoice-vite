@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactToPdf from "react-to-pdf";
 import ProductCard from "../../Product/ProductCard/ProductCard";
 import { InvoiceInputsContainer, TextArea } from "./InvoiceInputs.styled";
 import isFloating from "../../../utils/isFloating";
@@ -22,8 +21,6 @@ import {
   InputSpan,
 } from "../../Common/InputField/Input.styled";
 import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
-import InvoicePreview from "../InvoicePreview/InvoicePreview";
-import { useRef } from "react";
 import { PDFDownloadLink, View } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
 
@@ -75,7 +72,6 @@ const InvoiceInputs = ({
   isInAuthentication,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const ref = useRef();
 
   return (
     <InvoiceInputsContainer>
@@ -391,7 +387,6 @@ const InvoiceInputs = ({
             }
           </PDFDownloadLink>
         </InputsContainer>
-          <InvoicePreview invoice={invoice}/>
       </InputsContent>
     </InvoiceInputsContainer>
   );

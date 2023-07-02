@@ -6,10 +6,22 @@
  * @returns {object} - The updated invoice object.
  */
 const updateUser = (key, value, invoice) => {
-  const updatedUser = {
-    ...invoice.user,
-    [key]: value,
-  };
+  let updatedUser;
+
+  if (key === "city" || key === "postalCode" || key === "street") {
+    updatedUser = {
+      ...invoice.user,
+      address: {
+        ...invoice.user.address,
+        [key]: value,
+      },
+    };
+  } else {
+    updatedUser = {
+      ...invoice.user,
+      [key]: value,
+    };
+  }
 
   return {
     ...invoice,

@@ -41,11 +41,11 @@ const ProductCard = ({
 }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [productName, setProductName] = useState(product.productsName);
-  const [productQty, setProductQty] = useState(product.productsQty || 1);
-  const [productPrice, setProductPrice] = useState(product.productsPrice || 0);
-  const [productTax, setProductTax] = useState(product.productsTax || 0);
-  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax || 0);
-  const [amount, setAmount] = useState(1);
+  const [productQty, setProductQty] = useState(product.productsQty);
+  const [productPrice, setProductPrice] = useState(product.productsPrice);
+  const [productTax, setProductTax] = useState(product.productsTax);
+  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax);
+  const [amount, setAmount] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
   /**

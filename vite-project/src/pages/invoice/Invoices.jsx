@@ -380,6 +380,7 @@ const Invoices = () => {
   const handleInvoiceNumberChange = (e) => {
     setInvoiceNumber(e.target.value);
   };
+
   return (
     <div className="container section is-flex col">
       <StyledBox>
@@ -426,14 +427,6 @@ const Invoices = () => {
           selectedProductIndex={selectedProductIndex}
         />
         <InvoicePreview invoice={newInvoice} />
-        {/* <InvoicePDF
-          invoice={newInvoice}
-          setNewInvoice={setNewInvoice}
-          clients={clients}
-          products={products}
-          selectedProduct={selectedProduct}
-          selectedProductIndex={selectedProductIndex}
-        /> */}
       </InvoiceContainer>
       <Link
         to={homeLink}
