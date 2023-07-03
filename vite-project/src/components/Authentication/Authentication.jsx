@@ -22,7 +22,6 @@ import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
 import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
 import updateUser from "../../utils/updateUser";
-import InvoicePDF from "../Invoice/InvoicePDF/InvoicePDF";
 
 /**
  * Authentication component.
@@ -184,13 +183,21 @@ const Authentication = ({ setLoginUser }) => {
       setProductTaxRate(0);
     }
 
+    setInvoice(prevInvoice =>({
+      ...prevInvoice,
+      products: {
+        ...prevInvoice.products,
+        totalAmount: total
+      }
+    }))
+
     console.log(total, subtotal, productTaxRate);
   }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
+  
   useEffect(() => {
     setInvoice((prevInvoice) => ({ ...prevInvoice, invoiceNumber }));
   }, []);
 
-  console.log(invoice);
   return (
     <AuthenticationStyled>
       <div class="custom-shape-divider-bottom-1686686263">
