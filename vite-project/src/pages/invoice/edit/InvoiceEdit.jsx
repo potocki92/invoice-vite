@@ -174,37 +174,6 @@ const InvoiceEdit = () => {
             ),
     }));
   };
-  // Remove products from invoices
-  const handleRemoveProduct = (index) => {
-    setInvoice((prevInvoice) => ({
-      ...prevInvoice,
-      products: prevInvoice.products.filter((_, i) => i !== index),
-    }));
-  };
-  // Handle to product
-  const handleProductChange = (event) => {
-    const productId = event.target.value;
-    const product = products.find((product) => product._id === productId);
-    setSelectedProduct(product);
-  };
-  // Added product when user select from products
-  const handleAddProduct = () => {
-    if (selectedProduct) {
-      setInvoice((prevInvoice) => ({
-        ...prevInvoice,
-        products: [
-          ...prevInvoice.products,
-          {
-            productsName: selectedProduct.productsName,
-            productsQty: 1,
-            productsPrice: selectedProduct.productsPrice,
-          },
-        ],
-      }));
-      setSelectedProduct(null);
-    }
-  };
-
   // Save all changed data
   const handleSave = async () => {
     try {
