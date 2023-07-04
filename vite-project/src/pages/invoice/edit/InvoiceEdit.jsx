@@ -8,7 +8,7 @@ import InvoicePreview from "../../../components/Invoice/InvoicePreview/InvoicePr
 import { InvoiceContainer } from "../Invoice.styled";
 import InvoiceInputs from "../../../components/Invoice/InvoiceInputs/InvoiceInputs";
 import calculateInvoiceTotal from "../../../utils/calculateInvoiceTotal";
-import { DefaultButton } from "../../../components/buttons.styled";
+import { AddButton, DefaultButton } from "../../../components/buttons.styled";
 
 const InvoiceEdit = () => {
   let { id, invoiceId } = useParams();
@@ -143,6 +143,7 @@ const InvoiceEdit = () => {
     fetchClients();
   }, [id]);
   // Load all products to setProducts
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -294,10 +295,10 @@ const InvoiceEdit = () => {
         />
         <InvoicePreview invoice={invoice} />
       </InvoiceContainer>
-
-      <button className="button" onClick={handleSave}>
+      <DefaultButton onClick={handleSave}>
         Save
-      </button>
+      </DefaultButton>
+
     </div>
   );
 };

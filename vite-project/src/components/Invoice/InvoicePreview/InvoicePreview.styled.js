@@ -12,6 +12,9 @@ export const InvoicePreviewContainer = styled.div`
   @media (min-width: 1199px) {
     width: 50%;
     height: 100%;
+
+    min-width: 21cm;
+    min-height: 29.7cm;
   }
 `;
 

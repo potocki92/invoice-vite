@@ -382,7 +382,7 @@ const InvoiceInputs = ({
               loading ? (
                 `Loading document...`
               ) : (
-                <DefaultButton className="submit">Submit</DefaultButton>
+                <DefaultButton className="submit">Download PDF</DefaultButton>
               )
             }
           </PDFDownloadLink>
