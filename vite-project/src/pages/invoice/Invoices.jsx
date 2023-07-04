@@ -318,7 +318,7 @@ const Invoices = () => {
    * @param {*} updateFunctions - The object containing the update functions.
    * @param {*} newInvoice - The new invoice state.
    * @param {*} setNewInvoice - The function to set the new invoice state.
-   * @returns {void} 
+   * @returns {void}
    */
   const handleChange = (e) => {
     handleInputChange(e, updateFunctions, newInvoice, setNewInvoice);
@@ -369,13 +369,26 @@ const Invoices = () => {
   };
 
   useEffect(() => {
-    calculateInvoiceTotal(newInvoice?.products?.items, setSubtotal,setProductTaxRate, setTotal)
+    calculateInvoiceTotal(
+      newInvoice?.products?.items,
+      setSubtotal,
+      setProductTaxRate,
+      setTotal
+    );
+
+    setNewInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      products: {
+        ...prevInvoice.products,
+        totalAmount: total,
+      },
+    }));
   }, [newInvoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
-  
+
   /**
    * Updates the product list in the invoice state with the new product list.
    * @param {object[]} products - The new product list.
-   * @returns {void} 
+   * @returns {void}
    */
   const handleInvoiceNumberChange = (e) => {
     setInvoiceNumber(e.target.value);
