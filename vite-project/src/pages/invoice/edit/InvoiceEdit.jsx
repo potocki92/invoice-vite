@@ -8,6 +8,7 @@ import InvoicePreview from "../../../components/Invoice/InvoicePreview/InvoicePr
 import { InvoiceContainer } from "../Invoice.styled";
 import InvoiceInputs from "../../../components/Invoice/InvoiceInputs/InvoiceInputs";
 import calculateInvoiceTotal from "../../../utils/calculateInvoiceTotal";
+import { DefaultButton } from "../../../components/buttons.styled";
 
 const InvoiceEdit = () => {
   let { id, invoiceId } = useParams();
@@ -282,7 +283,7 @@ const InvoiceEdit = () => {
           <h1>Edit Invoice {invoice._id}</h1>
           <p>Invoice number: {invoice.invoiceNumber}</p>
           <Link to={homeLink}>
-            <button className="button back_button">Go Back</button>
+            <DefaultButton className="button back_button">Go Back</DefaultButton>
           </Link>
         </div>
       </StyledBox>
