@@ -4,11 +4,13 @@ import { ReactComponent as LogoffIcon } from "../../../assets/images/svg/logout.
 import { useState } from "react";
 import { useEffect } from "react";
 import { homeLink } from "../../../utils/linkConfig";
+import { clearFromLocalStorage } from "../../../api/localStorageAPI";
 const UserMenu = ({setLoginUser, handleLinkClick}) => {
     const [user, setItems] = useState([]);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        clearFromLocalStorage("token");
+        clearFromLocalStorage("invoices")
         setLoginUser({});
     };
     useEffect(() => {

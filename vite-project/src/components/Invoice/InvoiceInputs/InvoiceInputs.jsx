@@ -70,6 +70,7 @@ const InvoiceInputs = ({
   selectedProductIndex,
   handleClientChange,
   isInAuthentication,
+  children
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -386,6 +387,9 @@ const InvoiceInputs = ({
               )
             }
           </PDFDownloadLink>
+        </InputsContainer>
+        <InputsContainer>
+        {children}
         </InputsContainer>
       </InputsContent>
     </InvoiceInputsContainer>

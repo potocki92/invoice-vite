@@ -292,12 +292,16 @@ const InvoiceEdit = () => {
           products={products}
           selectedProduct={selectedProduct}
           selectedProductIndex={selectedProductIndex}
-        />
-        <InvoicePreview invoice={invoice} />
-      </InvoiceContainer>
-      <DefaultButton onClick={handleSave}>
+          buttonComponent={DefaultButton}
+          handleSave={handleSave}
+        >
+          <DefaultButton onClick={handleSave}>
         Save
       </DefaultButton>
+      </InvoiceInputs>
+        <InvoicePreview invoice={invoice} />
+      </InvoiceContainer>
+      
 
     </div>
   );

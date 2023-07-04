@@ -10,8 +10,8 @@ export const saveInvoicesToLocalStorage = (invoices) => {
 };
 
 // Usuwanie danych faktur z localStorage
-export const clearInvoicesFromLocalStorage = () => {
-  localStorage.removeItem("invoices");
+export const clearFromLocalStorage = (localStorageName) => {
+  localStorage.removeItem(localStorageName);
 };
 
 // Dodawanie nowego objektu z fakturą

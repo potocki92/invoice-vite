@@ -45,6 +45,7 @@ export const DefaultButton = styled.button`
   }
 
   &:hover {
+      box-shadow: 0 5px 25px 0 rgba(0,0,0,0.25);
       background: #3cb0fd;
       text-decoration: none;
   }
