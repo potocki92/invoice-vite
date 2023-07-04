@@ -98,6 +98,7 @@ const InvoiceEdit = () => {
       },
     }));
   }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
+  
   // Set state values based on invoice data
   const setInvoiceData = (invoice) => {
     setDueDate(invoice.date?.dueDate);
@@ -212,7 +213,6 @@ const InvoiceEdit = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(invoice);
       console.log("Invoice updated successfully: ", response);
     } catch (error) {
       console.error(error);

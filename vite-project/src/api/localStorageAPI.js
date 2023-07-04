@@ -13,3 +13,15 @@ export const saveInvoicesToLocalStorage = (invoices) => {
 export const clearInvoicesFromLocalStorage = () => {
   localStorage.removeItem("invoices");
 };
+
+// Dodawanie nowego objektu z fakturą
+export const saveNewInvoiceToLocalStorage = (invoice) => {
+  let invoices = getInvoicesFromLocalStorage()
+  
+  if (invoices === null) {
+    saveInvoicesToLocalStorage(invoice)
+  } else {
+    invoices.push(invoice);
+    localStorage.setItem("invoices", JSON.stringify(invoices));
+  }
+};

@@ -16,6 +16,7 @@ import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
 import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
 import updateUser from "../../utils/updateUser";
+import { saveNewInvoiceToLocalStorage } from "../../api/localStorageAPI";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -247,7 +248,14 @@ const Invoices = () => {
           }
         )
         .then((res) => {
-          setAllInvoices([...allInvoices, newInvoice]); // aktualizujemy stan listy produktów
+          const invoicesToSave = {
+            _id: newInvoice._id,
+            invoiceNumber: newInvoice.invoiceNumber,
+            name: newInvoice.user.name,
+            clientName: newInvoice.client.clientName,
+            date: newInvoice.date,
+          }
+          saveNewInvoiceToLocalStorage(invoicesToSave)
           setNewInvoice({
             _id: new Types.ObjectId(), // wygeneruj nowe ID
             invoiceNumber: "",
