@@ -1,5 +1,7 @@
 # RESTful API
 
+[![My Skills](https://skillicons.dev/icons?i=nodejs,mongodb,express)](https://skillicons.dev)
+
 This project provides a RESTful API built with Node.js and Express.js, along with MongoDB for data storage. The API allows users to perform various operations related to user authentication, products, clients, and invoices. Below is a description of the different components and their functionalities.
 
 ## Prerequisites
