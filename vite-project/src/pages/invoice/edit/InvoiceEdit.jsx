@@ -98,7 +98,7 @@ const InvoiceEdit = () => {
       },
     }));
   }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
-  
+
   // Set state values based on invoice data
   const setInvoiceData = (invoice) => {
     setDueDate(invoice.date?.dueDate);
@@ -143,7 +143,7 @@ const InvoiceEdit = () => {
     fetchClients();
   }, [id]);
   // Load all products to setProducts
-  
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -253,7 +253,9 @@ const InvoiceEdit = () => {
           <h1>Edit Invoice {invoice._id}</h1>
           <p>Invoice number: {invoice.invoiceNumber}</p>
           <Link to={homeLink}>
-            <DefaultButton className="button back_button">Go Back</DefaultButton>
+            <DefaultButton className="button back_button">
+              Go Back
+            </DefaultButton>
           </Link>
         </div>
       </StyledBox>
@@ -295,14 +297,12 @@ const InvoiceEdit = () => {
           buttonComponent={DefaultButton}
           handleSave={handleSave}
         >
-          <DefaultButton onClick={handleSave}>
-        Save
-      </DefaultButton>
-      </InvoiceInputs>
+          <DefaultButton className="edit" onClick={handleSave}>
+            Save
+          </DefaultButton>
+        </InvoiceInputs>
         <InvoicePreview invoice={invoice} />
       </InvoiceContainer>
-      
-
     </div>
   );
 };

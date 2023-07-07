@@ -45,17 +45,17 @@ export const DefaultButton = styled.button`
   }
 
   &:hover {
-      box-shadow: 0 5px 25px 0 rgba(0,0,0,0.25);
-      background: #3cb0fd;
-      text-decoration: none;
+    box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.25);
+    background: #3cb0fd;
+    text-decoration: none;
   }
 
   &.back {
     background: #e74c3c;
 
     &:hover {
-        background: #e94c4f;
-        text-decoration: none;
+      background: #e94c4f;
+      text-decoration: none;
     }
   }
 
@@ -64,9 +64,29 @@ export const DefaultButton = styled.button`
     margin-top: 1em;
 
     &:hover {
-      box-shadow: 0 5px 25px 0 rgba(0,0,0,0.25);
+      box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.25);
       background-color: #004c3f;
       color: #ffffff;
     }
   }
+
+  &.edit {
+    margin-top: 1em;
+  }
+`;
+
+export const ButtonPDFReview = styled.button`
+  width: 45px;
+  height: 45px;
+  position: sticky;
+  bottom: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0px;
+  padding: 0px 15px;
+  border: medium none;
+  z-index: 100;
+  user-select: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 12px;
+  background-color: rgb(255, 255, 255);
 `;

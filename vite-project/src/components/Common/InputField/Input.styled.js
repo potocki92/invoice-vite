@@ -38,6 +38,10 @@ export const InputsContainer = styled.div`
       gap: 20px;
     }
   }
+
+  &.buttons {
+    gap: 10px;
+  }
   @media (min-width: 1024px) {
     &.full-33 {
       width: 33.33%;

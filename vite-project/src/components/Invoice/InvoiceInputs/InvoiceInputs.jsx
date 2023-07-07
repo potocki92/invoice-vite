@@ -11,6 +11,7 @@ import clientCardMarkup from "../../../markups/clientCardMarkup,js";
 import {
   AddButton,
   AddButtonWrapper,
+  ButtonPDFReview,
   DefaultButton,
 } from "../../buttons.styled";
 import TotalSummary from "../../Common/TotalSummary/TotalSummary";
@@ -374,7 +375,7 @@ const InvoiceInputs = ({
             subtotal={subtotal}
           />
         </InputsContainer>
-        <InputsContainer>
+        <InputsContainer className="buttons">
           <PDFDownloadLink
             document={<InvoicePDF invoice={invoice} />}
             fileName="invoice"
@@ -384,12 +385,13 @@ const InvoiceInputs = ({
                 `Loading document...`
               ) : (
                 <DefaultButton className="submit">Download PDF</DefaultButton>
-              )
-            }
+                )
+              }
           </PDFDownloadLink>
+              {children}
         </InputsContainer>
+        <ButtonPDFReview />
         <InputsContainer>
-        {children}
         </InputsContainer>
       </InputsContent>
     </InvoiceInputsContainer>
