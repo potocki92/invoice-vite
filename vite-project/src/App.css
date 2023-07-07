@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,900&family=Open+Sans:wght@300;400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,900&family=Open+Sans:wght@300;400;500&display=swap");
 h1,
 h2,
 h3,
@@ -16,7 +16,9 @@ span {
   list-style: none;
   text-decoration: none;
 }
-
+a {
+  color: #fff;
+}
 .App {
   background: #f0f2f5;
   height: 100%;
@@ -24,7 +26,6 @@ span {
 
 .section {
   padding: 70px 0;
-
 }
 @media (min-width: 768px) {
   .section {

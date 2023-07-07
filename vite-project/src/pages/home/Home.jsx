@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
 import InvoiceList from "../../components/Invoice/InvoiceList/InvoiceList";
 import { set } from "mongoose";
-import { getInvoicesFromLocalStorage, saveInvoicesToLocalStorage } from "../../api/localStorageAPI";
+import {
+  getInvoicesFromLocalStorage,
+  saveInvoicesToLocalStorage,
+} from "../../api/localStorageAPI";
 
 /**
  * Component for managing invoices.
@@ -20,33 +23,27 @@ const Home = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const storedInvoices = getInvoicesFromLocalStorage();
-
-        if (storedInvoices.length > 0) {
-          setAllInvoices(storedInvoices);
-          setIsLoading(false);
-        } else {
-          const response = await axios.get(`/invoices`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          const invoicesToSave = response.data.map((invoice) => ({
-            _id: invoice._id,
-            invoiceNumber: invoice.invoiceNumber,
-            name: invoice.user.name,
-            clientName: invoice.client.clientName,
-            date: invoice.date,
-          }));
-          saveInvoicesToLocalStorage(invoicesToSave);
-          setAllInvoices(response.data);
-          setIsLoading(false);
-        }
+        const response = await axios.get(`/invoices`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const invoicesToSave = response.data.map((invoice) => ({
+          _id: invoice._id,
+          invoiceNumber: invoice.invoiceNumber,
+          name: invoice.user.name,
+          clientName: invoice.client.clientName,
+          date: invoice.date,
+        }));
+        saveInvoicesToLocalStorage(invoicesToSave);
+        setAllInvoices(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
       }
     };
+
     fetchInvoices();
   }, []);
 

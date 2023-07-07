@@ -235,7 +235,7 @@ const Invoices = () => {
   Increments the currentMonthInvoices state by 1.
   Displays an alert if the form is not valid.
   */
-  const handleClick = () => {
+  const handleSave = () => {
     if (isFormValid) {
       axios
         .post(
@@ -254,8 +254,8 @@ const Invoices = () => {
             name: newInvoice.user.name,
             clientName: newInvoice.client.clientName,
             date: newInvoice.date,
-          }
-          saveNewInvoiceToLocalStorage(invoicesToSave)
+          };
+          saveNewInvoiceToLocalStorage(invoicesToSave);
           setNewInvoice({
             _id: new Types.ObjectId(), // wygeneruj nowe ID
             invoiceNumber: "",
@@ -446,17 +446,20 @@ const Invoices = () => {
           products={products}
           selectedProduct={selectedProduct}
           selectedProductIndex={selectedProductIndex}
-        />
+          buttonComponent={DefaultButton}
+          handleSave={handleSave}
+        >
+          <DefaultButton className="edit" onClick={handleSave}>
+            <Link
+              to={homeLink}
+              onClick={isFormValid ? null : (e) => e.preventDefault()}
+            >
+              Save
+            </Link>
+          </DefaultButton>
+        </InvoiceInputs>
         <InvoicePreview invoice={newInvoice} />
       </InvoiceContainer>
-      <Link
-        to={homeLink}
-        onClick={isFormValid ? null : (e) => e.preventDefault()}
-      >
-        <button className="button mark__as-btn" onClick={handleClick}>
-          Create Invoice
-        </button>
-      </Link>
     </div>
   );
 };
