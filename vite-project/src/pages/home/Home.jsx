@@ -28,13 +28,14 @@ const Home = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+    
         const invoicesToSave = response.data.map((invoice) => ({
           _id: invoice._id,
           invoiceNumber: invoice.invoiceNumber,
-          name: invoice.user.name,
-          clientName: invoice.client.clientName,
-          date: invoice.date,
+          clientName: invoice.clientName,
+          dueDate: invoice.dueDate
         }));
+    
         saveInvoicesToLocalStorage(invoicesToSave);
         setAllInvoices(response.data);
         setIsLoading(false);

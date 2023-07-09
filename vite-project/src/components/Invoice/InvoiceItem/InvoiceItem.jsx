@@ -188,7 +188,7 @@ const InvoiceItem = ({ invoice, onDelete }) => {
         <InvoiceInner>
           <p>{invoice.invoiceNumber}</p>
           <p>{invoice.clientName}</p>
-          <p>{invoice.date.invoiceDate}</p>
+          <p>{invoice.invoiceDate}</p>
         </InvoiceInner>
         <Link to={`${homeLink}/invoice/${invoice._id}`}>
           <InvoiceButton
