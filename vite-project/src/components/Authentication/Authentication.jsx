@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { CSSTransition } from "react-transition-group";
 import "./Authentication.css";
 import Login from "../Authentication/Login/Login";
 import Register from "../Authentication/Register/Register";
@@ -81,7 +80,8 @@ const Authentication = ({ setLoginUser }) => {
   const [total, setTotal] = useState(0.0);
   const [productTaxRate, setProductTaxRate] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
-  const [showRegister, setShowRegister] = useState(true);
+
+  const [showRegister, setShowRegister] = useState(false);
 
   /**
     Adds an empty product item to the invoice's product list.
@@ -183,17 +183,17 @@ const Authentication = ({ setLoginUser }) => {
       setProductTaxRate(0);
     }
 
-    setInvoice(prevInvoice =>({
+    setInvoice((prevInvoice) => ({
       ...prevInvoice,
       products: {
         ...prevInvoice.products,
-        totalAmount: total
-      }
-    }))
+        totalAmount: total,
+      },
+    }));
 
     console.log(total, subtotal, productTaxRate);
   }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
-  
+
   useEffect(() => {
     setInvoice((prevInvoice) => ({ ...prevInvoice, invoiceNumber }));
   }, []);
@@ -219,27 +219,14 @@ const Authentication = ({ setLoginUser }) => {
             <FormHeader>
               <FormTitle>Invoice</FormTitle>
             </FormHeader>
-            <CSSTransition
-              in={showRegister}
-              timeout={300}
-              classNames="form"
-              unmountOnExit
-              onExit={() => setShowRegister(false)}
-            >
+            {showRegister ? (
+              <Register setShowRegister={setShowRegister} />
+            ) : (
               <Login
                 setShowRegister={setShowRegister}
                 setLoginUser={setLoginUser}
               />
-            </CSSTransition>
-            <CSSTransition
-              in={!showRegister}
-              timeout={300}
-              classNames="form"
-              unmountOnExit
-              onExit={() => setShowRegister(true)}
-            >
-              <Register setShowRegister={setShowRegister} />
-            </CSSTransition>
+            )}
           </Wrapper>
         </FormContainer>
       </FormsWrapper>
