@@ -10,6 +10,7 @@ import {
   InputsForm,
 } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
+import isFloating from "../../../utils/isFloating";
 
 const Register = ({ setShowRegister, setLoginUser }) => {
   const [formData, setFormData] = useState({
@@ -41,9 +42,13 @@ const Register = ({ setShowRegister, setLoginUser }) => {
       <LoginTitle>Register</LoginTitle>
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         <InputsContainer>
-          <InputSpan>Username</InputSpan>
-          <Input
-            className="form-input"
+          <InputSpan className={isFloating(formData.name)}>Username</InputSpan>
+          <Input 
+          className={
+              isFloating(formData.name)
+                ? `authentication floating`
+                : `authentication`
+            }
             type={"text"}
             name="name"
             value={name}
@@ -53,9 +58,13 @@ const Register = ({ setShowRegister, setLoginUser }) => {
           />
         </InputsContainer>
         <InputsContainer>
-          <InputSpan>Email</InputSpan>
+          <InputSpan className={isFloating(formData.email)}>Email</InputSpan>
           <Input
-            className="form-input"
+          className={
+            isFloating(formData.email)
+              ? `authentication floating`
+              : `authentication`
+          }
             type={"email"}
             name="email"
             value={email}
@@ -65,9 +74,13 @@ const Register = ({ setShowRegister, setLoginUser }) => {
           />
         </InputsContainer>
         <InputsContainer>
-          <InputSpan>Password</InputSpan>
+          <InputSpan className={isFloating(formData.password)}>Password</InputSpan>
           <Input
-            className="form-input"
+          className={
+              isFloating(formData.password)
+                ? `authentication floating`
+                : `authentication`
+            }
             type={"password"}
             name="password"
             value={password}
