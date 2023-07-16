@@ -220,7 +220,7 @@ const Authentication = ({ setLoginUser }) => {
               <FormTitle>Invoice</FormTitle>
             </FormHeader>
             {showRegister ? (
-              <Register setShowRegister={setShowRegister} />
+              <Register setShowRegister={setShowRegister} setLoginUser={setLoginUser}/>
             ) : (
               <Login
                 setShowRegister={setShowRegister}

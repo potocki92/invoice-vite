@@ -321,7 +321,7 @@ const InvoiceInputs = ({
       <InfoWrapper title={"Products:"} />
       {!isInAuthentication ? (
         <InputsContent>
-          {invoice?.products.items.map((product, index) => (
+          {invoice?.products?.items.map((product, index) => (
             <ProductCard
               key={index}
               index={index}
