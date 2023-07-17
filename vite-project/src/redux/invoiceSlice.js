@@ -21,18 +21,18 @@ const invoiceSlice = createSlice({
   name: "invoice",
   initialState,
   reducers: {
-    setNewInvoice(state, action) {
-      state.newInvoice = action.payload;
-    },
-    setInvoiceUser: (state, action) => {
-      state.newInvoice.user = action.payload;
+    setInvoice: (state, action) => {
+      return {
+        ...state,
+        ...action.payload
+      }
     },
     setInvoiceNumber: (state, action) => {
-      state.invoiceNumber = action.payload;
-    },
+      state.invoiceNumber = action.payload
+    }
   },
 });
 
-export const { setNewInvoice, setInvoiceUser, setInvoiceNumber } =
+export const { setInvoice, setInvoiceNumber } =
   invoiceSlice.actions;
 export default invoiceSlice.reducer;

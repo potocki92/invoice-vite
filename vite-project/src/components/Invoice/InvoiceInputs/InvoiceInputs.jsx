@@ -24,6 +24,7 @@ import {
 import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
 import { PDFDownloadLink, View } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -73,6 +74,10 @@ const InvoiceInputs = ({
   isInAuthentication,
   children
 }) => {
+  const dispatch = useDispatch()
+  const invoiceA = useSelector((state) => state.invoice)
+
+  console.log(invoiceA);
   const [showModal, setShowModal] = useState(false);
 
   return (

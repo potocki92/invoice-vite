@@ -21,6 +21,8 @@ import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
 import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
 import updateUser from "../../utils/updateUser";
+import { setInvoiceNumber } from "../../redux/invoiceSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Authentication component.
@@ -49,12 +51,12 @@ const Authentication = ({ setLoginUser }) => {
     },
   });
 
-  const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
-  const [invoiceNumber, setInvoiceNumber] = useState(
-    new CurrentMonthInvoices(currentMonthInvoices).generateInvoiceNumber(
-      currentMonthInvoices
-    )
-  );
+  const invoiceNumber = useSelector((state) => state.invoice.invoiceNumber)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
+  },[dispatch])
   const [companyName, setCompanyName] = useState("");
   const [companyNip, setCompanyNip] = useState("");
   const [companyRegon, setCompanyRegon] = useState("");
@@ -114,7 +116,7 @@ const Authentication = ({ setLoginUser }) => {
    * @returns {void}
    */
   const handleInvoiceNumberChange = (e) => {
-    setInvoiceNumber(e.target.value);
+    dispatch(setInvoiceNumber(e.target.value));
   };
 
   /**
