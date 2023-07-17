@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  newInvoice: {
-    _id: "",
+  _id: "",
     invoiceNumber: "",
     user: { address: {} },
     client: {},
@@ -14,7 +13,6 @@ const initialState = {
       dueDate: "",
       invoiceDate: "",
     },
-  },
 };
 
 const invoiceSlice = createSlice({
@@ -29,10 +27,13 @@ const invoiceSlice = createSlice({
     },
     setInvoiceNumber: (state, action) => {
       state.invoiceNumber = action.payload
+    },
+    setCompanyName: (state, action) => {
+      state.user.name = action.payload
     }
   },
 });
 
-export const { setInvoice, setInvoiceNumber } =
+export const { setInvoice, setInvoiceNumber, setCompanyName } =
   invoiceSlice.actions;
 export default invoiceSlice.reducer;

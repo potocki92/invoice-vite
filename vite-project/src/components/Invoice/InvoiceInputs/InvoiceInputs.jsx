@@ -7,7 +7,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { createPortal } from "react-dom";
 import Modal from "../../Common/Modal/Modal";
 import { ModalButton } from "../../Common/Modal/Modal.styled";
-import clientCardMarkup from "../../../markups/clientCardMarkup,js";
+import clientCardMarkup from "../../../markups/clientCardMarkup";
 import {
   AddButton,
   AddButtonWrapper,
@@ -25,6 +25,9 @@ import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
 import { PDFDownloadLink, View } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
 import { useDispatch, useSelector } from "react-redux";
+import handleInputChange from "../../../utils/handleInputChange";
+import { setInvoice, setInvoiceNumber, setCompanyName } from "../../../redux/invoiceSlice";
+import updateUser from "../../../utils/updateUser";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -39,8 +42,6 @@ Component for displaying and editing invoice input fields.
 */
 const InvoiceInputs = ({
   handleInvoiceNumberChange,
-  invoiceNumber,
-  companyName,
   companyEmail,
   companyAddress,
   companyCity,
@@ -63,7 +64,6 @@ const InvoiceInputs = ({
   productTaxRate,
   subtotal,
   handleAddCard,
-  handleChange,
   invoice,
   setNewInvoice,
   clients,
@@ -74,26 +74,60 @@ const InvoiceInputs = ({
   isInAuthentication,
   children
 }) => {
+  /*
+  
+    TODO 
+
+    Zmienić w InvoiceInputs propsy na selectory z Reduxa
+  */
   const dispatch = useDispatch()
   const invoiceA = useSelector((state) => state.invoice)
 
   console.log(invoiceA);
   const [showModal, setShowModal] = useState(false);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const updateFunctions = {
+      invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
+      name: [setCompanyName, updateUser],
+    };
+
+    const [setFunction, updateFunction] = updateFunctions[name];
+
+    if (setFunction) {
+      dispatch(setFunction(value));
+    }
+
+    if (updateFunction) {
+      const updatedInvoice = updateFunction(name, value, invoiceA);
+      dispatch(setInvoice(updatedInvoice));
+    }
+  };
+
+  const updateInvoiceNumber = (newInvoiceNumber) => {
+    dispatch(
+      setInvoice((prevInvoice) => ({
+        ...prevInvoice,
+        invoiceNumber: newInvoiceNumber,
+      }))
+    );
+  };
+
   return (
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
       <InputsContent>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoiceNumber)}>
+          <InputSpan className={isFloating(invoiceA.invoiceNumber)}>
             Invoice Number:
           </InputSpan>
           <Input
-            className={isFloating(invoiceNumber)}
+            className={isFloating(invoiceA.invoiceNumber)}
             type="text"
             name="invoiceNumber"
             placeholder="Enter invoice number"
-            value={invoiceNumber}
+            value={invoiceA.invoiceNumber}
             onChange={handleInvoiceNumberChange}
           />
         </InputsContainer>
@@ -121,15 +155,15 @@ const InvoiceInputs = ({
       <InfoWrapper title={"Bill from:"} />
       <InputsContent>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(companyName)}>
+          <InputSpan className={isFloating(invoiceA.user.name)}>
             Company name:
           </InputSpan>
           <Input
-            className={isFloating(companyName)}
+            className={isFloating(invoiceA.user.name)}
             type="text"
             name="name"
             placeholder="Enter company name"
-            value={companyName}
+            value={invoiceA.user.name}
             onChange={handleChange}
           />
         </InputsContainer>

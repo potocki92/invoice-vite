@@ -8,15 +8,21 @@
  * @returns {undefined} 
  */
 
-const handleInputChange = (e, updateFunctions, invoice, setInvoice) => {
+import { useDispatch } from "react-redux";
+
+const handleInputChange = (e, updateFunctions, invoice) => {
   const { name, value } = e.target;
+  const dispatch = useDispatch()
 
   const [setFunction, updateFunction] = updateFunctions[name];
-  setFunction(value);
+
+  if (setFunction) {
+    setFunction(value)
+  }
 
   if (updateFunction) {
     const updatedInvoice = updateFunction(name, value, invoice);
-    setInvoice(updatedInvoice);
+    dispatch(setInvoice(updatedInvoice));
   }
 };
 

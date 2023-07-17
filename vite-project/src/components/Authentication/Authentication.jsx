@@ -21,7 +21,7 @@ import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
 import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
 import updateUser from "../../utils/updateUser";
-import { setInvoiceNumber } from "../../redux/invoiceSlice";
+import { setInvoiceNumber, setInvoice } from "../../redux/invoiceSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
@@ -35,28 +35,38 @@ import { useDispatch, useSelector } from "react-redux";
  * )
  */
 const Authentication = ({ setLoginUser }) => {
-  const [invoice, setInvoice] = useState({
-    invoiceNumber: "",
-    user: {
-      address: {},
-    },
-    client: {},
-    products: {
-      items: [{}],
-      totalAmount: 0,
-    },
-    date: {
-      dueDate: new Date().toISOString().substring(0, 10),
-      invoiceDate: new Date().toISOString().substring(0, 10),
-    },
-  });
+  // const [invoice, setInvoice] = useState({
+  //   invoiceNumber: "",
+  //   user: {
+  //     address: {},
+  //   },
+  //   client: {},
+  //   products: {
+  //     items: [{}],
+  //     totalAmount: 0,
+  //   },
+  //   date: {
+  //     dueDate: new Date().toISOString().substring(0, 10),
+  //     invoiceDate: new Date().toISOString().substring(0, 10),
+  //   },
+  // });
 
+  
+  //TODO
+
+
+  /*
+    Ustawianie stanów za pomocą Reduxa
+  */
+ const dispatch = useDispatch()
+  const invoice = useSelector((state) => state.invoice)
   const invoiceNumber = useSelector((state) => state.invoice.invoiceNumber)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
   },[dispatch])
+  
+
   const [companyName, setCompanyName] = useState("");
   const [companyNip, setCompanyNip] = useState("");
   const [companyRegon, setCompanyRegon] = useState("");
