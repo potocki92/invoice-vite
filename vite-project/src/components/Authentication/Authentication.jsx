@@ -181,30 +181,30 @@ const Authentication = ({ setLoginUser }) => {
     handleInputChange(e, updateFunctions, invoice, setInvoice);
   };
 
-  useEffect(() => {
-    if (invoice?.products?.items?.length > 0) {
-      calculateInvoiceTotal(
-        invoice?.products?.items,
-        setSubtotal,
-        setProductTaxRate,
-        setTotal
-      );
-    } else {
-      setTotal(0);
-      setSubtotal(0);
-      setProductTaxRate(0);
-    }
+  // useEffect(() => {
+  //   if (invoice?.products?.items?.length > 0) {
+  //     calculateInvoiceTotal(
+  //       invoice?.products?.items,
+  //       setSubtotal,
+  //       setProductTaxRate,
+  //       setTotal
+  //     );
+  //   } else {
+  //     setTotal(0);
+  //     setSubtotal(0);
+  //     setProductTaxRate(0);
+  //   }
 
-    setInvoice((prevInvoice) => ({
-      ...prevInvoice,
-      products: {
-        ...prevInvoice.products,
-        totalAmount: total,
-      },
-    }));
+  //   setInvoice((prevInvoice) => ({
+  //     ...prevInvoice,
+  //     products: {
+  //       ...prevInvoice.products,
+  //       totalAmount: total,
+  //     },
+  //   }));
 
-    console.log(total, subtotal, productTaxRate);
-  }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
+  //   console.log(total, subtotal, productTaxRate);
+  // }, [invoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
 
   useEffect(() => {
     setInvoice((prevInvoice) => ({ ...prevInvoice, invoiceNumber }));

@@ -26,8 +26,14 @@ import { PDFDownloadLink, View } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
 import { useDispatch, useSelector } from "react-redux";
 import handleInputChange from "../../../utils/handleInputChange";
-import { setInvoice, setInvoiceNumber, setCompanyName } from "../../../redux/invoiceSlice";
+import { setInvoice, setInvoiceNumber, setCompanyName, setCompanyEmail, setInvoiceDate, setDueDate, setCompanyPhone, setCompanyCity, setCompanyPostal, setCompanyAddress, setCompanyNip, setCompanyRegon, setClientName, setClientEmail, setClientNip, setClientRegon, setClientPhone, setClientCity, setClientPostal, setClientAddress, setNotes } from "../../../redux/invoiceSlice";
 import updateUser from "../../../utils/updateUser";
+import updateDate from "../../../utils/updateDate";
+import updateClient from "../../../utils/updateClient";
+import updateNotes from "../../../utils/updateNotes";
+import calculateInvoiceTotal from "../../../utils/calculateInvoiceTotal";
+import { setTotal } from "../../../redux/totalSlice";
+import { setSubtotal } from "../../../redux/productSlice";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -42,27 +48,7 @@ Component for displaying and editing invoice input fields.
 */
 const InvoiceInputs = ({
   handleInvoiceNumberChange,
-  companyEmail,
-  companyAddress,
-  companyCity,
-  companyPostal,
-  companyPhone,
-  companyNip,
-  companyRegon,
-  clientName,
-  clientEmail,
-  clientPhone,
-  clientCity,
-  clientPostal,
-  clientAddress,
-  clientNip,
-  clientRegon,
-  invoiceDate,
-  dueDate,
-  notes,
-  total,
   productTaxRate,
-  subtotal,
   handleAddCard,
   invoice,
   setNewInvoice,
@@ -74,23 +60,41 @@ const InvoiceInputs = ({
   isInAuthentication,
   children
 }) => {
-  /*
-  
-    TODO 
-
-    Zmienić w InvoiceInputs propsy na selectory z Reduxa
-  */
   const dispatch = useDispatch()
   const invoiceA = useSelector((state) => state.invoice)
+  const total = useSelector((state) => state.total)
+  const product = useSelector((state) => state.product)
 
   console.log(invoiceA);
+
   const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updateFunctions = {
+      invoiceDate: [setInvoiceDate, updateDate],
+      dueDate: [setDueDate, updateDate],
       invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
       name: [setCompanyName, updateUser],
+      email: [setCompanyEmail, updateUser],
+      phone: [setCompanyPhone, updateUser],
+      NIP: [setCompanyNip, updateUser],
+      REGON: [setCompanyRegon, updateUser],
+
+      city: [setCompanyCity, updateUser],
+      postalCode: [setCompanyPostal, updateUser],
+      street: [setCompanyAddress, updateUser],
+
+      clientName: [setClientName, updateClient],
+      clientNip: [setClientNip, updateClient],
+      clientRegon: [setClientRegon, updateClient],
+      clientEmail: [setClientEmail, updateClient],
+      clientPhone: [setClientPhone, updateClient],
+      clientCity: [setClientCity, updateClient],
+      clientPostal: [setClientPostal, updateClient],
+      clientAddress: [setClientAddress, updateClient],
+
+      notes: [setNotes, updateNotes],
     };
 
     const [setFunction, updateFunction] = updateFunctions[name];
@@ -114,6 +118,25 @@ const InvoiceInputs = ({
     );
   };
 
+   useEffect(() => {
+    if (invoiceA?.products?.items?.length > 0) {
+      calculateInvoiceTotal(
+        invoiceA?.products?.items,
+        dispatch(setSubtotal),
+      );
+    } else {
+      dispatch(setSubtotal(0))
+    }
+
+    dispatch(setInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      products: {
+        ...prevInvoice.products,
+        totalAmount: total,
+      },
+    })));
+
+  }, [invoiceA?.products?.items, setTotal]);
   return (
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
@@ -127,27 +150,27 @@ const InvoiceInputs = ({
             type="text"
             name="invoiceNumber"
             placeholder="Enter invoice number"
-            value={invoiceA.invoiceNumber}
+            value={invoiceA.invoiceNumber || ""}
             onChange={handleInvoiceNumberChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className="floating">Invoice Date:</InputSpan>
+          <InputSpan className={isFloating(invoiceA.date.invoiceDate)}>Invoice Date:</InputSpan>
           <Input
-            className="floating"
+            className={isFloating(invoiceA.date.invoiceDate)}
             type="date"
             name="invoiceDate"
-            value={invoiceDate}
+            value={invoiceA.date.invoiceDate || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className="floating">Due Date:</InputSpan>
+          <InputSpan className={isFloating(invoiceA.date.dueDate)}>Due Date:</InputSpan>
           <Input
-            className="floating"
+            className={isFloating(invoiceA.date.dueDate)}
             type="date"
             name="dueDate"
-            value={dueDate}
+            value={invoiceA.date.dueDate || ""}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -163,86 +186,86 @@ const InvoiceInputs = ({
             type="text"
             name="name"
             placeholder="Enter company name"
-            value={invoiceA.user.name}
+            value={invoiceA.user.name || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(companyEmail)}>Email:</InputSpan>
+          <InputSpan className={isFloating(invoiceA.user.email)}>Email:</InputSpan>
           <Input
-            className={isFloating(companyEmail)}
+            className={isFloating(invoiceA.user.email)}
             type="email"
             name="email"
             placeholder="Enter email"
-            value={companyEmail}
+            value={invoiceA.user.email || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(companyPhone)}>Phone:</InputSpan>
+          <InputSpan className={isFloating(invoiceA.user.phone)}>Phone:</InputSpan>
           <Input
-            className={isFloating(companyPhone)}
+            className={isFloating(invoiceA.user.phone)}
             type="text"
             name="phone"
             placeholder="Enter phone number"
-            value={companyPhone}
+            value={invoiceA.user.phone || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-66">
-          <InputSpan className={isFloating(companyCity)}>City:</InputSpan>
+          <InputSpan className={isFloating(invoiceA.user.address.city)}>City:</InputSpan>
           <Input
-            className={isFloating(companyCity)}
+            className={isFloating(invoiceA.user.address.city)}
             type="text"
             name="city"
             placeholder="Enter city"
-            value={companyCity}
+            value={invoiceA.user.address.city || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(companyNip)}>NIP:</InputSpan>
+          <InputSpan className={isFloating(invoiceA.user.NIP)}>NIP:</InputSpan>
           <Input
-            className={isFloating(companyNip)}
+            className={isFloating(invoiceA.user.NIP)}
             type="text"
             name="NIP"
             placeholder="Enter NIP"
-            value={companyNip}
+            value={invoiceA.user.NIP || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(companyAddress)}>Address:</InputSpan>
+          <InputSpan className={isFloating(invoiceA.user.address.street)}>Address:</InputSpan>
           <Input
-            className={isFloating(companyAddress)}
+            className={isFloating(invoiceA.user.address.street)}
             type="text"
             name="street"
             placeholder="Enter address (street)"
-            value={companyAddress}
+            value={invoiceA.user.address.street || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(companyPostal)}>
+          <InputSpan className={isFloating(invoiceA.user.address.postalCode)}>
             Postal code:
           </InputSpan>
           <Input
-            className={isFloating(companyPostal)}
+            className={isFloating(invoiceA.user.address.postalCode)}
             type="text"
             name="postalCode"
             placeholder="Enter postal code"
-            value={companyPostal}
+            value={invoiceA.user.address.postalCode || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(companyRegon)}>REGON:</InputSpan>
+          <InputSpan className={isFloating(invoiceA.user.REGON)}>REGON:</InputSpan>
           <Input
-            className={isFloating(companyRegon)}
+            className={isFloating(invoiceA.user.REGON)}
             type="text"
             name="REGON"
             placeholder="Enter REGON"
-            value={companyRegon}
+            value={invoiceA.user.REGON || ""}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -250,13 +273,13 @@ const InvoiceInputs = ({
       <InfoWrapper title={"Bill to:"} />
       <InputsContent>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(clientName)}>Client name</InputSpan>
+          <InputSpan className={isFloating(invoiceA.client.clientName)}>Client name</InputSpan>
           <Input
-            className={isFloating(clientName)}
+            className={isFloating(invoiceA.client.clientName)}
             type={"text"}
             name={"clientName"}
             placeholder="Customer's name"
-            value={clientName}
+            value={invoiceA.client.clientName || ""}
             onChange={handleChange}
           />
           {!isInAuthentication ? (
@@ -278,81 +301,81 @@ const InvoiceInputs = ({
             )}
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(clientEmail)}>Email</InputSpan>
+          <InputSpan className={isFloating(invoiceA.client.clientEmail)}>Email</InputSpan>
           <Input
-            className={isFloating(clientEmail)}
+            className={isFloating(invoiceA.client.clientEmail)}
             type={"email"}
             name={"clientEmail"}
             placeholder="Customer's Email"
-            value={clientEmail}
+            value={invoiceA.client.clientEmail || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(clientPhone)}>
+          <InputSpan className={isFloating(invoiceA.client.clientPhone)}>
             Client phone
           </InputSpan>
           <Input
-            className={isFloating(clientPhone)}
+            className={isFloating(invoiceA.client.clientPhone)}
             type={"tel"}
             name={"clientPhone"}
             placeholder="Customer's Phone"
-            value={clientPhone}
+            value={invoiceA.client.clientPhone || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-66">
-          <InputSpan className={isFloating(clientAddress)}> Address</InputSpan>
+          <InputSpan className={isFloating(invoiceA.client.clientAddress)}> Address</InputSpan>
           <Input
-            className={isFloating(clientAddress)}
+            className={isFloating(invoiceA.client.clientAddress)}
             type={"text"}
             name={"clientAddress"}
             placeholder="Customer's Address"
-            value={clientAddress}
+            value={invoiceA.client.clientAddress || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(clientNip)}>NIP</InputSpan>
+          <InputSpan className={isFloating(invoiceA.client.clientNip)}>NIP</InputSpan>
           <Input
-            className={isFloating(clientNip)}
+            className={isFloating(invoiceA.client.clientNip)}
             type={"text"}
             name={"clientNip"}
             placeholder="Customer's NIP"
-            value={clientNip}
+            value={invoiceA.client.clientNip || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(clientCity)}>City</InputSpan>
+          <InputSpan className={isFloating(invoiceA.client.clientCity)}>City</InputSpan>
           <Input
-            className={isFloating(clientCity)}
+            className={isFloating(invoiceA.client.clientCity)}
             type={"text"}
             name={"clientCity"}
             placeholder="City"
-            value={clientCity}
+            value={invoiceA.client.clientCity || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(clientPostal)}>Postal</InputSpan>
+          <InputSpan className={isFloating(invoiceA.client.clientPostal)}>Postal</InputSpan>
           <Input
-            className={isFloating(clientPostal)}
+            className={isFloating(invoiceA.client.clientPostal)}
             type={"text"}
             name={"clientPostal"}
             placeholder="Postal"
-            value={clientPostal}
+            value={invoiceA.client.clientPostal || ""}
             onChange={handleChange}
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(clientRegon)}>REGON</InputSpan>
+          <InputSpan className={isFloating(invoiceA.client.clientRegon)}>REGON</InputSpan>
           <Input
-            className={isFloating(clientRegon)}
+            className={isFloating(invoiceA.client.clientRegon)}
             type={"text"}
             name={"clientRegon"}
             placeholder="Customer's REGON"
-            value={clientRegon}
+            value={invoiceA.client.clientRegon || ""}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -398,12 +421,12 @@ const InvoiceInputs = ({
       </AddButtonWrapper>
       <InputsContent>
         <InputsContainer>
-          <InputSpan className={isFloating(notes)}>Notes</InputSpan>
+          <InputSpan className={isFloating(invoiceA.notes)}>Notes</InputSpan>
           <TextArea
-            className={isFloating(notes)}
+            className={isFloating(invoiceA.notes)}
             name={"notes"}
             placeholder="Notes"
-            value={notes}
+            value={invoiceA.notes || ""}
             onChange={handleChange}
           ></TextArea>
         </InputsContainer>
@@ -411,7 +434,7 @@ const InvoiceInputs = ({
           <TotalSummary
             total={total}
             productTaxRate={productTaxRate}
-            subtotal={subtotal}
+            subtotal={product.amount}
           />
         </InputsContainer>
         <InputsContainer className="buttons">
