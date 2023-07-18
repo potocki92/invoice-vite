@@ -19,8 +19,8 @@ import {
   Input,
   InputSpan,
 } from "../../Common/InputField/Input.styled";
-import { useDispatch } from "react-redux";
-import { removeProductFromInvoice } from "../../../redux/invoiceSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { removeProductFromInvoice, updateProductData } from "../../../redux/invoiceSlice";
 /**
  *   This component renders a product card with the product name, quantity, price, tax, and amount.
  *  It also renders a button to remove the product from the invoice.
@@ -36,7 +36,6 @@ import { removeProductFromInvoice } from "../../../redux/invoiceSlice";
 const ProductCard = ({
   index,
   product,
-  invoice,
   setNewInvoice,
   products,
   isInAuthentication,
@@ -49,6 +48,7 @@ const ProductCard = ({
   const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax);
   const [amount, setAmount] = useState(0);
   const dispatch = useDispatch()
+  const invoice = useSelector((state) => state.invoice)
   const [showModal, setShowModal] = useState(false);
 
   /**
@@ -180,21 +180,21 @@ const ProductCard = ({
 
     if (name === "productsName") {
       setProductName(value);
-      updatedProduct("productsName", value);
+      dispatch(updateProductData({ index, key: "productsName", value }));
     }
     if (name === "productsQty") {
       setProductQty(value);
-      updatedProduct("productsQty", value);
+      dispatch(updateProductData({ index, key: "productsQty", value}));
     }
 
     if (name === "productsPrice") {
       setProductPrice(value);
-      updatedProduct("productsPrice", value);
+      updateProductData(updatedProduct({index, key: "productsPrice", value}));
     }
 
     if (name === "productsTax") {
       setProductTax(value);
-      updatedProduct("productsTax", value);
+      updateProductData(updatedProduct({index, key: "productsTax", value}));
     }
   };
 

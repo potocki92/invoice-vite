@@ -29,6 +29,21 @@ const invoiceSlice = createSlice({
         ...action.payload
       }
     },
+    updateProductData: (state, action) => {
+      const { index, key, value } = action.payload;
+      if (index >= 0 && index < state.products.items.length) {
+        state.products.items[index][key] = value;
+
+        // Jeśli zmieni się ilość lub cena produktu, obliczamy nowy amount
+        if (key === "productsQty" || key === "productsPrice") {
+          const product = state.products.items[index];
+          const newAmount = product.qty * product.productsPrice + product.productsTax;
+          product.amount = newAmount;
+          // Aktualizujemy totalAmount sumując nowe amount dla wszystkich produktów
+          state.products.totalAmount = state.products.items.reduce((total, item) => total + item.amount, 0);
+        }
+      }
+    },
     addProductToInvoice: (state, action) => {
       state.products.items.push(action.payload)
     },
@@ -103,6 +118,7 @@ const invoiceSlice = createSlice({
 
 export const { 
   addProductToInvoice,
+  updateProductData,
   removeProductFromInvoice,
   setInvoice, 
   setInvoiceDate, 
