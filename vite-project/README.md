@@ -8,9 +8,7 @@ This project is an invoice application built with React and Vite. It allows user
 
     1. Clone the repository to your local machine.
     2. Navigate to the project directory.
-    3. Install the dependencies by running the command: npm install.
-    4. If you encounter an "ERR! ERESOLVE" error during installation, run the following command to set the legacy peer dependencies flag:
-        npm config set legacy-peer-deps true
+    3. Install the dependencies by running the command: npm run install-deps.
 
 ## Usage
 

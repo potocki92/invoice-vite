@@ -6,11 +6,13 @@ const initialState = {
     user: { address: {} },
     client: {},
     products: {
-      items: [{productsName: "",
-      qty: 1,
-      productsPrice: 0,
-      productsTax: 0,
-      amount: 0,}],
+      items: [{
+        productsName: "",
+        qty: 1,
+        productsPrice: 0,
+        productsTax: 0,
+        amount: 0,
+      }],
       totalAmount: 0,
     },
     date: {
@@ -35,7 +37,7 @@ const invoiceSlice = createSlice({
         state.products.items[index][key] = value;
 
         // Jeśli zmieni się ilość lub cena produktu, obliczamy nowy amount
-        if (key === "productsQty" || key === "productsPrice") {
+        if (key === "qty" || key === "productsPrice") {
           const product = state.products.items[index];
           const newAmount = product.qty * product.productsPrice + product.productsTax;
           product.amount = newAmount;

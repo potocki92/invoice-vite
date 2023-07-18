@@ -41,16 +41,17 @@ const ProductCard = ({
   isInAuthentication,
 }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
-  const [productName, setProductName] = useState(product.productsName);
-  const [productQty, setProductQty] = useState(product.productsQty);
-  const [productPrice, setProductPrice] = useState(product.productsPrice);
-  const [productTax, setProductTax] = useState(product.productsTax);
-  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax);
+  const [productName, setProductName] = useState(product.productsName || "");
+  const [productQty, setProductQty] = useState(product.productsQty || "");
+  const [productPrice, setProductPrice] = useState(product.productsPrice || "");
+  const [productTax, setProductTax] = useState(product.productsTax || "");
+  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax || "");
   const [amount, setAmount] = useState(0);
   const dispatch = useDispatch()
   const invoice = useSelector((state) => state.invoice)
   const [showModal, setShowModal] = useState(false);
 
+  console.log(product);
   /**
    * updatedProduct:
    * This function takes in two arguments, key and value, and updates the invoice object with the new value.
@@ -184,17 +185,17 @@ const ProductCard = ({
     }
     if (name === "productsQty") {
       setProductQty(value);
-      dispatch(updateProductData({ index, key: "productsQty", value}));
+      dispatch(updateProductData({ index, key: "qty", value}));
     }
 
     if (name === "productsPrice") {
       setProductPrice(value);
-      updateProductData(updatedProduct({index, key: "productsPrice", value}));
+      dispatch(updateProductData({index, key: "productsPrice", value}));
     }
 
     if (name === "productsTax") {
       setProductTax(value);
-      updateProductData(updatedProduct({index, key: "productsTax", value}));
+      dispatch(updateProductData({index, key: "productsTax", value}));
     }
   };
 
