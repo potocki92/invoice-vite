@@ -19,6 +19,8 @@ import {
   Input,
   InputSpan,
 } from "../../Common/InputField/Input.styled";
+import { useDispatch } from "react-redux";
+import { removeProductFromInvoice } from "../../../redux/invoiceSlice";
 /**
  *   This component renders a product card with the product name, quantity, price, tax, and amount.
  *  It also renders a button to remove the product from the invoice.
@@ -46,6 +48,7 @@ const ProductCard = ({
   const [productTax, setProductTax] = useState(product.productsTax);
   const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax);
   const [amount, setAmount] = useState(0);
+  const dispatch = useDispatch()
   const [showModal, setShowModal] = useState(false);
 
   /**
@@ -84,16 +87,7 @@ const ProductCard = ({
    * @returns
    */
   const handleRemoveProduct = () => {
-    const updateItems = [...invoice?.products.items];
-    updateItems.splice(index, 1);
-
-    setNewInvoice({
-      ...invoice,
-      products: {
-        ...invoice.products,
-        items: updateItems,
-      },
-    });
+    dispatch(removeProductFromInvoice(index))
   };
 
   /**

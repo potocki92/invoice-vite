@@ -1,24 +1,43 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    productsPrice: 0,
-    productsQty: 1,
-    productTaxRate: 0,
-    amount: 0
-}
+  products: {},
+};
 
 const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
-        setSubtotal: (state, action) => {
-            state.subtotal = action.payload
-        },
-        setProductTaxRate: (state, action) => {
-            state.productTaxRate = action.payload
+      addProduct: (state, action) => {
+        const { _id, productsName, qty, productsPrice, productsTax, amount } = action.payload;
+        state.products[_id] = {
+          _id,
+          productsName,
+          qty: Number(qty),
+          productsPrice: Number(productsPrice),
+          productsTax: Number(productsTax),
+          amount: Number(amount),
+        };
+      },
+      updateProduct: (state, action) => {
+        const { _id, productsName, qty, productsPrice, productsTax, amount } = action.payload;
+        if (state.products[_id]) {
+          state.products[_id] = {
+            ...state.products[_id], // Dodajemy, aby zachować pozostałe pola _id
+            productsName,
+            qty: Number(qty),
+            productsPrice: Number(productsPrice),
+            productsTax: Number(productsTax),
+            amount: Number(amount),
+          };
         }
-    }
-})
+      },
+      removeProduct: (state, action) => {
+        const productId = action.payload;
+        delete state.products[productId];
+      },
+    },
+  });
 
-export const { setSubtotal } = productSlice.actions
-export default productSlice.reducer
+export const { addProduct, updateProduct, removeProduct } = productSlice.actions;
+export default productSlice.reducer;

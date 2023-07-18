@@ -6,7 +6,11 @@ const initialState = {
     user: { address: {} },
     client: {},
     products: {
-      items: [{}],
+      items: [{productsName: "",
+      qty: 1,
+      productsPrice: 0,
+      productsTax: 0,
+      amount: 0,}],
       totalAmount: 0,
     },
     date: {
@@ -23,6 +27,15 @@ const invoiceSlice = createSlice({
       return {
         ...state,
         ...action.payload
+      }
+    },
+    addProductToInvoice: (state, action) => {
+      state.products.items.push(action.payload)
+    },
+    removeProductFromInvoice: (state, action) => {
+      const productIndex = action.payload
+      if (productIndex >= 0 && productIndex < state.products.items.length) {
+        state.products.items.splice(productIndex, 1)
       }
     },
     setInvoiceNumber: (state, action) => {
@@ -89,6 +102,8 @@ const invoiceSlice = createSlice({
 });
 
 export const { 
+  addProductToInvoice,
+  removeProductFromInvoice,
   setInvoice, 
   setInvoiceDate, 
   setDueDate, 

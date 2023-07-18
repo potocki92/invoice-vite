@@ -26,14 +26,13 @@ import { PDFDownloadLink, View } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
 import { useDispatch, useSelector } from "react-redux";
 import handleInputChange from "../../../utils/handleInputChange";
-import { setInvoice, setInvoiceNumber, setCompanyName, setCompanyEmail, setInvoiceDate, setDueDate, setCompanyPhone, setCompanyCity, setCompanyPostal, setCompanyAddress, setCompanyNip, setCompanyRegon, setClientName, setClientEmail, setClientNip, setClientRegon, setClientPhone, setClientCity, setClientPostal, setClientAddress, setNotes } from "../../../redux/invoiceSlice";
+import { setInvoice, setInvoiceNumber, setCompanyName, setCompanyEmail, setInvoiceDate, setDueDate, setCompanyPhone, setCompanyCity, setCompanyPostal, setCompanyAddress, setCompanyNip, setCompanyRegon, setClientName, setClientEmail, setClientNip, setClientRegon, setClientPhone, setClientCity, setClientPostal, setClientAddress, setNotes, addProductToInvoice } from "../../../redux/invoiceSlice";
 import updateUser from "../../../utils/updateUser";
 import updateDate from "../../../utils/updateDate";
 import updateClient from "../../../utils/updateClient";
 import updateNotes from "../../../utils/updateNotes";
 import calculateInvoiceTotal from "../../../utils/calculateInvoiceTotal";
 import { setTotal } from "../../../redux/totalSlice";
-import { setSubtotal } from "../../../redux/productSlice";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -49,7 +48,6 @@ Component for displaying and editing invoice input fields.
 const InvoiceInputs = ({
   handleInvoiceNumberChange,
   productTaxRate,
-  handleAddCard,
   invoice,
   setNewInvoice,
   clients,
@@ -64,11 +62,18 @@ const InvoiceInputs = ({
   const invoiceA = useSelector((state) => state.invoice)
   const total = useSelector((state) => state.total)
   const product = useSelector((state) => state.product)
-
+  const [showModal, setShowModal] = useState(false);
   console.log(invoiceA);
 
-  const [showModal, setShowModal] = useState(false);
-
+  const handleAddCard = () => {
+    dispatch(addProductToInvoice({
+      productsName: "",
+        qty: 1,
+        productsPrice: 0,
+        productsTax: 0,
+        amount: 0,
+    }))
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updateFunctions = {
@@ -118,25 +123,6 @@ const InvoiceInputs = ({
     );
   };
 
-   useEffect(() => {
-    if (invoiceA?.products?.items?.length > 0) {
-      calculateInvoiceTotal(
-        invoiceA?.products?.items,
-        dispatch(setSubtotal),
-      );
-    } else {
-      dispatch(setSubtotal(0))
-    }
-
-    dispatch(setInvoice((prevInvoice) => ({
-      ...prevInvoice,
-      products: {
-        ...prevInvoice.products,
-        totalAmount: total,
-      },
-    })));
-
-  }, [invoiceA?.products?.items, setTotal]);
   return (
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />

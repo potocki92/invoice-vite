@@ -9,6 +9,7 @@
  */
 
 import { useDispatch } from "react-redux";
+import { setInvoice } from "../redux/invoiceSlice";
 
 const handleInputChange = (e, updateFunctions, invoice) => {
   const { name, value } = e.target;
