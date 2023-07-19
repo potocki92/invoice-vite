@@ -55,8 +55,6 @@ const ProductCard = ({
   const dispatch = useDispatch()
   const invoice = useSelector((state) => state.invoice)
   const [showModal, setShowModal] = useState(false);
-
-  console.log(product);
   /**
    * This function is used to handle the removal of a product from the invoice.
    * It dispatches the "removeProductFromInvoice" action to update the state.

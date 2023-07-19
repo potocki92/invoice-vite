@@ -30,6 +30,7 @@ import updateUser from "../../../utils/updateUser";
 import updateDate from "../../../utils/updateDate";
 import updateClient from "../../../utils/updateClient";
 import updateNotes from "../../../utils/updateNotes";
+import CurrentMonthInvoices from "../../../utils/currentMonthInvoices";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -43,7 +44,6 @@ Component for displaying and editing invoice input fields.
 @returns {JSX.Element} - Rendered component
 */
 const InvoiceInputs = ({
-  handleInvoiceNumberChange,
   setNewInvoice,
   clients,
   products,
@@ -53,10 +53,22 @@ const InvoiceInputs = ({
   isInAuthentication,
   children
 }) => {
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch()
   const invoiceA = useSelector((state) => state.invoice)
-  const [showModal, setShowModal] = useState(false);
-  console.log(invoiceA);
+
+  useEffect(() => {
+    dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
+  },[dispatch])
+  /**
+   * Handles the change of the invoice number.
+   *
+   * @param {Event} e - The change event object containing information about the field value change.
+   * @returns {void}
+   */
+  const handleInvoiceNumberChange = (e) => {
+    dispatch(setInvoiceNumber(e.target.value));
+  };
 
   const handleAddCard = () => {
     dispatch(addProductToInvoice({

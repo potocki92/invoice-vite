@@ -15,14 +15,8 @@ import {
   Wrapper,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
 import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
-import updateDate from "../../utils/updateDate";
-import updateClient from "../../utils/updateClient";
-import updateNotes from "../../utils/updateNotes";
-import handleInputChange from "../../utils/handleInputChange";
-import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
-import updateUser from "../../utils/updateUser";
-import { setInvoiceNumber, setInvoice } from "../../redux/invoiceSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { setInvoiceNumber } from "../../redux/invoiceSlice";
+import { useDispatch } from "react-redux";
 
 /**
  * Authentication component.
@@ -43,15 +37,7 @@ const Authentication = ({ setLoginUser }) => {
   
   const [showRegister, setShowRegister] = useState(false);
 
-  /**
-   * Handles the change of the invoice number.
-   *
-   * @param {Event} e - The change event object containing information about the field value change.
-   * @returns {void}
-   */
-  const handleInvoiceNumberChange = (e) => {
-    dispatch(setInvoiceNumber(e.target.value));
-  };
+
 
   return (
     <AuthenticationStyled>
@@ -87,7 +73,6 @@ const Authentication = ({ setLoginUser }) => {
       </FormsWrapper>
       <AuthenticationInputsContent>
         <InvoiceInputs
-          handleInvoiceNumberChange={handleInvoiceNumberChange}
           isInAuthentication={true}
         />
       </AuthenticationInputsContent>
