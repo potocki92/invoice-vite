@@ -34,16 +34,21 @@ const invoiceSlice = createSlice({
     updateProductData: (state, action) => {
       const { index, key, value } = action.payload;
       if (index >= 0 && index < state.products.items.length) {
-        state.products.items[index][key] = value;
+        if(key === "qty" || key === "productsPrice" || key === "productsTax") {
+          const floatValue = parseFloat(value)
+          state.products.items[index][key] = floatValue;
 
-        if (key === "qty" || key === "productsPrice") {
           const product = state.products.items[index];
           const newAmount = product.qty * product.productsPrice + product.productsTax;
           product.amount = newAmount;
           
-          state.products.totalAmount = state.products.items.reduce((total, item) => total + item.amount, 0);
+          state.products.totalAmount = parseFloat(state.products.items.reduce((total, item) => total + item.amount, 0));
+        } else {
+          state.products.items[index][key] = value
         }
-      }
+        }
+
+        
     },
     addProductToInvoice: (state, action) => {
       state.products.items.push(action.payload)

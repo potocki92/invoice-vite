@@ -45,7 +45,7 @@ const ProductCard = ({
   const [productQty, setProductQty] = useState(product.productsQty || "");
   const [productPrice, setProductPrice] = useState(product.productsPrice || "");
   const [productTax, setProductTax] = useState(product.productsTax || "");
-  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax || "");
+  const [productTaxRate, setProductTaxRate] = useState(0);
   const [amount, setAmount] = useState(0);
   const dispatch = useDispatch()
   const invoice = useSelector((state) => state.invoice)
