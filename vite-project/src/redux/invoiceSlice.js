@@ -1,5 +1,13 @@
+/*
+  Redux slice for managing the invoice state.
+  This slice handles the state related to invoice generation and management.
+  It provides actions to add, update, and remove products from the invoice,
+  set invoice information like invoice number, dates, company details, and client details.
+  Additionally, it allows setting custom notes related to the invoice.
+ */
 import { createSlice } from "@reduxjs/toolkit";
 
+// Initial state of the invoice slice.
 const initialState = {
   _id: "",
     invoiceNumber: "",
@@ -36,10 +44,15 @@ const invoiceSlice = createSlice({
       if (index >= 0 && index < state.products.items.length) {
         if(key === "qty" || key === "productsPrice" || key === "productsTax") {
           const floatValue = parseFloat(value)
-          state.products.items[index][key] = floatValue;
+
+          // Handle NaN value for productsTax
+          const taxValue = isNaN(floatValue) ? 0 : floatValue;
+          state.products.items[index][key] = taxValue;
+
 
           const product = state.products.items[index];
-          const newAmount = product.qty * product.productsPrice + product.productsTax;
+          const productTaxRate = product.qty * product.productsPrice * (product.productsTax / 100)
+          const newAmount = product.qty * product.productsPrice + productTaxRate;
           product.amount = newAmount;
           
           state.products.totalAmount = parseFloat(state.products.items.reduce((total, item) => total + item.amount, 0));

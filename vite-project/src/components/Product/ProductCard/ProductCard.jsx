@@ -42,45 +42,16 @@ const ProductCard = ({
 }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [productName, setProductName] = useState(product.productsName || "");
-  const [productQty, setProductQty] = useState(product.productsQty || "");
+  const [productQty, setProductQty] = useState(product.qty || "");
   const [productPrice, setProductPrice] = useState(product.productsPrice || "");
   const [productTax, setProductTax] = useState(product.productsTax || "");
   const [productTaxRate, setProductTaxRate] = useState(0);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(product.amount || 0);
   const dispatch = useDispatch()
   const invoice = useSelector((state) => state.invoice)
   const [showModal, setShowModal] = useState(false);
 
   console.log(product);
-  /**
-   * updatedProduct:
-   * This function takes in two arguments, key and value, and updates the invoice object with the new value.
-   * The function first creates a new array of updatedProducts by iterating over the invoice.products.items array using the map method.
-   * For the current product, identified by the index, the function creates a new object with the updated key and value.
-   * For all other products, the function returns the original product object.
-   * Finally, the function calls setNewInvoice with a new invoice object that merges the updated products array with the existing invoice object.
-   * This function is used in the component to update the products array of the invoice object whenever a user makes changes to a product's quantity or price.
-   * @param {*} key - The key to be updated in the invoice object products array at the specified index
-   * @param {*} value - The value to be updated in the invoice object products array at the specified index
-   * @returns
-   */
-  const updatedProduct = (key, value) => {
-    const updatedProducts = invoice?.products.items.map((product, i) => {
-      if (i === index) {
-        return {
-          ...product,
-          [key]: value,
-          productTaxRate: productTaxRate,
-          productTax: productTax,
-        };
-      }
-      return product;
-    });
-    setNewInvoice({
-      ...invoice,
-      products: { ...invoice?.products, items: updatedProducts },
-    });
-  };
   /**
    * handleRemoveProduct:
    * This is a function used to remove a product items from the invoice.
@@ -102,7 +73,7 @@ const ProductCard = ({
    */
   useEffect(() => {
     setProductPrice(product.productsPrice);
-    setProductQty(product.productsQty);
+    setProductQty(product.qty);
 
     const updateTaxRate =
       productTax !== 1 ? productQty * productPrice * (productTax / 100) : 0;
@@ -114,13 +85,11 @@ const ProductCard = ({
     if (!isNaN(updateAmount) && isFinite(updateAmount)) {
       setAmount(updateAmount);
     }
-    updatedProduct("productsRateTax", updateTaxRate);
-    updatedProduct("amount", updateAmount);
   }, [
     productQty,
     productPrice,
     productTax,
-    product.productsQty,
+    product.qty,
     product.productsPrice,
     productTaxRate,
     amount,
@@ -238,7 +207,7 @@ const ProductCard = ({
             type="number"
             name="productsPrice"
             placeholder="Price"
-            value={productPrice}
+            value={productPrice || ""}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -249,7 +218,7 @@ const ProductCard = ({
             type="number"
             name="productsQty"
             placeholder="Quantity"
-            value={productQty}
+            value={productQty || ""}
             onChange={handleChange}
           />
         </InputsContainer>
