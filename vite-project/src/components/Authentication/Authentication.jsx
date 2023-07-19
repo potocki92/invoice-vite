@@ -35,89 +35,13 @@ import { useDispatch, useSelector } from "react-redux";
  * )
  */
 const Authentication = ({ setLoginUser }) => {
-  // const [invoice, setInvoice] = useState({
-  //   invoiceNumber: "",
-  //   user: {
-  //     address: {},
-  //   },
-  //   client: {},
-  //   products: {
-  //     items: [{}],
-  //     totalAmount: 0,
-  //   },
-  //   date: {
-  //     dueDate: new Date().toISOString().substring(0, 10),
-  //     invoiceDate: new Date().toISOString().substring(0, 10),
-  //   },
-  // });
-
-  
-  //TODO
-
-
-  /*
-    Ustawianie stanów za pomocą Reduxa
-  */
  const dispatch = useDispatch()
-  const invoice = useSelector((state) => state.invoice)
-  const invoiceNumber = useSelector((state) => state.invoice.invoiceNumber)
 
   useEffect(() => {
     dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
   },[dispatch])
   
-
-  const [companyName, setCompanyName] = useState("");
-  const [companyNip, setCompanyNip] = useState("");
-  const [companyRegon, setCompanyRegon] = useState("");
-  const [companyEmail, setCompanyEmail] = useState("");
-  const [companyPhone, setCompanyPhone] = useState("");
-  const [companyCity, setCompanyCity] = useState("");
-  const [companyPostal, setCompanyPostal] = useState("");
-  const [companyAddress, setCompanyAddress] = useState("");
-
-  const [clientName, setClientName] = useState("");
-  const [clientNip, setClientNip] = useState("");
-  const [clientRegon, setClientRegon] = useState("");
-  const [clientEmail, setClientEmail] = useState("");
-  const [clientPhone, setClientPhone] = useState("");
-  const [clientCity, setClientCity] = useState("");
-  const [clientPostal, setClientPostal] = useState("");
-  const [clientAddress, setClientAddress] = useState("");
-  const [dueDate, setDueDate] = useState(invoice?.date?.dueDate);
-  const [invoiceDate, setInvoiceDate] = useState(invoice?.date?.invoiceDate);
-
-  const [notes, setNotes] = useState("");
-
-  const [total, setTotal] = useState(0.0);
-  const [productTaxRate, setProductTaxRate] = useState(0);
-  const [subtotal, setSubtotal] = useState(0);
-
   const [showRegister, setShowRegister] = useState(false);
-
-  /**
-    Adds an empty product item to the invoice's product list.
-    @returns {void}
-    */
-  const handleAddCard = () => {
-    console.log(invoice);
-    setInvoice({
-      ...invoice,
-      products: {
-        ...invoice.products,
-        items: [
-          ...invoice.products.items,
-          {
-            productTaxRate: 0,
-            productTax: 0,
-            productsPrice: 0.0,
-            productsQty: 1,
-            amount: 0,
-          },
-        ],
-      },
-    });
-  };
 
   /**
    * Handles the change of the invoice number.
@@ -128,62 +52,6 @@ const Authentication = ({ setLoginUser }) => {
   const handleInvoiceNumberChange = (e) => {
     dispatch(setInvoiceNumber(e.target.value));
   };
-
-  /**
-   * Updates the invoice number.
-   *
-   * @param {string} newInvoiceNumber - The new invoice number.
-   * @returns {void}
-   */
-  const updateInvoiceNumber = (newInvoiceNumber) => {
-    setInvoice((prevInvoice) => ({
-      ...prevInvoice,
-      invoiceNumber: newInvoiceNumber,
-    }));
-  };
-  /**
-   * Handles the change event of the invoice number input.
-   * Sets the invoice number state to the input value.
-   */
-  const updateFunctions = {
-    invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
-    name: [setCompanyName, updateUser],
-    email: [setCompanyEmail, updateUser],
-    phone: [setCompanyPhone, updateUser],
-    city: [setCompanyCity, updateUser],
-    postalCode: [setCompanyPostal, updateUser],
-    street: [setCompanyAddress, updateUser],
-    NIP: [setCompanyNip, updateUser],
-    REGON: [setCompanyRegon, updateUser],
-    clientName: [setClientName, updateClient],
-    clientNip: [setClientNip, updateClient],
-    clientRegon: [setClientRegon, updateClient],
-    clientEmail: [setClientEmail, updateClient],
-    clientPhone: [setClientPhone, updateClient],
-    clientCity: [setClientCity, updateClient],
-    clientPostal: [setClientPostal, updateClient],
-    clientAddress: [setClientAddress, updateClient],
-    dueDate: [setDueDate, updateDate],
-    invoiceDate: [setInvoiceDate, updateDate],
-    notes: [setNotes, updateNotes],
-  };
-
-  /**
-   *  Handles the change event of the invoice inputs.
-   * Sets the invoice state to the input value.
-   * @param {*} e
-   * @param {*} updateFunctions
-   * @param {*} invoice
-   * @param {*} setInvoice
-   * @returns {void}
-   */
-  const handleChange = (e) => {
-    handleInputChange(e, updateFunctions, invoice, setInvoice);
-  };
-
-  useEffect(() => {
-    setInvoice((prevInvoice) => ({ ...prevInvoice, invoiceNumber }));
-  }, []);
 
   return (
     <AuthenticationStyled>
@@ -220,33 +88,6 @@ const Authentication = ({ setLoginUser }) => {
       <AuthenticationInputsContent>
         <InvoiceInputs
           handleInvoiceNumberChange={handleInvoiceNumberChange}
-          invoiceNumber={invoiceNumber}
-          companyName={companyName}
-          companyEmail={companyEmail}
-          companyPhone={companyPhone}
-          companyCity={companyCity}
-          companyPostal={companyPostal}
-          companyAddress={companyAddress}
-          companyNip={companyNip}
-          companyRegon={companyRegon}
-          clientName={clientName}
-          clientEmail={clientEmail}
-          clientPhone={clientPhone}
-          clientCity={clientCity}
-          clientPostal={clientPostal}
-          clientAddress={clientAddress}
-          clientNip={clientNip}
-          clientRegon={clientRegon}
-          invoiceDate={invoiceDate}
-          dueDate={dueDate}
-          notes={notes}
-          total={total}
-          productTaxRate={productTaxRate}
-          subtotal={subtotal}
-          invoice={invoice}
-          setNewInvoice={setInvoice}
-          handleAddCard={handleAddCard}
-          handleChange={handleChange}
           isInAuthentication={true}
         />
       </AuthenticationInputsContent>
