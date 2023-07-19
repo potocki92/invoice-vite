@@ -16,7 +16,7 @@ const initialState = {
     products: {
       items: [{
         productsName: "",
-        qty: 1,
+        qty: 0,
         productsPrice: 0,
         productsTax: 0,
         amount: 0,
