@@ -33,16 +33,19 @@ import updateNotes from "../../../utils/updateNotes";
 import CurrentMonthInvoices from "../../../utils/currentMonthInvoices";
 
 /**
-Component for displaying and editing invoice input fields.
-@param {Object} props - Component props
-@param {Object} props.invoice - Invoice data object
-@param {Function} props.setNewInvoice - Function to update invoice data
-@param {Array} props.clients - Array of client objects
-@param {Array} props.products - Array of product objects
-@param {Object} props.selectedProduct - Selected product object
-@param {Number} props.selectedProductIndex - Index of the selected product
-@returns {JSX.Element} - Rendered component
-*/
+ * Component for displaying and editing invoice input fields.
+ * @param {Object} props - Component props
+ * @param {Object} props.invoice - Invoice data object
+ * @param {Function} props.setNewInvoice - Function to update invoice data
+ * @param {Array} props.clients - Array of client objects
+ * @param {Array} props.products - Array of product objects
+ * @param {Object} props.selectedProduct - Selected product object
+ * @param {Number} props.selectedProductIndex - Index of the selected product
+ * @param {Function} props.handleClientChange - Function to handle client change
+ * @param {boolean} props.isInAuthentication - Flag indicating if the component is in authentication mode
+ * @param {ReactNode} props.children - Optional React children elements
+ * @returns {JSX.Element} - Rendered component
+ */
 const InvoiceInputs = ({
   setNewInvoice,
   clients,
@@ -70,6 +73,11 @@ const InvoiceInputs = ({
     dispatch(setInvoiceNumber(e.target.value));
   };
 
+  /**
+   * Handles the addition of a new product card to the invoice.
+   *
+   * @returns {void}
+   */
   const handleAddCard = () => {
     dispatch(addProductToInvoice({
       productsName: "",
@@ -79,6 +87,12 @@ const InvoiceInputs = ({
         amount: 0,
     }))
   }
+  /**
+   * Handles the change of input fields in the invoice form.
+   *
+   * @param {Event} e - The change event object containing information about the field value change.
+   * @returns {void}
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updateFunctions = {
@@ -119,6 +133,12 @@ const InvoiceInputs = ({
     }
   };
 
+  /**
+   * Updates the invoice number with the provided newInvoiceNumber.
+   *
+   * @param {string} newInvoiceNumber - The new invoice number.
+   * @returns {void}
+   */
   const updateInvoiceNumber = (newInvoiceNumber) => {
     dispatch(
       setInvoice((prevInvoice) => ({

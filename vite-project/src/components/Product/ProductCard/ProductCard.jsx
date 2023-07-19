@@ -25,15 +25,14 @@ import { removeProductFromInvoice, updateProductData } from "../../../redux/invo
 /**
  * This component renders a product card with the product name, quantity, price, tax, and amount.
  * It also renders a button to remove the product from the invoice.
+ * The component takes the following props:
  *
- * @param {Object} props - The component props
- * @param {number} props.index - The index of the product in the invoice products array
- * @param {Object} props.product - The product object
- * @param {Object} props.invoice - The invoice object
- * @param {Function} props.setNewInvoice - The function to update the invoice object
- * @param {Array} props.products - The list of products
- * @param {boolean} props.isInAuthentication - Flag indicating whether the component is in authentication mode
- * @returns {JSX} Returns the product card component
+ * @param {number} index - The index of the product in the invoice products array
+ * @param {Object} product - The product object
+ * @param {Object} invoice - The invoice object
+ * @param {Function} setNewInvoice - The function to update the invoice object
+ * @param {Array} products - The list of products
+ * @returns {JSX} - Returns the product card component
  */
 const ProductCard = ({
   index,
