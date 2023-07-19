@@ -16,3 +16,8 @@ export const updateProductData = ({ index, key, value }) => {
       },
     };
   };
+
+export const setProductTaxRate = (taxRate) => ({
+  type: "SET_PRODUCT_TAX_RATE",
+  payload: taxRate,
+});

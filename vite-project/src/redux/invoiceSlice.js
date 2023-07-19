@@ -60,8 +60,6 @@ const invoiceSlice = createSlice({
           state.products.items[index][key] = value
         }
         }
-
-        
     },
     addProductToInvoice: (state, action) => {
       state.products.items.push(action.payload)

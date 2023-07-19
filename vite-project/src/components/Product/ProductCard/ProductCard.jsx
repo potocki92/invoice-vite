@@ -21,6 +21,7 @@ import {
 } from "../../Common/InputField/Input.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { removeProductFromInvoice, updateProductData } from "../../../redux/invoiceSlice";
+import { setProductTaxRate } from "../../../redux/productSlice";
 
 /**
  * This component renders a product card with the product name, quantity, price, tax, and amount.
@@ -48,7 +49,7 @@ const ProductCard = ({
   const [productQty, setProductQty] = useState(product.qty || "");
   const [productPrice, setProductPrice] = useState(product.productsPrice || "");
   const [productTax, setProductTax] = useState(product.productsTax || "");
-  const [productTaxRate, setProductTaxRate] = useState(0);
+  const productTaxRate = useSelector((state) => state.product.value)
   const [amount, setAmount] = useState(product.amount || 0);
   
   const dispatch = useDispatch()
@@ -77,7 +78,7 @@ const ProductCard = ({
       productTax !== 1 ? productQty * productPrice * (productTax / 100) : 0;
     const formattedTaxRate = parseFloat(updateTaxRate.toFixed(2));
     if (!isNaN(updateTaxRate) && isFinite(updateTaxRate)) {
-      setProductTaxRate(formattedTaxRate);
+      dispatch(setProductTaxRate(formattedTaxRate));
     }
     const updateAmount = productQty * productPrice + productTaxRate;
     if (!isNaN(updateAmount) && isFinite(updateAmount)) {
@@ -93,6 +94,7 @@ const ProductCard = ({
     amount,
   ]);
 
+  console.log(productTaxRate);
   /**
    * This function is used to update the invoice object with the selected product.
    *

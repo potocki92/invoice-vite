@@ -38,7 +38,6 @@ const TotalSummary = () => {
     (accumulator, currentProduct) => accumulator + currentProduct.qty * currentProduct.productsPrice * (currentProduct.productsTax / 100),
     0
   );
-
   return (
     <TotalSummaryContainer>
       <SubtotalContainer>
