@@ -25,14 +25,11 @@ import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
 import { PDFDownloadLink, View } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
 import { useDispatch, useSelector } from "react-redux";
-import handleInputChange from "../../../utils/handleInputChange";
 import { setInvoice, setInvoiceNumber, setCompanyName, setCompanyEmail, setInvoiceDate, setDueDate, setCompanyPhone, setCompanyCity, setCompanyPostal, setCompanyAddress, setCompanyNip, setCompanyRegon, setClientName, setClientEmail, setClientNip, setClientRegon, setClientPhone, setClientCity, setClientPostal, setClientAddress, setNotes, addProductToInvoice } from "../../../redux/invoiceSlice";
 import updateUser from "../../../utils/updateUser";
 import updateDate from "../../../utils/updateDate";
 import updateClient from "../../../utils/updateClient";
 import updateNotes from "../../../utils/updateNotes";
-import calculateInvoiceTotal from "../../../utils/calculateInvoiceTotal";
-import { setTotal } from "../../../redux/totalSlice";
 
 /**
 Component for displaying and editing invoice input fields.
@@ -47,8 +44,6 @@ Component for displaying and editing invoice input fields.
 */
 const InvoiceInputs = ({
   handleInvoiceNumberChange,
-  productTaxRate,
-  invoice,
   setNewInvoice,
   clients,
   products,
@@ -60,8 +55,6 @@ const InvoiceInputs = ({
 }) => {
   const dispatch = useDispatch()
   const invoiceA = useSelector((state) => state.invoice)
-  const total = useSelector((state) => state.total)
-  const product = useSelector((state) => state.product)
   const [showModal, setShowModal] = useState(false);
   console.log(invoiceA);
 
@@ -369,12 +362,12 @@ const InvoiceInputs = ({
       <InfoWrapper title={"Products:"} />
       {!isInAuthentication ? (
         <InputsContent>
-          {invoice?.products?.items.map((product, index) => (
+          {invoiceA?.products?.items.map((product, index) => (
             <ProductCard
               key={index}
               index={index}
               product={product}
-              invoice={invoice}
+              invoice={invoiceA}
               setNewInvoice={setNewInvoice}
               selectedProduct={selectedProduct}
               selectedProductIndex={selectedProductIndex}
@@ -384,12 +377,12 @@ const InvoiceInputs = ({
         </InputsContent>
       ) : (
         <InputsContent>
-          {invoice?.products.items.map((product, index) => (
+          {invoiceA?.products.items.map((product, index) => (
             <ProductCard
               key={index}
               index={index}
               product={product}
-              invoice={invoice}
+              invoice={invoiceA}
               setNewInvoice={setNewInvoice}
               selectedProduct={selectedProduct}
               selectedProductIndex={selectedProductIndex}
@@ -417,15 +410,11 @@ const InvoiceInputs = ({
           ></TextArea>
         </InputsContainer>
         <InputsContainer>
-          <TotalSummary
-            total={total}
-            productTaxRate={productTaxRate}
-            subtotal={product.amount}
-          />
+          <TotalSummary/>
         </InputsContainer>
         <InputsContainer className="buttons">
           <PDFDownloadLink
-            document={<InvoicePDF invoice={invoice} />}
+            document={<InvoicePDF invoice={invoiceA} />}
             fileName="invoice"
           >
             {({ loading }) =>
