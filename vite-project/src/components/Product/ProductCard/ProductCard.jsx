@@ -40,8 +40,6 @@ const ProductCard = ({
   product,
   isInAuthentication,
 }) => {
-  // State for the selected product
-  const [selectedProduct, setSelectedProduct] = useState({});
   // Local state for the product data
   const [productName, setProductName] = useState(product.productsName || "");
   const [productQty, setProductQty] = useState(product.qty || "");
@@ -51,11 +49,27 @@ const ProductCard = ({
   const [amount, setAmount] = useState(product.amount || 0);
   
   const dispatch = useDispatch()
-  const invoice = useSelector((state) => state.invoice)
   const products = useSelector((state) => state.product.products)
 
   console.log(products);
   const [showModal, setShowModal] = useState(false);
+
+  /*
+   * This useEffect hook is used to update the local state of the component
+   * whenever the "product" prop changes. The "product" prop contains the data
+   * received from the Redux store for the specific product card.
+   * 
+   * It updates the local state variables with the values from the "product" object,
+   * or with default values if the values don't exist in the "product" object.
+   */
+  useEffect(() => {
+    setProductName(product.productsName || "");
+    setProductQty(product.qty || "");
+    setProductPrice(product.productsPrice || "");
+    setProductTax(product.productsTax || "");
+    setAmount(product.amount || 0);
+  }, [product]);
+
   /**
    * This function is used to handle the removal of a product from the invoice.
    * It dispatches the "removeProductFromInvoice" action to update the state.
@@ -64,7 +78,7 @@ const ProductCard = ({
     dispatch(removeProductFromInvoice(index))
   };
 
-  /**
+  /*
    * This hook is used to update the amount whenever the product quantity, price, or tax rate changes.
    * The hook takes a callback function as an argument that is called whenever the productQty, productPrice, product.productsQty, product.productsPrice, productTaxRate, or amount variables change.
    * The callback function updates the productTaxRate variable with the product quantity, price, and tax rate.
