@@ -13,7 +13,11 @@ const productTaxRateSlice = createSlice({
       state.products = action.payload
     },
     setProductTaxRate: (state, action) => {
-      state.value = action.payload;
+      const { index, taxRate } = action.payload; // Używamy "index" zamiast "productId"
+      const product = state.products[index]; // Używamy indeksu produktu jako identyfikatora
+      if (product) {
+        product.productsTaxRate = taxRate;
+      }
     },
   },
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./ProductCard.css";
 import {
   InfoCount,
@@ -45,14 +45,16 @@ const ProductCard = ({
   const [productQty, setProductQty] = useState(product.qty || "");
   const [productPrice, setProductPrice] = useState(product.productsPrice || "");
   const [productTax, setProductTax] = useState(product.productsTax || "");
-  const productTaxRate = useSelector((state) => state.product.value)
+
   const [amount, setAmount] = useState(product.amount || 0);
   
   const dispatch = useDispatch()
   const products = useSelector((state) => state.product.products)
-
-  console.log(products);
   const [showModal, setShowModal] = useState(false);
+  const productTaxRate = useMemo(() => {
+    const taxRate = product.productsTax || 0;
+    return taxRate !== 1 ? productQty * productPrice * (taxRate / 100) : 0;
+  }, [productQty, productPrice, product.productsTax]);
 
   /*
    * This useEffect hook is used to update the local state of the component
@@ -86,28 +88,20 @@ const ProductCard = ({
    * Finally, it updates the state of the component with the new amount.
    */
   useEffect(() => {
-    setProductPrice(product.productsPrice);
-    setProductQty(product.qty);
-
+    // Calculate the updated tax rate based on the current state values
     const updateTaxRate =
       productTax !== 1 ? productQty * productPrice * (productTax / 100) : 0;
     const formattedTaxRate = parseFloat(updateTaxRate.toFixed(2));
     if (!isNaN(updateTaxRate) && isFinite(updateTaxRate)) {
-      dispatch(setProductTaxRate(formattedTaxRate));
+      dispatch(setProductTaxRate({ index: product._id, taxRate: formattedTaxRate }));
     }
-    const updateAmount = productQty * productPrice + productTaxRate;
+  
+    // Calculate the updated amount based on the current state values
+    const updateAmount = productQty * productPrice + formattedTaxRate;
     if (!isNaN(updateAmount) && isFinite(updateAmount)) {
       setAmount(updateAmount);
     }
-  }, [
-    productQty,
-    productPrice,
-    productTax,
-    product.qty,
-    product.productsPrice,
-    productTaxRate,
-    amount,
-  ]);
+  }, [productQty, productPrice, productTax]);
   /**
    * This function is used to update the invoice object with the selected product.
    *
