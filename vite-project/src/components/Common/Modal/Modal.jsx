@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { CloseModal, ModalCard, ModalCardWrapper, ModalHeader, ModalInner, ModalPortal, ModalStyled } from "./Modal.styled"
 import { CgCloseO } from "react-icons/cg";
 /**

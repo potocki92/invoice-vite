@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
 import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
-import InvoicePDF from "../../components/Invoice/InvoicePDF/InvoicePDF";
 import InvoiceInputs from "../../components/Invoice/InvoiceInputs/InvoiceInputs";
 import { StyledBox } from "../../components/Invoice/InvoiceList/InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
@@ -14,9 +13,11 @@ import updateDate from "../../utils/updateDate";
 import updateClient from "../../utils/updateClient";
 import updateNotes from "../../utils/updateNotes";
 import handleInputChange from "../../utils/handleInputChange";
-import calculateInvoiceTotal from "../../utils/calculateInvoiceTotal";
 import updateUser from "../../utils/updateUser";
 import { saveNewInvoiceToLocalStorage } from "../../api/localStorageAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { setProducts } from "../../redux/productSlice";
+import { setUserDetails } from "../../redux/invoiceSlice";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -32,6 +33,10 @@ const Invoices = () => {
    * @property {Object} date - The date information of the invoice, including the due date and the invoice date
    */
 
+  const dispatch = useDispatch()
+  const products = useSelector((state) => state.product.products)
+  const invoice = useSelector((state) => state.invoice)
+  console.log(invoice);
   const [newInvoice, setNewInvoice] = useState({
     _id: new Types.ObjectId(),
     invoiceNumber: "",
@@ -49,29 +54,12 @@ const Invoices = () => {
     },
   });
   const token = localStorage.getItem("token");
-  const [user, setUser] = useState({});
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [allInvoices, setAllInvoices] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedProductIndex, setSelectedProductIndex] = useState(-1);
   const [clients, setClients] = useState([]);
-  const [products, setProducts] = useState([]);
-
   const [isFormValid, setIsFormValid] = useState(false);
-  const [invoiceNumber, setInvoiceNumber] = useState(
-    new CurrentMonthInvoices(currentMonthInvoices).generateInvoiceNumber(
-      currentMonthInvoices
-    )
-  );
-
-  const [companyName, setCompanyName] = useState("");
-  const [companyNip, setCompanyNip] = useState("");
-  const [companyRegon, setCompanyRegon] = useState("");
-  const [companyEmail, setCompanyEmail] = useState("");
-  const [companyPhone, setCompanyPhone] = useState("");
-  const [companyCity, setCompanyCity] = useState("");
-  const [companyPostal, setCompanyPostal] = useState("");
-  const [companyAddress, setCompanyAddress] = useState("");
 
   const [clientName, setClientName] = useState(
     newInvoice?.client.clientName || ""
@@ -100,14 +88,6 @@ const Invoices = () => {
   const [selectedClient, setSelectedClient] = useState(
     newInvoice?.client || ""
   );
-  const [dueDate, setDueDate] = useState(newInvoice?.date?.dueDate);
-  const [invoiceDate, setInvoiceDate] = useState(newInvoice?.date?.invoiceDate);
-
-  const [notes, setNotes] = useState(newInvoice?.notes?.notes || "");
-
-  const [total, setTotal] = useState(0);
-  const [productTaxRate, setProductTaxRate] = useState(0);
-  const [subtotal, setSubtotal] = useState(0);
   /**
    * Validates whether the new invoice data is valid.
    * @returns {boolean} - true if the form data is valid, false otherwise.
@@ -138,19 +118,7 @@ const Invoices = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUser(response.data);
-        setCompanyName(response.data.name);
-        setCompanyNip(response.data.NIP);
-        setCompanyRegon(response.data.REGON);
-        setCompanyEmail(response.data.email);
-        setCompanyPhone(response.data.phone);
-        setCompanyCity(response.data.address.city);
-        setCompanyPostal(response.data.address.postalCode);
-        setCompanyAddress(response.data.address.street);
-        setNewInvoice((prevInvoice) => ({
-          ...prevInvoice,
-          user: response.data,
-        }));
+        dispatch(setUserDetails(response.data))
       } catch (error) {
         console.error(error);
       }
@@ -188,27 +156,13 @@ const Invoices = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setProducts(response.data);
+        dispatch(setProducts(response.data))
       } catch (error) {
         console.error(error);
       }
     };
     fetchProducts();
   }, [id]);
-
-  /**
-   * Generates an invoice number in the format INV-MM/YY/NN.
-  @param {number} currentMonthInvoices - The current month's total number of invoices.
-  @returns {string} - The generated invoice number.
-  */
-  // const invoiceNumber = new CurrentMonthInvoices(
-  //   currentMonthInvoices
-  // ).generateInvoiceNumber(currentMonthInvoices);
-
-  // Sets the new invoice state with the generated invoice number
-  useEffect(() => {
-    setNewInvoice((prevInvoice) => ({ ...prevInvoice, invoiceNumber }));
-  }, [currentMonthInvoices]);
 
   // Load all invoices to setAllInvoices
   useEffect(() => {
@@ -292,32 +246,32 @@ const Invoices = () => {
     setNewInvoice({ ...newInvoice, invoiceNumber: invoiceNumber });
   };
 
-  /**
-   * Handles the change event of the invoice number input.
-   * Sets the invoice number state to the input value.
-   */
-  const updateFunctions = {
-    invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
-    name: [setCompanyName, updateUser],
-    email: [setCompanyEmail, updateUser],
-    phone: [setCompanyPhone, updateUser],
-    city: [setCompanyCity, updateUser],
-    postalCode: [setCompanyPostal, updateUser],
-    street: [setCompanyAddress, updateUser],
-    NIP: [setCompanyNip, updateUser],
-    REGON: [setCompanyRegon, updateUser],
-    clientName: [setClientName, updateClient],
-    clientNip: [setClientNip, updateClient],
-    clientRegon: [setClientRegon, updateClient],
-    clientEmail: [setClientEmail, updateClient],
-    clientPhone: [setClientPhone, updateClient],
-    clientCity: [setClientCity, updateClient],
-    clientPostal: [setClientPostal, updateClient],
-    clientAddress: [setClientAddress, updateClient],
-    dueDate: [setDueDate, updateDate],
-    invoiceDate: [setInvoiceDate, updateDate],
-    notes: [setNotes, updateNotes],
-  };
+  // /**
+  //  * Handles the change event of the invoice number input.
+  //  * Sets the invoice number state to the input value.
+  //  */
+  // const updateFunctions = {
+  //   invoiceNumber: [setInvoiceNumber, updateInvoiceNumber],
+  //   name: [setCompanyName, updateUser],
+  //   email: [setCompanyEmail, updateUser],
+  //   phone: [setCompanyPhone, updateUser],
+  //   city: [setCompanyCity, updateUser],
+  //   postalCode: [setCompanyPostal, updateUser],
+  //   street: [setCompanyAddress, updateUser],
+  //   NIP: [setCompanyNip, updateUser],
+  //   REGON: [setCompanyRegon, updateUser],
+  //   clientName: [setClientName, updateClient],
+  //   clientNip: [setClientNip, updateClient],
+  //   clientRegon: [setClientRegon, updateClient],
+  //   clientEmail: [setClientEmail, updateClient],
+  //   clientPhone: [setClientPhone, updateClient],
+  //   clientCity: [setClientCity, updateClient],
+  //   clientPostal: [setClientPostal, updateClient],
+  //   clientAddress: [setClientAddress, updateClient],
+  //   dueDate: [setDueDate, updateDate],
+  //   invoiceDate: [setInvoiceDate, updateDate],
+  //   notes: [setNotes, updateNotes],
+  // };
 
   /**
    * Handles the change event of the input fields.
@@ -362,46 +316,6 @@ const Invoices = () => {
     });
   };
 
-  /**
-    Adds an empty product item to the invoice's product list.
-    @returns {void}
-    */
-  const handleAddCard = () => {
-    setNewInvoice({
-      ...newInvoice,
-      products: {
-        ...newInvoice.products,
-        items: [...newInvoice.products.items, {}],
-      },
-    });
-  };
-
-  useEffect(() => {
-    calculateInvoiceTotal(
-      newInvoice?.products?.items,
-      setSubtotal,
-      setProductTaxRate,
-      setTotal
-    );
-
-    setNewInvoice((prevInvoice) => ({
-      ...prevInvoice,
-      products: {
-        ...prevInvoice.products,
-        totalAmount: total,
-      },
-    }));
-  }, [newInvoice?.products?.items, setSubtotal, setProductTaxRate, setTotal]);
-
-  /**
-   * Updates the product list in the invoice state with the new product list.
-   * @param {object[]} products - The new product list.
-   * @returns {void}
-   */
-  const handleInvoiceNumberChange = (e) => {
-    setInvoiceNumber(e.target.value);
-  };
-
   return (
     <div className="container section is-flex col">
       <StyledBox>
@@ -413,35 +327,8 @@ const Invoices = () => {
       </StyledBox>
       <InvoiceContainer>
         <InvoiceInputs
-          handleInvoiceNumberChange={handleInvoiceNumberChange}
-          invoiceNumber={invoiceNumber}
-          companyName={companyName}
-          companyEmail={companyEmail}
-          companyPhone={companyPhone}
-          companyCity={companyCity}
-          companyPostal={companyPostal}
-          companyAddress={companyAddress}
-          companyNip={companyNip}
-          companyRegon={companyRegon}
-          clientName={clientName}
-          clientEmail={clientEmail}
-          clientPhone={clientPhone}
-          clientCity={clientCity}
-          clientPostal={clientPostal}
-          clientAddress={clientAddress}
-          clientNip={clientNip}
-          clientRegon={clientRegon}
-          invoiceDate={invoiceDate}
-          dueDate={dueDate}
-          notes={notes}
-          total={total}
-          productTaxRate={productTaxRate}
-          subtotal={subtotal}
-          handleAddCard={handleAddCard}
           handleClientChange={handleClientChange}
           handleChange={handleChange}
-          invoice={newInvoice}
-          setNewInvoice={setNewInvoice}
           clients={clients}
           products={products}
           selectedProduct={selectedProduct}

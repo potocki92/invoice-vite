@@ -19,6 +19,7 @@ const initialState = {
         qty: 0,
         productsPrice: 0,
         productsTax: 0,
+        productTaxRate: 0,
         amount: 0,
       }],
       totalAmount: 0,
@@ -39,6 +40,17 @@ const invoiceSlice = createSlice({
         ...action.payload
       }
     },
+    setUserDetails: (state, action) => {
+      const { name, NIP, REGON, email, phone, address } = action.payload;
+      state.user.name = name;
+      state.user.NIP = NIP;
+      state.user.REGON = REGON;
+      state.user.email = email;
+      state.user.phone = phone;
+      state.user.address.city = address.city;
+      state.user.address.postalCode = address.postalCode;
+      state.user.address.street = address.street;
+    },
     updateProductData: (state, action) => {
       const { index, key, value } = action.payload;
       if (index >= 0 && index < state.products.items.length) {
@@ -53,6 +65,7 @@ const invoiceSlice = createSlice({
           const product = state.products.items[index];
           const productTaxRate = product.qty * product.productsPrice * (product.productsTax / 100)
           const newAmount = product.qty * product.productsPrice + productTaxRate;
+          product.productTaxRate = productTaxRate;
           product.amount = newAmount;
           
           state.products.totalAmount = parseFloat(state.products.items.reduce((total, item) => total + item.amount, 0));
@@ -135,6 +148,7 @@ const invoiceSlice = createSlice({
 
 export const { 
   addProductToInvoice,
+  setUserDetails,
   updateProductData,
   removeProductFromInvoice,
   setInvoice, 

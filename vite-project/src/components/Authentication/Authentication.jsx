@@ -14,10 +14,6 @@ import {
   FormTitle,
   Wrapper,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
-import CurrentMonthInvoices from "../../utils/currentMonthInvoices";
-import { setInvoiceNumber } from "../../redux/invoiceSlice";
-import { useDispatch } from "react-redux";
-
 /**
  * Authentication component.
  * @component
@@ -29,11 +25,6 @@ import { useDispatch } from "react-redux";
  * )
  */
 const Authentication = ({ setLoginUser }) => {
- const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
-  },[dispatch])
   
   const [showRegister, setShowRegister] = useState(false);
 

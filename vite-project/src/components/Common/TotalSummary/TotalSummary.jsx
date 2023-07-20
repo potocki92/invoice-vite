@@ -38,6 +38,7 @@ const TotalSummary = () => {
     (accumulator, currentProduct) => accumulator + currentProduct.qty * currentProduct.productsPrice * (currentProduct.productsTax / 100),
     0
   );
+  const formattedProductTaxRate = productTaxRate.toFixed(2)
   return (
     <TotalSummaryContainer>
       <SubtotalContainer>
@@ -48,7 +49,7 @@ const TotalSummary = () => {
         <SubtotalWrapper>
           <TotalHeading>Tax</TotalHeading>
           <TotalSpan>
-            {isNaN(productTaxRate) ? "0.00" : productTaxRate}
+            {isNaN(formattedProductTaxRate) ? "0.00" : formattedProductTaxRate}
           </TotalSpan>
         </SubtotalWrapper>
       </SubtotalContainer>

@@ -328,7 +328,7 @@ const InvoicePDF = ({ invoice }) => {
                   ...styles.padding4px8px,
                 }}
               >
-                <Text style={productTextStyles}>{product.productsQty}</Text>
+                <Text style={productTextStyles}>{product.qty}</Text>
               </View>
               <View
                 style={{

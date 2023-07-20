@@ -38,8 +38,6 @@ import { setProductTaxRate } from "../../../redux/productSlice";
 const ProductCard = ({
   index,
   product,
-  setNewInvoice,
-  products,
   isInAuthentication,
 }) => {
   // State for the selected product
@@ -54,6 +52,9 @@ const ProductCard = ({
   
   const dispatch = useDispatch()
   const invoice = useSelector((state) => state.invoice)
+  const products = useSelector((state) => state.product.products)
+
+  console.log(products);
   const [showModal, setShowModal] = useState(false);
   /**
    * This function is used to handle the removal of a product from the invoice.
@@ -93,8 +94,6 @@ const ProductCard = ({
     productTaxRate,
     amount,
   ]);
-
-  console.log(productTaxRate);
   /**
    * This function is used to update the invoice object with the selected product.
    *
@@ -102,30 +101,34 @@ const ProductCard = ({
    */
   const handleProductChange = (id) => {
     const selectedProduct = products.find((product) => product._id === id);
-    setSelectedProduct({
-      productsName: selectedProduct.productsName,
-      productsQty: selectedProduct.qty,
-      productsPrice: selectedProduct.productsPrice,
-      productsTax: selectedProduct.productsTax,
-    });
-    setProductName(selectedProduct.productsName);
-    setProductPrice(selectedProduct.productsPrice);
-    setProductQty(selectedProduct.qty);
-    setProductTax(selectedProduct.productsTax);
-
-    const updateProduct = [...invoice.products.items];
-
-    updateProduct[index] = {
-      productsName: selectedProduct.productsName,
-      productsQty: selectedProduct.qty,
-      productsPrice: selectedProduct.productsPrice,
-      productsTax: selectedProduct.productsTax,
-    };
-
-    setNewInvoice({
-      ...invoice,
-      products: { ...invoice.products, items: updateProduct },
-    });
+    dispatch(
+      updateProductData({
+        index,
+        key: "productsName",
+        value: selectedProduct.productsName,
+      })
+    );
+    dispatch(
+      updateProductData({
+        index,
+        key: "qty",
+        value: selectedProduct.qty,
+      })
+    );
+    dispatch(
+      updateProductData({
+        index,
+        key: "productsPrice",
+        value: selectedProduct.productsPrice,
+      })
+    );
+    dispatch(
+      updateProductData({
+        index,
+        key: "productsTax",
+        value: selectedProduct.productsTax,
+      })
+    );
   };
 
  /**
