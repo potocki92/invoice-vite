@@ -5,6 +5,7 @@ import { InvoiceListStyled } from "./InvoiceList.styled";
 const InvoiceList = ({ invoices, onDelete }) => {
   const reversedInvoices = [...invoices].reverse();
 
+  console.log(invoices);
   return (
     <InvoiceListStyled>
       {reversedInvoices?.map((invoice) => (

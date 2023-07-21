@@ -7,6 +7,8 @@ import {
   getInvoicesFromLocalStorage,
   saveInvoicesToLocalStorage,
 } from "../../api/localStorageAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { setAllInvoices } from "../../redux/allInvoicesSlice";
 
 /**
  * Component for managing invoices.
@@ -16,10 +18,13 @@ import {
  */
 const Home = () => {
   let { id } = useParams();
-  const [allInvoices, setAllInvoices] = useState([]);
+  const dispatch = useDispatch()
+  const allInvoices = useSelector((state) => state.allInvoices.allInvoices)
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
 
+
+  console.log(allInvoices);
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
@@ -29,15 +34,7 @@ const Home = () => {
           },
         });
     
-        const invoicesToSave = response.data.map((invoice) => ({
-          _id: invoice._id,
-          invoiceNumber: invoice.invoiceNumber,
-          clientName: invoice.clientName,
-          dueDate: invoice.dueDate
-        }));
-    
-        saveInvoicesToLocalStorage(invoicesToSave);
-        setAllInvoices(response.data);
+        dispatch(setAllInvoices(response.data));
         setIsLoading(false);
       } catch (error) {
         console.error(error);
