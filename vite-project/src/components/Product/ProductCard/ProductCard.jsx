@@ -50,6 +50,7 @@ const ProductCard = ({
   
   const dispatch = useDispatch()
   const products = useSelector((state) => state.product.products)
+
   const [showModal, setShowModal] = useState(false);
   const productTaxRate = useMemo(() => {
     const taxRate = product.productsTax || 0;

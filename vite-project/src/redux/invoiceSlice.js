@@ -51,6 +51,25 @@ const invoiceSlice = createSlice({
       state.user.address.postalCode = address.postalCode;
       state.user.address.street = address.street;
     },
+    updateClientData: (state, action) => {
+      const { clientName,
+        clientNip,
+        clientRegon,
+        clientEmail,
+        clientPhone,
+        clientCity,
+        clientPostal,
+        clientAddress,} = action.payload
+
+      state.client.clientName = clientName,
+      state.client.clientNip = clientNip,
+      state.client.clientRegon = clientRegon,
+      state.client.clientEmail = clientEmail,
+      state.client.clientPhone = clientPhone,
+      state.client.clientCity = clientCity,
+      state.client.clientPostal = clientPostal,
+      state.client.clientAddress = clientAddress
+    },
     updateProductData: (state, action) => {
       const { index, key, value } = action.payload;
       if (index >= 0 && index < state.products.items.length) {
@@ -149,6 +168,7 @@ const invoiceSlice = createSlice({
 export const { 
   addProductToInvoice,
   setUserDetails,
+  updateClientData,
   updateProductData,
   removeProductFromInvoice,
   setInvoice, 

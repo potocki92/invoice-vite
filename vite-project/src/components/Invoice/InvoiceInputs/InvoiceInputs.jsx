@@ -25,7 +25,7 @@ import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
 import { useDispatch, useSelector } from "react-redux";
-import { setInvoice, setInvoiceNumber, setCompanyName, setCompanyEmail, setInvoiceDate, setDueDate, setCompanyPhone, setCompanyCity, setCompanyPostal, setCompanyAddress, setCompanyNip, setCompanyRegon, setClientName, setClientEmail, setClientNip, setClientRegon, setClientPhone, setClientCity, setClientPostal, setClientAddress, setNotes, addProductToInvoice } from "../../../redux/invoiceSlice";
+import { setInvoice, setInvoiceNumber, setCompanyName, setCompanyEmail, setInvoiceDate, setDueDate, setCompanyPhone, setCompanyCity, setCompanyPostal, setCompanyAddress, setCompanyNip, setCompanyRegon, setClientName, setClientEmail, setClientNip, setClientRegon, setClientPhone, setClientCity, setClientPostal, setClientAddress, setNotes, addProductToInvoice, updateClientData } from "../../../redux/invoiceSlice";
 import updateUser from "../../../utils/updateUser";
 import updateDate from "../../../utils/updateDate";
 import updateClient from "../../../utils/updateClient";
@@ -47,18 +47,14 @@ import CurrentMonthInvoices from "../../../utils/currentMonthInvoices";
  * @returns {JSX.Element} - Rendered component
  */
 const InvoiceInputs = ({
-  setNewInvoice,
-  clients,
-  products,
-  selectedProduct,
-  selectedProductIndex,
-  handleClientChange,
   isInAuthentication,
   children
 }) => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch()
   const invoice = useSelector((state) => state.invoice)
+  const clients = useSelector((state) => state.clients.clients)
+
   useEffect(() => {
     dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
   },[dispatch])
@@ -131,7 +127,11 @@ const InvoiceInputs = ({
       dispatch(setInvoice(updatedInvoice));
     }
   };
-
+  const handleClientChange = (id) => {
+    const client = clients.find((client) => client._id === id)
+    dispatch(updateClientData(client))
+    console.log(client);
+  }
   /**
    * Updates the invoice number with the provided newInvoiceNumber.
    *
@@ -398,11 +398,6 @@ const InvoiceInputs = ({
               key={index}
               index={index}
               product={product}
-              invoice={invoice}
-              setNewInvoice={setNewInvoice}
-              selectedProduct={selectedProduct}
-              selectedProductIndex={selectedProductIndex}
-              products={products}
             />
           ))}
         </InputsContent>
@@ -413,11 +408,6 @@ const InvoiceInputs = ({
               key={index}
               index={index}
               product={product}
-              invoice={invoice}
-              setNewInvoice={setNewInvoice}
-              selectedProduct={selectedProduct}
-              selectedProductIndex={selectedProductIndex}
-              products={products}
               isInAuthentication={isInAuthentication}
             />
           ))}

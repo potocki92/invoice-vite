@@ -142,12 +142,12 @@ const InvoicePreview = ({ invoice }) => {
           <InvoicePreviewWrapper width="22%" flexDirection="raw">
             <InvoicePreviewWrapper width="50%" justifyContent="center">
               <InvoicePreviewText fontSize="0.5rem">
-                {product.productsQty}
+                {product.qty}
               </InvoicePreviewText>
             </InvoicePreviewWrapper>
             <InvoicePreviewWrapper width="50%" justifyContent="center">
               <InvoicePreviewText fontSize="0.5rem">
-                {product.productTax}
+                {product.productsTax}
               </InvoicePreviewText>
             </InvoicePreviewWrapper>
           </InvoicePreviewWrapper>
