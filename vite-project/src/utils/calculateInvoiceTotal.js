@@ -24,31 +24,26 @@
   * console.log(subtotal, productTaxRate, total);
   * // 400, 0.2, 440
   */
- const calculateInvoiceTotal = (items, setSubtotal, setProductTaxRate, setTotal) => {
-    let totalAmount = 0;
-    let productTaxRate = 0;
-    let subtotal = 0;
-  
-    console.log(items);
-    if (items) {
-      totalAmount = items.reduce(
-        (accumulator, currentAmount) => accumulator + currentAmount.amount,
-        0
-      );
-      productTaxRate = items.reduce(
-        (accumulator, currentAmount) =>
-          accumulator + currentAmount.productTaxRate,
-        0
-      );
-      subtotal = items.reduce(
-        (accumulator, currentAmount) =>
-          accumulator + currentAmount.productsPrice * currentAmount.productsQty,
-        0
-      );
-      setProductTaxRate(productTaxRate);
-      setSubtotal(subtotal);
-      setTotal(totalAmount);
-    }
-  };
+ const calculateInvoiceTotal = (items) => {
+  let totalAmount = 0;
+  let productTaxRate = 0;
+  let subtotal = 0;
 
-  export default calculateInvoiceTotal;
+  console.log(items);
+  if (items) {
+    totalAmount = Object.values(items).reduce((accumulator, currentAmount) => accumulator + currentAmount.amount, 0);
+    productTaxRate = Object.values(items).reduce((accumulator, currentAmount) => accumulator + currentAmount.productTaxRate, 0);
+    subtotal = Object.values(items).reduce(
+      (accumulator, currentAmount) => accumulator + currentAmount.productsPrice * currentAmount.productsQty,
+      0
+    );
+  }
+
+  return {
+    totalAmount,
+    productTaxRate,
+    subtotal,
+  };
+};
+
+export default calculateInvoiceTotal;

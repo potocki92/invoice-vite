@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./ProductCard.css";
 import {
   InfoCount,
@@ -19,9 +19,13 @@ import {
   Input,
   InputSpan,
 } from "../../Common/InputField/Input.styled";
+import { useDispatch, useSelector } from "react-redux";
+import { removeProductFromInvoice, updateProductData } from "../../../redux/invoiceSlice";
+import { setProductTaxRate } from "../../../redux/productSlice";
+
 /**
- *   This component renders a product card with the product name, quantity, price, tax, and amount.
- *  It also renders a button to remove the product from the invoice.
+ * This component renders a product card with the product name, quantity, price, tax, and amount.
+ * It also renders a button to remove the product from the invoice.
  * The component takes the following props:
  *
  * @param {number} index - The index of the product in the invoice products array
@@ -34,173 +38,134 @@ import {
 const ProductCard = ({
   index,
   product,
-  invoice,
-  setNewInvoice,
-  products,
   isInAuthentication,
 }) => {
-  const [selectedProduct, setSelectedProduct] = useState({});
-  const [productName, setProductName] = useState(product.productsName);
-  const [productQty, setProductQty] = useState(product.productsQty);
-  const [productPrice, setProductPrice] = useState(product.productsPrice);
-  const [productTax, setProductTax] = useState(product.productsTax);
-  const [productTaxRate, setProductTaxRate] = useState(product.productsRateTax);
-  const [amount, setAmount] = useState(0);
+  // Local state for the product data
+  const [productName, setProductName] = useState(product.productsName || "");
+  const [productQty, setProductQty] = useState(product.qty || "");
+  const [productPrice, setProductPrice] = useState(product.productsPrice || "");
+  const [productTax, setProductTax] = useState(product.productsTax || "");
+
+  const [amount, setAmount] = useState(product.amount || 0);
+  
+  const dispatch = useDispatch()
+  const products = useSelector((state) => state.product.products)
+
   const [showModal, setShowModal] = useState(false);
+  const productTaxRate = useMemo(() => {
+    const taxRate = product.productsTax || 0;
+    return taxRate !== 1 ? productQty * productPrice * (taxRate / 100) : 0;
+  }, [productQty, productPrice, product.productsTax]);
+
+  /*
+   * This useEffect hook is used to update the local state of the component
+   * whenever the "product" prop changes. The "product" prop contains the data
+   * received from the Redux store for the specific product card.
+   * 
+   * It updates the local state variables with the values from the "product" object,
+   * or with default values if the values don't exist in the "product" object.
+   */
+  useEffect(() => {
+    setProductName(product.productsName || "");
+    setProductQty(product.qty || "");
+    setProductPrice(product.productsPrice || "");
+    setProductTax(product.productsTax || "");
+    setAmount(product.amount || 0);
+  }, [product]);
 
   /**
-   * updatedProduct:
-   * This function takes in two arguments, key and value, and updates the invoice object with the new value.
-   * The function first creates a new array of updatedProducts by iterating over the invoice.products.items array using the map method.
-   * For the current product, identified by the index, the function creates a new object with the updated key and value.
-   * For all other products, the function returns the original product object.
-   * Finally, the function calls setNewInvoice with a new invoice object that merges the updated products array with the existing invoice object.
-   * This function is used in the component to update the products array of the invoice object whenever a user makes changes to a product's quantity or price.
-   * @param {*} key - The key to be updated in the invoice object products array at the specified index
-   * @param {*} value - The value to be updated in the invoice object products array at the specified index
-   * @returns
-   */
-  const updatedProduct = (key, value) => {
-    const updatedProducts = invoice?.products.items.map((product, i) => {
-      if (i === index) {
-        return {
-          ...product,
-          [key]: value,
-          productTaxRate: productTaxRate,
-          productTax: productTax,
-        };
-      }
-      return product;
-    });
-    setNewInvoice({
-      ...invoice,
-      products: { ...invoice?.products, items: updatedProducts },
-    });
-  };
-  /**
-   * handleRemoveProduct:
-   * This is a function used to remove a product items from the invoice.
-   * It takes an index as an argument, removes the corresponding item from the "updateItems" array, and updates the state.
-   * @returns
+   * This function is used to handle the removal of a product from the invoice.
+   * It dispatches the "removeProductFromInvoice" action to update the state.
    */
   const handleRemoveProduct = () => {
-    const updateItems = [...invoice?.products.items];
-    updateItems.splice(index, 1);
-
-    setNewInvoice({
-      ...invoice,
-      products: {
-        ...invoice.products,
-        items: updateItems,
-      },
-    });
+    dispatch(removeProductFromInvoice(index))
   };
 
-  /**
-   * useEffect:
+  /*
    * This hook is used to update the amount whenever the product quantity, price, or tax rate changes.
    * The hook takes a callback function as an argument that is called whenever the productQty, productPrice, product.productsQty, product.productsPrice, productTaxRate, or amount variables change.
    * The callback function updates the productTaxRate variable with the product quantity, price, and tax rate.
    * Then, it updates the amount variable with the product quantity, price, and tax rate.
-   * Finally, it calls the updatedProduct function to update the invoice object with the new amount.
-   * @returns
+   * Finally, it updates the state of the component with the new amount.
    */
   useEffect(() => {
-    setProductPrice(product.productsPrice);
-    setProductQty(product.productsQty);
-
+    // Calculate the updated tax rate based on the current state values
     const updateTaxRate =
       productTax !== 1 ? productQty * productPrice * (productTax / 100) : 0;
     const formattedTaxRate = parseFloat(updateTaxRate.toFixed(2));
     if (!isNaN(updateTaxRate) && isFinite(updateTaxRate)) {
-      setProductTaxRate(formattedTaxRate);
+      dispatch(setProductTaxRate({ index: product._id, taxRate: formattedTaxRate }));
     }
-    const updateAmount = productQty * productPrice + productTaxRate;
+  
+    // Calculate the updated amount based on the current state values
+    const updateAmount = productQty * productPrice + formattedTaxRate;
     if (!isNaN(updateAmount) && isFinite(updateAmount)) {
       setAmount(updateAmount);
     }
-    updatedProduct("productsRateTax", updateTaxRate);
-    updatedProduct("amount", updateAmount);
-  }, [
-    productQty,
-    productPrice,
-    productTax,
-    product.productsQty,
-    product.productsPrice,
-    productTaxRate,
-    amount,
-  ]);
-
+  }, [productQty, productPrice, productTax]);
   /**
-   * handleProductChange:
    * This function is used to update the invoice object with the selected product.
-   * It takes the product ID as an argument, finds the corresponding product object in the products array, and updates the state of the selectedProduct object with the product name, quantity, and price.
-   * It also updates the state of the productPrice and productQty variables with the selected product's price and quantity.
-   * Then, it creates a copy of the invoice object's products.items array using the spread operator.
-   * Next, it updates the product at the specified index in the copied array with the selected product's name, quantity, price, and a zero amount.
-   * Finally, it sets the state of the newInvoice object with the updated items array and the previous invoice object's products object using the spread operator.
-   * @param {*} id - The ID of the selected product
-   * @returns
+   *
+   * @param {string} id - The ID of the selected product
    */
   const handleProductChange = (id) => {
     const selectedProduct = products.find((product) => product._id === id);
-    setSelectedProduct({
-      productsName: selectedProduct.productsName,
-      productsQty: selectedProduct.qty,
-      productsPrice: selectedProduct.productsPrice,
-      productsTax: selectedProduct.productsTax,
-    });
-    setProductName(selectedProduct.productsName);
-    setProductPrice(selectedProduct.productsPrice);
-    setProductQty(selectedProduct.qty);
-    setProductTax(selectedProduct.productsTax);
-
-    const updateProduct = [...invoice.products.items];
-
-    updateProduct[index] = {
-      productsName: selectedProduct.productsName,
-      productsQty: selectedProduct.qty,
-      productsPrice: selectedProduct.productsPrice,
-      productsTax: selectedProduct.productsTax,
-    };
-
-    setNewInvoice({
-      ...invoice,
-      products: { ...invoice.products, items: updateProduct },
-    });
+    dispatch(
+      updateProductData({
+        index,
+        key: "productsName",
+        value: selectedProduct.productsName,
+      })
+    );
+    dispatch(
+      updateProductData({
+        index,
+        key: "qty",
+        value: selectedProduct.qty,
+      })
+    );
+    dispatch(
+      updateProductData({
+        index,
+        key: "productsPrice",
+        value: selectedProduct.productsPrice,
+      })
+    );
+    dispatch(
+      updateProductData({
+        index,
+        key: "productsTax",
+        value: selectedProduct.productsTax,
+      })
+    );
   };
 
-  /**
-   * handleChange:
-   * This function is used to update the product quantity or price whenever the corresponding input is changed.
-   * It takes an event object as an argument, destructures the name and value properties from the event target, and assigns them to constants.
-   * Then, it checks if the name is "productsQty" or "productsPrice".
-   * If the name is "productsQty", the value is set to the productQty state using the setProductQty function, and then the updatedProduct function is called with the "productsQty" key and the new value as arguments.
-   * Similarly, if the name is "productsPrice", the value is set to the productPrice state using the setProductPrice function, and then the updatedProduct function is called with the "productsPrice" key and the new value as arguments.
-   * Overall, this function updates the productQty or productPrice state when the corresponding input is changed, and then updates the corresponding product in the invoice by calling the updatedProduct function.
-   * @param {*} event - The event object
-   * @returns
+ /**
+   * This function is used to update the product quantity, price, or tax whenever the corresponding input is changed.
+   *
+   * @param {Object} event - The event object
    */
   const handleChange = (event) => {
     const { name, value } = event.target;
 
     if (name === "productsName") {
       setProductName(value);
-      updatedProduct("productsName", value);
+      dispatch(updateProductData({ index, key: "productsName", value }));
     }
     if (name === "productsQty") {
-      setProductQty(value);
-      updatedProduct("productsQty", value);
+      // If the value is empty, set it to an empty string
+      setProductQty(value === "" ? "" : parseFloat(value));
+      dispatch(updateProductData({ index, key: "qty", value: value === "" ? "" : parseFloat(value) }));
     }
-
     if (name === "productsPrice") {
-      setProductPrice(value);
-      updatedProduct("productsPrice", value);
+      // If the value is empty, set it to an empty string
+      setProductPrice(value === "" ? "" : parseFloat(value));
+      dispatch(updateProductData({ index, key: "productsPrice", value: value === "" ? "" : parseFloat(value) }));
     }
-
     if (name === "productsTax") {
-      setProductTax(value);
-      updatedProduct("productsTax", value);
+      // If the value is empty, set it to an empty string
+      setProductTax(value === "" ? "" : parseFloat(value));
+      dispatch(updateProductData({ index, key: "productsTax", value: value === "" ? "" : parseFloat(value) }));
     }
   };
 
@@ -243,7 +208,7 @@ const ProductCard = ({
             type="number"
             name="productsPrice"
             placeholder="Price"
-            value={productPrice}
+            value={productPrice || ""}
             onChange={handleChange}
           />
         </InputsContainer>
@@ -254,7 +219,7 @@ const ProductCard = ({
             type="number"
             name="productsQty"
             placeholder="Quantity"
-            value={productQty}
+            value={productQty || ""}
             onChange={handleChange}
           />
         </InputsContainer>
