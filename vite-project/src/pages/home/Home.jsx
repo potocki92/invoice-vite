@@ -9,6 +9,7 @@ import {
 } from "../../api/localStorageAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllInvoices } from "../../redux/allInvoicesSlice";
+import { fetchInvoices } from "../../redux/operations";
 
 /**
  * Component for managing invoices.
@@ -20,30 +21,15 @@ const Home = () => {
   let { id } = useParams();
   const dispatch = useDispatch()
   const allInvoices = useSelector((state) => state.allInvoices.allInvoices)
-  const [isLoading, setIsLoading] = useState(true);
+  const isLoading = useSelector((state) => state.allInvoices.isLoading)
+  const error = useSelector((state) => state.allInvoices.error)
   const token = localStorage.getItem("token");
 
 
   console.log(allInvoices);
   useEffect(() => {
-    const fetchInvoices = async () => {
-      try {
-        const response = await axios.get(`/invoices`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-    
-        dispatch(setAllInvoices(response.data));
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchInvoices();
-  }, []);
+    dispatch(fetchInvoices(token))
+  }, [dispatch, token]);
 
   /**
    * Deletes a product from the database and updates the state of allProducts.
@@ -65,6 +51,14 @@ const Home = () => {
       })
       .catch((err) => console.error(err));
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
   return (
     <main className="container">
       <div className="invoice__home">
