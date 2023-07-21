@@ -5,6 +5,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "install-deps": "npm config set legacy-peer-deps true && npm i",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist -r https://github.com/potocki92/invoice-vite",
     "dev": "vite --host",
