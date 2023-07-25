@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -15,29 +15,38 @@ import User from "./pages/user/User";
 import Products from "./pages/products/Products";
 import Clients from "./pages/clients/Clients";
 import { homeLink } from "./utils/linkConfig";
+import { useDispatch } from "react-redux";
+import { useAuth } from "./hooks";
+import { refreshUser } from "./redux/auth/operations";
 
 function App() {
+  const dispatch = useDispatch();
+  const { isRefreshing } = useAuth();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+  
   const [user, setLoginUser] = useState({});
 
-  
-    const decodedToken = (token) => {
-      try {
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace("/-/g", "+").replace("/_/g", "/");
-        const jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split("")
-            .map((c) => {
-              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join("")
-        );
-        return JSON.parse(jsonPayload);
-      } catch (error) {
-        console.log("Error in decodedToken: ", error);
-        return null;
-      }
-    };
+  const decodedToken = (token) => {
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace("/-/g", "+").replace("/_/g", "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      console.log("Error in decodedToken: ", error);
+      return null;
+    }
+  };
   const isTokenExpired = () => {
     const token = localStorage.getItem("token");
     if (user && user.token) {
