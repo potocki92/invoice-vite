@@ -9,7 +9,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Initial state of the invoice slice.
 const initialState = {
-  _id: "",
+    _id: "",
     invoiceNumber: "",
     user: { address: {} },
     client: {},

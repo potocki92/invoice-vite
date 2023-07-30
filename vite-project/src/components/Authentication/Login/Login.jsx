@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "./Login.css";
-import axios from "../../../utils/axiosConfig";
-import { useNavigate } from "react-router-dom";
-import { homeLink } from "../../../utils/linkConfig";
 import { LoginStyled, LoginText, LoginTitle } from "./Login.styled";
 import {
   Input,
@@ -12,43 +9,29 @@ import {
 } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
 import isFloating from "../../../utils/isFloating";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../../redux/auth/operations";
 
-const Login = ({ setShowRegister, setLoginUser }) => {
+const Login = ({ setShowRegister }) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const navigation = useNavigate();
   const { email, password } = formData;
-  useEffect(() => {
-    const getLocalStorageToken = localStorage.getItem("token");
-    if (getLocalStorageToken) {
-      setLoginUser({ token: getLocalStorageToken });
-      navigation(homeLink);
-    }
-  }, []);
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("Successfully Logged In");
-    try {
-      // Wykonaj zapytanie do serwera, aby zalogować użytkownika
-      const response = await axios.post("/login", formData);
-      const token = response.data.token;
-      console.log(token);
-      // Zapisz token w localStorage
 
-      // Zapisanie danych użytkownika do localStorage po zalogowaniu
-      localStorage.setItem("token", token);
-      setLoginUser({ token });
-      // Przekieruj użytkownika na stronę główną
-      navigation(homeLink);
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(
+      logIn({
+        email,
+        password,
+      })
+    );
   };
 
   return (

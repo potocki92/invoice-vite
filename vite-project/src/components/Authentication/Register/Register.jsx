@@ -11,8 +11,11 @@ import {
 } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
 import isFloating from "../../../utils/isFloating";
+import { useDispatch } from "react-redux";
+import { register } from "../../../redux/auth/operations";
 
-const Register = ({ setShowRegister, setLoginUser }) => {
+const Register = ({ setShowRegister }) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,13 +28,17 @@ const Register = ({ setShowRegister, setLoginUser }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, password } = formData;
+
     if (name && email && password) {
-      axios.post("/register", formData).then((res) => {
-        console.log("Successfully Registered");
-        alert(res.data.message);
-        setShowRegister(false)
-      });
+      dispatch(
+        register({
+          name,
+          email,
+          password,
+        })
+      );
+      setFormData({ name: "", email: "", password: "" });
+      setShowRegister(false);
     } else {
       alert("invalid");
     }
