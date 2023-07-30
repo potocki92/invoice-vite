@@ -2,41 +2,26 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
 import InvoiceList from "../../components/Invoice/InvoiceList/InvoiceList";
-import { set } from "mongoose";
-import {
-  getInvoicesFromLocalStorage,
-  saveInvoicesToLocalStorage,
-} from "../../api/localStorageAPI";
 import { useDispatch, useSelector } from "react-redux";
-import { setAllInvoices } from "../../redux/allInvoicesSlice";
-import { fetchInvoices } from "../../redux/operations";
+import { selectAllInvoices } from "../../redux/invoices/selectors";
+import { fetchInvoices } from "../../redux/invoices/operations";
 
-/**
- * Component for managing invoices.
- * @returns {JSX.Element} - Returns a JSX element containing invoice list component.
- * @component
- * @example
- */
 const Home = () => {
   let { id } = useParams();
-  const dispatch = useDispatch()
-  const allInvoices = useSelector((state) => state.allInvoices.allInvoices)
-  const isLoading = useSelector((state) => state.allInvoices.isLoading)
-  const error = useSelector((state) => state.allInvoices.error)
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  const invoices = useSelector(selectAllInvoices);
+  const isLoading = useSelector((state) => state.allInvoices.isLoading);
+  const error = useSelector((state) => state.allInvoices.error);
 
-
-  console.log(allInvoices);
   useEffect(() => {
-    dispatch(fetchInvoices(token))
-  }, [dispatch, token]);
-
+    dispatch(fetchInvoices());
+  }, [dispatch]);
   /**
-   * Deletes a product from the database and updates the state of allProducts.
-   * @param {string} invoiceId - The ID of the product to be deleted.
+   * Deletes an invoice from the database and updates the state of allInvoices.
+   * @param {string} invoiceId - The ID of the invoice to be deleted.
    * @returns {void}
    */
-  const deleteProduct = (invoiceId) => {
+  const deleteInvoice = (invoiceId) => {
     axios
       .delete(`/invoice/${invoiceId}`, {
         headers: {
@@ -45,9 +30,8 @@ const Home = () => {
       })
       .then((res) => {
         console.log(res.data);
-        setAllInvoices(
-          allInvoices.filter((product) => product._id !== invoiceId)
-        );
+        // After successful delete, dispatch fetchInvoices again to update allInvoices state
+        dispatch(fetchInvoices());
       })
       .catch((err) => console.error(err));
   };
@@ -59,18 +43,19 @@ const Home = () => {
   if (error) {
     return <p>Error: {error}</p>;
   }
+
   return (
     <main className="container">
       <div className="invoice__home">
         <div className="invoice__home-logo">
           <h1>Invoice</h1>
-          {allInvoices && <p>There are total {allInvoices.length} invoices</p>}
+          {invoices && <p>There are total {invoices.length} invoices</p>}
         </div>
       </div>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <InvoiceList id={id} invoices={allInvoices} onDelete={deleteProduct} />
+        <InvoiceList id={id} invoices={invoices} onDelete={deleteInvoice} />
       )}
     </main>
   );

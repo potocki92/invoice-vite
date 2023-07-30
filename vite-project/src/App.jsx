@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,18 +6,23 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./App.css";
-import Authentication from "./components/Authentication/Authentication";
-import Homepage from "./pages/homepage/Homepage";
-import Home from "./pages/home/Home";
-import Invoices from "./pages/invoice/Invoices";
-import InvoiceEdit from "./pages/invoice/edit/InvoiceEdit";
-import User from "./pages/user/User";
-import Products from "./pages/products/Products";
-import Clients from "./pages/clients/Clients";
 import { homeLink } from "./utils/linkConfig";
 import { useDispatch } from "react-redux";
-import { useAuth } from "./hooks";
 import { refreshUser } from "./redux/auth/operations";
+import { RestrictedRoute } from "./RestrictedRoute";
+import { PrivateRoute } from "./PrivateRoute";
+import { useAuth } from "./hooks/useAuth";
+
+const Home = lazy(() => import("./pages/home/Home"));
+const Homepage = lazy(() => import("./pages/homepage/Homepage"));
+const Invoices = lazy(() => import("./pages/invoice/Invoices"));
+const User = lazy(() => import("./pages/user/User"));
+const Clients = lazy(() => import("./pages/clients/Clients"));
+const Products = lazy(() => import("./pages/products/Products"));
+const Authentication = lazy(() =>
+  import("./components/Authentication/Authentication")
+);
+const InvoiceEdit = lazy(() => import("./pages/invoice/edit/InvoiceEdit"));
 
 function App() {
   const dispatch = useDispatch();
@@ -26,99 +31,71 @@ function App() {
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
-  
+
   const [user, setLoginUser] = useState({});
 
-  const decodedToken = (token) => {
-    try {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace("/-/g", "+").replace("/_/g", "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map((c) => {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
-      return JSON.parse(jsonPayload);
-    } catch (error) {
-      console.log("Error in decodedToken: ", error);
-      return null;
-    }
-  };
-  const isTokenExpired = () => {
-    const token = localStorage.getItem("token");
-    if (user && user.token) {
-      const decodedToken = decodedToken(token);
-      if (decodedToken && decodedToken.exp * 1000 < Date.now()) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  const checkAutheontication = () => {
-    if (!user || !user.token || isTokenExpired()) {
-      Navigate(`${homeLink}/login`, { replace: true });
-    }
-  };
-  return (
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
     <div className="App">
+      {/* <Route
+              path={homeLink}
+              element={
+                user && user.token ? (
+                  <Homepage setLoginUser={setLoginUser} user={user} />
+                ) : (
+                  <Navigate to={`${homeLink}/login`} replace />
+                )
+              }
+            >
+              <Route path="/invoice-vite" element={<Home />} />
+              <Route path={`${homeLink}/invoice`} element={<Invoices />} />
+              <Route
+                path={`${homeLink}/invoice/:invoiceId`}
+                element={<InvoiceEdit />}
+              />
+              <Route path={`${homeLink}/user`} element={<User />} />
+              <Route path={`${homeLink}/products`} element={<Products />} />
+              <Route path={`${homeLink}/clients`} element={<Clients />} />
+            </Route>
+            <Route
+              path={`${homeLink}/login`}
+              element={
+                user && user.token ? (
+                  <Navigate to={homeLink} replace />
+                ) : (
+                  <Authentication setLoginUser={setLoginUser} />
+                )
+              }
+            /> */}
       <Router>
-        <Routes>
-          <Route
-            path={homeLink}
-            element={
-              user && user.token ? (
-                <Homepage setLoginUser={setLoginUser} user={user} />
-              ) : (
-                <Navigate to={`${homeLink}/login`} replace />
-              )
-            }
-          >
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
             <Route
-              path="/invoice-vite"
-              element={<Home />}
-              onEnter={checkAutheontication}
+              path={`${homeLink}`}
+              element={
+                <RestrictedRoute
+                  redirectTo={`${homeLink}/dashboard`}
+                  component={<Authentication setLoginUser={setLoginUser} />}
+                />
+              }
             />
             <Route
-              path={`${homeLink}/invoice`}
-              element={<Invoices />}
-              onEnter={checkAutheontication}
-            />
-            <Route
-              path={`${homeLink}/invoice/:invoiceId`}
-              element={<InvoiceEdit />}
-              onEnter={checkAutheontication}
-            />
-            <Route
-              path={`${homeLink}/user`}
-              element={<User />}
-              onEnter={checkAutheontication}
-            />
-            <Route
-              path={`${homeLink}/products`}
-              element={<Products />}
-              onEnter={checkAutheontication}
-            />
-            <Route
-              path={`${homeLink}/clients`}
-              element={<Clients />}
-              onEnter={checkAutheontication}
-            />
-          </Route>
-          <Route
-            path={`${homeLink}/login`}
-            element={
-              user && user.token ? (
-                <Navigate to={homeLink} replace />
-              ) : (
-                <Authentication setLoginUser={setLoginUser} />
-              )
-            }
-          />
-        </Routes>
+              path={`${homeLink}/dashboard`}
+              element={
+                <PrivateRoute
+                  redirectTo={`${homeLink}`}
+                  component={
+                    <Homepage setLoginUser={setLoginUser} user={user} />
+                  }
+                />
+              }
+            >
+              <Route path="" element={<Home />} />
+            </Route>
+            <Route path="/*" element={<Navigate to={homeLink} replace />} />
+          </Routes>
+        </Suspense>
       </Router>
     </div>
   );

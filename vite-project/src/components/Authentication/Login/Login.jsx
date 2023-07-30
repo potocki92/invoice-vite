@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "./Login.css";
-import axios from "../../../utils/axiosConfig";
-import { useNavigate } from "react-router-dom";
-import { homeLink } from "../../../utils/linkConfig";
 import { LoginStyled, LoginText, LoginTitle } from "./Login.styled";
 import {
   Input,

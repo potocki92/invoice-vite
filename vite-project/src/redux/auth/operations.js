@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 axios.defaults.baseURL = "https://tender-ring-bee.cyclic.app/";
 
-const setAuthHeader = (token) => {
+export const setAuthHeader = (token) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
@@ -45,6 +45,12 @@ export const refreshUser = createAsyncThunk(
 
     if (persistedToken === null) {
       return thunkAPI.rejectWithValue("Unable to fetch user");
+    }
+
+    try {
+      setAuthHeader(persistedToken);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
