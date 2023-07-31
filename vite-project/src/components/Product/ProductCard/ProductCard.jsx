@@ -22,6 +22,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { removeProductFromInvoice, updateProductData } from "../../../redux/invoiceSlice";
 import { setProductTaxRate } from "../../../redux/productSlice";
+import { selectAllProducts } from "../../../redux/products/selectors";
 
 /**
  * This component renders a product card with the product name, quantity, price, tax, and amount.
@@ -49,7 +50,7 @@ const ProductCard = ({
   const [amount, setAmount] = useState(product.amount || 0);
   
   const dispatch = useDispatch()
-  const products = useSelector((state) => state.product.products)
+  const products = useSelector(selectAllProducts)
 
   const [showModal, setShowModal] = useState(false);
   const productTaxRate = useMemo(() => {

@@ -1,12 +1,15 @@
 import { Types } from "mongoose";
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axiosConfig";
 import ProductForm from "../../components/Product/ProductForm/ProductForm";
 import ProductList from "../../components/Product/ProductList/ProductList";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
-import { setAuthHeader } from "../../redux/auth/operations";
+import { fetchProducts } from "../../redux/products/operations";
+import { selectAllProducts } from "../../redux/products/selectors";
+import { selectToken } from "../../redux/auth/selectors";
 
 /**
 Component for managing products.
@@ -14,6 +17,9 @@ Component for managing products.
 */
 const Products = () => {
   let { id } = useParams();
+  const dispatch = useDispatch()
+  const products = useSelector(selectAllProducts)
+  const authToken = useSelector(selectToken)
   const [newProduct, setNewProduct] = useState({
     _id: new Types.ObjectId(), // wygeneruj nowe ID
     productsName: "",
@@ -22,26 +28,10 @@ const Products = () => {
     amount: 0,
     productsTax: "",
   });
-  const token = localStorage.getItem("token");
-  const [allProducts, setAllProducts] = useState(
-    JSON.parse(localStorage.getItem("products")) || []
-  );
-  useEffect(() => {
-    localStorage.setItem("products", JSON.stringify(allProducts));
-  }, [allProducts]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(`/products`);
-        setAuthHeader(response.data.token);
-        setAllProducts(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchProducts();
-  }, [id]);
+    dispatch(fetchProducts(authToken))
+  }, [dispatch]);
 
   /**
   Updates the state of newProduct object when input values change.
@@ -103,7 +93,7 @@ const Products = () => {
     <div className="container">
       <div className="invoice__home-logo">
         <h1>Products</h1>
-        {allProducts && <p>There are total {allProducts.length} products</p>}
+        {products && <p>There are total {products.length} products</p>}
       </div>
       <Link to={homeLink}>
         <DefaultButton className="back">Go Back</DefaultButton>
@@ -114,7 +104,7 @@ const Products = () => {
         handleClick={handleClick}
         handleChange={handleChange}
       />
-      <ProductList id={id} products={allProducts} onDelete={deleteProduct} />
+      <ProductList id={id} products={products} onDelete={deleteProduct} />
     </div>
   );
 };

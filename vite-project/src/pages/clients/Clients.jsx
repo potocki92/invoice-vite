@@ -9,12 +9,19 @@ import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
 import ClientCard from "../../components/Client/ClientCard/ClientCard";
 import { setAuthHeader } from "../../redux/auth/operations";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllClients } from "../../redux/clients/selectors";
+import { fetchClients } from "../../redux/clients/operations";
+import { selectToken } from "../../redux/auth/selectors";
 /* 
   This function defines the main Client component, 
   which fetches all clients data for the current user from the database, 
   adds new clients to the database, and allows deleting clients from the database 
 */
 const Clients = () => {
+  const dispatch = useDispatch()
+  const clients = useSelector(selectAllClients)
+  const token = useSelector(selectToken)
   let { id } = useParams(); //  This line uses the useParams() hook to retrieve the ID of the current user from the URL
   /* This line defines the initial state for a new client, with empty strings for all properties */
   const [newClient, setNewClient] = useState({
@@ -28,27 +35,10 @@ const Clients = () => {
     clientPostal: "",
     clientAddress: "",
   });
-  /* This line defines the initial state for all clients, either by retrieving them from local storage, or setting an empty array */
-  const [allClients, setAllClients] = useState(
-    JSON.parse(localStorage.getItem("clients")) || []
-  );
-  /* This effect saves the current state of allClients to local storage whenever it is updated */
-  useEffect(() => {
-    localStorage.setItem("clients", JSON.stringify(allClients));
-  }, [allClients]);
   /* This effect retrieves all clients data from the server for the current user and sets it to the allClients state */
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response = await axios.get(`/clients`);
-        setAuthHeader(response.data.token);
-        setAllClients(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchClients();
-  }, [id]);
+    dispatch(fetchClients(token))
+  }, [dispatch]);
   /* This function updates the newClient state whenever any input field is changed */
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -65,7 +55,7 @@ const Clients = () => {
       })
       .then((res) => {
         console.log(res.data);
-        setAllClients([...allClients, newClient]);
+        setAllClients([...clients, newClient]);
         setNewClient({
           _id: new Types.ObjectId(),
           clientName: "",
@@ -89,8 +79,7 @@ const Clients = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
-        setAllClients(allClients.filter((client) => client._id !== clientId));
+        
       })
       .catch((err) => console.error(err));
   };
@@ -101,7 +90,7 @@ const Clients = () => {
     <div className="container">
       <div className="invoice__home-logo">
         <h1>Customers</h1>
-        {allClients && <p>There are total {allClients.length} clients</p>}
+        {clients && <p>There are total {clients.length} clients</p>}
       </div>
       <Link to={homeLink}>
         <DefaultButton className="back">Go Back</DefaultButton>
@@ -113,7 +102,7 @@ const Clients = () => {
         handleClick={handleClick}
       />
       <div className="section__content grid">
-        {allClients.map((client) => {
+        {clients.map((client) => {
           return <ClientCard id={id} client={client} onDelete={deleteClient} />;
         })}
       </div>

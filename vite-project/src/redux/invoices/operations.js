@@ -6,10 +6,10 @@ axios.defaults.baseURL = "https://tender-ring-bee.cyclic.app/";
 
 export const fetchInvoices = createAsyncThunk(
   "allInvoices/fetchInvoices",
-  async () => {
+  async (token) => {
+    setAuthHeader(token);
     const response = await axios.get("/invoices");
     console.log("Fetched invoices:", response.data);
-    setAuthHeader(response.data.token);
     return response.data;
   }
 );

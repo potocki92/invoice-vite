@@ -31,6 +31,7 @@ import updateDate from "../../../utils/updateDate";
 import updateClient from "../../../utils/updateClient";
 import updateNotes from "../../../utils/updateNotes";
 import CurrentMonthInvoices from "../../../utils/currentMonthInvoices";
+import { selectAllClients } from "../../../redux/clients/selectors";
 
 /**
  * Component for displaying and editing invoice input fields.
@@ -51,10 +52,9 @@ const InvoiceInputs = ({
   children
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const dispatch = useDispatch()
-  const invoice = useSelector((state) => state.invoice)
-  const clients = useSelector((state) => state.clients.clients)
-
+  const dispatch = useDispatch();
+  const invoice = useSelector((state) => state.invoice);
+  const clients = useSelector(selectAllClients);
   useEffect(() => {
     dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
   },[dispatch])

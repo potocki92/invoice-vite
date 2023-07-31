@@ -9,10 +9,11 @@ import { InvoiceContainer } from "./Invoice.styled";
 import InvoicePreview from "../../components/Invoice/InvoicePreview/InvoicePreview";
 import { DefaultButton } from "../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { setProducts } from "../../redux/productSlice";
 import { setInvoice, setUserDetails } from "../../redux/invoiceSlice";
-import { setClients } from "../../redux/clientsSlice";
-import { setAuthHeader } from "../../redux/auth/operations";
+import { selectToken, selectUser } from "../../redux/auth/selectors";
+import { fetchProducts } from "../../redux/products/operations";
+import { fetchClients } from "../../redux/clients/operations";
+import { fetchUser } from "../../redux/user/operations";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -32,6 +33,8 @@ const Invoices = () => {
 
   const dispatch = useDispatch();
   const invoice = useSelector((state) => state.invoice);
+  const token = useSelector(selectToken)
+  const user = useSelector(selectUser)
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   /**
@@ -57,49 +60,30 @@ const Invoices = () => {
    * @returns {void}
    */
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`/user`);
-        setAuthHeader(response.data.token);
-        dispatch(setUserDetails(response.data));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchUser();
-  }, [id]);
+    if(token) {
+      dispatch(fetchUser(token))
+    }
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    if(user) {
+      dispatch(setUserDetails(user))
+    }
+  },[dispatch, user])
   /**
    * Loads all clients to setClients.
    * @returns {void}
    */
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response = await axios.get(`/clients`);
-        setAuthHeader(response.data.token);
-        dispatch(setClients(response.data));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchClients();
-  }, [id]);
+    dispatch(fetchClients(token))
+  }, [dispatch]);
   /**
    * Loads all products to setProducts.
    * @returns {void}
    */
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(`/products`);
-        setAuthHeader(response.data.token);
-        dispatch(setProducts(response.data));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchProducts();
-  }, [id]);
+    dispatch(fetchProducts(token))
+  }, [dispatch]);
   /**
    * Handles the click event of the "Create Invoice" button.
    * Sends a request to the server to add a new invoice with the data from the new invoice state.
