@@ -8,7 +8,6 @@ import ClientForm from "../../components/Client/ClientForm/ClientForm";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
 import ClientCard from "../../components/Client/ClientCard/ClientCard";
-import { setAuthHeader } from "../../redux/auth/operations";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllClients } from "../../redux/clients/selectors";
 import { fetchClients } from "../../redux/clients/operations";

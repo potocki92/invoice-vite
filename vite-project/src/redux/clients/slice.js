@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchClients } from "./operations";
+import { addClient, fetchClients } from "./operations";
 
 const initialState = {
     allClients: [],
@@ -25,7 +25,12 @@ const allClientsSlice = createSlice({
       .addCase(fetchClients.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
-      });
+      })
+      .addCase(addClient.fulfilled, (state, action) => {
+        const newClientData = action.payload
+
+        state.allClients.push(newClientData)
+      })
   },
 });
 

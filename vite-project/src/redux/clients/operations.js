@@ -13,3 +13,17 @@ export const fetchClients = createAsyncThunk(
         return response.data
     }
 )
+
+export const addClient = createAsyncThunk(
+    "allClients/addClients",
+    async(token, credentials, thunkAPI) => {
+        try {
+
+            setAuthHeader(token)
+            const response = await axios.post("/addClient", credentials);
+            return response.data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message)
+        }
+    }
+)
