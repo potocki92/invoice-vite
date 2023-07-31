@@ -14,6 +14,8 @@ import { selectToken, selectUser } from "../../redux/auth/selectors";
 import { fetchProducts } from "../../redux/products/operations";
 import { fetchClients } from "../../redux/clients/operations";
 import { fetchUser } from "../../redux/user/operations";
+import { selectAllProducts } from "../../redux/products/selectors";
+import { selectAllClients } from "../../redux/clients/selectors";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -33,6 +35,8 @@ const Invoices = () => {
 
   const dispatch = useDispatch();
   const invoice = useSelector((state) => state.invoice);
+  const products = useSelector(selectAllProducts)
+  const clients = useSelector(selectAllClients)
   const token = useSelector(selectToken)
   const user = useSelector(selectUser)
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
@@ -60,10 +64,10 @@ const Invoices = () => {
    * @returns {void}
    */
   useEffect(() => {
-    if(token) {
+    if(!user && token) {
       dispatch(fetchUser(token))
     }
-  }, [dispatch, token]);
+  }, [dispatch, user, token]);
 
   useEffect(() => {
     if(user) {
@@ -75,15 +79,19 @@ const Invoices = () => {
    * @returns {void}
    */
   useEffect(() => {
-    dispatch(fetchClients(token))
-  }, [dispatch]);
+    if(clients.length === 0 && token) {
+      dispatch(fetchClients(token))
+    }
+  }, [dispatch, clients, token]);
   /**
    * Loads all products to setProducts.
    * @returns {void}
    */
   useEffect(() => {
-    dispatch(fetchProducts(token))
-  }, [dispatch]);
+    if(products.length === 0 && token) {
+      dispatch(fetchProducts(token))
+    }
+  }, [dispatch, products, token]);
   /**
    * Handles the click event of the "Create Invoice" button.
    * Sends a request to the server to add a new invoice with the data from the new invoice state.

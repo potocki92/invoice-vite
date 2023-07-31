@@ -30,8 +30,10 @@ const Products = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchProducts(authToken))
-  }, [dispatch]);
+    if(products.length === 0 && authToken) {
+      dispatch(fetchProducts(authToken))
+    }
+  }, [dispatch, products, authToken]);
 
   /**
   Updates the state of newProduct object when input values change.
@@ -51,7 +53,7 @@ const Products = () => {
     axios
       .post(`/addProduct`, newProduct, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
       .then((res) => {

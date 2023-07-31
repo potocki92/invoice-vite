@@ -36,8 +36,10 @@ const Clients = () => {
   });
   /* This effect retrieves all clients data from the server for the current user and sets it to the allClients state */
   useEffect(() => {
-    dispatch(fetchClients(token))
-  }, [dispatch]);
+    if (clients.length === 0 && token) {
+      dispatch(fetchClients(token))
+    }
+  }, [dispatch, clients, token]);
   /* This function updates the newClient state whenever any input field is changed */
   const handleChange = (event) => {
     const { name, value } = event.target;

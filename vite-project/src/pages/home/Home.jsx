@@ -16,8 +16,10 @@ const Home = () => {
   const error = useSelector((state) => state.allInvoices.error);
 
   useEffect(() => {
-    dispatch(fetchInvoices(token));
-  },[dispatch])
+    if (invoices.length === 0 && token) {
+      dispatch(fetchInvoices(token));
+    }
+  },[dispatch, invoices, token])
   /**
    * Deletes an invoice from the database and updates the state of allInvoices.
    * @param {string} invoiceId - The ID of the invoice to be deleted.
