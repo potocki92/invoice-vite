@@ -8,6 +8,7 @@ import ClientForm from "../../components/Client/ClientForm/ClientForm";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
 import ClientCard from "../../components/Client/ClientCard/ClientCard";
+import { setAuthHeader } from "../../redux/auth/operations";
 /* 
   This function defines the main Client component, 
   which fetches all clients data for the current user from the database, 
@@ -27,7 +28,6 @@ const Clients = () => {
     clientPostal: "",
     clientAddress: "",
   });
-  const token = localStorage.getItem("token");
   /* This line defines the initial state for all clients, either by retrieving them from local storage, or setting an empty array */
   const [allClients, setAllClients] = useState(
     JSON.parse(localStorage.getItem("clients")) || []
@@ -40,11 +40,8 @@ const Clients = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get(`/clients`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(`/clients`);
+        setAuthHeader(response.data.token);
         setAllClients(response.data);
       } catch (error) {
         console.error(error);

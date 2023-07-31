@@ -4,18 +4,32 @@ import axios from "../../utils/axiosConfig";
 import InvoiceList from "../../components/Invoice/InvoiceList/InvoiceList";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllInvoices } from "../../redux/invoices/selectors";
-import { fetchInvoices } from "../../redux/invoices/operations";
+// import { fetchInvoices } from "../../redux/invoices/operations";
+import { setAuthHeader } from "../../redux/auth/operations";
 
 const Home = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
-  const invoices = useSelector(selectAllInvoices);
+  // const invoices = useSelector(selectAllInvoices);
   const isLoading = useSelector((state) => state.allInvoices.isLoading);
   const error = useSelector((state) => state.allInvoices.error);
 
+  const [invoices, setInvoices] = useState([]);
   useEffect(() => {
-    dispatch(fetchInvoices());
-  }, [dispatch]);
+    // dispatch(fetchInvoices());
+    const fetchInvoices = async () => {
+      try {
+        const response = await axios.get("/invoices");
+        setAuthHeader(response.data.token);
+        setInvoices(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchInvoices();
+  }, [id]);
+
+  console.log(invoices);
   /**
    * Deletes an invoice from the database and updates the state of allInvoices.
    * @param {string} invoiceId - The ID of the invoice to be deleted.
@@ -31,7 +45,7 @@ const Home = () => {
       .then((res) => {
         console.log(res.data);
         // After successful delete, dispatch fetchInvoices again to update allInvoices state
-        dispatch(fetchInvoices());
+        // dispatch(fetchInvoices());
       })
       .catch((err) => console.error(err));
   };

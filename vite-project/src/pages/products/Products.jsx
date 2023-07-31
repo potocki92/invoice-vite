@@ -6,6 +6,7 @@ import ProductForm from "../../components/Product/ProductForm/ProductForm";
 import ProductList from "../../components/Product/ProductList/ProductList";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
+import { setAuthHeader } from "../../redux/auth/operations";
 
 /**
 Component for managing products.
@@ -32,11 +33,8 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`/products`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(`/products`);
+        setAuthHeader(response.data.token);
         setAllProducts(response.data);
       } catch (error) {
         console.error(error);
