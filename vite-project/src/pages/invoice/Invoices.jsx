@@ -38,7 +38,6 @@ const Invoices = () => {
   const invoice = useSelector((state) => state.invoice);
   const products = useSelector(selectAllProducts);
   const clients = useSelector(selectAllClients);
-  const token = useSelector(selectToken);
   const user = useSelector(selectUser);
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -65,34 +64,32 @@ const Invoices = () => {
    * @returns {void}
    */
   useEffect(() => {
-    if (token) {
-      dispatch(fetchUser(token));
-    }
-  }, [dispatch, token]);
+      dispatch(fetchUser());
+  }, [dispatch]);
 
   useEffect(() => {
-    if (user) {
+    if (user && Object.keys(user).length !== 0) {
       dispatch(setUserDetails(user));
     }
-  }, []);
+  }, [dispatch, user]);
   /**
    * Loads all clients to setClients.
    * @returns {void}
    */
   useEffect(() => {
-    if (clients.length === 0 && token) {
-      dispatch(fetchClients(token));
+    if (clients.length === 0) {
+      dispatch(fetchClients());
     }
-  }, [dispatch, clients, token]);
+  }, [dispatch, clients]);
   /**
    * Loads all products to setProducts.
    * @returns {void}
    */
   useEffect(() => {
-    if (products.length === 0 && token) {
-      dispatch(fetchProducts(token));
+    if (products.length === 0) {
+      dispatch(fetchProducts());
     }
-  }, [dispatch, products, token]);
+  }, [dispatch, products]);
   /**
    * Handles the click event of the "Create Invoice" button.
    * Sends a request to the server to add a new invoice with the data from the new invoice state.

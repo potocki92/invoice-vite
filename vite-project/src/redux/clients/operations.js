@@ -6,7 +6,8 @@ axios.defaults.baseURL = "https://incom-fff0742e5ae9.herokuapp.com/";
 
 export const fetchClients = createAsyncThunk(
     "allClients/fetchClients",
-    async(token) => {
+    async(_, asyncThunkAPI) => {
+        const token = asyncThunkAPI.getState().auth.token;
         setAuthHeader(token);
         const response = await axios.get("/clients")
         console.log("Fetched clients:", response.data)
@@ -16,9 +17,9 @@ export const fetchClients = createAsyncThunk(
 
 export const addClient = createAsyncThunk(
     "allClients/addClients",
-    async(token, credentials, thunkAPI) => {
+    async(credentials, asyncThunkAPI) => {
         try {
-
+            const token = asyncThunkAPI.getState().auth.token;
             setAuthHeader(token)
             const response = await axios.post("/addClient", credentials);
             return response.data

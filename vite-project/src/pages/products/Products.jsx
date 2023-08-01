@@ -7,7 +7,7 @@ import ProductForm from "../../components/Product/ProductForm/ProductForm";
 import ProductList from "../../components/Product/ProductList/ProductList";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
-import { fetchProducts } from "../../redux/products/operations";
+import { addProduct, fetchProducts } from "../../redux/products/operations";
 import { selectAllProducts } from "../../redux/products/selectors";
 import { selectToken } from "../../redux/auth/selectors";
 
@@ -19,7 +19,6 @@ const Products = () => {
   let { id } = useParams();
   const dispatch = useDispatch()
   const products = useSelector(selectAllProducts)
-  const authToken = useSelector(selectToken)
   const [newProduct, setNewProduct] = useState({
     _id: new Types.ObjectId(), // wygeneruj nowe ID
     productsName: "",
@@ -30,10 +29,10 @@ const Products = () => {
   });
 
   useEffect(() => {
-    if(products.length === 0 && authToken) {
-      dispatch(fetchProducts(authToken))
+    if(products.length === 0) {
+      dispatch(fetchProducts())
     }
-  }, [dispatch, products, authToken]);
+  }, [dispatch, products]);
 
   /**
   Updates the state of newProduct object when input values change.
@@ -50,17 +49,11 @@ const Products = () => {
    */
   const handleClick = (e) => {
     e.preventDefault();
-    axios
-      .post(`/addProduct`, newProduct, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      })
+    dispatch(addProduct(newProduct))
       .then((res) => {
-        console.log(res.data, newProduct);
-        setAllProducts([...allProducts, newProduct]); // aktualizujemy stan listy produktów
+        console.log(products);
         setNewProduct({
-          _id: new Types.ObjectId(), // wygeneruj nowe ID
+          _id: "", // wygeneruj nowe ID
           productsName: "",
           qty: 1,
           productsPrice: "",

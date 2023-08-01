@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProducts } from "./operations";
+import { addProduct, fetchProducts } from "./operations";
 
 const initialState = {
   allProducts: [],
@@ -10,7 +10,11 @@ const initialState = {
 const allProductsSlice = createSlice({
   name: "allProducts",
   initialState,
-  reducers: {},
+  reducers: {
+    addProducct: (state, action) => {
+      state.allProducts.push(action.payload)
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -25,7 +29,10 @@ const allProductsSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
-      });
+      })
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.allProducts.push(action.payload)
+      })
   },
 });
 
