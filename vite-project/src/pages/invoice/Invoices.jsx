@@ -10,12 +10,13 @@ import InvoicePreview from "../../components/Invoice/InvoicePreview/InvoicePrevi
 import { DefaultButton } from "../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { setInvoice, setUserDetails } from "../../redux/invoiceSlice";
-import { selectToken, selectUser } from "../../redux/auth/selectors";
+import { selectToken } from "../../redux/auth/selectors";
 import { fetchProducts } from "../../redux/products/operations";
 import { fetchClients } from "../../redux/clients/operations";
 import { fetchUser } from "../../redux/user/operations";
 import { selectAllProducts } from "../../redux/products/selectors";
 import { selectAllClients } from "../../redux/clients/selectors";
+import { selectUser } from "../../redux/user/selectors";
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
@@ -35,10 +36,10 @@ const Invoices = () => {
 
   const dispatch = useDispatch();
   const invoice = useSelector((state) => state.invoice);
-  const products = useSelector(selectAllProducts)
-  const clients = useSelector(selectAllClients)
-  const token = useSelector(selectToken)
-  const user = useSelector(selectUser)
+  const products = useSelector(selectAllProducts);
+  const clients = useSelector(selectAllClients);
+  const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   /**
@@ -64,23 +65,23 @@ const Invoices = () => {
    * @returns {void}
    */
   useEffect(() => {
-    if(!user && token) {
-      dispatch(fetchUser(token))
+    if (token) {
+      dispatch(fetchUser(token));
     }
-  }, [dispatch, user, token]);
+  }, [dispatch, token]);
 
   useEffect(() => {
-    if(user) {
-      dispatch(setUserDetails(user))
+    if (user) {
+      dispatch(setUserDetails(user));
     }
-  },[dispatch, user])
+  }, []);
   /**
    * Loads all clients to setClients.
    * @returns {void}
    */
   useEffect(() => {
-    if(clients.length === 0 && token) {
-      dispatch(fetchClients(token))
+    if (clients.length === 0 && token) {
+      dispatch(fetchClients(token));
     }
   }, [dispatch, clients, token]);
   /**
@@ -88,8 +89,8 @@ const Invoices = () => {
    * @returns {void}
    */
   useEffect(() => {
-    if(products.length === 0 && token) {
-      dispatch(fetchProducts(token))
+    if (products.length === 0 && token) {
+      dispatch(fetchProducts(token));
     }
   }, [dispatch, products, token]);
   /**
