@@ -21,8 +21,26 @@ export const addClient = createAsyncThunk(
         try {
             const token = asyncThunkAPI.getState().auth.token;
             setAuthHeader(token)
-            console.log("Add client:", newClient);
+            const response = await axios.post("/addClient", newClient)
+            console.log("Add client:", response.data);
             return newClient
+        } catch(error) {
+            console.error(error)
+            throw error
+        }
+    }
+)
+
+export const deleteClient = createAsyncThunk(
+    "allClients/deleteClient",
+    async ( clientId, asyncThunkAPI ) => {
+        try {
+            const token = asyncThunkAPI.getState().auth.token;
+            setAuthHeader(token);
+            await axios.delete(`/clients/${clientId}`)
+            console.log("Client deleted:", clientId);
+
+            return clientId
         } catch(error) {
             console.error(error)
             throw error

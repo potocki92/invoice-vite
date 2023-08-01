@@ -10,7 +10,7 @@ import { DefaultButton } from "../../components/buttons.styled";
 import ClientCard from "../../components/Client/ClientCard/ClientCard";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllClients } from "../../redux/clients/selectors";
-import { addClient, fetchClients } from "../../redux/clients/operations";
+import { addClient, deleteClient, fetchClients } from "../../redux/clients/operations";
 import { selectToken } from "../../redux/auth/selectors";
 /* 
   This function defines the main Client component, 
@@ -65,17 +65,8 @@ const Clients = () => {
       .catch((err) => console.error(err));
   };
   /* This function deletes a client from the database when the 'Delete' button is clicked */
-  const deleteClient = (clientId) => {
-    axios
-      .delete(`/clients/${clientId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        
-      })
-      .catch((err) => console.error(err));
+  const deleteClientHandleChange = (clientId) => {
+    dispatch(deleteClient(clientId))
   };
   /* This block of code defines the structure of the Client component, 
   which includes a form for adding new clients, a list of all clients with their 
@@ -97,7 +88,7 @@ const Clients = () => {
       />
       <div className="section__content grid">
         {clients.map((client) => {
-          return <ClientCard id={id} client={client} onDelete={deleteClient} />;
+          return <ClientCard id={id} client={client} onDelete={deleteClientHandleChange} />;
         })}
       </div>
     </div>

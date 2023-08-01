@@ -51,7 +51,6 @@ const Products = () => {
     e.preventDefault();
     dispatch(addProduct(newProduct))
       .then((res) => {
-        console.log(products);
         setNewProduct({
           _id: new Types.ObjectId(),
           productsName: "",
