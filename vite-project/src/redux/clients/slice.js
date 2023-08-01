@@ -27,9 +27,7 @@ const allClientsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addClient.fulfilled, (state, action) => {
-        const newClientData = action.payload
-
-        state.allClients.push(newClientData)
+        state.allClients.push(action.payload)
       })
   },
 });

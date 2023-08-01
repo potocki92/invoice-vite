@@ -7,7 +7,7 @@ import ProductForm from "../../components/Product/ProductForm/ProductForm";
 import ProductList from "../../components/Product/ProductList/ProductList";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
-import { addProduct, fetchProducts } from "../../redux/products/operations";
+import { addProduct, deleteProduct, fetchProducts } from "../../redux/products/operations";
 import { selectAllProducts } from "../../redux/products/selectors";
 import { selectToken } from "../../redux/auth/selectors";
 
@@ -20,7 +20,7 @@ const Products = () => {
   const dispatch = useDispatch()
   const products = useSelector(selectAllProducts)
   const [newProduct, setNewProduct] = useState({
-    _id: new Types.ObjectId(), // wygeneruj nowe ID
+    _id: new Types.ObjectId(),
     productsName: "",
     qty: 1,
     productsPrice: "",
@@ -53,13 +53,13 @@ const Products = () => {
       .then((res) => {
         console.log(products);
         setNewProduct({
-          _id: "", // wygeneruj nowe ID
+          _id: new Types.ObjectId(),
           productsName: "",
           qty: 1,
           productsPrice: "",
           amount: 0,
           productsTax: "",
-        }); // resetujemy dane dotyczące produktu
+        });
       })
       .catch((err) => console.error(err));
   };
@@ -68,20 +68,8 @@ const Products = () => {
    * Deletes a product from the server and updates product list state.
    * @param {String} productId - The ID of the product to be deleted.
    */
-  const deleteProduct = (productId) => {
-    axios
-      .delete(`/products/${productId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setAllProducts(
-          allProducts.filter((product) => product._id !== productId)
-        );
-      })
-      .catch((err) => console.error(err));
+  const deleteProductHandleClick = (productId) => {
+    dispatch(deleteProduct(productId))
   };
 
   return (
@@ -99,7 +87,7 @@ const Products = () => {
         handleClick={handleClick}
         handleChange={handleChange}
       />
-      <ProductList id={id} products={products} onDelete={deleteProduct} />
+      <ProductList id={id} products={products} onDelete={deleteProductHandleClick} />
     </div>
   );
 };

@@ -16,15 +16,16 @@ export const fetchClients = createAsyncThunk(
 )
 
 export const addClient = createAsyncThunk(
-    "allClients/addClients",
-    async(credentials, asyncThunkAPI) => {
+    "allClients/addClient",
+    async (newClient, asyncThunkAPI) => {
         try {
             const token = asyncThunkAPI.getState().auth.token;
             setAuthHeader(token)
-            const response = await axios.post("/addClient", credentials);
-            return response.data
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error.message)
+            console.log("Add client:", newClient);
+            return newClient
+        } catch(error) {
+            console.error(error)
+            throw error
         }
     }
 )

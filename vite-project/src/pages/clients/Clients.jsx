@@ -10,7 +10,7 @@ import { DefaultButton } from "../../components/buttons.styled";
 import ClientCard from "../../components/Client/ClientCard/ClientCard";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllClients } from "../../redux/clients/selectors";
-import { fetchClients } from "../../redux/clients/operations";
+import { addClient, fetchClients } from "../../redux/clients/operations";
 import { selectToken } from "../../redux/auth/selectors";
 /* 
   This function defines the main Client component, 
@@ -48,15 +48,8 @@ const Clients = () => {
   /* This function adds a new client to the database when the 'Add Client' button is clicked, and resets the newClient state */
   const handleClick = (e) => {
     e.preventDefault();
-    axios
-      .post(`/addClient`, newClient, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    dispatch(addClient(newClient))
       .then((res) => {
-        console.log(res.data);
-        setAllClients([...clients, newClient]);
         setNewClient({
           _id: new Types.ObjectId(),
           clientName: "",

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addProduct, fetchProducts } from "./operations";
+import { addProduct, deleteProduct, fetchProducts } from "./operations";
 
 const initialState = {
   allProducts: [],
@@ -10,11 +10,7 @@ const initialState = {
 const allProductsSlice = createSlice({
   name: "allProducts",
   initialState,
-  reducers: {
-    addProducct: (state, action) => {
-      state.allProducts.push(action.payload)
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -32,6 +28,9 @@ const allProductsSlice = createSlice({
       })
       .addCase(addProduct.fulfilled, (state, action) => {
         state.allProducts.push(action.payload)
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.allProducts = state.allProducts.filter((product) => product._id !== action.payload)
       })
   },
 });

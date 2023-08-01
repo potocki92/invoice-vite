@@ -36,3 +36,20 @@ export const addProduct = createAsyncThunk(
     }
   }
 )
+
+export const deleteProduct = createAsyncThunk(
+  "allProducts/deleteProduct",
+  async ( productId, asyncThunkAPI) => {
+    try {
+      const token = asyncThunkAPI.getState().auth.token;
+      setAuthHeader(token);
+      await axios.delete(`/products/${productId}`)
+      console.log("Product deleted:", productId)
+
+      return productId
+    } catch(error) {
+      console.log(error);
+      throw error
+    }
+  }
+)
