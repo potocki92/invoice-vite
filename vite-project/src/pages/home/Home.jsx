@@ -48,6 +48,7 @@ const Home = () => {
     return <p>Error: {error}</p>;
   }
 
+  console.log("invoices", invoices);
   return (
     <main className="container">
       <div className="invoice__home">

@@ -22,7 +22,7 @@ export const addClient = createAsyncThunk(
             const token = asyncThunkAPI.getState().auth.token;
             setAuthHeader(token)
             const response = await axios.post("/addClient", newClient)
-            console.log("Add client:", response.data);
+            console.log("Add client:", newClient);
             return newClient
         } catch(error) {
             console.error(error)

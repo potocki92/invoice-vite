@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "../../utils/axiosConfig";
 import InvoiceInputs from "../../components/Invoice/InvoiceInputs/InvoiceInputs";
 import { StyledBox } from "../../components/Invoice/InvoiceList/InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
@@ -10,20 +9,19 @@ import InvoicePreview from "../../components/Invoice/InvoicePreview/InvoicePrevi
 import { DefaultButton } from "../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { setInvoice, setUserDetails } from "../../redux/invoiceSlice";
-import { selectToken } from "../../redux/auth/selectors";
 import { fetchProducts } from "../../redux/products/operations";
 import { fetchClients } from "../../redux/clients/operations";
 import { fetchUser } from "../../redux/user/operations";
 import { selectAllProducts } from "../../redux/products/selectors";
 import { selectAllClients } from "../../redux/clients/selectors";
 import { selectUser } from "../../redux/user/selectors";
+import { addInvoice } from "../../redux/invoices/operations";
+
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
  */
 const Invoices = () => {
-  let { id } = useParams();
-
   const navigate = useNavigate();
   /**
    * Represents a new invoice.
@@ -101,18 +99,12 @@ const Invoices = () => {
   const handleSave = () => {
     if (isFormValid) {
       // Send a POST request to add a new invoice to the server
-
-      const _id = new Types.ObjectId();
-      axios
-        .post(
-          `/addInvoice`,
-          { ...invoice, _id },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
+      const newInvoice = {
+        ...invoice,
+        _id: new Types.ObjectId()
+      }
+      console.log("newInvoice", newInvoice);
+      dispatch(addInvoice(newInvoice))
         .then((res) => {
           console.log("Invoice has been saved to the database.");
 

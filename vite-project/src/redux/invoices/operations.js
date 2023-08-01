@@ -14,3 +14,20 @@ export const fetchInvoices = createAsyncThunk(
     return response.data;
   }
 );
+
+export const addInvoice = createAsyncThunk(
+  "allInvoices/addInvoice",
+  async ( newInvoice, asyncThunkAPI) => {
+    try{
+
+      const token = asyncThunkAPI.getState().auth.token;
+      setAuthHeader(token);
+      const response = await axios.post("/addInvoice", newInvoice);
+      console.log("Add invoice:", newInvoice)
+      return newInvoice
+  } catch(error) {
+      console.error(error);
+      throw error 
+    }
+  }
+)
