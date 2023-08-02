@@ -103,7 +103,6 @@ const Invoices = () => {
         ...invoice,
         _id: new Types.ObjectId()
       }
-      console.log("newInvoice", newInvoice);
       dispatch(addInvoice(newInvoice))
         .then((res) => {
           console.log("Invoice has been saved to the database.");

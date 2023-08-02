@@ -28,10 +28,17 @@ const allInvoicesSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addInvoice.fulfilled, (state, action) => {
-        const { payload } = action;
-        const newInvoice = { ...payload, _id: uuidv4() };
+        const { client, date, invoiceNumber } = action.payload;
+        const { clientName } = client;
+        const { dueDate } = date;
+        const newInvoice = {
+          clientName,
+          dueDate,
+          invoiceNumber,
+          _id: uuidv4(),
+        };
         state.allInvoices.push(newInvoice);
-      })
+      });
   },
 });
 
