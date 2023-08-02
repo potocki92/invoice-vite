@@ -63,6 +63,8 @@ function App() {
             >
               <Route path="" element={<Home />} />
               <Route path="invoice" element={<Invoices />} />
+
+              <Route path="invoice/:invoiceId" element={<InvoiceEdit />} />
               <Route path="products" element={<Products />} />
               <Route path="clients" element={<Clients />} />
             </Route>

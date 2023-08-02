@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "../../utils/axiosConfig";
 import InvoiceList from "../../components/Invoice/InvoiceList/InvoiceList";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllInvoices } from "../../redux/invoices/selectors";
-import { fetchInvoices } from "../../redux/invoices/operations";
+import { deleteInvoice, fetchInvoices } from "../../redux/invoices/operations";
 import { selectToken } from "../../redux/auth/selectors";
 
 const Home = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
   const invoices = useSelector(selectAllInvoices);
-  const token = useSelector(selectToken)
+  const token = useSelector(selectToken);
   const isLoading = useSelector((state) => state.allInvoices.isLoading);
   const error = useSelector((state) => state.allInvoices.error);
 
@@ -19,19 +18,14 @@ const Home = () => {
     if (invoices.length === 0 && token) {
       dispatch(fetchInvoices(token));
     }
-  },[dispatch, invoices, token])
+  }, [dispatch, invoices, token]);
   /**
    * Deletes an invoice from the database and updates the state of allInvoices.
    * @param {string} invoiceId - The ID of the invoice to be deleted.
    * @returns {void}
    */
-  const deleteInvoice = (invoiceId) => {
-    axios
-      .delete(`/invoice/${invoiceId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+  const deleteInvoiceHandleClick = (invoiceId) => {
+    dispatch(deleteInvoice(invoiceId))
       .then((res) => {
         console.log(res.data);
         // After successful delete, dispatch fetchInvoices again to update allInvoices state
@@ -60,7 +54,11 @@ const Home = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <InvoiceList id={id} invoices={invoices} onDelete={deleteInvoice} />
+        <InvoiceList
+          id={id}
+          invoices={invoices}
+          onDelete={deleteInvoiceHandleClick}
+        />
       )}
     </main>
   );

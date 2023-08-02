@@ -17,17 +17,50 @@ export const fetchInvoices = createAsyncThunk(
 
 export const addInvoice = createAsyncThunk(
   "allInvoices/addInvoice",
-  async ( newInvoice, asyncThunkAPI) => {
-    try{
-
+  async (newInvoice, asyncThunkAPI) => {
+    try {
       const token = asyncThunkAPI.getState().auth.token;
       setAuthHeader(token);
       const response = await axios.post("/addInvoice", newInvoice);
-      console.log("Add invoice:", newInvoice)
-      return newInvoice
-  } catch(error) {
+      console.log("Add invoice:", newInvoice);
+      return newInvoice;
+    } catch (error) {
       console.error(error);
-      throw error 
+      throw error;
     }
   }
-)
+);
+
+export const deleteInvoice = createAsyncThunk(
+  "allInvoices/deleteInvoice",
+  async (invoiceId, asyncThunkAPI) => {
+    try {
+      const token = asyncThunkAPI.getState().auth.token;
+      setAuthHeader(token);
+      await axios.delete(`/invoice/${invoiceId}`);
+      console.log("Invoice delete:", invoiceId);
+
+      return invoiceId;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+export const fetchInvoiceFromId = createAsyncThunk(
+  "allInvoices/fetchInvoiceFromId",
+  async (invoiceId, asyncThunkAPI) => {
+    try {
+      const token = asyncThunkAPI.getState().auth.token;
+      setAuthHeader(token);
+      const response = await axios.get(`/invoice/${invoiceId}`);
+      console.log("Invoice get:", response.data);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
