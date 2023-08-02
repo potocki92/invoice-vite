@@ -88,7 +88,7 @@ const Clients = () => {
       />
       <div className="section__content grid">
         {clients.map((client) => {
-          return <ClientCard id={id} client={client} onDelete={deleteClientHandleChange} />;
+          return <ClientCard key={client._id} id={id} client={client} onDelete={deleteClientHandleChange} />;
         })}
       </div>
     </div>

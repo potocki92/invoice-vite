@@ -13,12 +13,17 @@ import { RestrictedRoute } from "./RestrictedRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import { useAuth } from "./hooks/useAuth";
 
-const Home = lazy(() => import("./pages/home/Home"));
-const Homepage = lazy(() => import("./pages/homepage/Homepage"));
-const Invoices = lazy(() => import("./pages/invoice/Invoices"));
+import Home from "./pages/home/Home"
+// const Home = lazy(() => import("./pages/home/Home"));
+import Homepage from "./pages/homepage/Homepage"
+// const Homepage = lazy(() => import("./pages/homepage/Homepage"));
+import Invoices from "./pages/invoice/Invoices"
+// const Invoices = lazy(() => import("./pages/invoice/Invoices"));
 const User = lazy(() => import("./pages/user/User"));
-const Clients = lazy(() => import("./pages/clients/Clients"));
-const Products = lazy(() => import("./pages/products/Products"));
+import Clients from "./pages/clients/Clients";
+// const Clients = lazy(() => import("./pages/clients/Clients"));
+import Products from "./pages/products/Products"
+// const Products = lazy(() => import("./pages/products/Products"));
 const Authentication = lazy(() =>
   import("./components/Authentication/Authentication")
 );
