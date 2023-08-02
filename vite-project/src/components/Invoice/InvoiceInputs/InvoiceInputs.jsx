@@ -32,6 +32,7 @@ import updateClient from "../../../utils/updateClient";
 import updateNotes from "../../../utils/updateNotes";
 import CurrentMonthInvoices from "../../../utils/currentMonthInvoices";
 import { selectAllClients } from "../../../redux/clients/selectors";
+import { Types } from "mongoose";
 
 /**
  * Component for displaying and editing invoice input fields.
@@ -75,11 +76,12 @@ const InvoiceInputs = ({
    */
   const handleAddCard = () => {
     dispatch(addProductToInvoice({
+      _id: new Types.ObjectId(),
       productsName: "",
-        qty: 1,
-        productsPrice: 0,
-        productsTax: 0,
-        amount: 0,
+      qty: 0,
+      productsPrice: 0,
+      productsTax: 0,
+      amount: 0,
     }))
   }
   /**
@@ -395,7 +397,7 @@ const InvoiceInputs = ({
         <InputsContent>
           {invoice?.products?.items.map((product, index) => (
             <ProductCard
-              key={index}
+              key={product._id}
               index={index}
               product={product}
             />
@@ -405,7 +407,7 @@ const InvoiceInputs = ({
         <InputsContent>
           {invoice?.products.items.map((product, index) => (
             <ProductCard
-              key={index}
+              key={product._id}
               index={index}
               product={product}
               isInAuthentication={isInAuthentication}

@@ -7,6 +7,7 @@
  */
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchInvoiceFromId } from "./invoices/operations";
+import { Types } from "mongoose";
 
 // Initial state of the invoice slice.
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   products: {
     items: [
       {
+        _id: new Types.ObjectId(),
         productsName: "",
         qty: 0,
         productsPrice: 0,

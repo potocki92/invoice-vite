@@ -298,6 +298,7 @@ const InvoicePDF = ({ invoice }) => {
 
         {invoice.products?.items.map((product) => (
           <View
+            key={product._id}
             style={{
               ...styles.flex,
               ...styles.row,
