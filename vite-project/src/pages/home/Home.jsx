@@ -5,17 +5,21 @@ import InvoiceList from "../../components/Invoice/InvoiceList/InvoiceList";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllInvoices } from "../../redux/invoices/selectors";
 import { fetchInvoices } from "../../redux/invoices/operations";
+import { selectToken } from "../../redux/auth/selectors";
 
 const Home = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
   const invoices = useSelector(selectAllInvoices);
+  const token = useSelector(selectToken)
   const isLoading = useSelector((state) => state.allInvoices.isLoading);
   const error = useSelector((state) => state.allInvoices.error);
 
   useEffect(() => {
-    dispatch(fetchInvoices());
-  }, [dispatch]);
+    if (invoices.length === 0 && token) {
+      dispatch(fetchInvoices(token));
+    }
+  },[dispatch, invoices, token])
   /**
    * Deletes an invoice from the database and updates the state of allInvoices.
    * @param {string} invoiceId - The ID of the invoice to be deleted.
@@ -31,7 +35,7 @@ const Home = () => {
       .then((res) => {
         console.log(res.data);
         // After successful delete, dispatch fetchInvoices again to update allInvoices state
-        dispatch(fetchInvoices());
+        // dispatch(fetchInvoices());
       })
       .catch((err) => console.error(err));
   };
@@ -44,6 +48,7 @@ const Home = () => {
     return <p>Error: {error}</p>;
   }
 
+  console.log("invoices", invoices);
   return (
     <main className="container">
       <div className="invoice__home">

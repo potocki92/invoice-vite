@@ -38,53 +38,23 @@ function App() {
     <b>Refreshing user...</b>
   ) : (
     <div className="App">
-      {/* <Route
-              path={homeLink}
-              element={
-                user && user.token ? (
-                  <Homepage setLoginUser={setLoginUser} user={user} />
-                ) : (
-                  <Navigate to={`${homeLink}/login`} replace />
-                )
-              }
-            >
-              <Route path="/invoice-vite" element={<Home />} />
-              <Route path={`${homeLink}/invoice`} element={<Invoices />} />
-              <Route
-                path={`${homeLink}/invoice/:invoiceId`}
-                element={<InvoiceEdit />}
-              />
-              <Route path={`${homeLink}/user`} element={<User />} />
-              <Route path={`${homeLink}/products`} element={<Products />} />
-              <Route path={`${homeLink}/clients`} element={<Clients />} />
-            </Route>
-            <Route
-              path={`${homeLink}/login`}
-              element={
-                user && user.token ? (
-                  <Navigate to={homeLink} replace />
-                ) : (
-                  <Authentication setLoginUser={setLoginUser} />
-                )
-              }
-            /> */}
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route
-              path={`${homeLink}`}
+              path={`${homeLink}/login`}
               element={
                 <RestrictedRoute
-                  redirectTo={`${homeLink}/dashboard`}
+                  redirectTo={`${homeLink}/`}
                   component={<Authentication setLoginUser={setLoginUser} />}
                 />
               }
             />
             <Route
-              path={`${homeLink}/dashboard`}
+              path={`${homeLink}/`}
               element={
                 <PrivateRoute
-                  redirectTo={`${homeLink}`}
+                  redirectTo={`${homeLink}/login`}
                   component={
                     <Homepage setLoginUser={setLoginUser} user={user} />
                   }
@@ -92,6 +62,9 @@ function App() {
               }
             >
               <Route path="" element={<Home />} />
+              <Route path="invoice" element={<Invoices />} />
+              <Route path="products" element={<Products />} />
+              <Route path="clients" element={<Clients />} />
             </Route>
             <Route path="/*" element={<Navigate to={homeLink} replace />} />
           </Routes>

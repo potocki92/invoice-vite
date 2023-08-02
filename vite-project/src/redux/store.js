@@ -15,6 +15,9 @@ import totalReducer from "./totalSlice";
 import productReducer from "./productSlice";
 import clientsReducer from "./clientsSlice";
 import allInvoicesReducer from "./invoices/slice";
+import allProductsReducer from "./products/slice";
+import allClientsReducer from "./clients/slice"
+import userReducer from "./user/slice"
 import { authReducer } from "./auth/slice";
 
 const middleware = [
@@ -36,6 +39,9 @@ const store = configureStore({
     auth: persistReducer(authPersistConfig, authReducer),
     invoice: invoiceReducer,
     allInvoices: allInvoicesReducer,
+    allProducts: allProductsReducer,
+    allClients: allClientsReducer,
+    user: userReducer,
     total: totalReducer,
     product: productReducer,
     clients: clientsReducer,

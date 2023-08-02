@@ -8,12 +8,19 @@ import ClientForm from "../../components/Client/ClientForm/ClientForm";
 import { homeLink } from "../../utils/linkConfig";
 import { DefaultButton } from "../../components/buttons.styled";
 import ClientCard from "../../components/Client/ClientCard/ClientCard";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllClients } from "../../redux/clients/selectors";
+import { addClient, deleteClient, fetchClients } from "../../redux/clients/operations";
+import { selectToken } from "../../redux/auth/selectors";
 /* 
   This function defines the main Client component, 
   which fetches all clients data for the current user from the database, 
   adds new clients to the database, and allows deleting clients from the database 
 */
 const Clients = () => {
+  const dispatch = useDispatch()
+  const clients = useSelector(selectAllClients)
+  const token = useSelector(selectToken)
   let { id } = useParams(); //  This line uses the useParams() hook to retrieve the ID of the current user from the URL
   /* This line defines the initial state for a new client, with empty strings for all properties */
   const [newClient, setNewClient] = useState({
@@ -27,31 +34,12 @@ const Clients = () => {
     clientPostal: "",
     clientAddress: "",
   });
-  const token = localStorage.getItem("token");
-  /* This line defines the initial state for all clients, either by retrieving them from local storage, or setting an empty array */
-  const [allClients, setAllClients] = useState(
-    JSON.parse(localStorage.getItem("clients")) || []
-  );
-  /* This effect saves the current state of allClients to local storage whenever it is updated */
-  useEffect(() => {
-    localStorage.setItem("clients", JSON.stringify(allClients));
-  }, [allClients]);
   /* This effect retrieves all clients data from the server for the current user and sets it to the allClients state */
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response = await axios.get(`/clients`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setAllClients(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchClients();
-  }, [id]);
+    if (clients.length === 0 && token) {
+      dispatch(fetchClients(token))
+    }
+  }, [dispatch, clients, token]);
   /* This function updates the newClient state whenever any input field is changed */
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -60,15 +48,8 @@ const Clients = () => {
   /* This function adds a new client to the database when the 'Add Client' button is clicked, and resets the newClient state */
   const handleClick = (e) => {
     e.preventDefault();
-    axios
-      .post(`/addClient`, newClient, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    dispatch(addClient(newClient))
       .then((res) => {
-        console.log(res.data);
-        setAllClients([...allClients, newClient]);
         setNewClient({
           _id: new Types.ObjectId(),
           clientName: "",
@@ -84,18 +65,8 @@ const Clients = () => {
       .catch((err) => console.error(err));
   };
   /* This function deletes a client from the database when the 'Delete' button is clicked */
-  const deleteClient = (clientId) => {
-    axios
-      .delete(`/clients/${clientId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setAllClients(allClients.filter((client) => client._id !== clientId));
-      })
-      .catch((err) => console.error(err));
+  const deleteClientHandleChange = (clientId) => {
+    dispatch(deleteClient(clientId))
   };
   /* This block of code defines the structure of the Client component, 
   which includes a form for adding new clients, a list of all clients with their 
@@ -104,7 +75,7 @@ const Clients = () => {
     <div className="container">
       <div className="invoice__home-logo">
         <h1>Customers</h1>
-        {allClients && <p>There are total {allClients.length} clients</p>}
+        {clients && <p>There are total {clients.length} clients</p>}
       </div>
       <Link to={homeLink}>
         <DefaultButton className="back">Go Back</DefaultButton>
@@ -116,8 +87,8 @@ const Clients = () => {
         handleClick={handleClick}
       />
       <div className="section__content grid">
-        {allClients.map((client) => {
-          return <ClientCard id={id} client={client} onDelete={deleteClient} />;
+        {clients.map((client) => {
+          return <ClientCard id={id} client={client} onDelete={deleteClientHandleChange} />;
         })}
       </div>
     </div>

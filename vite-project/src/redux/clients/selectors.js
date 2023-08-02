@@ -1,0 +1,1 @@
+export const selectAllClients = (state) => state.allClients.allClients

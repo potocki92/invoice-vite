@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "../../utils/axiosConfig";
 import InvoiceInputs from "../../components/Invoice/InvoiceInputs/InvoiceInputs";
 import { StyledBox } from "../../components/Invoice/InvoiceList/InvoiceList.styled";
 import { homeLink } from "../../utils/linkConfig";
@@ -9,16 +8,20 @@ import { InvoiceContainer } from "./Invoice.styled";
 import InvoicePreview from "../../components/Invoice/InvoicePreview/InvoicePreview";
 import { DefaultButton } from "../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { setProducts } from "../../redux/productSlice";
 import { setInvoice, setUserDetails } from "../../redux/invoiceSlice";
-import { setClients } from "../../redux/clientsSlice";
+import { fetchProducts } from "../../redux/products/operations";
+import { fetchClients } from "../../redux/clients/operations";
+import { fetchUser } from "../../redux/user/operations";
+import { selectAllProducts } from "../../redux/products/selectors";
+import { selectAllClients } from "../../redux/clients/selectors";
+import { selectUser } from "../../redux/user/selectors";
+import { addInvoice } from "../../redux/invoices/operations";
+
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
  * @component
  */
 const Invoices = () => {
-  let { id } = useParams();
-
   const navigate = useNavigate();
   /**
    * Represents a new invoice.
@@ -29,9 +32,11 @@ const Invoices = () => {
    * @property {Object} date - The date information of the invoice, including the due date and the invoice date
    */
 
-  const dispatch = useDispatch()
-  const invoice = useSelector((state) => state.invoice)
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  const invoice = useSelector((state) => state.invoice);
+  const products = useSelector(selectAllProducts);
+  const clients = useSelector(selectAllClients);
+  const user = useSelector(selectUser);
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   /**
@@ -57,119 +62,88 @@ const Invoices = () => {
    * @returns {void}
    */
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`/user`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        dispatch(setUserDetails(response.data))
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchUser();
-  }, [id]);
+      dispatch(fetchUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user && Object.keys(user).length !== 0) {
+      dispatch(setUserDetails(user));
+    }
+  }, [dispatch, user]);
   /**
    * Loads all clients to setClients.
    * @returns {void}
    */
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response = await axios.get(`/clients`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        dispatch(setClients(response.data));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchClients();
-  }, [id]);
+    if (clients.length === 0) {
+      dispatch(fetchClients());
+    }
+  }, [dispatch, clients]);
   /**
    * Loads all products to setProducts.
    * @returns {void}
    */
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(`/products`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        dispatch(setProducts(response.data))
-      } catch (error) {
-        console.error(error);
+    if (products.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, products]);
+  /**
+   * Handles the click event of the "Create Invoice" button.
+   * Sends a request to the server to add a new invoice with the data from the new invoice state.
+   * Updates the allInvoices state with the new invoice data.
+   * Resets the newInvoice state to empty fields.
+   * Increments the currentMonthInvoices state by 1.
+   * Displays an alert if the form is not valid.
+   */
+  const handleSave = () => {
+    if (isFormValid) {
+      // Send a POST request to add a new invoice to the server
+      const newInvoice = {
+        ...invoice,
+        _id: new Types.ObjectId()
       }
-    };
-    fetchProducts();
-  }, [id]);
-/**
- * Handles the click event of the "Create Invoice" button.
- * Sends a request to the server to add a new invoice with the data from the new invoice state.
- * Updates the allInvoices state with the new invoice data.
- * Resets the newInvoice state to empty fields.
- * Increments the currentMonthInvoices state by 1.
- * Displays an alert if the form is not valid.
- */
-const handleSave = () => {
-  if (isFormValid) {
-    // Send a POST request to add a new invoice to the server
+      dispatch(addInvoice(newInvoice))
+        .then((res) => {
+          console.log("Invoice has been saved to the database.");
 
-    const _id = new Types.ObjectId();
-    axios
-      .post(
-        `/addInvoice`,
-        { ...invoice, _id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log("Invoice has been saved to the database.");
+          // Prepare a new empty invoice state without the _id field
+          const newInvoiceState = {
+            _id: "",
+            invoiceNumber: "",
+            user: { address: {} },
+            client: {},
+            products: {
+              items: [
+                {
+                  productsName: "",
+                  qty: 0,
+                  productsPrice: 0,
+                  productsTax: 0,
+                  productTaxRate: 0,
+                  amount: 0,
+                },
+              ],
+              totalAmount: 0,
+            },
+            date: {
+              dueDate: new Date().toISOString().substring(0, 10),
+              invoiceDate: new Date().toISOString().substring(0, 10),
+            },
+          };
 
-        // Prepare a new empty invoice state without the _id field
-        const newInvoiceState = {
-          _id: "",
-          invoiceNumber: "",
-          user: { address: {} },
-          client: {},
-          products: {
-            items: [{
-              productsName: "",
-              qty: 0,
-              productsPrice: 0,
-              productsTax: 0,
-              productTaxRate: 0,
-              amount: 0,
-            }],
-            totalAmount: 0,
-          },
-          date: {
-            dueDate: new Date().toISOString().substring(0, 10),
-            invoiceDate: new Date().toISOString().substring(0, 10),
-          },
-        };
+          // Update the invoice state in Redux with the new empty state
+          dispatch(setInvoice(newInvoiceState));
 
-        // Update the invoice state in Redux with the new empty state
-        dispatch(setInvoice(newInvoiceState));
-
-        // Increment the currentMonthInvoices state by 1
-        setCurrentMonthInvoices(currentMonthInvoices + 1);
-        navigate(homeLink)
-      })
-      .catch((err) => console.error("Error while saving the invoice:", err));
-  } else {
-    alert("Please fill in all the form fields.");
-  }
-};
+          // Increment the currentMonthInvoices state by 1
+          setCurrentMonthInvoices(currentMonthInvoices + 1);
+          navigate(homeLink);
+        })
+        .catch((err) => console.error("Error while saving the invoice:", err));
+    } else {
+      alert("Please fill in all the form fields.");
+    }
+  };
 
   //  Validates the new invoice form and sets the isFormValid state to true if it is valid.
   useEffect(() => {
@@ -186,12 +160,9 @@ const handleSave = () => {
         </div>
       </StyledBox>
       <InvoiceContainer>
-        <InvoiceInputs
-          buttonComponent={DefaultButton}
-          handleSave={handleSave}
-        >
+        <InvoiceInputs buttonComponent={DefaultButton} handleSave={handleSave}>
           <DefaultButton className="edit" onClick={handleSave}>
-              Save
+            Save
           </DefaultButton>
         </InvoiceInputs>
         <InvoicePreview invoice={invoice} />

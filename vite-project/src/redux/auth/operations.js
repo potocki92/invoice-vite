@@ -1,8 +1,9 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-axios.defaults.baseURL = "https://tender-ring-bee.cyclic.app/";
-
+// cyclik.io
+// axios.defaults.baseURL = "https://tender-ring-bee.cyclic.app/";
+axios.defaults.baseURL = "https://incom-fff0742e5ae9.herokuapp.com/"
 export const setAuthHeader = (token) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
@@ -58,6 +59,8 @@ export const refreshUser = createAsyncThunk(
 
     try {
       setAuthHeader(persistedToken);
+      const res = await axios.get("/current");
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
