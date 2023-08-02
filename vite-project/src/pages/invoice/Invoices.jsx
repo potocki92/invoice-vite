@@ -8,7 +8,7 @@ import { InvoiceContainer } from "./Invoice.styled";
 import InvoicePreview from "../../components/Invoice/InvoicePreview/InvoicePreview";
 import { DefaultButton } from "../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { setInvoice, setUserDetails } from "../../redux/invoiceSlice";
+import { setEditingMode, setInvoice, setUserDetails } from "../../redux/invoiceSlice";
 import { fetchProducts } from "../../redux/products/operations";
 import { fetchClients } from "../../redux/clients/operations";
 import { fetchUser } from "../../redux/user/operations";
@@ -34,6 +34,7 @@ const Invoices = () => {
 
   const dispatch = useDispatch();
   const invoice = useSelector((state) => state.invoice.invoice);
+  dispatch(setEditingMode(false))
   const products = useSelector(selectAllProducts);
   const clients = useSelector(selectAllClients);
   const user = useSelector(selectUser);

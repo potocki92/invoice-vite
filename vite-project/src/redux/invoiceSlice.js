@@ -61,6 +61,7 @@ const initialState = {
   },
   isLoading: false,
   error: null,
+  isEditing: false,
 };
 
 const invoiceSlice = createSlice({
@@ -200,6 +201,9 @@ const invoiceSlice = createSlice({
     setNotes: (state, action) => {
       state.invoice.notes = action.payload;
     },
+    setEditingMode: (state, action) => {
+      state.isEditing = action.payload
+    }
   },
   extraReducers: (builed) => {
     builed
@@ -250,5 +254,6 @@ export const {
   setClientPostal,
   setClientAddress,
   setNotes,
+  setEditingMode
 } = invoiceSlice.actions;
 export default invoiceSlice.reducer;

@@ -54,7 +54,8 @@ const InvoiceInputs = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const invoice = useSelector((state) => state.invoice.invoice);
+  const editingMode = useSelector((state) => state.invoice.isEditing);
+  const invoice = !editingMode ? useSelector((state) => state.invoice.invoice) : useSelector((state) => state.invoice.editInvoice);
   console.log(invoice.products)
   const clients = useSelector(selectAllClients);
   useEffect(() => {

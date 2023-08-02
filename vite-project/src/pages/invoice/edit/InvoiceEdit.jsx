@@ -10,12 +10,14 @@ import InvoiceInputs from "../../../components/Invoice/InvoiceInputs/InvoiceInpu
 import { DefaultButton } from "../../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchInvoiceFromId } from "../../../redux/invoices/operations";
+import { setEditingMode } from "../../../redux/invoiceSlice";
 
 const InvoiceEdit = () => {
   let { invoiceId } = useParams();
 
   const dispatch = useDispatch();
   const invoice = useSelector((state) => state.invoice.editInvoice);
+  dispatch(setEditingMode(true))
   const token = localStorage.getItem("token");
   // Load invoice from database
   useEffect(() => {
