@@ -33,7 +33,7 @@ const Invoices = () => {
    */
 
   const dispatch = useDispatch();
-  const invoice = useSelector((state) => state.invoice);
+  const invoice = useSelector((state) => state.invoice.invoice);
   const products = useSelector(selectAllProducts);
   const clients = useSelector(selectAllClients);
   const user = useSelector(selectUser);

@@ -130,7 +130,7 @@ const InvoicePreview = ({ invoice }) => {
       {/* Invoice preview products */}
       {invoice.products?.items.map((product) => (
         <InvoicePreviewContent
-          key={product.id}
+          key={product._id}
           padding={styles.productPadding}
           borderBottom={styles.borderBottom}
         >

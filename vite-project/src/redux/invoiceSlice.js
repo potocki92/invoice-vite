@@ -11,28 +11,56 @@ import { Types } from "mongoose";
 
 // Initial state of the invoice slice.
 const initialState = {
-  _id: "",
-  invoiceNumber: "",
-  user: { address: {} },
-  client: {},
-  products: {
-    items: [
-      {
-        _id: new Types.ObjectId(),
-        productsName: "",
-        qty: 0,
-        productsPrice: 0,
-        productsTax: 0,
-        productTaxRate: 0,
-        amount: 0,
-      },
-    ],
-    totalAmount: 0,
+  invoice: {
+    _id: "",
+    invoiceNumber: "",
+    user: { address: {} },
+    client: {},
+    products: {
+      items: [
+        {
+          _id: new Types.ObjectId(),
+          productsName: "",
+          qty: 0,
+          productsPrice: 0,
+          productsTax: 0,
+          productTaxRate: 0,
+          amount: 0,
+        },
+      ],
+      totalAmount: 0,
+    },
+    date: {
+      dueDate: new Date().toISOString().substring(0, 10),
+      invoiceDate: new Date().toISOString().substring(0, 10),
+    },
   },
-  date: {
-    dueDate: new Date().toISOString().substring(0, 10),
-    invoiceDate: new Date().toISOString().substring(0, 10),
+  editInvoice: {
+    _id: "",
+    invoiceNumber: "",
+    user: { address: {} },
+    client: {},
+    products: {
+      items: [
+        {
+          _id: new Types.ObjectId(),
+          productsName: "",
+          qty: 0,
+          productsPrice: 0,
+          productsTax: 0,
+          productTaxRate: 0,
+          amount: 0,
+        },
+      ],
+      totalAmount: 0,
+    },
+    date: {
+      dueDate: new Date().toISOString().substring(0, 10),
+      invoiceDate: new Date().toISOString().substring(0, 10),
+    },
   },
+  isLoading: false,
+  error: null,
 };
 
 const invoiceSlice = createSlice({
@@ -41,20 +69,20 @@ const invoiceSlice = createSlice({
   reducers: {
     setInvoice: (state, action) => {
       return {
-        ...state,
+        ...state.invoice,
         ...action.payload,
       };
     },
     setUserDetails: (state, action) => {
       const { name, NIP, REGON, email, phone, address } = action.payload;
-      state.user.name = name;
-      state.user.NIP = NIP;
-      state.user.REGON = REGON;
-      state.user.email = email;
-      state.user.phone = phone;
-      state.user.address.city = address.city;
-      state.user.address.postalCode = address.postalCode;
-      state.user.address.street = address.street;
+      state.invoice.user.name = name;
+      state.invoice.user.NIP = NIP;
+      state.invoice.user.REGON = REGON;
+      state.invoice.user.email = email;
+      state.invoice.user.phone = phone;
+      state.invoice.user.address.city = address.city;
+      state.invoice.user.address.postalCode = address.postalCode;
+      state.invoice.user.address.street = address.street;
     },
     updateClientData: (state, action) => {
       const {
@@ -68,26 +96,26 @@ const invoiceSlice = createSlice({
         clientAddress,
       } = action.payload;
 
-      (state.client.clientName = clientName),
-        (state.client.clientNip = clientNip),
-        (state.client.clientRegon = clientRegon),
-        (state.client.clientEmail = clientEmail),
-        (state.client.clientPhone = clientPhone),
-        (state.client.clientCity = clientCity),
-        (state.client.clientPostal = clientPostal),
-        (state.client.clientAddress = clientAddress);
+      (state.invoice.client.clientName = clientName),
+        (state.invoice.client.clientNip = clientNip),
+        (state.invoice.client.clientRegon = clientRegon),
+        (state.invoice.client.clientEmail = clientEmail),
+        (state.invoice.client.clientPhone = clientPhone),
+        (state.invoice.client.clientCity = clientCity),
+        (state.invoice.client.clientPostal = clientPostal),
+        (state.invoice.client.clientAddress = clientAddress);
     },
     updateProductData: (state, action) => {
       const { index, key, value } = action.payload;
-      if (index >= 0 && index < state.products.items.length) {
+      if (index >= 0 && index < state.invoice.products.items.length) {
         if (key === "qty" || key === "productsPrice" || key === "productsTax") {
           const floatValue = parseFloat(value);
 
           // Handle NaN value for productsTax
           const taxValue = isNaN(floatValue) ? 0 : floatValue;
-          state.products.items[index][key] = taxValue;
+          state.invoice.products.items[index][key] = taxValue;
 
-          const product = state.products.items[index];
+          const product = state.invoice.products.items[index];
           const productTaxRate =
             product.qty * product.productsPrice * (product.productsTax / 100);
           const newAmount =
@@ -95,82 +123,82 @@ const invoiceSlice = createSlice({
           product.productTaxRate = productTaxRate;
           product.amount = newAmount;
 
-          state.products.totalAmount = parseFloat(
-            state.products.items.reduce((total, item) => total + item.amount, 0)
+          state.invoice.products.totalAmount = parseFloat(
+            state.invoice.products.items.reduce((total, item) => total + item.amount, 0)
           );
         } else {
-          state.products.items[index][key] = value;
+          state.invoice.products.items[index][key] = value;
         }
       }
     },
     addProductToInvoice: (state, action) => {
-      state.products.items.push(action.payload);
+      state.invoice.products.items.push(action.payload);
     },
     removeProductFromInvoice: (state, action) => {
       const productIndex = action.payload;
-      if (productIndex >= 0 && productIndex < state.products.items.length) {
-        state.products.items.splice(productIndex, 1);
+      if (productIndex >= 0 && productIndex < state.invoice.products.items.length) {
+        state.invoice.products.items.splice(productIndex, 1);
       }
     },
     setInvoiceNumber: (state, action) => {
-      state.invoiceNumber = action.payload;
+      state.invoice.invoiceNumber = action.payload;
     },
     setCompanyName: (state, action) => {
-      state.user.name = action.payload;
+      state.invoice.user.name = action.payload;
     },
     setCompanyEmail: (state, action) => {
-      state.user.email = action.payload;
+      state.invoice.user.email = action.payload;
     },
     setCompanyPhone: (state, action) => {
-      state.user.phone = action.payload;
+      state.invoice.user.phone = action.payload;
     },
     setCompanyNip: (state, action) => {
-      state.user.NIP = action.payload;
+      state.invoice.user.NIP = action.payload;
     },
     setCompanyRegon: (state, action) => {
-      state.user.REGON = action.payload;
+      state.invoice.user.REGON = action.payload;
     },
     setInvoiceDate: (state, action) => {
-      state.date.invoiceDate = action.payload;
+      state.invoice.date.invoiceDate = action.payload;
     },
     setDueDate: (state, action) => {
-      state.date.dueDate = action.payload;
+      state.invoice.date.dueDate = action.payload;
     },
     setCompanyCity: (state, action) => {
-      state.user.address.city = action.payload;
+      state.invoice.user.address.city = action.payload;
     },
     setCompanyPostal: (state, action) => {
-      state.user.address.postalCode = action.payload;
+      state.invoice.user.address.postalCode = action.payload;
     },
     setCompanyAddress: (state, action) => {
-      state.user.address.street = action.payload;
+      state.invoice.user.address.street = action.payload;
     },
     setClientName: (state, action) => {
-      state.client.clientName = action.payload;
+      state.invoice.client.clientName = action.payload;
     },
     setClientEmail: (state, action) => {
-      state.client.clientEmail = action.payload;
+      state.invoice.client.clientEmail = action.payload;
     },
     setClientNip: (state, action) => {
-      state.client.clientNip = action.payload;
+      state.invoice.client.clientNip = action.payload;
     },
     setClientRegon: (state, action) => {
-      state.client.clientRegon = action.payload;
+      state.invoice.client.clientRegon = action.payload;
     },
     setClientPhone: (state, action) => {
-      state.client.clientPhone = action.payload;
+      state.invoice.client.clientPhone = action.payload;
     },
     setClientCity: (state, action) => {
-      state.client.clientCity = action.payload;
+      state.invoice.client.clientCity = action.payload;
     },
     setClientPostal: (state, action) => {
-      state.client.clientPostal = action.payload;
+      state.invoice.client.clientPostal = action.payload;
     },
     setClientAddress: (state, action) => {
-      state.client.clientAddress = action.payload;
+      state.invoice.client.clientAddress = action.payload;
     },
     setNotes: (state, action) => {
-      state.notes = action.payload;
+      state.invoice.notes = action.payload;
     },
   },
   extraReducers: (builed) => {
@@ -182,8 +210,8 @@ const invoiceSlice = createSlice({
       .addCase(fetchInvoiceFromId.fulfilled, (state, action) => {
         const { _id, invoiceNumber, user, client, products, date } =
           action.payload;
-        return {
-          ...state,
+        state.editInvoice = {
+          ...state.editInvoice,
           _id,
           invoiceNumber,
           user: { ...state.user, ...user },

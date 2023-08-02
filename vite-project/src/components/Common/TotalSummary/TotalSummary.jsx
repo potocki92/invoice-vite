@@ -8,7 +8,6 @@ import {
   TotalSummaryContainer,
 } from "./TotalSummary.styled";
 import { useSelector } from "react-redux";
-import invoiceSlice from "../../../redux/invoiceSlice";
 
 /**
  * This component displays the total summary of the invoice.
@@ -25,8 +24,8 @@ import invoiceSlice from "../../../redux/invoiceSlice";
  * );
  */
 const TotalSummary = () => {
-  const total = useSelector((state) => state.invoice.products.totalAmount);
-  const items = useSelector((state) => state.invoice.products.items)
+  const total = useSelector((state) => state.invoice.invoice.products.totalAmount);
+  const items = useSelector((state) => state.invoice.invoice.products.items)
 
   const subtotal = items.reduce(
     (accumulator, currentAmount) =>

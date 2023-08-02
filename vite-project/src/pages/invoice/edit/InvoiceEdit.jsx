@@ -7,25 +7,20 @@ import { StyledBox } from "../../../components/Invoice/InvoiceList/InvoiceList.s
 import InvoicePreview from "../../../components/Invoice/InvoicePreview/InvoicePreview";
 import { InvoiceContainer } from "../Invoice.styled";
 import InvoiceInputs from "../../../components/Invoice/InvoiceInputs/InvoiceInputs";
-import calculateInvoiceTotal from "../../../utils/calculateInvoiceTotal";
-import { AddButton, DefaultButton } from "../../../components/buttons.styled";
+import { DefaultButton } from "../../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchInvoiceFromId } from "../../../redux/invoices/operations";
 
 const InvoiceEdit = () => {
-  let { id, invoiceId } = useParams();
+  let { invoiceId } = useParams();
 
   const dispatch = useDispatch();
-  const invoice = useSelector((state) => state.invoice);
+  const invoice = useSelector((state) => state.invoice.editInvoice);
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(true);
-  console.log("asdasdasdasdasdasdasdasd");
   // Load invoice from database
   useEffect(() => {
     dispatch(fetchInvoiceFromId(invoiceId));
   }, [dispatch]);
-
-  console.log("invoice", invoice);
 
   // Save all changed data
   const handleSave = async () => {
@@ -40,10 +35,6 @@ const InvoiceEdit = () => {
       console.error(error);
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="container section is-flex col">

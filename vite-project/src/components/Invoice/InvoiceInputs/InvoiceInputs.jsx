@@ -54,7 +54,8 @@ const InvoiceInputs = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const invoice = useSelector((state) => state.invoice);
+  const invoice = useSelector((state) => state.invoice.invoice);
+  console.log(invoice.products)
   const clients = useSelector(selectAllClients);
   useEffect(() => {
     dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
