@@ -64,3 +64,20 @@ export const fetchInvoiceFromId = createAsyncThunk(
     }
   }
 );
+
+export const updateInvoice = createAsyncThunk(
+  "allInvoices/updateInvoice",
+  async ( {invoiceId, invoice}, asyncThunkAPI) => {
+    try {
+      const token = asyncThunkAPI.getState().auth.token;
+      setAuthHeader(token);
+      await axios.put(`/invoice/${invoiceId}`, invoice)
+      console.log("Invoice updated:", invoice);
+
+      return {invoiceId, invoice}
+    } catch(error) {
+      console.error(error);
+      throw error
+    }
+  }
+)

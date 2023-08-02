@@ -3,6 +3,7 @@ import {
   addInvoice,
   deleteInvoice,
   fetchInvoices,
+  updateInvoice,
 } from "./operations";
 
 const initialState = {
@@ -46,7 +47,18 @@ const allInvoicesSlice = createSlice({
         state.allInvoices = state.allInvoices.filter(
           (invoice) => invoice._id !== action.payload
         );
-      });
+      })
+      .addCase(updateInvoice.fulfilled, (state, action) => {
+        const { invoiceId, invoice } = action.payload;
+
+        const editedInvoiceIndex = state.allInvoices.findIndex(
+          (invoice) => invoice._id === invoiceId
+        )
+
+        if(editedInvoiceIndex !== -1) {
+          state.allInvoices[editedInvoiceIndex] = invoice
+        }
+      })
   },
 });
 

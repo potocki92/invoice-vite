@@ -56,7 +56,7 @@ const InvoiceInputs = ({
   const dispatch = useDispatch();
   const editingMode = useSelector((state) => state.invoice.isEditing);
   const invoice = !editingMode ? useSelector((state) => state.invoice.invoice) : useSelector((state) => state.invoice.editInvoice);
-  console.log(invoice.products)
+  console.log(invoice)
   const clients = useSelector(selectAllClients);
   useEffect(() => {
     dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))

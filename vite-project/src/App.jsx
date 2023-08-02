@@ -27,7 +27,8 @@ import Products from "./pages/products/Products"
 const Authentication = lazy(() =>
   import("./components/Authentication/Authentication")
 );
-const InvoiceEdit = lazy(() => import("./pages/invoice/edit/InvoiceEdit"));
+import InvoiceEdit from "./pages/invoice/edit/InvoiceEdit";
+// const InvoiceEdit = lazy(() => import("./pages/invoice/edit/InvoiceEdit"));
 
 function App() {
   const dispatch = useDispatch();

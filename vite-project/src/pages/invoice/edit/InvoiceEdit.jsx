@@ -9,7 +9,7 @@ import { InvoiceContainer } from "../Invoice.styled";
 import InvoiceInputs from "../../../components/Invoice/InvoiceInputs/InvoiceInputs";
 import { DefaultButton } from "../../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchInvoiceFromId } from "../../../redux/invoices/operations";
+import { fetchInvoiceFromId, updateInvoice } from "../../../redux/invoices/operations";
 import { setEditingMode } from "../../../redux/invoiceSlice";
 
 const InvoiceEdit = () => {
@@ -18,7 +18,6 @@ const InvoiceEdit = () => {
   const dispatch = useDispatch();
   const invoice = useSelector((state) => state.invoice.editInvoice);
   dispatch(setEditingMode(true))
-  const token = localStorage.getItem("token");
   // Load invoice from database
   useEffect(() => {
     dispatch(fetchInvoiceFromId(invoiceId));
@@ -26,16 +25,7 @@ const InvoiceEdit = () => {
 
   // Save all changed data
   const handleSave = async () => {
-    try {
-      const response = await axios.put(`/invoice/${invoiceId}`, invoice, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log("Invoice updated successfully: ", response);
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(updateInvoice({invoiceId, invoice}))
   };
 
   return (

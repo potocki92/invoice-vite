@@ -76,6 +76,8 @@ const invoiceSlice = createSlice({
     },
     setUserDetails: (state, action) => {
       const { name, NIP, REGON, email, phone, address } = action.payload;
+      
+      // const targetInvoice = isEditing ? state.editInvoice : state.invoice
       state.invoice.user.name = name;
       state.invoice.user.NIP = NIP;
       state.invoice.user.REGON = REGON;
