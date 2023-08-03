@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "../../Product/ProductCard/ProductCard";
+import ProductCard from "@components/Product/ProductCard/ProductCard";
 import { InvoiceInputsContainer, TextArea } from "./InvoiceInputs.styled";
-import isFloating from "../../../utils/isFloating";
+import isFloating from "@utils/isFloating";
 import { HiUsers } from "react-icons/hi";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { createPortal } from "react-dom";
-import Modal from "../../Common/Modal/Modal";
-import { ModalButton } from "../../Common/Modal/Modal.styled";
-import clientCardMarkup from "../../../markups/clientCardMarkup";
+import Modal from "@components/Common/Modal/Modal";
+import { ModalButton } from "@components/Common/Modal/Modal.styled";
+import clientCardMarkup from "@markups/clientCardMarkup";
 import {
   AddButton,
   AddButtonWrapper,
   ButtonPDFReview,
   DefaultButton,
-} from "../../buttons.styled";
-import TotalSummary from "../../Common/TotalSummary/TotalSummary";
+} from "@components/buttons.styled";
+import TotalSummary from "@components/Common/TotalSummary/TotalSummary";
 import {
   InputsContent,
   InputsContainer,
   Input,
   InputSpan,
-} from "../../Common/InputField/Input.styled";
-import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
+} from "@components/Common/InputField/Input.styled";
+import InfoWrapper from "@components/Common/InfoWrapper/InfoWrapper";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import InvoicePDF from "../InvoicePDF/InvoicePDF";
+import InvoicePDF from "@components/Invoice/InvoicePDF/InvoicePDF";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setInvoice,
@@ -50,13 +50,13 @@ import {
   addProductToInvoice,
   updateClientData,
   setEditInvoice,
-} from "../../../redux/invoices/single/slice";
-import updateUser from "../../../utils/updateUser";
-import updateDate from "../../../utils/updateDate";
-import updateClient from "../../../utils/updateClient";
-import updateNotes from "../../../utils/updateNotes";
-import CurrentMonthInvoices from "../../../utils/currentMonthInvoices";
-import { selectAllClients } from "../../../redux/clients/selectors";
+} from "@redux/invoices/single/slice";
+import updateUser from "@utils/updateUser";
+import updateDate from "@utils/updateDate";
+import updateClient from "@utils/updateClient";
+import updateNotes from "@utils/updateNotes";
+import CurrentMonthInvoices from "@utils/currentMonthInvoices";
+import { selectAllClients } from "@redux/clients/selectors";
 import { Types } from "mongoose";
 
 /**

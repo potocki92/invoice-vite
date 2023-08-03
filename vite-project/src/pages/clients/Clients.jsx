@@ -2,16 +2,15 @@
 import { Types } from "mongoose";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "../../utils/axiosConfig";
 import "./Clients.css";
-import ClientForm from "../../components/Client/ClientForm/ClientForm";
-import { homeLink } from "../../utils/linkConfig";
-import { DefaultButton } from "../../components/buttons.styled";
-import ClientCard from "../../components/Client/ClientCard/ClientCard";
+import ClientForm from "@components/Client/ClientForm/ClientForm";
+import { homeLink } from "@utils/linkConfig";
+import { DefaultButton } from "@components/buttons.styled";
+import ClientCard from "@components/Client/ClientCard/ClientCard";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllClients } from "../../redux/clients/selectors";
-import { addClient, deleteClient, fetchClients } from "../../redux/clients/operations";
-import { selectToken } from "../../redux/auth/selectors";
+import { selectAllClients } from "@redux/clients/selectors";
+import { addClient, deleteClient, fetchClients } from "@redux/clients/operations";
+import { selectToken } from "@redux/auth/selectors";
 /* 
   This function defines the main Client component, 
   which fetches all clients data for the current user from the database, 

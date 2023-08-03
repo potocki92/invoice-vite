@@ -8,7 +8,7 @@ import {
   TotalSummaryContainer,
 } from "./TotalSummary.styled";
 import { useSelector } from "react-redux";
-import { selectEditInvoice, selectInvoice, selectIsEditing } from "../../../redux/invoices/single/selectors";
+import { selectEditInvoice, selectInvoice, selectIsEditing } from "@redux/invoices/single/selectors";
 
 /**
  * This component displays the total summary of the invoice.

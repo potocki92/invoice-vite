@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { homeLink } from "../../../utils/linkConfig";
-import { StyledBox } from "../../../components/Invoice/InvoiceList/InvoiceList.styled";
-import InvoicePreview from "../../../components/Invoice/InvoicePreview/InvoicePreview";
-import { InvoiceContainer } from "../Invoice.styled";
-import InvoiceInputs from "../../../components/Invoice/InvoiceInputs/InvoiceInputs";
-import { DefaultButton } from "../../../components/buttons.styled";
+import { homeLink } from "@utils/linkConfig";
+import { StyledBox } from "@components/Invoice/InvoiceList/InvoiceList.styled";
+import InvoicePreview from "@components/Invoice/InvoicePreview/InvoicePreview";
+import { InvoiceContainer } from "@pages/invoice/Invoice.styled";
+import InvoiceInputs from "@components/Invoice/InvoiceInputs/InvoiceInputs";
+import { DefaultButton } from "@components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchInvoiceFromId, updateInvoice } from "../../../redux/invoices/all/operations";
-import { setEditingMode } from "../../../redux/invoices/single/slice";
-import { selectEditInvoice } from "../../../redux/invoices/single/selectors";
+import { fetchInvoiceFromId, updateInvoice } from "@redux/invoices/all/operations";
+import { setEditingMode } from "@redux/invoices/single/slice";
+import { selectEditInvoice } from "@redux/invoices/single/selectors";
 
 const InvoiceEdit = () => {
   let { invoiceId } = useParams();

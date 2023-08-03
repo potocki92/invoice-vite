@@ -1,6 +1,5 @@
 const decodeToken = require("../middlewares/decodeToken.js");
 var User = require("../models/userModel.js");
-const jwt = require("jsonwebtoken");
 // POST
 const addInvoice = async (req, res) => {
   const userId = decodeToken(req)

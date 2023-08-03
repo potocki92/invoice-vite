@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchInvoiceFromId } from "../all/operations";
+import { fetchInvoiceFromId } from "@redux/invoices/all/operations";
 import { Types } from "mongoose";
 
 const createInitialProduct = () => ({
@@ -138,7 +138,7 @@ const invoiceSlice = createSlice({
           product[key] = value;
         }
   }
-  return state; // Zwracamy stan bez zmiany
+  return state;
 },
     addProductToInvoice: (state, action) => {
       const targetInvoice = state.isEditing ? state.editInvoice : state.invoice;

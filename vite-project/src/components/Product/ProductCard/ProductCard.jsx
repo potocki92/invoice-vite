@@ -1,28 +1,28 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./ProductCard.css";
 import {
   InfoCount,
   InfoCountSpan,
-} from "../../Invoice/InvoiceInputs/InvoiceInputs.styled";
-import { ModalButton } from "../../Common/Modal/Modal.styled";
+} from "@components/Invoice/InvoiceInputs/InvoiceInputs.styled";
+import { ModalButton } from "@components/Common/Modal/Modal.styled";
 import { HiUsers } from "react-icons/hi";
-import Modal from "../../Common/Modal/Modal";
+import Modal from "@components/Common/Modal/Modal";
 import { createPortal } from "react-dom";
-import productCardMarkup from "../../../markups/productCardMarkup";
+import productCardMarkup from "@markups/productCardMarkup";
 import { HiOutlineMinusCircle } from "react-icons/hi";
-import { RemoveButton } from "../../buttons.styled";
+import { RemoveButton } from "@components/buttons.styled";
 import { ProductCardContainer } from "./ProductCard.styled";
-import isFloating from "../../../utils/isFloating";
+import isFloating from "@utils/isFloating";
 import {
   InputsContent,
   InputsContainer,
   Input,
   InputSpan,
-} from "../../Common/InputField/Input.styled";
-import { useDispatch, useSelector } from "react-redux";
-import { removeProductFromInvoice, updateProductData } from "../../../redux/invoices/single/slice";
-import { selectAllProducts } from "../../../redux/products/selectors";
-import { setProductTaxRate } from "../../../redux/products/slice";
+} from "@components/Common/InputField/Input.styled";
+import { removeProductFromInvoice, updateProductData } from "@redux/invoices/single/slice";
+import { selectAllProducts } from "@redux/products/selectors";
+import { setProductTaxRate } from "@redux/products/slice";
 
 /**
  * This component renders a product card with the product name, quantity, price, tax, and amount.

@@ -82,6 +82,16 @@ const Sidebar = ({ setLoginUser }) => {
                 </SidebarButton>
               </SidebarItem>
             </Link>
+            <Link to={`user`} onClick={handleLinkClick}>
+              <SidebarItem>
+                <SidebarButton>
+                  <svg className="sidebar__svg" width={"32px"} height={"32px"}>
+                    <ClientsIcon />
+                  </svg>
+                  <SidebarSpan>User</SidebarSpan>
+                </SidebarButton>
+              </SidebarItem>
+            </Link>
           </SidebarList>
         </SidebarNavlink>
         <UserMenu

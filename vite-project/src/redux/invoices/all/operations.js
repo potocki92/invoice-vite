@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { setAuthHeader } from "../../auth/operations";
+import { setAuthHeader } from "@redux/auth/operations";
 
 axios.defaults.baseURL = "https://incom-fff0742e5ae9.herokuapp.com/";
 

@@ -1,22 +1,22 @@
 import { Types } from "mongoose";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import InvoiceInputs from "../../components/Invoice/InvoiceInputs/InvoiceInputs";
-import { StyledBox } from "../../components/Invoice/InvoiceList/InvoiceList.styled";
-import { homeLink } from "../../utils/linkConfig";
+import InvoiceInputs from "@components/Invoice/InvoiceInputs/InvoiceInputs";
+import { StyledBox } from "@components/Invoice/InvoiceList/InvoiceList.styled";
+import { homeLink } from "@utils/linkConfig";
 import { InvoiceContainer } from "./Invoice.styled";
-import InvoicePreview from "../../components/Invoice/InvoicePreview/InvoicePreview";
-import { DefaultButton } from "../../components/buttons.styled";
+import InvoicePreview from "@components/Invoice/InvoicePreview/InvoicePreview";
+import { DefaultButton } from "@components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { setEditingMode, setInvoice, setUserDetails } from "../../redux/invoices/single/slice";
-import { fetchProducts } from "../../redux/products/operations";
-import { fetchClients } from "../../redux/clients/operations";
-import { fetchUser } from "../../redux/user/operations";
-import { selectAllProducts } from "../../redux/products/selectors";
-import { selectAllClients } from "../../redux/clients/selectors";
-import { selectUser } from "../../redux/user/selectors";
-import { addInvoice } from "../../redux/invoices/all/operations";
-import { selectInvoice } from "../../redux/invoices/single/selectors";
+import { setEditingMode, setInvoice, setUserDetails } from "@redux/invoices/single/slice";
+import { fetchProducts } from "@redux/products/operations";
+import { fetchClients } from "@redux/clients/operations";
+import { fetchUser } from "@redux/user/operations";
+import { selectAllProducts } from "@redux/products/selectors";
+import { selectAllClients } from "@redux/clients/selectors";
+import { selectUser } from "@redux/user/selectors";
+import { addInvoice } from "@redux/invoices/all/operations";
+import { selectInvoice } from "@redux/invoices/single/selectors";
 
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.

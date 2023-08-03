@@ -1,79 +1,58 @@
-import axios from "../../utils/axiosConfig";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { homeLink } from "../../utils/linkConfig";
+import { homeLink } from "@utils/linkConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser, updateUser } from "../../redux/user/operations";
+import { selectUser } from "../../redux/user/selectors";
 
 const User = () => {
   let { id } = useParams();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [NIP, setNIP] = useState("");
-  const [REGON, setREGON] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [street, setStreet] = useState("");
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch()
+  const user = useSelector(selectUser)
+  const [name, setName] = useState(user.name || "");
+  const [email, setEmail] = useState(user.email || "");
+  const [password, setPassword] = useState(user.password || "");
+  const [NIP, setNIP] = useState(user.NIP || "");
+  const [REGON, setREGON] = useState(user.REGON || "");
+  const [phone, setPhone] = useState(user.phone || "");
+  const [city, setCity] = useState(user.address.city || "");
+  const [postalCode, setPostalCode] = useState(user.address.postalCode || "");
+  const [street, setStreet] = useState(user.address.street || "");
   
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`/user`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const user = response.data;
-        setName(user.name);
-        setEmail(user.email);
-        setPassword(user.password);
-        setNIP(user.NIP);
-        setREGON(user.REGON);
-        setPhone(user.phone);
-        setCity(user.address?.city);
-        setPostalCode(user.address?.postalCode);
-        setStreet(user.address?.street);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchUser();
-  }, [id]);
+      dispatch(fetchUser())
+  }, [dispatch]);
 
-  const handleClick = async () => {
-    try {
-      const updatedUser = {
-        name,
-        email,
-        password,
-        NIP,
-        REGON,
-        phone,
-        address: {
-          city,
-          postalCode,
-          street,
-        },
-      };
-
-      const response = await axios.put(`/user`, updatedUser, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          UserId: userId,
-        },
-      });
-      console.log("User updated successfully:", response.data);
-      const userToSave = {
-        _id: id,
-        user: updatedUser,
-      };
-
-      localStorage.setItem("user", JSON.stringify(userToSave));
-    } catch (error) {
-      console.error(error);
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+      setPassword(user.password);
+      setNIP(user.NIP);
+      setREGON(user.REGON);
+      setPhone(user.phone);
+      setCity(user.address.city);
+      setPostalCode(user.address.postalCode);
+      setStreet(user.address.street)
     }
+  }, [user])
+  const handleClick = async () => {
+    const user = {
+      name,
+      email,
+      password,
+      NIP,
+      REGON,
+      phone,
+      address: {
+        city,
+        postalCode,
+        street,
+      },
+    };
+    console.log("User data to be updated:", user)
+    dispatch(updateUser(user))
   };
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -180,7 +159,7 @@ const User = () => {
           name="userStreet"
           value={street}
           onChange={handleChange}
-          placeholder={"Your phone"}
+          placeholder={"Your street"}
         ></input>
       </div>
       <button className="button" onClick={handleClick}>

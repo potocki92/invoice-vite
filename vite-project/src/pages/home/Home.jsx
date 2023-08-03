@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import InvoiceList from "../../components/Invoice/InvoiceList/InvoiceList";
+import InvoiceList from "@components/Invoice/InvoiceList/InvoiceList";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInvoice, fetchInvoices } from "../../redux/invoices/all/operations";
-import { selectToken } from "../../redux/auth/selectors";
-import { selectAllInvoices, selectError, selectIsLoading } from "../../redux/invoices/all/selectors"
+import { deleteInvoice, fetchInvoices } from "@redux/invoices/all/operations";
+import { selectToken } from "@redux/auth/selectors";
+import { selectAllInvoices, selectError, selectIsLoading } from "@redux/invoices/all/selectors"
 const Home = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
