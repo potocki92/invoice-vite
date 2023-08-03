@@ -124,15 +124,18 @@ const invoiceSlice = createSlice({
     },
     updateProductData: (state, action) => {
       const { index, key, value } = action.payload;
-      if (index >= 0 && index < state.invoice.products.items.length) {
+
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      if (index >= 0 && index < targetInvoice.products.items.length) {
         if (key === "qty" || key === "productsPrice" || key === "productsTax") {
           const floatValue = parseFloat(value);
 
           // Handle NaN value for productsTax
           const taxValue = isNaN(floatValue) ? 0 : floatValue;
-          state.invoice.products.items[index][key] = taxValue;
+          targetInvoice.products.items[index][key] = taxValue;
 
-          const product = state.invoice.products.items[index];
+          const product = targetInvoice.products.items[index];
           const productTaxRate =
             product.qty * product.productsPrice * (product.productsTax / 100);
           const newAmount =
@@ -140,88 +143,132 @@ const invoiceSlice = createSlice({
           product.productTaxRate = productTaxRate;
           product.amount = newAmount;
 
-          state.invoice.products.totalAmount = parseFloat(
-            state.invoice.products.items.reduce(
+          targetInvoice.products.totalAmount = parseFloat(
+            targetInvoice.products.items.reduce(
               (total, item) => total + item.amount,
               0
             )
           );
         } else {
-          state.invoice.products.items[index][key] = value;
+          targetInvoice.products.items[index][key] = value;
         }
       }
     },
     addProductToInvoice: (state, action) => {
-      state.invoice.products.items.push(action.payload);
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.products.items.push(action.payload);
     },
     removeProductFromInvoice: (state, action) => {
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
       const productIndex = action.payload;
       if (
         productIndex >= 0 &&
-        productIndex < state.invoice.products.items.length
+        productIndex < targetInvoice.products.items.length
       ) {
-        state.invoice.products.items.splice(productIndex, 1);
+        targetInvoice.products.items.splice(productIndex, 1);
       }
     },
     setInvoiceNumber: (state, action) => {
-      state.invoice.invoiceNumber = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.invoiceNumber = action.payload;
     },
     setCompanyName: (state, action) => {
-      state.invoice.user.name = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.name = action.payload;
     },
     setCompanyEmail: (state, action) => {
-      state.invoice.user.email = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.email = action.payload;
     },
     setCompanyPhone: (state, action) => {
-      state.invoice.user.phone = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.phone = action.payload;
     },
     setCompanyNip: (state, action) => {
-      state.invoice.user.NIP = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.NIP = action.payload;
     },
     setCompanyRegon: (state, action) => {
-      state.invoice.user.REGON = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.REGON = action.payload;
     },
     setInvoiceDate: (state, action) => {
-      state.invoice.date.invoiceDate = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.date.invoiceDate = action.payload;
     },
     setDueDate: (state, action) => {
-      state.invoice.date.dueDate = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.date.dueDate = action.payload;
     },
     setCompanyCity: (state, action) => {
-      state.invoice.user.address.city = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.address.city = action.payload;
     },
     setCompanyPostal: (state, action) => {
-      state.invoice.user.address.postalCode = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.address.postalCode = action.payload;
     },
     setCompanyAddress: (state, action) => {
-      state.invoice.user.address.street = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.address.street = action.payload;
     },
     setClientName: (state, action) => {
-      state.invoice.client.clientName = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.client.clientName = action.payload;
     },
     setClientEmail: (state, action) => {
-      state.invoice.client.clientEmail = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.client.clientEmail = action.payload;
     },
     setClientNip: (state, action) => {
-      state.invoice.client.clientNip = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.client.clientNip = action.payload;
     },
     setClientRegon: (state, action) => {
-      state.invoice.client.clientRegon = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.client.clientRegon = action.payload;
     },
     setClientPhone: (state, action) => {
-      state.invoice.client.clientPhone = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.client.clientPhone = action.payload;
     },
     setClientCity: (state, action) => {
-      state.invoice.client.clientCity = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.client.clientCity = action.payload;
     },
     setClientPostal: (state, action) => {
-      state.invoice.client.clientPostal = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.client.clientPostal = action.payload;
     },
     setClientAddress: (state, action) => {
-      state.invoice.client.clientAddress = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.client.clientAddress = action.payload;
     },
     setNotes: (state, action) => {
-      state.invoice.notes = action.payload;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.notes = action.payload;
     },
     setEditingMode: (state, action) => {
       state.isEditing = action.payload;
