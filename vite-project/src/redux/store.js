@@ -11,9 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import invoiceReducer from "./invoices/single/slice";
-import totalReducer from "./totalSlice";
 import allProductsReducer from "./products/slice";
-import clientsReducer from "./clientsSlice";
 import allInvoicesReducer from "./invoices/all/slice";
 import allClientsReducer from "./clients/slice"
 import userReducer from "./user/slice"
@@ -41,13 +39,10 @@ const store = configureStore({
     allProducts: allProductsReducer,
     allClients: allClientsReducer,
     user: userReducer,
-    total: totalReducer,
-    clients: clientsReducer,
   },
   middleware,
   devTools: process.env.NODE_ENV === "development",
 });
 
 const persistor = persistStore(store);
-
 export { store, persistor };

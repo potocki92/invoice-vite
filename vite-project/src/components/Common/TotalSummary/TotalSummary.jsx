@@ -8,6 +8,7 @@ import {
   TotalSummaryContainer,
 } from "./TotalSummary.styled";
 import { useSelector } from "react-redux";
+import { selectEditInvoice, selectInvoice, selectIsEditing } from "../../../redux/invoices/single/selectors";
 
 /**
  * This component displays the total summary of the invoice.
@@ -24,10 +25,10 @@ import { useSelector } from "react-redux";
  * );
  */
 const TotalSummary = () => {
-  const isEditing = useSelector((state) => state.invoice.isEditing);
+  const isEditing = useSelector(selectIsEditing);
   const invoiceData = isEditing
-    ? useSelector((state) => state.invoice.editInvoice) // Dla edycji pobieramy dane z editInvoice
-    : useSelector((state) => state.invoice.invoice); // Dla nowej faktury pobieramy dane z invoice
+    ? useSelector(selectEditInvoice)
+    : useSelector(selectInvoice);
 
   const products = invoiceData.products;
   const total = products.totalAmount;

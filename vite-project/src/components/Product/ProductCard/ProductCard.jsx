@@ -150,13 +150,8 @@ const ProductCard = ({
    */
  const handleChange = (event) => {
   const { name, value } = event.target;
-
-  console.log("handleChange - name:", name, ", value:", value);
-
     dispatch(updateProductData({ index, key: name, value: value }));
   };
-
-  console.log("ProductCard - index:", index, ", product:", product);
 
   return (
     <ProductCardContainer>

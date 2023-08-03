@@ -143,7 +143,6 @@ const invoiceSlice = createSlice({
     addProductToInvoice: (state, action) => {
       const targetInvoice = state.isEditing ? state.editInvoice : state.invoice;
       targetInvoice.products.items.push(action.payload);
-      return { ...state, [state.isEditing ? "editInvoice" : "invoice"]: targetInvoice };
     },
     removeProductFromInvoice: (state, action) => {
       const targetInvoice = state.isEditing ? state.editInvoice : state.invoice;

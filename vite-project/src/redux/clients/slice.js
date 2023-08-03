@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { addClient, deleteClient, fetchClients } from "./operations";
 
 const initialState = {
-    allClients: [],
+  allClients: [],
   isLoading: false,
   error: null,
 };
