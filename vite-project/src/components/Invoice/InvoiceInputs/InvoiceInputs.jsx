@@ -50,7 +50,7 @@ import {
   addProductToInvoice,
   updateClientData,
   setEditInvoice,
-} from "../../../redux/invoiceSlice";
+} from "../../../redux/invoices/single/slice";
 import updateUser from "../../../utils/updateUser";
 import updateDate from "../../../utils/updateDate";
 import updateClient from "../../../utils/updateClient";

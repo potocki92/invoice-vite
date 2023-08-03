@@ -2,17 +2,16 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import InvoiceList from "../../components/Invoice/InvoiceList/InvoiceList";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllInvoices } from "../../redux/invoices/selectors";
-import { deleteInvoice, fetchInvoices } from "../../redux/invoices/operations";
+import { deleteInvoice, fetchInvoices } from "../../redux/invoices/all/operations";
 import { selectToken } from "../../redux/auth/selectors";
-
+import { selectAllInvoices, selectError, selectIsLoading } from "../../redux/invoices/all/selectors"
 const Home = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
   const invoices = useSelector(selectAllInvoices);
   const token = useSelector(selectToken);
-  const isLoading = useSelector((state) => state.allInvoices.isLoading);
-  const error = useSelector((state) => state.allInvoices.error);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     if (invoices.length === 0 && token) {

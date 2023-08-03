@@ -1,7 +1,5 @@
-import axios from "../../../utils/axiosConfig";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import InvoicePDF from "../../../components/Invoice/InvoicePDF/InvoicePDF";
 import { homeLink } from "../../../utils/linkConfig";
 import { StyledBox } from "../../../components/Invoice/InvoiceList/InvoiceList.styled";
 import InvoicePreview from "../../../components/Invoice/InvoicePreview/InvoicePreview";
@@ -9,14 +7,15 @@ import { InvoiceContainer } from "../Invoice.styled";
 import InvoiceInputs from "../../../components/Invoice/InvoiceInputs/InvoiceInputs";
 import { DefaultButton } from "../../../components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchInvoiceFromId, updateInvoice } from "../../../redux/invoices/operations";
-import { setEditingMode } from "../../../redux/invoiceSlice";
+import { fetchInvoiceFromId, updateInvoice } from "../../../redux/invoices/all/operations";
+import { setEditingMode } from "../../../redux/invoices/single/slice";
+import { selectEditInvoice } from "../../../redux/invoices/single/selectors";
 
 const InvoiceEdit = () => {
   let { invoiceId } = useParams();
 
   const dispatch = useDispatch();
-  const invoice = useSelector((state) => state.invoice.editInvoice);
+  const invoice = useSelector(selectEditInvoice);
   dispatch(setEditingMode(true))
   // Load invoice from database
   useEffect(() => {

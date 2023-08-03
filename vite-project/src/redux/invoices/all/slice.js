@@ -50,13 +50,21 @@ const allInvoicesSlice = createSlice({
       })
       .addCase(updateInvoice.fulfilled, (state, action) => {
         const { invoiceId, invoice } = action.payload;
-
+        const { client, date, invoiceNumber, _id } = invoice;
+        const { clientName } = client;
+        const { dueDate } = date;
+        const newInvoice = {
+          clientName,
+          dueDate,
+          invoiceNumber,
+          _id,
+        }
         const editedInvoiceIndex = state.allInvoices.findIndex(
           (invoice) => invoice._id === invoiceId
         )
 
         if(editedInvoiceIndex !== -1) {
-          state.allInvoices[editedInvoiceIndex] = invoice
+          state.allInvoices[editedInvoiceIndex] = newInvoice
         }
       })
   },

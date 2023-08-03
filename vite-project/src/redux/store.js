@@ -10,12 +10,11 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import invoiceReducer from "./invoiceSlice";
+import invoiceReducer from "./invoices/single/slice";
 import totalReducer from "./totalSlice";
-import productReducer from "./productSlice";
-import clientsReducer from "./clientsSlice";
-import allInvoicesReducer from "./invoices/slice";
 import allProductsReducer from "./products/slice";
+import clientsReducer from "./clientsSlice";
+import allInvoicesReducer from "./invoices/all/slice";
 import allClientsReducer from "./clients/slice"
 import userReducer from "./user/slice"
 import { authReducer } from "./auth/slice";
@@ -43,7 +42,6 @@ const store = configureStore({
     allClients: allClientsReducer,
     user: userReducer,
     total: totalReducer,
-    product: productReducer,
     clients: clientsReducer,
   },
   middleware,

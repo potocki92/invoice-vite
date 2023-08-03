@@ -10,7 +10,14 @@ const initialState = {
 const allProductsSlice = createSlice({
   name: "allProducts",
   initialState,
-  reducers: {},
+  reducers: {
+    setProductTaxRate: (state, action) => {
+    const { index, taxRate } = action.payload; // Używamy "index" zamiast "productId"
+    const product = state.allProducts[index]; // Używamy indeksu produktu jako identyfikatora
+    if (product) {
+      product.productsTaxRate = taxRate;
+    }
+  },},
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -34,5 +41,5 @@ const allProductsSlice = createSlice({
       })
   },
 });
-
+export const { setProductTaxRate } = allProductsSlice.actions;
 export default allProductsSlice.reducer;
