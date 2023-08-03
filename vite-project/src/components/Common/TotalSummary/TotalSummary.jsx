@@ -24,9 +24,14 @@ import { useSelector } from "react-redux";
  * );
  */
 const TotalSummary = () => {
-  const total = useSelector((state) => state.invoice.invoice.products.totalAmount);
-  const items = useSelector((state) => state.invoice.invoice.products.items)
+  const isEditing = useSelector((state) => state.invoice.isEditing);
+  const invoiceData = isEditing
+    ? useSelector((state) => state.invoice.editInvoice) // Dla edycji pobieramy dane z editInvoice
+    : useSelector((state) => state.invoice.invoice); // Dla nowej faktury pobieramy dane z invoice
 
+  const products = invoiceData.products;
+  const total = products.totalAmount;
+  const items = products.items;
   const subtotal = items.reduce(
     (accumulator, currentAmount) =>
       accumulator + currentAmount.productsPrice * currentAmount.qty,
@@ -34,10 +39,14 @@ const TotalSummary = () => {
   );
 
   const productTaxRate = items.reduce(
-    (accumulator, currentProduct) => accumulator + currentProduct.qty * currentProduct.productsPrice * (currentProduct.productsTax / 100),
+    (accumulator, currentProduct) =>
+      accumulator +
+      currentProduct.qty *
+        currentProduct.productsPrice *
+        (currentProduct.productsTax / 100),
     0
   );
-  const formattedProductTaxRate = productTaxRate.toFixed(2)
+  const formattedProductTaxRate = productTaxRate.toFixed(2);
   return (
     <TotalSummaryContainer>
       <SubtotalContainer>

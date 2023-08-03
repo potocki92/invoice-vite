@@ -70,22 +70,34 @@ const invoiceSlice = createSlice({
   reducers: {
     setInvoice: (state, action) => {
       return {
-        ...state.invoice,
-        ...action.payload,
+        ...state,
+        invoice: {
+          ...state.invoice,
+          ...action.payload,
+        },
+      };
+    },
+    setEditInvoice: (state, action) => {
+      return {
+        ...state,
+        editInvoice: {
+          ...state.editInvoice,
+          ...action.payload,
+        },
       };
     },
     setUserDetails: (state, action) => {
       const { name, NIP, REGON, email, phone, address } = action.payload;
-      
-      // const targetInvoice = isEditing ? state.editInvoice : state.invoice
-      state.invoice.user.name = name;
-      state.invoice.user.NIP = NIP;
-      state.invoice.user.REGON = REGON;
-      state.invoice.user.email = email;
-      state.invoice.user.phone = phone;
-      state.invoice.user.address.city = address.city;
-      state.invoice.user.address.postalCode = address.postalCode;
-      state.invoice.user.address.street = address.street;
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      targetInvoice.user.name = name;
+      targetInvoice.user.NIP = NIP;
+      targetInvoice.user.REGON = REGON;
+      targetInvoice.user.email = email;
+      targetInvoice.user.phone = phone;
+      targetInvoice.user.address.city = address.city;
+      targetInvoice.user.address.postalCode = address.postalCode;
+      targetInvoice.user.address.street = address.street;
     },
     updateClientData: (state, action) => {
       const {
@@ -99,14 +111,16 @@ const invoiceSlice = createSlice({
         clientAddress,
       } = action.payload;
 
-      (state.invoice.client.clientName = clientName),
-        (state.invoice.client.clientNip = clientNip),
-        (state.invoice.client.clientRegon = clientRegon),
-        (state.invoice.client.clientEmail = clientEmail),
-        (state.invoice.client.clientPhone = clientPhone),
-        (state.invoice.client.clientCity = clientCity),
-        (state.invoice.client.clientPostal = clientPostal),
-        (state.invoice.client.clientAddress = clientAddress);
+      const isEditing = state.isEditing;
+      const targetInvoice = isEditing ? state.editInvoice : state.invoice;
+      (targetInvoice.client.clientName = clientName),
+        (targetInvoice.client.clientNip = clientNip),
+        (targetInvoice.client.clientRegon = clientRegon),
+        (targetInvoice.client.clientEmail = clientEmail),
+        (targetInvoice.client.clientPhone = clientPhone),
+        (targetInvoice.client.clientCity = clientCity),
+        (targetInvoice.client.clientPostal = clientPostal),
+        (targetInvoice.client.clientAddress = clientAddress);
     },
     updateProductData: (state, action) => {
       const { index, key, value } = action.payload;
@@ -127,7 +141,10 @@ const invoiceSlice = createSlice({
           product.amount = newAmount;
 
           state.invoice.products.totalAmount = parseFloat(
-            state.invoice.products.items.reduce((total, item) => total + item.amount, 0)
+            state.invoice.products.items.reduce(
+              (total, item) => total + item.amount,
+              0
+            )
           );
         } else {
           state.invoice.products.items[index][key] = value;
@@ -139,7 +156,10 @@ const invoiceSlice = createSlice({
     },
     removeProductFromInvoice: (state, action) => {
       const productIndex = action.payload;
-      if (productIndex >= 0 && productIndex < state.invoice.products.items.length) {
+      if (
+        productIndex >= 0 &&
+        productIndex < state.invoice.products.items.length
+      ) {
         state.invoice.products.items.splice(productIndex, 1);
       }
     },
@@ -204,8 +224,8 @@ const invoiceSlice = createSlice({
       state.invoice.notes = action.payload;
     },
     setEditingMode: (state, action) => {
-      state.isEditing = action.payload
-    }
+      state.isEditing = action.payload;
+    },
   },
   extraReducers: (builed) => {
     builed
@@ -256,6 +276,7 @@ export const {
   setClientPostal,
   setClientAddress,
   setNotes,
-  setEditingMode
+  setEditingMode,
+  setEditInvoice,
 } = invoiceSlice.actions;
 export default invoiceSlice.reducer;

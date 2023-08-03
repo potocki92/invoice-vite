@@ -25,7 +25,32 @@ import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import InvoicePDF from "../InvoicePDF/InvoicePDF";
 import { useDispatch, useSelector } from "react-redux";
-import { setInvoice, setInvoiceNumber, setCompanyName, setCompanyEmail, setInvoiceDate, setDueDate, setCompanyPhone, setCompanyCity, setCompanyPostal, setCompanyAddress, setCompanyNip, setCompanyRegon, setClientName, setClientEmail, setClientNip, setClientRegon, setClientPhone, setClientCity, setClientPostal, setClientAddress, setNotes, addProductToInvoice, updateClientData } from "../../../redux/invoiceSlice";
+import {
+  setInvoice,
+  setInvoiceNumber,
+  setCompanyName,
+  setCompanyEmail,
+  setInvoiceDate,
+  setDueDate,
+  setCompanyPhone,
+  setCompanyCity,
+  setCompanyPostal,
+  setCompanyAddress,
+  setCompanyNip,
+  setCompanyRegon,
+  setClientName,
+  setClientEmail,
+  setClientNip,
+  setClientRegon,
+  setClientPhone,
+  setClientCity,
+  setClientPostal,
+  setClientAddress,
+  setNotes,
+  addProductToInvoice,
+  updateClientData,
+  setEditInvoice,
+} from "../../../redux/invoiceSlice";
 import updateUser from "../../../utils/updateUser";
 import updateDate from "../../../utils/updateDate";
 import updateClient from "../../../utils/updateClient";
@@ -48,19 +73,19 @@ import { Types } from "mongoose";
  * @param {ReactNode} props.children - Optional React children elements
  * @returns {JSX.Element} - Rendered component
  */
-const InvoiceInputs = ({
-  isInAuthentication,
-  children
-}) => {
+const InvoiceInputs = ({ isInAuthentication, children }) => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const editingMode = useSelector((state) => state.invoice.isEditing);
-  const invoice = !editingMode ? useSelector((state) => state.invoice.invoice) : useSelector((state) => state.invoice.editInvoice);
-  console.log(invoice)
+  const invoice = !editingMode
+    ? useSelector((state) => state.invoice.invoice)
+    : useSelector((state) => state.invoice.editInvoice);
   const clients = useSelector(selectAllClients);
   useEffect(() => {
-    dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
-  },[dispatch])
+    dispatch(
+      setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0))
+    );
+  }, [dispatch]);
   /**
    * Handles the change of the invoice number.
    *
@@ -77,15 +102,17 @@ const InvoiceInputs = ({
    * @returns {void}
    */
   const handleAddCard = () => {
-    dispatch(addProductToInvoice({
-      _id: new Types.ObjectId(),
-      productsName: "",
-      qty: 0,
-      productsPrice: 0,
-      productsTax: 0,
-      amount: 0,
-    }))
-  }
+    dispatch(
+      addProductToInvoice({
+        _id: new Types.ObjectId(),
+        productsName: "",
+        qty: 0,
+        productsPrice: 0,
+        productsTax: 0,
+        amount: 0,
+      })
+    );
+  };
   /**
    * Handles the change of input fields in the invoice form.
    *
@@ -127,15 +154,16 @@ const InvoiceInputs = ({
     }
 
     if (updateFunction) {
+      const updateAction = editingMode ? setEditInvoice : setInvoice;
       const updatedInvoice = updateFunction(name, value, invoice);
-      dispatch(setInvoice(updatedInvoice));
+      dispatch(updateAction(updatedInvoice));
     }
   };
   const handleClientChange = (id) => {
-    const client = clients.find((client) => client._id === id)
-    dispatch(updateClientData(client))
+    const client = clients.find((client) => client._id === id);
+    dispatch(updateClientData(client));
     console.log(client);
-  }
+  };
   /**
    * Updates the invoice number with the provided newInvoiceNumber.
    *
@@ -169,7 +197,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.date.invoiceDate)}>Invoice Date:</InputSpan>
+          <InputSpan className={isFloating(invoice.date.invoiceDate)}>
+            Invoice Date:
+          </InputSpan>
           <Input
             className={isFloating(invoice.date.invoiceDate)}
             type="date"
@@ -179,7 +209,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.date.dueDate)}>Due Date:</InputSpan>
+          <InputSpan className={isFloating(invoice.date.dueDate)}>
+            Due Date:
+          </InputSpan>
           <Input
             className={isFloating(invoice.date.dueDate)}
             type="date"
@@ -205,7 +237,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.email)}>Email:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.email)}>
+            Email:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.email)}
             type="email"
@@ -216,7 +250,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.phone)}>Phone:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.phone)}>
+            Phone:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.phone)}
             type="text"
@@ -227,7 +263,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-66">
-          <InputSpan className={isFloating(invoice.user.address.city)}>City:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.address.city)}>
+            City:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.address.city)}
             type="text"
@@ -249,7 +287,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.address.street)}>Address:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.address.street)}>
+            Address:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.address.street)}
             type="text"
@@ -273,7 +313,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.REGON)}>REGON:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.REGON)}>
+            REGON:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.REGON)}
             type="text"
@@ -287,7 +329,9 @@ const InvoiceInputs = ({
       <InfoWrapper title={"Bill to:"} />
       <InputsContent>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientName)}>Client name</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientName)}>
+            Client name
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientName)}
             type={"text"}
@@ -315,7 +359,9 @@ const InvoiceInputs = ({
             )}
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientEmail)}>Email</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientEmail)}>
+            Email
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientEmail)}
             type={"email"}
@@ -339,7 +385,10 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-66">
-          <InputSpan className={isFloating(invoice.client.clientAddress)}> Address</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientAddress)}>
+            {" "}
+            Address
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientAddress)}
             type={"text"}
@@ -350,7 +399,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientNip)}>NIP</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientNip)}>
+            NIP
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientNip)}
             type={"text"}
@@ -361,7 +412,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientCity)}>City</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientCity)}>
+            City
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientCity)}
             type={"text"}
@@ -372,7 +425,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientPostal)}>Postal</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientPostal)}>
+            Postal
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientPostal)}
             type={"text"}
@@ -383,7 +438,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientRegon)}>REGON</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientRegon)}>
+            REGON
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientRegon)}
             type={"text"}
@@ -398,11 +455,7 @@ const InvoiceInputs = ({
       {!isInAuthentication ? (
         <InputsContent>
           {invoice?.products?.items.map((product, index) => (
-            <ProductCard
-              key={product._id}
-              index={index}
-              product={product}
-            />
+            <ProductCard key={product._id} index={index} product={product} />
           ))}
         </InputsContent>
       ) : (
@@ -435,7 +488,7 @@ const InvoiceInputs = ({
           ></TextArea>
         </InputsContainer>
         <InputsContainer>
-          <TotalSummary/>
+          <TotalSummary />
         </InputsContainer>
         <InputsContainer className="buttons">
           <PDFDownloadLink
@@ -447,14 +500,13 @@ const InvoiceInputs = ({
                 `Loading document...`
               ) : (
                 <DefaultButton className="submit">Download PDF</DefaultButton>
-                )
-              }
+              )
+            }
           </PDFDownloadLink>
-              {children}
+          {children}
         </InputsContainer>
         <ButtonPDFReview />
-        <InputsContainer>
-        </InputsContainer>
+        <InputsContainer></InputsContainer>
       </InputsContent>
     </InvoiceInputsContainer>
   );
