@@ -8,7 +8,7 @@ import {
   TotalSummaryContainer,
 } from "./TotalSummary.styled";
 import { useSelector } from "react-redux";
-import invoiceSlice from "../../../redux/invoiceSlice";
+import { selectEditInvoice, selectInvoice, selectIsEditing } from "@redux/invoices/single/selectors";
 
 /**
  * This component displays the total summary of the invoice.
@@ -25,9 +25,14 @@ import invoiceSlice from "../../../redux/invoiceSlice";
  * );
  */
 const TotalSummary = () => {
-  const total = useSelector((state) => state.invoice.products.totalAmount);
-  const items = useSelector((state) => state.invoice.products.items)
+  const isEditing = useSelector(selectIsEditing);
+  const invoiceData = isEditing
+    ? useSelector(selectEditInvoice)
+    : useSelector(selectInvoice);
 
+  const products = invoiceData.products;
+  const total = products.totalAmount;
+  const items = products.items;
   const subtotal = items.reduce(
     (accumulator, currentAmount) =>
       accumulator + currentAmount.productsPrice * currentAmount.qty,
@@ -35,10 +40,14 @@ const TotalSummary = () => {
   );
 
   const productTaxRate = items.reduce(
-    (accumulator, currentProduct) => accumulator + currentProduct.qty * currentProduct.productsPrice * (currentProduct.productsTax / 100),
+    (accumulator, currentProduct) =>
+      accumulator +
+      currentProduct.qty *
+        currentProduct.productsPrice *
+        (currentProduct.productsTax / 100),
     0
   );
-  const formattedProductTaxRate = productTaxRate.toFixed(2)
+  const formattedProductTaxRate = productTaxRate.toFixed(2);
   return (
     <TotalSummaryContainer>
       <SubtotalContainer>

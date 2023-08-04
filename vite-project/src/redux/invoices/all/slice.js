@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
-import { addInvoice, fetchInvoices } from "./operations";
+import {
+  addInvoice,
+  deleteInvoice,
+  fetchInvoices,
+  updateInvoice,
+} from "./operations";
 
 const initialState = {
   allInvoices: [],
@@ -28,17 +32,41 @@ const allInvoicesSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addInvoice.fulfilled, (state, action) => {
-        const { client, date, invoiceNumber } = action.payload;
+        const { client, date, invoiceNumber, _id } = action.payload;
         const { clientName } = client;
         const { dueDate } = date;
         const newInvoice = {
           clientName,
           dueDate,
           invoiceNumber,
-          _id: uuidv4(),
+          _id,
         };
         state.allInvoices.push(newInvoice);
-      });
+      })
+      .addCase(deleteInvoice.fulfilled, (state, action) => {
+        state.allInvoices = state.allInvoices.filter(
+          (invoice) => invoice._id !== action.payload
+        );
+      })
+      .addCase(updateInvoice.fulfilled, (state, action) => {
+        const { invoiceId, invoice } = action.payload;
+        const { client, date, invoiceNumber, _id } = invoice;
+        const { clientName } = client;
+        const { dueDate } = date;
+        const newInvoice = {
+          clientName,
+          dueDate,
+          invoiceNumber,
+          _id,
+        }
+        const editedInvoiceIndex = state.allInvoices.findIndex(
+          (invoice) => invoice._id === invoiceId
+        )
+
+        if(editedInvoiceIndex !== -1) {
+          state.allInvoices[editedInvoiceIndex] = newInvoice
+        }
+      })
   },
 });
 

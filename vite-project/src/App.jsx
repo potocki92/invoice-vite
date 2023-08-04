@@ -8,21 +8,21 @@ import {
 import "./App.css";
 import { homeLink } from "./utils/linkConfig";
 import { useDispatch } from "react-redux";
-import { refreshUser } from "./redux/auth/operations";
+import { refreshUser } from "@redux/auth/operations";
 import { RestrictedRoute } from "./RestrictedRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import { useAuth } from "./hooks/useAuth";
 
-const Home = lazy(() => import("./pages/home/Home"));
-const Homepage = lazy(() => import("./pages/homepage/Homepage"));
-const Invoices = lazy(() => import("./pages/invoice/Invoices"));
-const User = lazy(() => import("./pages/user/User"));
-const Clients = lazy(() => import("./pages/clients/Clients"));
-const Products = lazy(() => import("./pages/products/Products"));
+import Home from "@pages/home/Home"
+import Homepage from "@pages/homepage/Homepage"
+import Invoices from "@pages/invoice/Invoices"
+import User from "@pages/user/User";
+import Clients from "@pages/clients/Clients";
+import Products from "@pages/products/Products"
 const Authentication = lazy(() =>
-  import("./components/Authentication/Authentication")
+  import("@components/Authentication/Authentication")
 );
-const InvoiceEdit = lazy(() => import("./pages/invoice/edit/InvoiceEdit"));
+import InvoiceEdit from "@pages/invoice/edit/InvoiceEdit";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,8 +63,11 @@ function App() {
             >
               <Route path="" element={<Home />} />
               <Route path="invoice" element={<Invoices />} />
+
+              <Route path="invoice/:invoiceId" element={<InvoiceEdit />} />
               <Route path="products" element={<Products />} />
               <Route path="clients" element={<Clients />} />
+              <Route path="user" element={<User />}/>
             </Route>
             <Route path="/*" element={<Navigate to={homeLink} replace />} />
           </Routes>

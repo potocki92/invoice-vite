@@ -15,6 +15,15 @@ const styles = {
   borderBottom: "1px solid #e3e3e3",
 };
 
+/**
+ * Represents a component that displays a preview of an invoice, including details about the invoice,
+ * user information, client information, product summary, and total amount.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.invoice - The invoice data to be displayed.
+ * @returns {JSX.Element} - The rendered InvoicePreview component.
+ */
 const InvoicePreview = ({ invoice }) => {
   return (
     // Invoice preview container
@@ -130,7 +139,7 @@ const InvoicePreview = ({ invoice }) => {
       {/* Invoice preview products */}
       {invoice.products?.items.map((product) => (
         <InvoicePreviewContent
-          key={product.id}
+          key={product._id}
           padding={styles.productPadding}
           borderBottom={styles.borderBottom}
         >

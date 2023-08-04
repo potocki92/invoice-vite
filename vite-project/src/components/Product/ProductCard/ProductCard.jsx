@@ -1,28 +1,28 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./ProductCard.css";
 import {
   InfoCount,
   InfoCountSpan,
-} from "../../Invoice/InvoiceInputs/InvoiceInputs.styled";
-import { ModalButton } from "../../Common/Modal/Modal.styled";
+} from "@components/Invoice/InvoiceInputs/InvoiceInputs.styled";
+import { ModalButton } from "@components/Common/Modal/Modal.styled";
 import { HiUsers } from "react-icons/hi";
-import Modal from "../../Common/Modal/Modal";
+import Modal from "@components/Common/Modal/Modal";
 import { createPortal } from "react-dom";
-import productCardMarkup from "../../../markups/productCardMarkup";
+import productCardMarkup from "@markups/productCardMarkup";
 import { HiOutlineMinusCircle } from "react-icons/hi";
-import { RemoveButton } from "../../buttons.styled";
+import { RemoveButton } from "@components/buttons.styled";
 import { ProductCardContainer } from "./ProductCard.styled";
-import isFloating from "../../../utils/isFloating";
+import isFloating from "@utils/isFloating";
 import {
   InputsContent,
   InputsContainer,
   Input,
   InputSpan,
-} from "../../Common/InputField/Input.styled";
-import { useDispatch, useSelector } from "react-redux";
-import { removeProductFromInvoice, updateProductData } from "../../../redux/invoiceSlice";
-import { setProductTaxRate } from "../../../redux/productSlice";
-import { selectAllProducts } from "../../../redux/products/selectors";
+} from "@components/Common/InputField/Input.styled";
+import { removeProductFromInvoice, updateProductData } from "@redux/invoices/single/slice";
+import { selectAllProducts } from "@redux/products/selectors";
+import { setProductTaxRate } from "@redux/products/slice";
 
 /**
  * This component renders a product card with the product name, quantity, price, tax, and amount.
@@ -42,6 +42,8 @@ const ProductCard = ({
   isInAuthentication,
 }) => {
   // Local state for the product data
+  const dispatch = useDispatch()
+  const products = useSelector(selectAllProducts)
   const [productName, setProductName] = useState(product.productsName || "");
   const [productQty, setProductQty] = useState(product.qty || "");
   const [productPrice, setProductPrice] = useState(product.productsPrice || "");
@@ -49,8 +51,6 @@ const ProductCard = ({
 
   const [amount, setAmount] = useState(product.amount || 0);
   
-  const dispatch = useDispatch()
-  const products = useSelector(selectAllProducts)
 
   const [showModal, setShowModal] = useState(false);
   const productTaxRate = useMemo(() => {
@@ -109,65 +109,48 @@ const ProductCard = ({
    *
    * @param {string} id - The ID of the selected product
    */
-  const handleProductChange = (id) => {
-    const selectedProduct = products.find((product) => product._id === id);
-    dispatch(
-      updateProductData({
-        index,
-        key: "productsName",
-        value: selectedProduct.productsName,
-      })
-    );
-    dispatch(
-      updateProductData({
-        index,
-        key: "qty",
-        value: selectedProduct.qty,
-      })
-    );
-    dispatch(
-      updateProductData({
-        index,
-        key: "productsPrice",
-        value: selectedProduct.productsPrice,
-      })
-    );
-    dispatch(
-      updateProductData({
-        index,
-        key: "productsTax",
-        value: selectedProduct.productsTax,
-      })
-    );
+  const handleProductChange = (productId) => {
+    const selectedProduct = products.find((product) => product._id === productId);
+    if (selectedProduct) {
+      dispatch(
+        updateProductData({
+          index,
+          key: "productsName",
+          value: selectedProduct.productsName,
+        })
+      );
+      dispatch(
+        updateProductData({
+          index,
+          key: "qty",
+          value: selectedProduct.qty,
+        })
+      );
+      dispatch(
+        updateProductData({
+          index,
+          key: "productsPrice",
+          value: selectedProduct.productsPrice,
+        })
+      );
+      dispatch(
+        updateProductData({
+          index,
+          key: "productsTax",
+          value: selectedProduct.productsTax,
+        })
+      );
+    }
   };
-
+  
  /**
    * This function is used to update the product quantity, price, or tax whenever the corresponding input is changed.
    *
    * @param {Object} event - The event object
    */
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    if (name === "productsName") {
-      setProductName(value);
-      dispatch(updateProductData({ index, key: "productsName", value }));
-    }
-    if (name === "productsQty") {
-      // If the value is empty, set it to an empty string
-      setProductQty(value === "" ? "" : parseFloat(value));
-      dispatch(updateProductData({ index, key: "qty", value: value === "" ? "" : parseFloat(value) }));
-    }
-    if (name === "productsPrice") {
-      // If the value is empty, set it to an empty string
-      setProductPrice(value === "" ? "" : parseFloat(value));
-      dispatch(updateProductData({ index, key: "productsPrice", value: value === "" ? "" : parseFloat(value) }));
-    }
-    if (name === "productsTax") {
-      // If the value is empty, set it to an empty string
-      setProductTax(value === "" ? "" : parseFloat(value));
-      dispatch(updateProductData({ index, key: "productsTax", value: value === "" ? "" : parseFloat(value) }));
-    }
+ const handleChange = (event) => {
+  const { name, value } = event.target;
+    dispatch(updateProductData({ index, key: name, value: value }));
   };
 
   return (
@@ -218,7 +201,7 @@ const ProductCard = ({
           <Input
             className={isFloating(productQty)}
             type="number"
-            name="productsQty"
+            name="qty"
             placeholder="Quantity"
             value={productQty || ""}
             onChange={handleChange}

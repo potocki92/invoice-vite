@@ -2,14 +2,12 @@ import { Types } from "mongoose";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import axios from "../../utils/axiosConfig";
-import ProductForm from "../../components/Product/ProductForm/ProductForm";
-import ProductList from "../../components/Product/ProductList/ProductList";
-import { homeLink } from "../../utils/linkConfig";
-import { DefaultButton } from "../../components/buttons.styled";
-import { addProduct, deleteProduct, fetchProducts } from "../../redux/products/operations";
-import { selectAllProducts } from "../../redux/products/selectors";
-import { selectToken } from "../../redux/auth/selectors";
+import ProductForm from "@components/Product/ProductForm/ProductForm";
+import ProductList from "@components/Product/ProductList/ProductList";
+import { homeLink } from "@utils/linkConfig";
+import { DefaultButton } from "@components/buttons.styled";
+import { addProduct, deleteProduct, fetchProducts } from "@redux/products/operations";
+import { selectAllProducts } from "@redux/products/selectors";
 
 /**
 Component for managing products.

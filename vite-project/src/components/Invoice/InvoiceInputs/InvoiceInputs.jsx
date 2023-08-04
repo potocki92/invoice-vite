@@ -1,37 +1,66 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "../../Product/ProductCard/ProductCard";
+import ProductCard from "@components/Product/ProductCard/ProductCard";
 import { InvoiceInputsContainer, TextArea } from "./InvoiceInputs.styled";
-import isFloating from "../../../utils/isFloating";
+import isFloating from "@utils/isFloating";
 import { HiUsers } from "react-icons/hi";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { createPortal } from "react-dom";
-import Modal from "../../Common/Modal/Modal";
-import { ModalButton } from "../../Common/Modal/Modal.styled";
-import clientCardMarkup from "../../../markups/clientCardMarkup";
+import Modal from "@components/Common/Modal/Modal";
+import { ModalButton } from "@components/Common/Modal/Modal.styled";
+import clientCardMarkup from "@markups/clientCardMarkup";
 import {
   AddButton,
   AddButtonWrapper,
   ButtonPDFReview,
   DefaultButton,
-} from "../../buttons.styled";
-import TotalSummary from "../../Common/TotalSummary/TotalSummary";
+} from "@components/buttons.styled";
+import TotalSummary from "@components/Common/TotalSummary/TotalSummary";
 import {
   InputsContent,
   InputsContainer,
   Input,
   InputSpan,
-} from "../../Common/InputField/Input.styled";
-import InfoWrapper from "../../Common/InfoWrapper/InfoWrapper";
+} from "@components/Common/InputField/Input.styled";
+import InfoWrapper from "@components/Common/InfoWrapper/InfoWrapper";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import InvoicePDF from "../InvoicePDF/InvoicePDF";
+import InvoicePDF from "@components/Invoice/InvoicePDF/InvoicePDF";
 import { useDispatch, useSelector } from "react-redux";
-import { setInvoice, setInvoiceNumber, setCompanyName, setCompanyEmail, setInvoiceDate, setDueDate, setCompanyPhone, setCompanyCity, setCompanyPostal, setCompanyAddress, setCompanyNip, setCompanyRegon, setClientName, setClientEmail, setClientNip, setClientRegon, setClientPhone, setClientCity, setClientPostal, setClientAddress, setNotes, addProductToInvoice, updateClientData } from "../../../redux/invoiceSlice";
-import updateUser from "../../../utils/updateUser";
-import updateDate from "../../../utils/updateDate";
-import updateClient from "../../../utils/updateClient";
-import updateNotes from "../../../utils/updateNotes";
-import CurrentMonthInvoices from "../../../utils/currentMonthInvoices";
-import { selectAllClients } from "../../../redux/clients/selectors";
+import {
+  setInvoice,
+  setInvoiceNumber,
+  setCompanyName,
+  setCompanyEmail,
+  setInvoiceDate,
+  setDueDate,
+  setCompanyPhone,
+  setCompanyCity,
+  setCompanyPostal,
+  setCompanyAddress,
+  setCompanyNip,
+  setCompanyRegon,
+  setClientName,
+  setClientEmail,
+  setClientNip,
+  setClientRegon,
+  setClientPhone,
+  setClientCity,
+  setClientPostal,
+  setClientAddress,
+  setNotes,
+  addProductToInvoice,
+  updateClientData,
+  setEditInvoice,
+} from "@redux/invoices/single/slice";
+import updateUser from "@utils/updateUser";
+import updateDate from "@utils/updateDate";
+import updateClient from "@utils/updateClient";
+import updateNotes from "@utils/updateNotes";
+import CurrentMonthInvoices from "@utils/currentMonthInvoices";
+import { selectAllClients } from "@redux/clients/selectors";
+import { fetchClients } from "@redux/clients/operations";
+import { fetchProducts } from "@redux/products/operations";
+import { selectAllProducts } from "@redux/products/selectors";
+import { Types } from "mongoose";
 
 /**
  * Component for displaying and editing invoice input fields.
@@ -47,17 +76,34 @@ import { selectAllClients } from "../../../redux/clients/selectors";
  * @param {ReactNode} props.children - Optional React children elements
  * @returns {JSX.Element} - Rendered component
  */
-const InvoiceInputs = ({
-  isInAuthentication,
-  children
-}) => {
+const InvoiceInputs = ({ isInAuthentication, children }) => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const invoice = useSelector((state) => state.invoice);
+  const editingMode = useSelector((state) => state.invoice.isEditing);
+  const invoice = !editingMode
+    ? useSelector((state) => state.invoice.invoice)
+    : useSelector((state) => state.invoice.editInvoice);
   const clients = useSelector(selectAllClients);
+  const products = useSelector(selectAllProducts)
+
   useEffect(() => {
-    dispatch(setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0)))
+    dispatch(
+      setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0))
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(clients.length === 0) {
+      dispatch(fetchClients())
+    }
   },[dispatch])
+
+  useEffect(() => {
+    if (products.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, products]);
+
   /**
    * Handles the change of the invoice number.
    *
@@ -74,14 +120,17 @@ const InvoiceInputs = ({
    * @returns {void}
    */
   const handleAddCard = () => {
-    dispatch(addProductToInvoice({
-      productsName: "",
-        qty: 1,
+    dispatch(
+      addProductToInvoice({
+        _id: new Types.ObjectId(),
+        productsName: "",
+        qty: 0,
         productsPrice: 0,
         productsTax: 0,
         amount: 0,
-    }))
-  }
+      })
+    );
+  };
   /**
    * Handles the change of input fields in the invoice form.
    *
@@ -123,15 +172,22 @@ const InvoiceInputs = ({
     }
 
     if (updateFunction) {
+      const updateAction = editingMode ? setEditInvoice : setInvoice;
       const updatedInvoice = updateFunction(name, value, invoice);
-      dispatch(setInvoice(updatedInvoice));
+      dispatch(updateAction(updatedInvoice));
     }
   };
+  /**
+   * Handles the change of a client when selecting from the modal.
+   *
+   * @param {string} id - ID of the selected client.
+   * @returns {void}
+   */
   const handleClientChange = (id) => {
-    const client = clients.find((client) => client._id === id)
-    dispatch(updateClientData(client))
+    const client = clients.find((client) => client._id === id);
+    dispatch(updateClientData(client));
     console.log(client);
-  }
+  };
   /**
    * Updates the invoice number with the provided newInvoiceNumber.
    *
@@ -165,7 +221,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.date.invoiceDate)}>Invoice Date:</InputSpan>
+          <InputSpan className={isFloating(invoice.date.invoiceDate)}>
+            Invoice Date:
+          </InputSpan>
           <Input
             className={isFloating(invoice.date.invoiceDate)}
             type="date"
@@ -175,7 +233,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.date.dueDate)}>Due Date:</InputSpan>
+          <InputSpan className={isFloating(invoice.date.dueDate)}>
+            Due Date:
+          </InputSpan>
           <Input
             className={isFloating(invoice.date.dueDate)}
             type="date"
@@ -201,7 +261,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.email)}>Email:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.email)}>
+            Email:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.email)}
             type="email"
@@ -212,7 +274,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.phone)}>Phone:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.phone)}>
+            Phone:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.phone)}
             type="text"
@@ -223,7 +287,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-66">
-          <InputSpan className={isFloating(invoice.user.address.city)}>City:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.address.city)}>
+            City:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.address.city)}
             type="text"
@@ -245,7 +311,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.address.street)}>Address:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.address.street)}>
+            Address:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.address.street)}
             type="text"
@@ -269,7 +337,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.REGON)}>REGON:</InputSpan>
+          <InputSpan className={isFloating(invoice.user.REGON)}>
+            REGON:
+          </InputSpan>
           <Input
             className={isFloating(invoice.user.REGON)}
             type="text"
@@ -283,7 +353,9 @@ const InvoiceInputs = ({
       <InfoWrapper title={"Bill to:"} />
       <InputsContent>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientName)}>Client name</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientName)}>
+            Client name
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientName)}
             type={"text"}
@@ -311,7 +383,9 @@ const InvoiceInputs = ({
             )}
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientEmail)}>Email</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientEmail)}>
+            Email
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientEmail)}
             type={"email"}
@@ -335,7 +409,10 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-66">
-          <InputSpan className={isFloating(invoice.client.clientAddress)}> Address</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientAddress)}>
+            {" "}
+            Address
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientAddress)}
             type={"text"}
@@ -346,7 +423,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientNip)}>NIP</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientNip)}>
+            NIP
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientNip)}
             type={"text"}
@@ -357,7 +436,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientCity)}>City</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientCity)}>
+            City
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientCity)}
             type={"text"}
@@ -368,7 +449,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientPostal)}>Postal</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientPostal)}>
+            Postal
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientPostal)}
             type={"text"}
@@ -379,7 +462,9 @@ const InvoiceInputs = ({
           />
         </InputsContainer>
         <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientRegon)}>REGON</InputSpan>
+          <InputSpan className={isFloating(invoice.client.clientRegon)}>
+            REGON
+          </InputSpan>
           <Input
             className={isFloating(invoice.client.clientRegon)}
             type={"text"}
@@ -394,18 +479,14 @@ const InvoiceInputs = ({
       {!isInAuthentication ? (
         <InputsContent>
           {invoice?.products?.items.map((product, index) => (
-            <ProductCard
-              key={index}
-              index={index}
-              product={product}
-            />
+            <ProductCard key={product._id} index={index} product={product} />
           ))}
         </InputsContent>
       ) : (
         <InputsContent>
           {invoice?.products.items.map((product, index) => (
             <ProductCard
-              key={index}
+              key={product._id}
               index={index}
               product={product}
               isInAuthentication={isInAuthentication}
@@ -431,7 +512,7 @@ const InvoiceInputs = ({
           ></TextArea>
         </InputsContainer>
         <InputsContainer>
-          <TotalSummary/>
+          <TotalSummary />
         </InputsContainer>
         <InputsContainer className="buttons">
           <PDFDownloadLink
@@ -443,14 +524,13 @@ const InvoiceInputs = ({
                 `Loading document...`
               ) : (
                 <DefaultButton className="submit">Download PDF</DefaultButton>
-                )
-              }
+              )
+            }
           </PDFDownloadLink>
-              {children}
+          {children}
         </InputsContainer>
         <ButtonPDFReview />
-        <InputsContainer>
-        </InputsContainer>
+        <InputsContainer></InputsContainer>
       </InputsContent>
     </InvoiceInputsContainer>
   );
