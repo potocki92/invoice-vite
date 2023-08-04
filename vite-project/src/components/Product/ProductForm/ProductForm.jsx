@@ -4,12 +4,17 @@ import isFloating from "../../../utils/isFloating";
 import { DefaultButton } from "../../buttons.styled";
 
 /**
- * @class
- * @classdesc Represents a modal window component that displays a form for adding a new product to a list.
+ * Represents a modal window component that displays a form for adding a new product to a list.
  * The form includes fields for the product name and price, as well as checkboxes for selecting the applicable tax rate.
  * The component also includes event handlers for handling form submission and checkbox selection,
  * and manages the state of the selected tax rate.
- * @extends React.Component
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.newProduct - The object representing the new product data.
+ * @param {Function} props.handleClick - The function to handle form submission.
+ * @param {Function} props.handleChange - The function to handle input changes.
+ * @returns {JSX.Element} - The rendered ProductForm component.
  */
 const ProductForm = ({ newProduct, handleClick, handleChange }) => {
   /**

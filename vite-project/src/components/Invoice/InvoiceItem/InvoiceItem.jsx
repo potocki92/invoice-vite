@@ -24,7 +24,6 @@ const InvoiceItem = ({ invoice, onDelete }) => {
   const [isMobile, setIsMobile] = useState(false);
   const invoiceItemRef = useRef(null);
 
-  console.log(invoice._id);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);

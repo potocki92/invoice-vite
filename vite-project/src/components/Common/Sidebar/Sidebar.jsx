@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import { ReactComponent as DashboardIcon } from "../../../assets/images/svg/dashboard.svg";
-import { ReactComponent as AddInvoiceIcon } from "../../../assets/images/svg/addInvoice.svg";
-import { ReactComponent as ClientsIcon } from "../../../assets/images/svg/clients.svg";
-import { homeLink } from "../../../utils/linkConfig";
+import { ReactComponent as DashboardIcon } from "@assets/images/svg/dashboard.svg";
+import { ReactComponent as AddInvoiceIcon } from "@assets/images/svg/addInvoice.svg";
+import { ReactComponent as ClientsIcon } from "@assets/images/svg/clients.svg";
 import {
   BurgerIcon,
   MobileSidebar,
@@ -16,14 +15,32 @@ import {
   ToggleMenuButton,
 } from "./Sidebar.styled";
 import { useState } from "react";
-import UserMenu from "../../Common/UserMenu/UserMenu";
+import UserMenu from "@components/Common/UserMenu/UserMenu";
 
+/**
+ * Represents a sidebar navigation component that provides links to different sections of the application.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {function} props.setLoginUser - Function to set the logged-in user.
+ * @returns {JSX.Element} - The rendered Sidebar component.
+ */
 const Sidebar = ({ setLoginUser }) => {
   const [isClick, setIsClick] = useState(false);
+  /**
+   * Toggles the sidebar menu when the burger icon is clicked.
+   * @function
+   * @returns {void}
+   */
   const handleBurgerClick = () => {
     setIsClick(!isClick);
   };
 
+  /**
+   * Closes the sidebar menu when a link is clicked.
+   * @function
+   * @returns {void}
+   */
   const handleLinkClick = () => {
     setIsClick(false);
   };
