@@ -1,6 +1,10 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
-import { LoginStyled, LoginText, LoginTitle } from "./Login.styled";
+import {
+  LoginStyled,
+  LoginText,
+  LoginTitle,
+} from "./Login.styled";
 import {
   Input,
   InputSpan,
@@ -12,6 +16,12 @@ import isFloating from "../../../utils/isFloating";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/auth/operations";
 
+/**
+ * Represents a login component that allows users to log in.
+ * @param {Object} props - Component props.
+ * @param {Function} props.setShowRegister - Function to show registration form.
+ * @returns {JSX.Element} - Rendered Login component.
+ */
 const Login = ({ setShowRegister }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -20,9 +30,19 @@ const Login = ({ setShowRegister }) => {
   });
   const { email, password } = formData;
 
+  /**
+   * Handles input change event.
+   * @param {Object} e - Input change event object.
+   * @returns {void}
+   */
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  /**
+   * Handles form submission.
+   * @param {Object} e - Form submit event object.
+   * @returns {void}
+   */
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,10 +59,10 @@ const Login = ({ setShowRegister }) => {
       <LoginTitle>Login</LoginTitle>
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         <InputsContainer>
-          <InputSpan className={isFloating(formData.email)}>Email</InputSpan>
+          <InputSpan className={isFloating(email)}>Email</InputSpan>
           <Input
             className={
-              isFloating(formData.email)
+              isFloating(email)
                 ? `authentication floating`
                 : `authentication`
             }
@@ -55,12 +75,12 @@ const Login = ({ setShowRegister }) => {
           />
         </InputsContainer>
         <InputsContainer>
-          <InputSpan className={isFloating(formData.password)}>
+          <InputSpan className={isFloating(password)}>
             Password
           </InputSpan>
           <Input
             className={
-              isFloating(formData.password)
+              isFloating(password)
                 ? `authentication floating`
                 : `authentication`
             }
