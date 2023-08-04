@@ -122,7 +122,6 @@ const invoiceSlice = createSlice({
       if (index >= 0 && index < targetInvoice.products.items.length) {
         const product = targetInvoice.products.items[index];
         if (key === "qty" || key === "productsPrice" || key === "productsTax") {
-          console.log(key, value)
           
           const floatValue = parseFloat(value);
           const taxValue = isNaN(floatValue) ? 0 : floatValue;
@@ -150,7 +149,6 @@ const invoiceSlice = createSlice({
       if (productIndex >= 0 && productIndex < targetInvoice.products.items.length) {
         targetInvoice.products.items.splice(productIndex, 1);
       }
-      return { ...state, [state.isEditing ? "editInvoice" : "invoice"]: targetInvoice };
     },
     setInvoiceNumber: (state, action) => {
       return updateInvoiceData(state, { isEditing: state.isEditing, data: { invoiceNumber: action.payload } });

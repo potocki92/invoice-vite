@@ -114,28 +114,28 @@ const ProductCard = ({
     if (selectedProduct) {
       dispatch(
         updateProductData({
-          productId,
+          index,
           key: "productsName",
           value: selectedProduct.productsName,
         })
       );
       dispatch(
         updateProductData({
-          productId,
+          index,
           key: "qty",
           value: selectedProduct.qty,
         })
       );
       dispatch(
         updateProductData({
-          productId,
+          index,
           key: "productsPrice",
           value: selectedProduct.productsPrice,
         })
       );
       dispatch(
         updateProductData({
-          productId,
+          index,
           key: "productsTax",
           value: selectedProduct.productsTax,
         })

@@ -57,6 +57,9 @@ import updateClient from "@utils/updateClient";
 import updateNotes from "@utils/updateNotes";
 import CurrentMonthInvoices from "@utils/currentMonthInvoices";
 import { selectAllClients } from "@redux/clients/selectors";
+import { fetchClients } from "@redux/clients/operations";
+import { fetchProducts } from "@redux/products/operations";
+import { selectAllProducts } from "@redux/products/selectors";
 import { Types } from "mongoose";
 
 /**
@@ -81,11 +84,28 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
     ? useSelector((state) => state.invoice.invoice)
     : useSelector((state) => state.invoice.editInvoice);
   const clients = useSelector(selectAllClients);
+  const products = useSelector(selectAllProducts)
   useEffect(() => {
     dispatch(
       setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0))
     );
   }, [dispatch]);
+
+  useEffect(() => {
+    if(clients.length === 0) {
+      dispatch(fetchClients())
+    }
+  },[dispatch])
+  /**
+   * Loads all products to setProducts.
+   * @returns {void}
+   */
+  useEffect(() => {
+    if (products.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, products]);
+
   /**
    * Handles the change of the invoice number.
    *

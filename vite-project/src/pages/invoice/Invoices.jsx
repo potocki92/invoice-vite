@@ -9,11 +9,7 @@ import InvoicePreview from "@components/Invoice/InvoicePreview/InvoicePreview";
 import { DefaultButton } from "@components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditingMode, setInvoice, setUserDetails } from "@redux/invoices/single/slice";
-import { fetchProducts } from "@redux/products/operations";
-import { fetchClients } from "@redux/clients/operations";
 import { fetchUser } from "@redux/user/operations";
-import { selectAllProducts } from "@redux/products/selectors";
-import { selectAllClients } from "@redux/clients/selectors";
 import { selectUser } from "@redux/user/selectors";
 import { addInvoice } from "@redux/invoices/all/operations";
 import { selectInvoice } from "@redux/invoices/single/selectors";
@@ -36,8 +32,6 @@ const Invoices = () => {
   const dispatch = useDispatch();
   const invoice = useSelector(selectInvoice);
   dispatch(setEditingMode(false))
-  const products = useSelector(selectAllProducts);
-  const clients = useSelector(selectAllClients);
   const user = useSelector(selectUser);
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -72,24 +66,7 @@ const Invoices = () => {
       dispatch(setUserDetails(user));
     }
   }, [dispatch, user]);
-  /**
-   * Loads all clients to setClients.
-   * @returns {void}
-   */
-  useEffect(() => {
-    if (clients.length === 0) {
-      dispatch(fetchClients());
-    }
-  }, [dispatch, clients]);
-  /**
-   * Loads all products to setProducts.
-   * @returns {void}
-   */
-  useEffect(() => {
-    if (products.length === 0) {
-      dispatch(fetchProducts());
-    }
-  }, [dispatch, products]);
+
   /**
    * Handles the click event of the "Create Invoice" button.
    * Sends a request to the server to add a new invoice with the data from the new invoice state.
