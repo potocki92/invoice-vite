@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Authentication.css";
 import Login from "../Authentication/Login/Login";
 import Register from "../Authentication/Register/Register";
@@ -27,8 +27,6 @@ import {
 const Authentication = ({ setLoginUser }) => {
   
   const [showRegister, setShowRegister] = useState(false);
-
-
 
   return (
     <AuthenticationStyled>

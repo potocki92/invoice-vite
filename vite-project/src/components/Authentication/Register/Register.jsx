@@ -14,6 +14,13 @@ import isFloating from "../../../utils/isFloating";
 import { useDispatch } from "react-redux";
 import { register } from "../../../redux/auth/operations";
 
+/**
+ * Component for user registration.
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.setShowRegister - Function to control the visibility of the registration form
+ * @returns {JSX.Element} - Rendered component
+ */
 const Register = ({ setShowRegister }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -22,10 +29,22 @@ const Register = ({ setShowRegister }) => {
     password: "",
   });
   const { name, email, password } = formData;
-
+  
+  /**
+   * Handles input change event.
+   *
+   * @param {Event} e - The change event object containing information about the field value change.
+   * @returns {void}
+   */
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  /**
+   * Handles form submission.
+   *
+   * @param {Event} e - The form submission event object.
+   * @returns {void}
+   */
   const onSubmit = async (e) => {
     e.preventDefault();
 
