@@ -1,3 +1,6 @@
+import { useDispatch } from "react-redux";
+import { setInvoice } from "../redux/invoiceSlice";
+
 /**
  * Handles the change event of the invoice number input.
  * Sets the invoice number state to the input value.
@@ -7,10 +10,6 @@
  * @param {Function} setInvoice - setInvoice function
  * @returns {undefined} 
  */
-
-import { useDispatch } from "react-redux";
-import { setInvoice } from "../redux/invoiceSlice";
-
 const handleInputChange = (e, updateFunctions, invoice) => {
   const { name, value } = e.target;
   const dispatch = useDispatch()

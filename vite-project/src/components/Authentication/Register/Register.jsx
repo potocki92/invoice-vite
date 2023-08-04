@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import "./Register.css";
-import axios from "../../../utils/axiosConfig";
 import { LoginStyled, LoginText, LoginTitle } from "../Login/Login.styled";
 import {
   Input,

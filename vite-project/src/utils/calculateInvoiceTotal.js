@@ -29,7 +29,6 @@
   let productTaxRate = 0;
   let subtotal = 0;
 
-  console.log(items);
   if (items) {
     totalAmount = Object.values(items).reduce((accumulator, currentAmount) => accumulator + currentAmount.amount, 0);
     productTaxRate = Object.values(items).reduce((accumulator, currentAmount) => accumulator + currentAmount.productTaxRate, 0);

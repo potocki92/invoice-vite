@@ -11,13 +11,23 @@ const allProductsSlice = createSlice({
   name: "allProducts",
   initialState,
   reducers: {
+    /**
+     * Updates the tax rate of a specific product in the state.
+     *
+     * @param {Object} state - The current Redux state.
+     * @param {Object} action - The Redux action containing payload.
+     * @param {number} action.payload.index - The index of the product to update.
+     * @param {number} action.payload.taxRate - The new tax rate to set for the product.
+     * @returns {void}
+     */
     setProductTaxRate: (state, action) => {
-    const { index, taxRate } = action.payload; // Używamy "index" zamiast "productId"
-    const product = state.allProducts[index]; // Używamy indeksu produktu jako identyfikatora
-    if (product) {
-      product.productsTaxRate = taxRate;
-    }
-  },},
+      const { index, taxRate } = action.payload; // Używamy "index" zamiast "productId"
+      const product = state.allProducts[index]; // Używamy indeksu produktu jako identyfikatora
+      if (product) {
+        product.productsTaxRate = taxRate;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
