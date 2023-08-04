@@ -85,6 +85,7 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
     : useSelector((state) => state.invoice.editInvoice);
   const clients = useSelector(selectAllClients);
   const products = useSelector(selectAllProducts)
+
   useEffect(() => {
     dispatch(
       setInvoiceNumber(new CurrentMonthInvoices(0).generateInvoiceNumber(0))
@@ -96,10 +97,7 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
       dispatch(fetchClients())
     }
   },[dispatch])
-  /**
-   * Loads all products to setProducts.
-   * @returns {void}
-   */
+
   useEffect(() => {
     if (products.length === 0) {
       dispatch(fetchProducts());
@@ -179,6 +177,12 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
       dispatch(updateAction(updatedInvoice));
     }
   };
+  /**
+   * Handles the change of a client when selecting from the modal.
+   *
+   * @param {string} id - ID of the selected client.
+   * @returns {void}
+   */
   const handleClientChange = (id) => {
     const client = clients.find((client) => client._id === id);
     dispatch(updateClientData(client));
