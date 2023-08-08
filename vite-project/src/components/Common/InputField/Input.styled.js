@@ -22,6 +22,7 @@ export const InputsContent = styled.div`
 export const InputsContainer = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column-reverse;
   padding-left: 9px;
   padding-right: 9px;
   width: 100%;
@@ -81,6 +82,14 @@ export const InputsForm = styled.form`
     }
 }
 `;
+
+export const ErrorMessage = styled.span`
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+`;
+
 export const Input = styled.input`
   display: inline-block;
   height: 3.2em;
@@ -98,6 +107,13 @@ export const Input = styled.input`
   -webkit-appearance: none;
   appearance: none;
 
+  // &:invalid[focused="true"] {
+  //   border: 1px solid red;
+  // }
+
+  // &:invalid[focused="true"] ~ ${ErrorMessage} {
+  //   display: block;
+  // }
   &.floating {
     padding-top: 1.5em;
     padding-bottom: 0.5em;
