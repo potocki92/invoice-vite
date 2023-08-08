@@ -87,7 +87,7 @@ export const ErrorMessage = styled.span`
   font-size: 12px;
   padding: 3px;
   color: red;
-  display: none;
+  display: block; /* Now always display the error message */
 `;
 
 export const Input = styled.input`
@@ -100,20 +100,14 @@ export const Input = styled.input`
   font-family: Open Sans, sans-serif;
   font-size: 1em;
   box-shadow: 0 0 0 1px #6b7177;
-  border: 1px solid transparent;
+  border: 1px solid
+    ${({ valid }) => (valid === "false" ? "red" : "transparent")};
   border-radius: 4px;
   background-color: transparent;
   transition: padding 150ms;
   -webkit-appearance: none;
   appearance: none;
 
-  // &:invalid[focused="true"] {
-  //   border: 1px solid red;
-  // }
-
-  // &:invalid[focused="true"] ~ ${ErrorMessage} {
-  //   display: block;
-  // }
   &.floating {
     padding-top: 1.5em;
     padding-bottom: 0.5em;
@@ -134,7 +128,6 @@ export const Input = styled.input`
     }
   }
 `;
-
 export const InputSpan = styled.span`
   position: absolute;
   left: 1rem;

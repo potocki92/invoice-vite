@@ -5,7 +5,6 @@ import {
   InputSpan,
   InputsContainer,
 } from "./Input.styled";
-import "./styled.css";
 
 /**
  * The InputField component is used to display a form field.
@@ -16,22 +15,40 @@ import "./styled.css";
  */
 const InputField = (props) => {
   const [focused, setFocused] = useState(false);
+  const [valid, setValid] = useState(true); // State for input validity
   const { label, errorMessage, onChange, id, ...inputProps } = props;
 
   /**
    * Handles the focus event of the input.
    * @param {React.FocusEvent<HTMLInputElement>} e - The focus event object.
    */
+
   const handleFocus = (e) => {
     setFocused(true);
   };
-
+  /**
+   * Handles the input validation.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The change event object.
+   */
+  const handleValidation = (e) => {
+    if (inputProps.required && e.target.value.trim() === "") {
+      setValid(false);
+    } else if (inputProps.pattern) {
+      const regex = new RegExp(inputProps.pattern);
+      setValid(regex.test(e.target.value));
+    } else {
+      setValid(true);
+    }
+  };
   return (
     <InputsContainer>
       <InputSpan>{label}</InputSpan>
       <Input
         {...inputProps}
-        onChange={onChange}
+        onChange={(e) => {
+          onChange(e);
+          handleValidation(e); // Call the validation function
+        }}
         onBlur={handleFocus}
         onFocus={() => {
           if (inputProps.name === "confirmPassword") {
@@ -39,8 +56,9 @@ const InputField = (props) => {
           }
         }}
         focused={focused.toString()}
+        valid={valid.toString()} // Pass the valid state to the input
       />
-      <ErrorMessage>{errorMessage}</ErrorMessage>
+      {!valid && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </InputsContainer>
   );
 };
