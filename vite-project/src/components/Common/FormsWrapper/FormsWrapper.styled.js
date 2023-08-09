@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const FormsWrapperStyled = styled.div`
-  background: linear-gradient(153.13deg, #c7edec 10.04%, #eefab3 91.46%),
-    #e5fbba;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -20,13 +18,12 @@ export const FormContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.5rem;
   background-color: #fff;
-  border-radius: 8px;
   max-width: 34rem;
   max-height: 40rem;
-  box-shadow: 6px 12px 60px rgba(0, 0, 0, 0.2);
-  width: 80vw; /* Używam 80vw dla płynności */
+  background: #fff;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
+  width: 65vw;
   min-width: 200px;
   @media screen and (min-width: 1024px) {
     margin-left: auto;
@@ -44,10 +41,37 @@ export const Wrapper = styled.div`
 `;
 
 export const FormHeader = styled.div`
-  margin-bottom: 5.5rem;
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &::after,
+  &::before {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 50px;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
+    content: "";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &::after {
+    left: 0;
+    content: "Sign up";
+  }
+
+  &::before {
+    right: 0;
+    content: "Log in";
+  }
 `;
 
 export const FormTitle = styled.h1`

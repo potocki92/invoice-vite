@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Input,
-  InputSpan,
-  InputsContainer,
-} from "./Input.styled";
+import { Input, InputSpan, InputsContainer } from "./Input.styled";
 import isFloating from "../../../utils/isFloating";
 
 /**
@@ -16,7 +12,7 @@ import isFloating from "../../../utils/isFloating";
 const InputField = (props) => {
   const { label, onChange, id, value, isForm, ...inputProps } = props;
   return (
-    <InputsContainer>
+    <InputsContainer className={`${isForm ? "forms" : ""}`}>
       <InputSpan className={isFloating(value)}>{label}</InputSpan>
       <Input
         className={
@@ -27,7 +23,7 @@ const InputField = (props) => {
         {...inputProps}
         onChange={(e) => {
           onChange(e);
-        }} 
+        }}
       />
     </InputsContainer>
   );

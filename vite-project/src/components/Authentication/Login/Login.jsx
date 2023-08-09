@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import { LoginStyled, LoginText, LoginTitle } from "./Login.styled";
 import {
   ErrorMessage,
-  Input,
-  InputSpan,
-  InputsContainer,
   InputsForm,
 } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
-import isFloating from "../../../utils/isFloating";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
@@ -76,7 +72,7 @@ const Login = ({ setShowRegister }) => {
   ];
   return (
     <LoginStyled>
-      <LoginTitle>Login</LoginTitle>
+      <LoginTitle>Log in</LoginTitle>
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         {inputs.map((input) => (

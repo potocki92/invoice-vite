@@ -25,6 +25,10 @@ export const InputsContainer = styled.div`
   align-items: flex-start; 
   width: 100%;
   padding: 0 9px 0 9px;
+
+  &.forms {
+    padding: 0;
+  }
   &.full-50 {
     width: 50%;
   }

@@ -3,15 +3,12 @@ import React, { useState } from "react";
 import "./Register.css";
 import { LoginStyled, LoginText, LoginTitle } from "../Login/Login.styled";
 import {
-  Input,
-  InputSpan,
-  InputsContainer,
   InputsForm,
 } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
-import isFloating from "../../../utils/isFloating";
 import { useDispatch } from "react-redux";
 import { register } from "../../../redux/auth/operations";
+import InputField from "../../Common/InputField/InputField";
 
 /**
  * Component for user registration.
@@ -28,7 +25,7 @@ const Register = ({ setShowRegister }) => {
     password: "",
   });
   const { name, email, password } = formData;
-  
+
   /**
    * Handles input change event.
    *
@@ -68,7 +65,7 @@ const Register = ({ setShowRegister }) => {
       type: "text",
       placeholder: "Name",
       label: "Username",
-      required: true
+      required: true,
     },
     {
       name: "email",
@@ -88,61 +85,20 @@ const Register = ({ setShowRegister }) => {
       pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
       required: true,
     },
-  ]
+  ];
   return (
     <LoginStyled>
-      <LoginTitle>Register</LoginTitle>
+      <LoginTitle>Sign up</LoginTitle>
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
-        <InputsContainer>
-          <InputSpan className={isFloating(formData.name)}>Username</InputSpan>
-          <Input
-            className={
-              isFloating(formData.name)
-                ? `authentication floating`
-                : `authentication`
-            }
-            type={"text"}
-            name="name"
-            value={name}
-            placeholder="Enter your username"
-            onChange={(e) => onChange(e)}
-            required
+        {inputs.map((input) => (
+          <InputField
+            key={input.id}
+            {...input}
+            value={formData[input.name]}
+            onChange={onChange}
+            isForm={true}
           />
-        </InputsContainer>
-        <InputsContainer>
-          <InputSpan className={isFloating(formData.email)}>Email</InputSpan>
-          <Input
-            className={
-              isFloating(formData.email)
-                ? `authentication floating`
-                : `authentication`
-            }
-            type={"email"}
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </InputsContainer>
-        <InputsContainer>
-          <InputSpan className={isFloating(formData.password)}>
-            Password
-          </InputSpan>
-          <Input
-            className={
-              isFloating(formData.password)
-                ? `authentication floating`
-                : `authentication`
-            }
-            type={"password"}
-            name="password"
-            value={password}
-            placeholder="Enter you password"
-            onChange={(e) => onChange(e)}
-            minLength="6"
-          />
-        </InputsContainer>
+        ))}
         <DefaultButton
           style={{ marginLeft: "0" }}
           type="submit"
