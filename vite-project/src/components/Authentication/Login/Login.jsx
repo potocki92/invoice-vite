@@ -85,6 +85,7 @@ const Login = ({ setShowRegister }) => {
             {...input}
             value={formData[input.name]}
             onChange={onChange}
+            isForm={true}
           />
         ))}
         <DefaultButton style={{ marginLeft: "0" }} type="submit" value="Login">

@@ -23,6 +23,7 @@ export const InputsContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column-reverse;
+  align-items: flex-start; 
   width: 100%;
 
   &.full-50 {
@@ -42,6 +43,7 @@ export const InputsContainer = styled.div`
     gap: 10px;
   }
   @media (min-width: 1024px) {
+    padding: 0 9px 0 9px;
     &.full-33 {
       width: 33.33%;
     }
@@ -61,6 +63,7 @@ export const InputsForm = styled.form`
     display: flex;
     flex-direction: column;
     margin: 20px 0;
+    gap: 20px;
     &.mobile-up-1 {
         width: 25%;
     }
@@ -70,7 +73,6 @@ export const InputsForm = styled.form`
 
     @media (min-width: 1199px) {
         flex-direction: row;
-        gap: 20px;
     }
 
     &.authentication {
@@ -112,6 +114,9 @@ export const Input = styled.input`
     padding-bottom: 0.5em;
   }
 
+  &.forms {
+    margin: 0;
+  }
   &:focus {
     outline: none;
     border-color: #008060;

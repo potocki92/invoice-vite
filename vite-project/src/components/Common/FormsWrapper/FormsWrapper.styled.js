@@ -29,7 +29,6 @@ export const FormContainer = styled.div`
   width: 80vw; /* Używam 80vw dla płynności */
   min-width: 200px;
   @media screen and (min-width: 1024px) {
-    width: 480px;
     margin-left: auto;
     margin-right: auto;
   }

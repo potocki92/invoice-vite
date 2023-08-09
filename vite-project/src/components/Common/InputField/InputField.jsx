@@ -14,15 +14,15 @@ import isFloating from "../../../utils/isFloating";
  * @returns {JSX.Element} - Returns a JSX element representing the form field.
  */
 const InputField = (props) => {
-  const { label, onChange, id, value, ...inputProps } = props;
+  const { label, onChange, id, value, isForm, ...inputProps } = props;
   return (
     <InputsContainer>
       <InputSpan className={isFloating(value)}>{label}</InputSpan>
       <Input
         className={
           isFloating(value)
-            ? `authentication floating`
-            : `authentication`
+            ? `authentication floating ${isForm ? "forms" : ""}`
+            : `authentication ${isForm ? "forms" : ""}`
         }
         {...inputProps}
         onChange={(e) => {
