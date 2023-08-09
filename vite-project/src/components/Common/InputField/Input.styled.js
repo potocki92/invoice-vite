@@ -22,10 +22,9 @@ export const InputsContent = styled.div`
 export const InputsContainer = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column-reverse;
   align-items: flex-start; 
   width: 100%;
-
+  padding: 0 9px 0 9px;
   &.full-50 {
     width: 50%;
   }
@@ -43,7 +42,7 @@ export const InputsContainer = styled.div`
     gap: 10px;
   }
   @media (min-width: 1024px) {
-    padding: 0 9px 0 9px;
+    
     &.full-33 {
       width: 33.33%;
     }
