@@ -23,8 +23,6 @@ export const InputsContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column-reverse;
-  padding-left: 9px;
-  padding-right: 9px;
   width: 100%;
 
   &.full-50 {
@@ -84,10 +82,11 @@ export const InputsForm = styled.form`
 `;
 
 export const ErrorMessage = styled.span`
-  font-size: 12px;
-  padding: 3px;
-  color: red;
-  display: block; /* Now always display the error message */
+  border: 1px solid #d11534;
+  background: #fad1d8;
+
+  margin-bottom: 15px;
+  padding: 15px;
 `;
 
 export const Input = styled.input`

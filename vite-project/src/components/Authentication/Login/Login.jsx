@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./Login.css";
 import { LoginStyled, LoginText, LoginTitle } from "./Login.styled";
 import {
+  ErrorMessage,
   Input,
   InputSpan,
   InputsContainer,
@@ -25,7 +25,7 @@ const Login = ({ setShowRegister }) => {
     email: "",
     password: "",
   });
-  const { email, password } = formData;
+  const { email, password, error } = formData;
 
   /**
    * Handles input change event.
@@ -43,12 +43,16 @@ const Login = ({ setShowRegister }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(
+    const result = await dispatch(
       logIn({
         email,
         password,
       })
     );
+
+    if (!result.success) {
+      setFormData({ ...formData, error: "Email or Password is invalid. Please try again!" });
+    }
   };
   const inputs = [
     {
@@ -63,16 +67,17 @@ const Login = ({ setShowRegister }) => {
       name: "password",
       type: "password",
       placeholder: "Password",
-      errorMessage:
-        "Password should be 8-20 characters and include at least 1 letter, 1 number and 1 special character!",
+      // errorMessage:
+      //   "Password should be 8-20 characters and include at least 1 letter, 1 number and 1 special character!",
       label: "Password",
-      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
+      // pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
       required: true,
     },
   ];
   return (
     <LoginStyled>
       <LoginTitle>Login</LoginTitle>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         {/* <InputsContainer>
           <InputSpan className={isFloating(email)}>Email</InputSpan>
