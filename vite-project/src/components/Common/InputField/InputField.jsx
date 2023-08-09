@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  ErrorMessage,
   Input,
   InputSpan,
   InputsContainer,
 } from "./Input.styled";
+import isFloating from "../../../utils/isFloating";
 
 /**
  * The InputField component is used to display a form field.
@@ -14,11 +14,16 @@ import {
  * @returns {JSX.Element} - Returns a JSX element representing the form field.
  */
 const InputField = (props) => {
-  const { label,onChange, id, ...inputProps } = props;
+  const { label, onChange, id, value, ...inputProps } = props;
   return (
     <InputsContainer>
-      <InputSpan>{label}</InputSpan>
+      <InputSpan className={isFloating(value)}>{label}</InputSpan>
       <Input
+        className={
+          isFloating(value)
+            ? `authentication floating`
+            : `authentication`
+        }
         {...inputProps}
         onChange={(e) => {
           onChange(e);

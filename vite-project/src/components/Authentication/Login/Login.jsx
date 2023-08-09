@@ -79,41 +79,6 @@ const Login = ({ setShowRegister }) => {
       <LoginTitle>Login</LoginTitle>
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
-        {/* <InputsContainer>
-          <InputSpan className={isFloating(email)}>Email</InputSpan>
-          <Input
-            className={
-              isFloating(email)
-                ? `authentication floating`
-                : `authentication`
-            }
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={email}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </InputsContainer>
-        <InputsContainer>
-          <InputSpan className={isFloating(password)}>
-            Password
-          </InputSpan>
-          <Input
-            className={
-              isFloating(password)
-                ? `authentication floating`
-                : `authentication`
-            }
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={(e) => onChange(e)}
-            minLength="6"
-          />
-        </InputsContainer> */}
-
         {inputs.map((input) => (
           <InputField
             key={input.id}
