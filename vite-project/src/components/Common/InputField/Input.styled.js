@@ -22,8 +22,7 @@ export const InputsContent = styled.div`
 export const InputsContainer = styled.div`
   position: relative;
   display: flex;
-  padding-left: 9px;
-  padding-right: 9px;
+  flex-direction: column-reverse;
   width: 100%;
 
   &.full-50 {
@@ -81,6 +80,15 @@ export const InputsForm = styled.form`
     }
 }
 `;
+
+export const ErrorMessage = styled.span`
+  border: 1px solid #d11534;
+  background: #fad1d8;
+
+  margin-bottom: 15px;
+  padding: 15px;
+`;
+
 export const Input = styled.input`
   display: inline-block;
   height: 3.2em;
@@ -91,7 +99,8 @@ export const Input = styled.input`
   font-family: Open Sans, sans-serif;
   font-size: 1em;
   box-shadow: 0 0 0 1px #6b7177;
-  border: 1px solid transparent;
+  border: 1px solid
+    ${({ valid }) => (valid === "false" ? "red" : "transparent")};
   border-radius: 4px;
   background-color: transparent;
   transition: padding 150ms;
@@ -118,7 +127,6 @@ export const Input = styled.input`
     }
   }
 `;
-
 export const InputSpan = styled.span`
   position: absolute;
   left: 1rem;
