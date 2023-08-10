@@ -17,7 +17,7 @@ import InputField from "../../Common/InputField/InputField";
  * @param {Function} props.setShowRegister - Function to control the visibility of the registration form
  * @returns {JSX.Element} - Rendered component
  */
-const Register = ({ setShowRegister }) => {
+const Register = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
@@ -88,7 +88,6 @@ const Register = ({ setShowRegister }) => {
   ];
   return (
     <LoginStyled>
-      <LoginTitle>Sign up</LoginTitle>
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         {inputs.map((input) => (
           <InputField
@@ -107,10 +106,6 @@ const Register = ({ setShowRegister }) => {
           Register
         </DefaultButton>
       </InputsForm>
-      <LoginText>
-        Already have an account?{" "}
-        <a onClick={() => setShowRegister(false)}>Login</a>
-      </LoginText>
     </LoginStyled>
   );
 };

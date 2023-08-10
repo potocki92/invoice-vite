@@ -49,14 +49,13 @@ export const FormHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  cursor: pointer;
   &::after,
   &::before {
     position: absolute;
     top: 0;
     width: 50%;
     height: 50px;
-    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
     content: "";
     display: flex;
     justify-content: center;
@@ -66,11 +65,25 @@ export const FormHeader = styled.div`
   &::after {
     left: 0;
     content: "Sign up";
+    box-shadow:inset -16px -6px 16px -15px rgba(0,0,0,0.2);
+    background: #f9fbfb;
   }
-
+  
   &::before {
     right: 0;
     content: "Log in";
+  }
+
+  &.register {
+
+    &:after {
+      box-shadow: none;
+      background: #fff;
+    }
+    &::before {
+      box-shadow: inset 16px -6px 16px -15px rgba(0,0,0,0.2);
+      background: #f9fbfb;
+    }
   }
 `;
 

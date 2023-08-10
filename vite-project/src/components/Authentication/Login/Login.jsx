@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LoginStyled, LoginText, LoginTitle } from "./Login.styled";
+import { LoginStyled } from "./Login.styled";
 import {
   ErrorMessage,
   InputsForm,
@@ -15,7 +15,7 @@ import InputField from "../../Common/InputField/InputField";
  * @param {Function} props.setShowRegister - Function to show registration form.
  * @returns {JSX.Element} - Rendered Login component.
  */
-const Login = ({ setShowRegister }) => {
+const Login = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
@@ -72,7 +72,6 @@ const Login = ({ setShowRegister }) => {
   ];
   return (
     <LoginStyled>
-      <LoginTitle>Log in</LoginTitle>
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         {inputs.map((input) => (
@@ -88,10 +87,6 @@ const Login = ({ setShowRegister }) => {
           Login
         </DefaultButton>
       </InputsForm>
-      <LoginText>
-        Don't have an account?{" "}
-        <a onClick={() => setShowRegister(true)}>Register</a>
-      </LoginText>
     </LoginStyled>
   );
 };

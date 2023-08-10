@@ -14,6 +14,7 @@ import {
   FormTitle,
   Wrapper,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
+import { Link } from "react-router-dom";
 /**
  * Authentication component.
  * @component
@@ -24,26 +25,26 @@ import {
  *  <Authentication setLoginUser={setLoginUser} />
  * )
  */
-const Authentication = ({ setLoginUser }) => {
-  
+const Authentication = () => {
   const [showRegister, setShowRegister] = useState(false);
 
-  console.log(showRegister);
+  const handleAfterClick = () => {
+    setShowRegister(!showRegister)
+  }
   return (
     <AuthenticationStyled>
       <FormsWrapper>
         <FormContainer>
           <Wrapper>
-            <FormHeader>
-              {/* <FormTitle>Invoice</FormTitle> */}
+            <FormHeader 
+              className={`${showRegister ? "register" : ""}`}
+              onClick={handleAfterClick}
+            >
             </FormHeader>
             {showRegister ? (
-              <Register setShowRegister={setShowRegister} setLoginUser={setLoginUser}/>
+              <Register/>
             ) : (
-              <Login
-                setShowRegister={setShowRegister}
-                setLoginUser={setLoginUser}
-              />
+              <Login/>
             )}
           </Wrapper>
         </FormContainer>
