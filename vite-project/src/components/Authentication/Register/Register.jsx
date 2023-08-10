@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { LoginStyled } from "../Login/Login.styled";
-import {
-  InputsForm,
-} from "../../Common/InputField/Input.styled";
+import { InputsForm } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
 import { useDispatch } from "react-redux";
 import { register } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
-import { FaUserAlt } from "react-icons/fa"
-import { MdEmail } from "react-icons/md"
-import { RiLockPasswordFill } from "react-icons/ri"
+import { FaUserAlt } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
+import GoogleAuth from "../GoogleAuth/GoogleAuth";
+import LinkedinAuth from "../LinkedinAuth/LinkedinAuth";
 /**
  * Component for user registration.
  *
@@ -66,7 +66,7 @@ const Register = () => {
       placeholder: "Name",
       label: "Username",
       required: true,
-      icon: <FaUserAlt />
+      icon: <FaUserAlt />,
     },
     {
       name: "email",
@@ -75,7 +75,7 @@ const Register = () => {
       errorMessage: "It should be a valid email address!",
       label: "Email",
       required: true,
-      icon: <MdEmail/>
+      icon: <MdEmail />,
     },
     {
       name: "password",
@@ -86,7 +86,7 @@ const Register = () => {
       label: "Password",
       pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
       required: true,
-      icon: <RiLockPasswordFill/>
+      icon: <RiLockPasswordFill />,
     },
   ];
   return (
@@ -101,12 +101,11 @@ const Register = () => {
             isForm={true}
           />
         ))}
-        <DefaultButton
-          type="submit"
-          value="Register"
-        >
+        <DefaultButton type="submit" value="Register">
           Create An Account
         </DefaultButton>
+        <GoogleAuth isRegister={true} />
+        <LinkedinAuth />
       </InputsForm>
     </LoginStyled>
   );

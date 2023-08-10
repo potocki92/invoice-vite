@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { LoginStyled } from "./Login.styled";
-import {
-  ErrorMessage,
-  InputsForm,
-} from "../../Common/InputField/Input.styled";
+import { ErrorMessage, InputsForm } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
-import { MdEmail } from "react-icons/md"
-import { RiLockPasswordFill } from "react-icons/ri"
+import { MdEmail } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
+import GoogleAuth from "../GoogleAuth/GoogleAuth";
+import { LinkedIn } from "react-linkedin-login-oauth2";
+import LinkedinAuth from "../LinkedinAuth/LinkedinAuth";
 /**
  * Represents a login component that allows users to log in.
  * @param {Object} props - Component props.
@@ -48,7 +48,10 @@ const Login = () => {
     );
 
     if (!result.success) {
-      setFormData({ ...formData, error: "Email or Password is invalid. Please try again!" });
+      setFormData({
+        ...formData,
+        error: "Email or Password is invalid. Please try again!",
+      });
     }
   };
   const inputs = [
@@ -59,7 +62,7 @@ const Login = () => {
       errorMessage: "It should be a valid email address!",
       label: "Email",
       required: true,
-      icon: <MdEmail/>
+      icon: <MdEmail />,
     },
     {
       name: "password",
@@ -70,7 +73,7 @@ const Login = () => {
       label: "Password",
       // pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
       required: true,
-      icon: <RiLockPasswordFill/>
+      icon: <RiLockPasswordFill />,
     },
   ];
   return (
@@ -84,12 +87,13 @@ const Login = () => {
             value={formData[input.name]}
             onChange={onChange}
             isForm={true}
-          >
-          </InputField>        
-          ))}
+          ></InputField>
+        ))}
         <DefaultButton type="submit" value="Login">
           LogIn
         </DefaultButton>
+        <GoogleAuth isRegister={false} />
+        <LinkedinAuth />
       </InputsForm>
     </LoginStyled>
   );
