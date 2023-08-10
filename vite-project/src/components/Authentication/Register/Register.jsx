@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
-import "./Register.css";
-import { LoginStyled, LoginText, LoginTitle } from "../Login/Login.styled";
+import { LoginStyled } from "../Login/Login.styled";
 import {
   InputsForm,
 } from "../../Common/InputField/Input.styled";
@@ -99,11 +97,10 @@ const Register = () => {
           />
         ))}
         <DefaultButton
-          style={{ marginLeft: "0" }}
           type="submit"
           value="Register"
         >
-          Register
+          Create An Account
         </DefaultButton>
       </InputsForm>
     </LoginStyled>

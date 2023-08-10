@@ -7,6 +7,7 @@ export const FormsWrapperStyled = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 15rem;
+  padding: 0 20px;
   @media (min-width: 1025px) {
     justify-content: center;
     align-items: center;
@@ -19,12 +20,15 @@ export const FormContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #fff;
-  max-width: 34rem;
   max-height: 40rem;
   background: #fff;
   box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
-  width: 65vw;
+  width: 100%;
+  max-width: 320px;
   min-width: 200px;
+  @media screen and (min-width: 600px) {
+    max-width: 480px;
+  }
   @media screen and (min-width: 1024px) {
     margin-left: auto;
     margin-right: auto;
@@ -34,7 +38,7 @@ export const FormContainer = styled.div`
 export const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  min-height: 500px;
+  min-height: 420px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,10 +50,17 @@ export const FormHeader = styled.div`
   left: 0;
   width: 100%;
   height: 50px;
+  font-size: 15px;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  @media screen and (min-width: 600px) {
+    font-size: 18px;
+  }
+
   &::after,
   &::before {
     position: absolute;

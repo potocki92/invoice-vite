@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { LoginStyled } from "./Login.styled";
 import {
   ErrorMessage,
   InputsForm,
@@ -8,7 +7,8 @@ import { DefaultButton } from "../../buttons.styled";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
-
+import { MdEmail } from "react-icons/md"
+import { RiLockPasswordFill } from "react-icons/ri"
 /**
  * Represents a login component that allows users to log in.
  * @param {Object} props - Component props.
@@ -58,6 +58,7 @@ const Login = () => {
       errorMessage: "It should be a valid email address!",
       label: "Email",
       required: true,
+      icon: <MdEmail/>
     },
     {
       name: "password",
@@ -68,6 +69,7 @@ const Login = () => {
       label: "Password",
       // pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
       required: true,
+      icon: <RiLockPasswordFill/>
     },
   ];
   return (
@@ -81,10 +83,11 @@ const Login = () => {
             value={formData[input.name]}
             onChange={onChange}
             isForm={true}
-          />
-        ))}
-        <DefaultButton style={{ marginLeft: "0" }} type="submit" value="Login">
-          Login
+          >
+          </InputField>        
+          ))}
+        <DefaultButton type="submit" value="Login">
+          LogIn
         </DefaultButton>
       </InputsForm>
     </LoginStyled>

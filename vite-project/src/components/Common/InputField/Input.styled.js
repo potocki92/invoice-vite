@@ -89,17 +89,16 @@ export const InputsForm = styled.form`
 export const ErrorMessage = styled.span`
   border: 1px solid #d11534;
   background: #fad1d8;
-
-  margin-bottom: 15px;
+  margin-top: 15px;
   padding: 15px;
 `;
 
 export const Input = styled.input`
   display: inline-block;
-  height: 3.2em;
+  height: 40px;
   width: 100%;
   margin: 0 0 15px;
-  padding: 1em 0.9375em;
+  padding: 1em 2.5em;
   color: #212326;
   font-family: Open Sans, sans-serif;
   font-size: 1em;
@@ -112,6 +111,9 @@ export const Input = styled.input`
   -webkit-appearance: none;
   appearance: none;
 
+  @media screen and (min-width: 600px) {
+    height: 50px
+  }
   &.floating {
     padding-top: 1.5em;
     padding-bottom: 0.5em;
@@ -137,7 +139,7 @@ export const Input = styled.input`
 `;
 export const InputSpan = styled.span`
   position: absolute;
-  left: 1rem;
+  left: 2.61rem;
   top: 0.5rem;
   font-size: 0.6875em;
   font-weight: 400;
@@ -156,3 +158,12 @@ export const InputSpan = styled.span`
     transform: translateY(0);
   }
 `;
+
+export const Icon = styled.div`
+position: absolute;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 40px;
+`

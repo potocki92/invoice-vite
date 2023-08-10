@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, InputSpan, InputsContainer } from "./Input.styled";
+import { Icon, Input, InputSpan, InputsContainer } from "./Input.styled";
 import isFloating from "../../../utils/isFloating";
 
 /**
@@ -10,7 +10,8 @@ import isFloating from "../../../utils/isFloating";
  * @returns {JSX.Element} - Returns a JSX element representing the form field.
  */
 const InputField = (props) => {
-  const { label, onChange, id, value, isForm, ...inputProps } = props;
+  const { label, onChange, id, value, isForm, icon, ...inputProps } = props;
+
   return (
     <InputsContainer className={`${isForm ? "forms" : ""}`}>
       <InputSpan className={isFloating(value)}>{label}</InputSpan>
@@ -25,6 +26,9 @@ const InputField = (props) => {
           onChange(e);
         }}
       />
+      <Icon>
+        {icon}
+      </Icon>
     </InputsContainer>
   );
 };
