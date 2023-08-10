@@ -7,7 +7,9 @@ import { DefaultButton } from "../../buttons.styled";
 import { useDispatch } from "react-redux";
 import { register } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
-
+import { FaUserAlt } from "react-icons/fa"
+import { MdEmail } from "react-icons/md"
+import { RiLockPasswordFill } from "react-icons/ri"
 /**
  * Component for user registration.
  *
@@ -64,6 +66,7 @@ const Register = () => {
       placeholder: "Name",
       label: "Username",
       required: true,
+      icon: <FaUserAlt />
     },
     {
       name: "email",
@@ -72,6 +75,7 @@ const Register = () => {
       errorMessage: "It should be a valid email address!",
       label: "Email",
       required: true,
+      icon: <MdEmail/>
     },
     {
       name: "password",
@@ -82,6 +86,7 @@ const Register = () => {
       label: "Password",
       pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
       required: true,
+      icon: <RiLockPasswordFill/>
     },
   ];
   return (
