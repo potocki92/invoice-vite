@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Icon, Input, InputSpan, InputsContainer } from "./Input.styled";
 import isFloating from "../../../utils/isFloating";
+import { useSelector } from "react-redux";
+import { ModalButton } from "../Modal/Modal.styled";
+import { HiUser } from "react-icons/hi";
+import Modal from "@components/Common/Modal/Modal";
+import { createPortal } from "react-dom";
 
 /**
  * The InputField component is used to display a form field.
@@ -10,17 +15,34 @@ import isFloating from "../../../utils/isFloating";
  * @returns {JSX.Element} - Returns a JSX element representing the form field.
  */
 const InputField = (props) => {
-  const { label, onChange, id, value, isForm, icon, ...inputProps } = props;
 
+  const [showModal, setShowModal] = useState(false);
+  const editingMode = useSelector((state) => state.invoice.isEditing);
+  const invoice = !editingMode
+  ? useSelector((state) => state.invoice.invoice)
+  : useSelector((state) => state.invoice.editInvoice);
+  const { markup, isInAuthentication, label, onChange, handleProductChange, containerClass, id, data,modalData, value, isForm, icon, ...inputProps } = props;
+
+  const getValueByDataKey = (obj, key) => {
+    if (key) {
+      const keys = key.split('.');
+      let value = obj;
+      for (const k of keys) {
+        value = value[k];
+        if (value === undefined) break;
+      }
+      return value;
+    }
+  };
+  
   return (
-    <InputsContainer className={`${isForm ? "forms" : ""}`}>
+    <InputsContainer className={`${isForm ? "forms" : ""} ${containerClass}`}>
       <Input
         id={id}
-        className={`authentication ${
-          isFloating(value) ? "floating" : ""} ${
-          isForm ? "forms" : ""
+        className={`${isForm ? "forms" : ""
         } ${value ? "has-content" : ""}`}
         {...inputProps}
+        value={getValueByDataKey(invoice, data)}
         onChange={(e) => {
           onChange(e);
         }}
@@ -29,6 +51,23 @@ const InputField = (props) => {
       <Icon>
         {icon}
       </Icon>
+      {!isInAuthentication ? (
+        <ModalButton onClick={() => setShowModal(true)}>
+          <HiUser size={25} />
+        </ModalButton>
+      ) : null}
+      {showModal &&
+            createPortal(
+              <Modal
+                handleChange={handleProductChange}
+                markup={markup}
+                headerText={"Products"}
+                data={modalData}
+                onClose={() => setShowModal(false)}
+                className={showModal ? "show" : ""}
+              />,
+              document.body
+            )}
     </InputsContainer>
   );
 };
