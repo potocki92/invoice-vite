@@ -92,70 +92,39 @@ export const ErrorMessage = styled.span`
   margin-top: 15px;
   padding: 15px;
 `;
+export const InputSpan = styled.label`
+  position: absolute;
+  top: 0;
+  left: 30px;
+  translate: 10px 10px;
+  transition: translate 500ms, scale 500ms;
+`;
 
 export const Input = styled.input`
-  display: inline-block;
-  height: 40px;
+  font: inherit;
   width: 100%;
-  margin: 0 0 15px;
-  padding: 1em 2.5em;
-  color: #212326;
-  font-family: Open Sans, sans-serif;
-  font-size: 1em;
-  box-shadow: 0 0 0 1px #6b7177;
-  border: 1px solid
-    ${({ valid }) => (valid === "false" ? "red" : "transparent")};
+  padding: 10px 40px;
+  border: none;
   border-radius: 4px;
+  outline: 1px solid black;
   background-color: transparent;
-  transition: padding 150ms;
-  -webkit-appearance: none;
-  appearance: none;
+  transition: outline-color 500ms;
 
-  @media screen and (min-width: 600px) {
-    height: 50px
+  &:is(:focus, :valid) {
+    outline-color: #008060
   }
-  &.floating {
-    padding-top: 1.5em;
-    padding-bottom: 0.5em;
-  }
-
-  &.forms {
-    margin: 0;
-  }
-  &:focus {
-    outline: none;
-    border-color: #008060;
+  &:focus + ${InputSpan}, &:valid + ${InputSpan}{
+    padding-inline: 5px;
+    translate: 10px -14px;
+    scale: 0.8;
+    background-color: #fff
   }
 
-  &.authentication {
-    box-shadow: none;
-    border: 0.0625rem solid #8c9196;
-
-    &:focus {
-      outline: none;
-      border-color: #008060;
-    }
-  }
-`;
-export const InputSpan = styled.span`
-  position: absolute;
-  left: 2.61rem;
-  top: 0.5rem;
-  font-size: 0.6875em;
-  font-weight: 400;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0;
-  -webkit-transform: translateY(3px);
-  transform: translateY(3px);
-  transition-property: opacity, -webkit-transform;
-  transition-property: opacity, transform;
-  transition-property: opacity, transform, -webkit-transform;
-  transition-duration: 150ms;
-
-  &.floating {
-    opacity: 1;
-    transform: translateY(0);
+  &.has-content + ${InputSpan} {
+    padding-inline: 5px;
+    translate: 10px -14px;
+    scale: 0.8;
+    background-color: #fff
   }
 `;
 

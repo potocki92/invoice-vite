@@ -14,18 +14,18 @@ const InputField = (props) => {
 
   return (
     <InputsContainer className={`${isForm ? "forms" : ""}`}>
-      <InputSpan className={isFloating(value)}>{label}</InputSpan>
       <Input
-        className={
-          isFloating(value)
-            ? `authentication floating ${isForm ? "forms" : ""}`
-            : `authentication ${isForm ? "forms" : ""}`
-        }
+        id={id}
+        className={`authentication ${
+          isFloating(value) ? "floating" : ""} ${
+          isForm ? "forms" : ""
+        } ${value ? "has-content" : ""}`}
         {...inputProps}
         onChange={(e) => {
           onChange(e);
         }}
       />
+        <InputSpan for={id} className={isFloating(value)}>{label}</InputSpan>
       <Icon>
         {icon}
       </Icon>
