@@ -66,7 +66,6 @@ export const InputsForm = styled.form`
     display: flex;
     flex-direction: column;
     margin: 20px 0;
-    gap: 20px;
     &.mobile-up-1 {
         width: 25%;
     }
@@ -96,7 +95,7 @@ export const InputSpan = styled.label`
   position: absolute;
   top: 0;
   left: 30px;
-  translate: 10px 10px;
+  translate: 10px 20px;
   transition: translate 500ms, scale 500ms;
 `;
 
@@ -109,7 +108,7 @@ export const Input = styled.input`
   outline: 1px solid black;
   background-color: transparent;
   transition: outline-color 500ms;
-
+  margin: 10px 0;
   &:is(:focus, :valid) {
     outline-color: #008060
   }
