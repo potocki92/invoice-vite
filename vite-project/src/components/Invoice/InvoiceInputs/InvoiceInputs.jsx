@@ -235,36 +235,6 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
       </InputsContent>
       <InfoWrapper title={"Bill to:"} />
       <InputsContent>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientName)}>
-            Client name
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientName)}
-            type={"text"}
-            name={"clientName"}
-            placeholder="Customer's name"
-            value={invoice.client.clientName || ""}
-            onChange={handleChange}
-          />
-          {!isInAuthentication ? (
-            <ModalButton onClick={() => setShowModal(true)}>
-              <HiUsers size={25} />
-            </ModalButton>
-          ) : null}
-          {showModal &&
-            createPortal(
-              <Modal
-                handleChange={handleClientChange}
-                markup={clientCardMarkup}
-                headerText={"Clients"}
-                data={clients}
-                onClose={() => setShowModal(false)}
-                className={showModal ? "show" : ""}
-              />,
-              document.body
-            )}
-        </InputsContainer>
           {inputsBillTo.map((input) => (
               <InputField 
                 key={input.id}
@@ -273,6 +243,8 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
                 value={invoice[input.data]}
                 onChange={input.handle === "handleInvoiceNumberChange" ? handleInvoiceNumberChange : handleChange}
                 isInAuthentication={isInAuthentication}
+                markup={clientCardMarkup}
+                modalData={clients}
               />
             ))}
       </InputsContent>

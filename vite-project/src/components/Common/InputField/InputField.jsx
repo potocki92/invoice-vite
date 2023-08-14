@@ -6,6 +6,7 @@ import { ModalButton } from "../Modal/Modal.styled";
 import { HiUser } from "react-icons/hi";
 import Modal from "@components/Common/Modal/Modal";
 import { createPortal } from "react-dom";
+import InvoiceInputs from "../../Invoice/InvoiceInputs/InvoiceInputs";
 
 /**
  * The InputField component is used to display a form field.
@@ -15,13 +16,13 @@ import { createPortal } from "react-dom";
  * @returns {JSX.Element} - Returns a JSX element representing the form field.
  */
 const InputField = (props) => {
-
   const [showModal, setShowModal] = useState(false);
   const editingMode = useSelector((state) => state.invoice.isEditing);
   const invoice = !editingMode
   ? useSelector((state) => state.invoice.invoice)
   : useSelector((state) => state.invoice.editInvoice);
   const { markup, isInAuthentication, label, onChange, handleProductChange, containerClass, id, data,modalData, value, isForm, icon, ...inputProps } = props;
+  console.log(isInAuthentication, inputProps.modal);
 
   const getValueByDataKey = (obj, key) => {
     if (key) {
@@ -51,7 +52,7 @@ const InputField = (props) => {
       <Icon>
         {icon}
       </Icon>
-      {!isInAuthentication ? (
+      {!isInAuthentication && inputProps.modal ? (
         <ModalButton onClick={() => setShowModal(true)}>
           <HiUser size={25} />
         </ModalButton>

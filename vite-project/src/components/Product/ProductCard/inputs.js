@@ -5,6 +5,7 @@ export const inputsProduct = [
       containerClass: "full-66",
       data: "productName",
       name: "productsName",
+      modal: true,
       type: "text",
       label: "Product Name",
       require: true,

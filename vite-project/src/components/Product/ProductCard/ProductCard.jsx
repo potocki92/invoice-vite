@@ -38,7 +38,7 @@ import productCardMarkup from "@markups/productCardMarkup";
 const ProductCard = ({
   index,
   product,
-  isInAuthentication,
+  isInAuthentication
 }) => {
   // Local state for the product data
   const dispatch = useDispatch()
@@ -161,11 +161,11 @@ const ProductCard = ({
               containerClass={input.containerClass}
               value={product[input.data]}
               onChange={input.handle === "handleChange" ? handleChange : null}
+              isInAuthentication={isInAuthentication}
               handleProductChange={handleProductChange}
               markup={productCardMarkup}
               modalData={products}
-              isInAuthentication={isInAuthentication}
-            />
+              />
         ))}
 
         <InputsContainer className="full-33 full-50 productInfo">

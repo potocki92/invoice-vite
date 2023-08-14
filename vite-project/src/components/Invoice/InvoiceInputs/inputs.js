@@ -119,6 +119,17 @@ export const inputsGeneralInfo = [
     {
         id: uuidv4(),
         containerClass: "full-33",
+        data: "client.clientName",
+        modal: true,
+        name: "clientName",
+        type: "text",
+        label: "Customer's Name",
+        require: true,
+        handle: "handleChange"
+    },
+    {
+        id: uuidv4(),
+        containerClass: "full-33",
         data: "client.clientEmail",
         name: "clientEmail",
         type: "email",
