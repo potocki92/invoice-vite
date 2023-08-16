@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Authentication.css";
 import Login from "../Authentication/Login/Login";
 import Register from "../Authentication/Register/Register";
@@ -11,9 +11,9 @@ import {
 import {
   FormContainer,
   FormHeader,
-  FormTitle,
   Wrapper,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
+import LinkedinAuth from "./LinkedinAuth/LinkedinAuth";
 /**
  * Authentication component.
  * @component
@@ -24,46 +24,43 @@ import {
  *  <Authentication setLoginUser={setLoginUser} />
  * )
  */
-const Authentication = ({ setLoginUser }) => {
-  
+const Authentication = () => {
   const [showRegister, setShowRegister] = useState(false);
 
+  const handleAfterClick = () => {
+    setShowRegister(!showRegister);
+  };
+
+  const handleCallbackResponse = (res) => {
+    console.log("Encoded JWT ID token: " + res.credentials);
+  };
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:
+        "815039792408-0a4voqplfkk3kkb1adobf7ocudbo5r01.apps.googleusercontent.com",
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+      theme: "outline",
+      size: "large",
+    });
+  }, []);
   return (
     <AuthenticationStyled>
-      <div className="custom-shape-divider-bottom-1686686263">
-        <svg
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            className="shape-fill"
-          ></path>
-        </svg>
-      </div>
       <FormsWrapper>
         <FormContainer>
           <Wrapper>
-            <FormHeader>
-              <FormTitle>Invoice</FormTitle>
-            </FormHeader>
-            {showRegister ? (
-              <Register setShowRegister={setShowRegister} setLoginUser={setLoginUser}/>
-            ) : (
-              <Login
-                setShowRegister={setShowRegister}
-                setLoginUser={setLoginUser}
-              />
-            )}
+            <FormHeader
+              className={`${showRegister ? "register" : ""}`}
+              onClick={handleAfterClick}
+            ></FormHeader>
+            {showRegister ? <Register /> : <Login />}
           </Wrapper>
         </FormContainer>
       </FormsWrapper>
       <AuthenticationInputsContent>
-        <InvoiceInputs
-          isInAuthentication={true}
-        />
+        <InvoiceInputs/>
       </AuthenticationInputsContent>
     </AuthenticationStyled>
   );

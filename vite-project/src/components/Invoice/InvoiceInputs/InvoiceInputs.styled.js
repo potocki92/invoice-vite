@@ -4,10 +4,7 @@ import { ModalButton } from "../../../components/Common/Modal/Modal.styled";
 export const InvoiceInputsContainer = styled.div`
   display: flex;
   flex-direction: column;
-
-  @media (min-width: 1199px) {
-    width: 50%;
-  }
+  max-width: 1200px;
 
   ${props => props.showButtons && css`
     ${ModalButton} {

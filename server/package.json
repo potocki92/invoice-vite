@@ -11,6 +11,9 @@
     "mongoose": "^6.9.0",
     "netlify-lambda": "^1.6.3",
     "node": "^18.13.0",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-google-oidc": "^0.1.0",
     "serverless-http": "^1.10.1"
   },
   "scripts": {

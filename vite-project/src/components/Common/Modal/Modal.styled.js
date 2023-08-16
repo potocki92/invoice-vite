@@ -84,12 +84,16 @@ export const ModalCardWrapper = styled.div`
     justify-content: space-between;
 `
 export const ModalButton = styled.button`
-  position: absolute;
-  height: calc(100% - 15px);
-  width: 58px;
-  right: 2px;
-  background-color: transparent;
-  color: #555;
+position: absolute;
+height: 100%;
+display: flex;
+-moz-box-pack: center;
+justify-content: center;
+-moz-box-align: center;
+align-items: center;
+width: 40px;
+right: 10px;
+background: transparent;
 `
 
 export const CloseModal = styled.button`

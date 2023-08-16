@@ -61,6 +61,9 @@ import { fetchClients } from "@redux/clients/operations";
 import { fetchProducts } from "@redux/products/operations";
 import { selectAllProducts } from "@redux/products/selectors";
 import { Types } from "mongoose";
+import InputField from "../../Common/InputField/InputField";
+import { inputsBillFrom, inputsBillTo, inputsGeneralInfo } from "./inputs";
+import { selectIsLoggedIn } from "../../../redux/auth/selectors";
 
 /**
  * Component for displaying and editing invoice input fields.
@@ -76,15 +79,16 @@ import { Types } from "mongoose";
  * @param {ReactNode} props.children - Optional React children elements
  * @returns {JSX.Element} - Rendered component
  */
-const InvoiceInputs = ({ isInAuthentication, children }) => {
+const InvoiceInputs = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
+  const isInLogged = useSelector(selectIsLoggedIn)
   const dispatch = useDispatch();
   const editingMode = useSelector((state) => state.invoice.isEditing);
   const invoice = !editingMode
     ? useSelector((state) => state.invoice.invoice)
     : useSelector((state) => state.invoice.editInvoice);
   const clients = useSelector(selectAllClients);
-  const products = useSelector(selectAllProducts)
+  const products = useSelector(selectAllProducts);
 
   useEffect(() => {
     dispatch(
@@ -93,10 +97,10 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if(clients.length === 0) {
-      dispatch(fetchClients())
+    if (clients.length === 0) {
+      dispatch(fetchClients());
     }
-  },[dispatch])
+  }, [dispatch]);
 
   useEffect(() => {
     if (products.length === 0) {
@@ -207,276 +211,56 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
       <InputsContent>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.invoiceNumber)}>
-            Invoice Number:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.invoiceNumber)}
-            type="text"
-            name="invoiceNumber"
-            placeholder="Enter invoice number"
-            value={invoice.invoiceNumber || ""}
-            onChange={handleInvoiceNumberChange}
+        {inputsGeneralInfo.map((input) => (
+          <InputField
+            key={input.id}
+            {...input}
+            containerClass={input.containerClass}
+            value={invoice[input.data]}
+            onChange={
+              input.handle === "handleInvoiceNumberChange"
+                ? handleInvoiceNumberChange
+                : handleChange
+            }
           />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.date.invoiceDate)}>
-            Invoice Date:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.date.invoiceDate)}
-            type="date"
-            name="invoiceDate"
-            value={invoice.date.invoiceDate || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.date.dueDate)}>
-            Due Date:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.date.dueDate)}
-            type="date"
-            name="dueDate"
-            value={invoice.date.dueDate || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
+        ))}
       </InputsContent>
       <InfoWrapper title={"Bill from:"} />
       <InputsContent>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.name)}>
-            Company name:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.user.name)}
-            type="text"
-            name="name"
-            placeholder="Enter company name"
-            value={invoice.user.name || ""}
-            onChange={handleChange}
+        {inputsBillFrom.map((input) => (
+          <InputField
+            key={input.id}
+            {...input}
+            containerClass={input.containerClass}
+            value={invoice[input.data]}
+            onChange={
+              input.handle === "handleInvoiceNumberChange"
+                ? handleInvoiceNumberChange
+                : handleChange
+            }
           />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.email)}>
-            Email:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.user.email)}
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            value={invoice.user.email || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.phone)}>
-            Phone:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.user.phone)}
-            type="text"
-            name="phone"
-            placeholder="Enter phone number"
-            value={invoice.user.phone || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-66">
-          <InputSpan className={isFloating(invoice.user.address.city)}>
-            City:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.user.address.city)}
-            type="text"
-            name="city"
-            placeholder="Enter city"
-            value={invoice.user.address.city || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.NIP)}>NIP:</InputSpan>
-          <Input
-            className={isFloating(invoice.user.NIP)}
-            type="text"
-            name="NIP"
-            placeholder="Enter NIP"
-            value={invoice.user.NIP || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.address.street)}>
-            Address:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.user.address.street)}
-            type="text"
-            name="street"
-            placeholder="Enter address (street)"
-            value={invoice.user.address.street || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.address.postalCode)}>
-            Postal code:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.user.address.postalCode)}
-            type="text"
-            name="postalCode"
-            placeholder="Enter postal code"
-            value={invoice.user.address.postalCode || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.user.REGON)}>
-            REGON:
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.user.REGON)}
-            type="text"
-            name="REGON"
-            placeholder="Enter REGON"
-            value={invoice.user.REGON || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
+        ))}
       </InputsContent>
       <InfoWrapper title={"Bill to:"} />
       <InputsContent>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientName)}>
-            Client name
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientName)}
-            type={"text"}
-            name={"clientName"}
-            placeholder="Customer's name"
-            value={invoice.client.clientName || ""}
-            onChange={handleChange}
+        {inputsBillTo.map((input) => (
+          <InputField
+            key={input.id}
+            {...input}
+            containerClass={input.containerClass}
+            value={invoice[input.data]}
+            onChange={
+              input.handle === "handleInvoiceNumberChange"
+                ? handleInvoiceNumberChange
+                : handleChange
+            }
+            markup={clientCardMarkup}
+            modalData={clients}
           />
-          {!isInAuthentication ? (
-            <ModalButton onClick={() => setShowModal(true)}>
-              <HiUsers size={25} />
-            </ModalButton>
-          ) : null}
-          {showModal &&
-            createPortal(
-              <Modal
-                handleChange={handleClientChange}
-                markup={clientCardMarkup}
-                headerText={"Clients"}
-                data={clients}
-                onClose={() => setShowModal(false)}
-                className={showModal ? "show" : ""}
-              />,
-              document.body
-            )}
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientEmail)}>
-            Email
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientEmail)}
-            type={"email"}
-            name={"clientEmail"}
-            placeholder="Customer's Email"
-            value={invoice.client.clientEmail || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientPhone)}>
-            Client phone
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientPhone)}
-            type={"tel"}
-            name={"clientPhone"}
-            placeholder="Customer's Phone"
-            value={invoice.client.clientPhone || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-66">
-          <InputSpan className={isFloating(invoice.client.clientAddress)}>
-            {" "}
-            Address
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientAddress)}
-            type={"text"}
-            name={"clientAddress"}
-            placeholder="Customer's Address"
-            value={invoice.client.clientAddress || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientNip)}>
-            NIP
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientNip)}
-            type={"text"}
-            name={"clientNip"}
-            placeholder="Customer's NIP"
-            value={invoice.client.clientNip || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientCity)}>
-            City
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientCity)}
-            type={"text"}
-            name={"clientCity"}
-            placeholder="City"
-            value={invoice.client.clientCity || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientPostal)}>
-            Postal
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientPostal)}
-            type={"text"}
-            name={"clientPostal"}
-            placeholder="Postal"
-            value={invoice.client.clientPostal || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33">
-          <InputSpan className={isFloating(invoice.client.clientRegon)}>
-            REGON
-          </InputSpan>
-          <Input
-            className={isFloating(invoice.client.clientRegon)}
-            type={"text"}
-            name={"clientRegon"}
-            placeholder="Customer's REGON"
-            value={invoice.client.clientRegon || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
+        ))}
       </InputsContent>
       <InfoWrapper title={"Products:"} />
-      {!isInAuthentication ? (
+      {!isInLogged ? (
         <InputsContent>
           {invoice?.products?.items.map((product, index) => (
             <ProductCard key={product._id} index={index} product={product} />
@@ -489,7 +273,6 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
               key={product._id}
               index={index}
               product={product}
-              isInAuthentication={isInAuthentication}
             />
           ))}
         </InputsContent>

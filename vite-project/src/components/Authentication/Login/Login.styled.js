@@ -4,6 +4,7 @@ export const LoginStyled = styled.div`
 display: flex;
 flex-direction: column;
 width: 100%;
+padding: 25px;
 `;
 
 export const LoginTitle = styled.h1`

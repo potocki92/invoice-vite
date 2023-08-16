@@ -29,7 +29,7 @@ export const RemoveButton = styled.button`
 `;
 
 export const DefaultButton = styled.button`
-  background: #3498db;
+  background: #00751f;
   border-radius: 5px;
   color: #ffffff;
   font-weight: 700;
@@ -45,8 +45,7 @@ export const DefaultButton = styled.button`
   }
 
   &:hover {
-    box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.25);
-    background: #3cb0fd;
+    background: #005216;
     text-decoration: none;
   }
 

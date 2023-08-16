@@ -7,9 +7,6 @@ import {
 } from "@components/Invoice/InvoiceInputs/InvoiceInputs.styled";
 import { ModalButton } from "@components/Common/Modal/Modal.styled";
 import { HiUsers } from "react-icons/hi";
-import Modal from "@components/Common/Modal/Modal";
-import { createPortal } from "react-dom";
-import productCardMarkup from "@markups/productCardMarkup";
 import { HiOutlineMinusCircle } from "react-icons/hi";
 import { RemoveButton } from "@components/buttons.styled";
 import { ProductCardContainer } from "./ProductCard.styled";
@@ -23,7 +20,9 @@ import {
 import { removeProductFromInvoice, updateProductData } from "@redux/invoices/single/slice";
 import { selectAllProducts } from "@redux/products/selectors";
 import { setProductTaxRate } from "@redux/products/slice";
-
+import InputField from "../../Common/InputField/InputField";
+import { inputsProduct } from "./inputs";
+import productCardMarkup from "@markups/productCardMarkup";
 /**
  * This component renders a product card with the product name, quantity, price, tax, and amount.
  * It also renders a button to remove the product from the invoice.
@@ -39,7 +38,7 @@ import { setProductTaxRate } from "@redux/products/slice";
 const ProductCard = ({
   index,
   product,
-  isInAuthentication,
+  isInAuthentication
 }) => {
   // Local state for the product data
   const dispatch = useDispatch()
@@ -52,7 +51,6 @@ const ProductCard = ({
   const [amount, setAmount] = useState(product.amount || 0);
   
 
-  const [showModal, setShowModal] = useState(false);
   const productTaxRate = useMemo(() => {
     const taxRate = product.productsTax || 0;
     return taxRate !== 1 ? productQty * productPrice * (taxRate / 100) : 0;
@@ -156,68 +154,19 @@ const ProductCard = ({
   return (
     <ProductCardContainer>
       <InputsContent className="products" style={{ alignItems: "center" }}>
-        <InputsContainer className="full-66">
-          <InputSpan className={isFloating(productName)}>
-            Product name
-          </InputSpan>
-          <Input
-            className={isFloating(productName)}
-            name="productsName"
-            placeholder="Product name"
-            value={productName}
-            onChange={handleChange}
-          />
-          {!isInAuthentication ? (
-            <ModalButton onClick={() => setShowModal(true)}>
-              <HiUsers size={25} />
-            </ModalButton>
-          ) : null}
-          {showModal &&
-            createPortal(
-              <Modal
-                handleChange={handleProductChange}
-                markup={productCardMarkup}
-                headerText={"Products"}
-                data={products}
-                onClose={() => setShowModal(false)}
-                className={showModal ? "show" : ""}
-              />,
-              document.body
-            )}
-        </InputsContainer>
-        <InputsContainer className="full-33 full-50">
-          <InputSpan className={isFloating(productPrice)}>Price</InputSpan>
-          <Input
-            className={isFloating(productPrice)}
-            type="number"
-            name="productsPrice"
-            placeholder="Price"
-            value={productPrice || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33 full-50">
-          <InputSpan className={isFloating(productQty)}>Quantity</InputSpan>
-          <Input
-            className={isFloating(productQty)}
-            type="number"
-            name="qty"
-            placeholder="Quantity"
-            value={productQty || ""}
-            onChange={handleChange}
-          />
-        </InputsContainer>
-        <InputsContainer className="full-33 full-50">
-          <InputSpan className={isFloating(productTax)}>Tax</InputSpan>
-          <Input
-            className={isFloating(productTax)}
-            name="productsTax"
-            type="number"
-            placeholder="Tax"
-            value={productTax}
-            onChange={handleChange}
-          />
-        </InputsContainer>
+        {inputsProduct.map((input) => (
+            <InputField 
+              key={input.id}
+              {...input}
+              containerClass={input.containerClass}
+              value={product[input.data]}
+              onChange={input.handle === "handleChange" ? handleChange : null}
+              isInAuthentication={isInAuthentication}
+              handleProductChange={handleProductChange}
+              markup={productCardMarkup}
+              modalData={products}
+              />
+        ))}
 
         <InputsContainer className="full-33 full-50 productInfo">
           <div>

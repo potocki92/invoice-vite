@@ -22,9 +22,13 @@ export const InputsContent = styled.div`
 export const InputsContainer = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column-reverse;
+  align-items: flex-start; 
   width: 100%;
+  padding: 0 9px 0 9px;
 
+  &.forms {
+    padding: 0;
+  }
   &.full-50 {
     width: 50%;
   }
@@ -42,6 +46,7 @@ export const InputsContainer = styled.div`
     gap: 10px;
   }
   @media (min-width: 1024px) {
+    
     &.full-33 {
       width: 33.33%;
     }
@@ -70,7 +75,6 @@ export const InputsForm = styled.form`
 
     @media (min-width: 1199px) {
         flex-direction: row;
-        gap: 20px;
     }
 
     &.authentication {
@@ -84,67 +88,50 @@ export const InputsForm = styled.form`
 export const ErrorMessage = styled.span`
   border: 1px solid #d11534;
   background: #fad1d8;
-
-  margin-bottom: 15px;
+  margin-top: 15px;
   padding: 15px;
+`;
+export const InputSpan = styled.label`
+  position: absolute;
+  top: 0;
+  left: 30px;
+  translate: 10px 20px;
+  transition: translate 500ms, scale 500ms;
 `;
 
 export const Input = styled.input`
-  display: inline-block;
-  height: 3.2em;
+  font: inherit;
   width: 100%;
-  margin: 0 0 15px;
-  padding: 1em 0.9375em;
-  color: #212326;
-  font-family: Open Sans, sans-serif;
-  font-size: 1em;
-  box-shadow: 0 0 0 1px #6b7177;
-  border: 1px solid
-    ${({ valid }) => (valid === "false" ? "red" : "transparent")};
+  padding: 10px 40px;
+  border: none;
   border-radius: 4px;
+  outline: 1px solid black;
   background-color: transparent;
-  transition: padding 150ms;
-  -webkit-appearance: none;
-  appearance: none;
-
-  &.floating {
-    padding-top: 1.5em;
-    padding-bottom: 0.5em;
+  transition: outline-color 500ms;
+  margin: 10px 0;
+  &:is(:focus, :valid) {
+    outline-color: #008060
+  }
+  &:focus + ${InputSpan}, &:valid + ${InputSpan}{
+    padding-inline: 5px;
+    translate: 10px -14px;
+    scale: 0.8;
+    background-color: #fff
   }
 
-  &:focus {
-    outline: none;
-    border-color: #008060;
-  }
-
-  &.authentication {
-    box-shadow: none;
-    border: 0.0625rem solid #8c9196;
-
-    &:focus {
-      outline: none;
-      border-color: #008060;
-    }
+  &.has-content + ${InputSpan} {
+    padding-inline: 5px;
+    translate: 10px -14px;
+    scale: 0.8;
+    background-color: #fff
   }
 `;
-export const InputSpan = styled.span`
-  position: absolute;
-  left: 1rem;
-  top: 0.5rem;
-  font-size: 0.6875em;
-  font-weight: 400;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0;
-  -webkit-transform: translateY(3px);
-  transform: translateY(3px);
-  transition-property: opacity, -webkit-transform;
-  transition-property: opacity, transform;
-  transition-property: opacity, transform, -webkit-transform;
-  transition-duration: 150ms;
 
-  &.floating {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
+export const Icon = styled.div`
+position: absolute;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 40px;
+`
