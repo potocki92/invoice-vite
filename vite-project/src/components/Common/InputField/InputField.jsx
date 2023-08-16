@@ -6,7 +6,7 @@ import { ModalButton } from "../Modal/Modal.styled";
 import { HiUser } from "react-icons/hi";
 import Modal from "@components/Common/Modal/Modal";
 import { createPortal } from "react-dom";
-import InvoiceInputs from "../../Invoice/InvoiceInputs/InvoiceInputs";
+import { selectIsLoggedIn } from "../../../redux/auth/selectors";
 
 /**
  * The InputField component is used to display a form field.
@@ -18,11 +18,11 @@ import InvoiceInputs from "../../Invoice/InvoiceInputs/InvoiceInputs";
 const InputField = (props) => {
   const [showModal, setShowModal] = useState(false);
   const editingMode = useSelector((state) => state.invoice.isEditing);
+  const isInLogged = useSelector(selectIsLoggedIn)
   const invoice = !editingMode
   ? useSelector((state) => state.invoice.invoice)
   : useSelector((state) => state.invoice.editInvoice);
-  const { markup, isInAuthentication, label, onChange, handleProductChange, containerClass, id, data,modalData, value, isForm, icon, ...inputProps } = props;
-  console.log(isInAuthentication, inputProps.modal);
+  const { markup, label, onChange, handleProductChange, containerClass, id, data,modalData, value, isForm, icon, ...inputProps } = props;
 
   const getValueByDataKey = (obj, key) => {
     if (key) {
@@ -52,7 +52,7 @@ const InputField = (props) => {
       <Icon>
         {icon}
       </Icon>
-      {!isInAuthentication && inputProps.modal ? (
+      {isInLogged && inputProps.modal ? (
         <ModalButton onClick={() => setShowModal(true)}>
           <HiUser size={25} />
         </ModalButton>

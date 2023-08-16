@@ -8,7 +8,7 @@ export const inputsProduct = [
       modal: true,
       type: "text",
       label: "Product Name",
-      require: true,
+      required: true,
       handle: "handleChange",
     },
     {
@@ -18,7 +18,7 @@ export const inputsProduct = [
       name: "productsPrice",
       type: "number",
       label: "Price",
-      require: true,
+      required: true,
       handle: "handleChange",
     },
     {
@@ -28,7 +28,7 @@ export const inputsProduct = [
       name: "qty",
       type: "number",
       label: "Quantity",
-      require: true,
+      required: true,
       handle: "handleChange",
     },
     {
@@ -38,7 +38,7 @@ export const inputsProduct = [
       name: "productsTax",
       type: "number",
       label: "Tax",
-      require: true,
+      required: true,
       handle: "handleChange",
     }
   ]

@@ -63,6 +63,7 @@ import { selectAllProducts } from "@redux/products/selectors";
 import { Types } from "mongoose";
 import InputField from "../../Common/InputField/InputField";
 import { inputsBillFrom, inputsBillTo, inputsGeneralInfo } from "./inputs";
+import { selectIsLoggedIn } from "../../../redux/auth/selectors";
 
 /**
  * Component for displaying and editing invoice input fields.
@@ -78,15 +79,16 @@ import { inputsBillFrom, inputsBillTo, inputsGeneralInfo } from "./inputs";
  * @param {ReactNode} props.children - Optional React children elements
  * @returns {JSX.Element} - Rendered component
  */
-const InvoiceInputs = ({ isInAuthentication, children }) => {
+const InvoiceInputs = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
+  const isInLogged = useSelector(selectIsLoggedIn)
   const dispatch = useDispatch();
   const editingMode = useSelector((state) => state.invoice.isEditing);
   const invoice = !editingMode
     ? useSelector((state) => state.invoice.invoice)
     : useSelector((state) => state.invoice.editInvoice);
   const clients = useSelector(selectAllClients);
-  const products = useSelector(selectAllProducts)
+  const products = useSelector(selectAllProducts);
 
   useEffect(() => {
     dispatch(
@@ -95,10 +97,10 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if(clients.length === 0) {
-      dispatch(fetchClients())
+    if (clients.length === 0) {
+      dispatch(fetchClients());
     }
-  },[dispatch])
+  }, [dispatch]);
 
   useEffect(() => {
     if (products.length === 0) {
@@ -209,47 +211,56 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
     <InvoiceInputsContainer>
       <InfoWrapper title={"Invoice:"} />
       <InputsContent>
-      {
-        inputsGeneralInfo.map((input) => (
-          <InputField 
+        {inputsGeneralInfo.map((input) => (
+          <InputField
             key={input.id}
             {...input}
             containerClass={input.containerClass}
             value={invoice[input.data]}
-            onChange={input.handle === "handleInvoiceNumberChange" ? handleInvoiceNumberChange : handleChange}
-            isInAuthentication={isInAuthentication}/>
-        ))
-      }
+            onChange={
+              input.handle === "handleInvoiceNumberChange"
+                ? handleInvoiceNumberChange
+                : handleChange
+            }
+          />
+        ))}
       </InputsContent>
       <InfoWrapper title={"Bill from:"} />
       <InputsContent>
-      {inputsBillFrom.map((input) => (
-          <InputField 
+        {inputsBillFrom.map((input) => (
+          <InputField
             key={input.id}
             {...input}
             containerClass={input.containerClass}
             value={invoice[input.data]}
-            onChange={input.handle === "handleInvoiceNumberChange" ? handleInvoiceNumberChange : handleChange}
-            isInAuthentication={isInAuthentication}/>
+            onChange={
+              input.handle === "handleInvoiceNumberChange"
+                ? handleInvoiceNumberChange
+                : handleChange
+            }
+          />
         ))}
       </InputsContent>
       <InfoWrapper title={"Bill to:"} />
       <InputsContent>
-          {inputsBillTo.map((input) => (
-              <InputField 
-                key={input.id}
-                {...input}
-                containerClass={input.containerClass}
-                value={invoice[input.data]}
-                onChange={input.handle === "handleInvoiceNumberChange" ? handleInvoiceNumberChange : handleChange}
-                isInAuthentication={isInAuthentication}
-                markup={clientCardMarkup}
-                modalData={clients}
-              />
-            ))}
+        {inputsBillTo.map((input) => (
+          <InputField
+            key={input.id}
+            {...input}
+            containerClass={input.containerClass}
+            value={invoice[input.data]}
+            onChange={
+              input.handle === "handleInvoiceNumberChange"
+                ? handleInvoiceNumberChange
+                : handleChange
+            }
+            markup={clientCardMarkup}
+            modalData={clients}
+          />
+        ))}
       </InputsContent>
       <InfoWrapper title={"Products:"} />
-      {!isInAuthentication ? (
+      {!isInLogged ? (
         <InputsContent>
           {invoice?.products?.items.map((product, index) => (
             <ProductCard key={product._id} index={index} product={product} />
@@ -262,7 +273,6 @@ const InvoiceInputs = ({ isInAuthentication, children }) => {
               key={product._id}
               index={index}
               product={product}
-              isInAuthentication={isInAuthentication}
             />
           ))}
         </InputsContent>

@@ -7,7 +7,7 @@ export const inputsGeneralInfo = [
       name: "invoiceNumber",
       type: "text",
       label: "Invoice Number",
-      require: true,
+      required: true,
       handle: "handleInvoiceNumberChange"
     },
     {
@@ -17,7 +17,7 @@ export const inputsGeneralInfo = [
       name: "invoiceDate",
       type: "date",
       label: "Invoice Date",
-      require: true,
+      required: true,
       handle: "handleChange"
     },
     {
@@ -27,7 +27,7 @@ export const inputsGeneralInfo = [
       name: "dueDate",
       type: "date",
       label: "Due Date",
-      require: true,
+      required: true,
       handle: "handleChange"
     }
   ]
@@ -40,7 +40,7 @@ export const inputsGeneralInfo = [
       name: "name",
       type: "text",
       label: "Company name",
-      require: true,
+      required: true,
       handle: "handleChange"
     },
     {
@@ -50,7 +50,7 @@ export const inputsGeneralInfo = [
       name: "email",
       type: "email",
       label: "Email",
-      require: true,
+      required: true,
       handle: "handleChange"
     },
     {
@@ -60,7 +60,7 @@ export const inputsGeneralInfo = [
       name: "phone",
       type: "tel",
       label: "Phone",
-      require: true,
+      required: true,
       handle: "handleChange"
     },
     {
@@ -70,7 +70,7 @@ export const inputsGeneralInfo = [
       name: "city",
       type: "text",
       label: "City",
-      require: true,
+      required: true,
       handle: "handleChange"
     },
     {
@@ -80,7 +80,7 @@ export const inputsGeneralInfo = [
       name: "NIP",
       type: "number",
       label: "NIP",
-      require: true,
+      required: true,
       handle: "handleChange"
     },
     {
@@ -90,7 +90,7 @@ export const inputsGeneralInfo = [
       name: "street",
       type: "text",
       label: "Street",
-      require: true,
+      required: true,
       handle: "handleChange"
     },
     {
@@ -100,7 +100,7 @@ export const inputsGeneralInfo = [
       name: "postalCode",
       type: "text",
       label: "Postal code",
-      require: true,
+      required: true,
       handle: "handleChange"
     },
     {
@@ -110,7 +110,7 @@ export const inputsGeneralInfo = [
       name: "REGON",
       type: "number",
       label: "REGON",
-      require: true,
+      required: true,
       handle: "handleChange"
     }
   ]
@@ -124,7 +124,7 @@ export const inputsGeneralInfo = [
         name: "clientName",
         type: "text",
         label: "Customer's Name",
-        require: true,
+        required: true,
         handle: "handleChange"
     },
     {
@@ -134,7 +134,7 @@ export const inputsGeneralInfo = [
         name: "clientEmail",
         type: "email",
         label: "Customer's Email",
-        require: true,
+        required: true,
         handle: "handleChange"
       },
       {
@@ -144,7 +144,7 @@ export const inputsGeneralInfo = [
         name: "clientPhone",
         type: "tel",
         label: "Customer's Phone",
-        require: true,
+        required: true,
         handle: "handleChange"
       },
       {
@@ -154,7 +154,7 @@ export const inputsGeneralInfo = [
         name: "clientAddress",
         type: "text",
         label: "Customer's Address",
-        require: true,
+        required: true,
         handle: "handleChange"
       },
       {
@@ -164,7 +164,7 @@ export const inputsGeneralInfo = [
         name: "clientNip",
         type: "text",
         label: "Customer's NIP",
-        require: true,
+        required: true,
         handle: "handleChange"
       },
       {
@@ -174,7 +174,7 @@ export const inputsGeneralInfo = [
         name: "clientCity",
         type: "text",
         label: "Customer's City",
-        require: true,
+        required: true,
         handle: "handleChange"
       },
       {
@@ -184,7 +184,7 @@ export const inputsGeneralInfo = [
         name: "street",
         type: "text",
         label: "Customer's Street",
-        require: true,
+        required: true,
         handle: "handleChange"
       },
       {
@@ -194,7 +194,7 @@ export const inputsGeneralInfo = [
         name: "clientPostal",
         type: "text",
         label: "Customer's Postal",
-        require: true,
+        required: true,
         handle: "handleChange"
       },
       {
@@ -204,7 +204,7 @@ export const inputsGeneralInfo = [
         name: "clientRegon",
         type: "text",
         label: "Customer's REGON",
-        require: true,
+        required: true,
         handle: "handleChange"
       }
   ]

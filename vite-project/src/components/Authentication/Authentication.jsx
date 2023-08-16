@@ -60,7 +60,7 @@ const Authentication = () => {
         </FormContainer>
       </FormsWrapper>
       <AuthenticationInputsContent>
-        <InvoiceInputs isInAuthentication={true} />
+        <InvoiceInputs/>
       </AuthenticationInputsContent>
     </AuthenticationStyled>
   );
