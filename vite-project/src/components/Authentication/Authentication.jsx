@@ -55,12 +55,16 @@ const Authentication = () => {
               className={`${showRegister ? "register" : ""}`}
               onClick={handleAfterClick}
             ></FormHeader>
-            {showRegister ? <Register /> : <Login />}
+            {showRegister ? (
+              <Register setShowRegister={setShowRegister} />
+            ) : (
+              <Login />
+            )}
           </Wrapper>
         </FormContainer>
       </FormsWrapper>
       <AuthenticationInputsContent>
-        <InvoiceInputs/>
+        <InvoiceInputs />
       </AuthenticationInputsContent>
     </AuthenticationStyled>
   );

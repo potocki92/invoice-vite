@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "@components/Product/ProductCard/ProductCard";
 import { InvoiceInputsContainer, TextArea } from "./InvoiceInputs.styled";
 import isFloating from "@utils/isFloating";
-import { HiUsers } from "react-icons/hi";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { createPortal } from "react-dom";
-import Modal from "@components/Common/Modal/Modal";
-import { ModalButton } from "@components/Common/Modal/Modal.styled";
 import clientCardMarkup from "@markups/clientCardMarkup";
 import {
   AddButton,
@@ -18,7 +14,6 @@ import TotalSummary from "@components/Common/TotalSummary/TotalSummary";
 import {
   InputsContent,
   InputsContainer,
-  Input,
   InputSpan,
 } from "@components/Common/InputField/Input.styled";
 import InfoWrapper from "@components/Common/InfoWrapper/InfoWrapper";

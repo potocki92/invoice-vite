@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { LoginStyled } from "../Login/Login.styled";
-import { InputsForm } from "../../Common/InputField/Input.styled";
+import { ErrorMessage, InputsForm } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
 import { useDispatch } from "react-redux";
 import { register } from "../../../redux/auth/operations";
@@ -9,6 +9,7 @@ import GoogleAuth from "../GoogleAuth/GoogleAuth";
 import LinkedinAuth from "../LinkedinAuth/LinkedinAuth";
 import { inputsRegister } from "./inputs";
 import { getIcon } from "../../../utils/getIcon";
+
 /**
  * Component for user registration.
  *
@@ -16,14 +17,15 @@ import { getIcon } from "../../../utils/getIcon";
  * @param {Function} props.setShowRegister - Function to control the visibility of the registration form
  * @returns {JSX.Element} - Rendered component
  */
-const Register = () => {
+const Register = ({ setShowRegister }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    error: "", // Add an error state for displaying server errors
   });
-  const { name, email, password } = formData;
+  const { name, email, password, error } = formData;
 
   /**
    * Handles input change event.
@@ -43,23 +45,27 @@ const Register = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (name && email && password) {
-      dispatch(
-        register({
-          name,
-          email,
-          password,
-        })
-      );
-      setFormData({ name: "", email: "", password: "" });
-      setShowRegister(false);
+    const result = await dispatch(
+      register({
+        name,
+        email,
+        password,
+      })
+    );
+
+    if (result.payload.success) {
+      setShowRegister(false); 
     } else {
-      alert("invalid");
+      setFormData({
+        ...formData,
+        error: "An error occurred. Please try again.",
+      });
     }
   };
 
   return (
     <LoginStyled>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         {inputsRegister.map((input) => (
           <InputField

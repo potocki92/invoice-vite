@@ -38,7 +38,7 @@ export const FormContainer = styled.div`
 export const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  min-height: 525px;
+  min-height: 625px;
   display: flex;
   justify-content: center;
   align-items: center;
