@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { LoginStyled } from "../Login/Login.styled";
 import { ErrorMessage, InputsForm } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 import LinkedinAuth from "../LinkedinAuth/LinkedinAuth";
 import { inputsRegister } from "./inputs";
 import { getIcon } from "../../../utils/getIcon";
+import { selectError } from "../../../redux/auth/selectors";
 
 /**
  * Component for user registration.
@@ -19,13 +20,14 @@ import { getIcon } from "../../../utils/getIcon";
  */
 const Register = ({ setShowRegister }) => {
   const dispatch = useDispatch();
+  const error = useSelector(selectError);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     error: "", // Add an error state for displaying server errors
   });
-  const { name, email, password, error } = formData;
+  const { name, email, password } = formData;
 
   /**
    * Handles input change event.
@@ -54,12 +56,13 @@ const Register = ({ setShowRegister }) => {
     );
 
     if (result.payload.success) {
-      setShowRegister(false); 
+      setShowRegister(false);
     } else {
-      setFormData({
-        ...formData,
-        error: "An error occurred. Please try again.",
-      });
+      console.log(result.payload),
+        setFormData({
+          ...formData,
+          error: "An error occurred. Please try again.",
+        });
     }
   };
 

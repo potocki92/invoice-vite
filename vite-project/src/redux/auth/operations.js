@@ -38,11 +38,14 @@ export const register = createAsyncThunk(
       setAuthHeader(res.data.token);
       return { success: true, message: res.data.message };
     } catch (error) {
-      return { success: false, message: error.message };
+      // Użyj rejectWithValue, aby przekazać dodatkowe informacje o błędzie
+      return thunkAPI.rejectWithValue({
+        success: false,
+        message: error.response.data.message,
+      });
     }
   }
 );
-
 /**
  * Async thunk for user login.
  *

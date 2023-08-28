@@ -25,7 +25,6 @@ export const InputsContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   padding: 0 9px 0 9px;
-  margin: 10px 0;
 
   &.forms {
     padding: 0;
@@ -112,16 +111,9 @@ export const Input = styled.input`
   &:is(:focus, :valid) {
     outline-color: #008060;
   }
-  &:focus + ${InputSpan}, &:valid + ${InputSpan} {
+  &:focus + ${InputSpan}, &:valid + ${InputSpan}, &.has-content + ${InputSpan} {
     padding-inline: 5px;
-    translate: 10px -14px;
-    scale: 0.8;
-    background-color: #fff;
-  }
-
-  &.has-content + ${InputSpan} {
-    padding-inline: 5px;
-    translate: 10px -14px;
+    translate: 10px -2px;
     scale: 0.8;
     background-color: #fff;
   }
