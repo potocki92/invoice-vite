@@ -1,17 +1,20 @@
 import styled, { css } from "styled-components";
 import { ModalButton } from "../../../components/Common/Modal/Modal.styled";
+import { InputSpan } from "../../Common/InputField/Input.styled";
 
 export const InvoiceInputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 1200px;
 
-  ${props => props.showButtons && css`
-    ${ModalButton} {
-      display: none;
-    }
-  `}
-`
+  ${(props) =>
+    props.showButtons &&
+    css`
+      ${ModalButton} {
+        display: none;
+      }
+    `}
+`;
 
 export const Select = styled.select`
   display: inline-block;
@@ -74,13 +77,16 @@ export const TextArea = styled.textarea`
   -webkit-appearance: none;
   appearance: none;
   min-height: 8.75em;
-  &.floating {
-    padding-top: 1.5em;
-    padding-bottom: 0.5em;
+  &:is(:focus, :valid) {
+    outline-color: #008060;
+  }
+  &:focus + ${InputSpan}, &.has-content + ${InputSpan} {
+    padding-inline: 5px;
+    translate: 10px -12px;
+    scale: 0.8;
+    background-color: #fff;
   }
 `;
-
-
 
 export const InfoCountSpan = styled.span`
   position: relative;

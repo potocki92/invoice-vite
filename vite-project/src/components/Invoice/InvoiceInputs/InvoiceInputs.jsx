@@ -76,7 +76,7 @@ import { selectIsLoggedIn } from "../../../redux/auth/selectors";
  */
 const InvoiceInputs = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
-  const isInLogged = useSelector(selectIsLoggedIn)
+  const isInLogged = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
   const editingMode = useSelector((state) => state.invoice.isEditing);
   const invoice = !editingMode
@@ -250,6 +250,7 @@ const InvoiceInputs = ({ children }) => {
                 : handleChange
             }
             markup={clientCardMarkup}
+            handleProductChange={handleClientChange}
             modalData={clients}
           />
         ))}
@@ -264,11 +265,7 @@ const InvoiceInputs = ({ children }) => {
       ) : (
         <InputsContent>
           {invoice?.products.items.map((product, index) => (
-            <ProductCard
-              key={product._id}
-              index={index}
-              product={product}
-            />
+            <ProductCard key={product._id} index={index} product={product} />
           ))}
         </InputsContent>
       )}
@@ -280,14 +277,14 @@ const InvoiceInputs = ({ children }) => {
       </AddButtonWrapper>
       <InputsContent>
         <InputsContainer>
-          <InputSpan className={isFloating(invoice.notes)}>Notes</InputSpan>
           <TextArea
-            className={isFloating(invoice.notes)}
+            id="notes"
             name={"notes"}
-            placeholder="Notes"
             value={invoice.notes || ""}
             onChange={handleChange}
+            className={invoice.notes ? "has-content" : ""}
           ></TextArea>
+          <InputSpan for={"notes"}>Notes</InputSpan>
         </InputsContainer>
         <InputsContainer>
           <TotalSummary />

@@ -6,7 +6,6 @@ import { Types } from "mongoose";
  * @returns {Object} Initial product object.
  */
 const createInitialProduct = () => ({
-  _id: new Types.ObjectId(),
   productsName: "",
   qty: 0,
   productsPrice: 0,
@@ -78,14 +77,16 @@ const invoiceSlice = createSlice({
      * @param {Object} action - Redux action.
      * @returns {Object} Updated state.
      */
-    setInvoice: (state, action) => updateInvoiceData(state, { isEditing: false, data: action.payload }),
+    setInvoice: (state, action) =>
+      updateInvoiceData(state, { isEditing: false, data: action.payload }),
     /**
      * Reducer for setting edit invoice data.
      * @param {Object} state - Current state.
      * @param {Object} action - Redux action.
      * @returns {Object} Updated state.
      */
-    setEditInvoice: (state, action) => updateInvoiceData(state, { isEditing: true, data: action.payload }),
+    setEditInvoice: (state, action) =>
+      updateInvoiceData(state, { isEditing: true, data: action.payload }),
     /**
      * Reducer function for updating user details in the invoice state.
      *
@@ -194,16 +195,20 @@ const invoiceSlice = createSlice({
       if (index >= 0 && index < targetInvoice.products.items.length) {
         const product = targetInvoice.products.items[index];
         if (key === "qty" || key === "productsPrice" || key === "productsTax") {
-          
           const floatValue = parseFloat(value);
           const taxValue = isNaN(floatValue) ? 0 : floatValue;
           product[key] = taxValue;
-          const productTaxRate = product.qty * product.productsPrice * (product.productsTax / 100);
-          const newAmount = product.qty * product.productsPrice + productTaxRate;
+          const productTaxRate =
+            product.qty * product.productsPrice * (product.productsTax / 100);
+          const newAmount =
+            product.qty * product.productsPrice + productTaxRate;
           product.productTaxRate = productTaxRate;
           product.amount = newAmount;
           targetInvoice.products.totalAmount = parseFloat(
-            targetInvoice.products.items.reduce((total, item) => total + item.amount, 0)
+            targetInvoice.products.items.reduce(
+              (total, item) => total + item.amount,
+              0
+            )
           );
         } else {
           product[key] = value;
@@ -238,7 +243,10 @@ const invoiceSlice = createSlice({
     removeProductFromInvoice: (state, action) => {
       const targetInvoice = state.isEditing ? state.editInvoice : state.invoice;
       const productIndex = action.payload;
-      if (productIndex >= 0 && productIndex < targetInvoice.products.items.length) {
+      if (
+        productIndex >= 0 &&
+        productIndex < targetInvoice.products.items.length
+      ) {
         targetInvoice.products.items.splice(productIndex, 1);
       }
     },
@@ -253,7 +261,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified invoice number.
      */
     setInvoiceNumber: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { invoiceNumber: action.payload } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { invoiceNumber: action.payload },
+      });
     },
     /**
      * Reducer function for setting the company name in the invoice state.
@@ -266,7 +277,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified company name.
      */
     setCompanyName: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { user: { ...state.invoice.user, name: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { user: { ...state.invoice.user, name: action.payload } },
+      });
     },
     /**
      * Reducer function for setting the company name in the invoice state.
@@ -279,7 +293,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified company email.
      */
     setCompanyEmail: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { user: { ...state.invoice.user, email: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { user: { ...state.invoice.user, email: action.payload } },
+      });
     },
     /**
      * Reducer function for setting the company phone number in the invoice state.
@@ -292,7 +309,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified company phone number.
      */
     setCompanyPhone: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { user: { ...state.invoice.user, phone: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { user: { ...state.invoice.user, phone: action.payload } },
+      });
     },
     /**
      * Reducer function for setting the company NIP (Tax Identification Number) in the invoice state.
@@ -305,7 +325,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified company NIP.
      */
     setCompanyNip: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { user: { ...state.invoice.user, NIP: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { user: { ...state.invoice.user, NIP: action.payload } },
+      });
     },
     /**
      * Reducer function for setting the company REGON (National Business Registry Number) in the invoice state.
@@ -318,7 +341,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified company REGON.
      */
     setCompanyRegon: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { user: { ...state.invoice.user, REGON: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { user: { ...state.invoice.user, REGON: action.payload } },
+      });
     },
     /**
      * Reducer function for setting the invoice date in the invoice state.
@@ -331,7 +357,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified invoice date.
      */
     setInvoiceDate: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { date: { ...state.invoice.date, invoiceDate: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { date: { ...state.invoice.date, invoiceDate: action.payload } },
+      });
     },
     /**
      * Reducer function for setting the due date in the invoice state.
@@ -344,7 +373,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified due date.
      */
     setDueDate: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { date: { ...state.invoice.date, dueDate: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { date: { ...state.invoice.date, dueDate: action.payload } },
+      });
     },
     /**
      * Reducer function for setting the company city in the invoice state.
@@ -357,7 +389,15 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified company city.
      */
     setCompanyCity: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { user: { ...state.invoice.user, address: { ...state.invoice.user.address, city: action.payload } } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          user: {
+            ...state.invoice.user,
+            address: { ...state.invoice.user.address, city: action.payload },
+          },
+        },
+      });
     },
     /**
      * Reducer function for setting the company postal code in the invoice state.
@@ -370,7 +410,18 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified company postal code.
      */
     setCompanyPostal: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { user: { ...state.invoice.user, address: { ...state.invoice.user.address, postalCode: action.payload } } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          user: {
+            ...state.invoice.user,
+            address: {
+              ...state.invoice.user.address,
+              postalCode: action.payload,
+            },
+          },
+        },
+      });
     },
     /**
      * Reducer function for setting the company address in the invoice state.
@@ -383,7 +434,15 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified company address.
      */
     setCompanyAddress: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { user: { ...state.invoice.user, address: { ...state.invoice.user.address, street: action.payload } } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          user: {
+            ...state.invoice.user,
+            address: { ...state.invoice.user.address, street: action.payload },
+          },
+        },
+      });
     },
     /**
      * Reducer function for setting the client's name in the invoice state.
@@ -396,7 +455,12 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified client's name.
      */
     setClientName: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { client: { ...state.invoice.client, clientName: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          client: { ...state.invoice.client, clientName: action.payload },
+        },
+      });
     },
     /**
      * Reducer function for setting the client's email in the invoice state.
@@ -409,7 +473,12 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified client's email.
      */
     setClientEmail: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { client: { ...state.invoice.client, clientEmail: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          client: { ...state.invoice.client, clientEmail: action.payload },
+        },
+      });
     },
     /**
      * Reducer function for setting the client's NIP (Tax Identification Number) in the invoice state.
@@ -422,7 +491,12 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified client's NIP.
      */
     setClientNip: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { client: { ...state.invoice.client, clientNip: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          client: { ...state.invoice.client, clientNip: action.payload },
+        },
+      });
     },
     /**
      * Reducer function for setting the client's REGON (National Business Registry Number) in the invoice state.
@@ -435,7 +509,12 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified client's REGON.
      */
     setClientRegon: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { client: { ...state.invoice.client, clientRegon: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          client: { ...state.invoice.client, clientRegon: action.payload },
+        },
+      });
     },
     /**
      * Reducer function for setting the client's phone number in the invoice state.
@@ -448,7 +527,12 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified client's phone number.
      */
     setClientPhone: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { client: { ...state.invoice.client, clientPhone: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          client: { ...state.invoice.client, clientPhone: action.payload },
+        },
+      });
     },
     /**
      * Reducer function for setting the client's city in the invoice state.
@@ -461,7 +545,12 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified client's city.
      */
     setClientCity: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { client: { ...state.invoice.client, clientCity: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          client: { ...state.invoice.client, clientCity: action.payload },
+        },
+      });
     },
     /**
      * Reducer function for setting the client's postal code in the invoice state.
@@ -474,7 +563,12 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified client's postal code.
      */
     setClientPostal: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { client: { ...state.invoice.client, clientPostal: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          client: { ...state.invoice.client, clientPostal: action.payload },
+        },
+      });
     },
     /**
      * Reducer function for setting the client's address in the invoice state.
@@ -487,7 +581,12 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified client's address.
      */
     setClientAddress: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { client: { ...state.invoice.client, clientAddress: action.payload } } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: {
+          client: { ...state.invoice.client, clientAddress: action.payload },
+        },
+      });
     },
     /**
      * Reducer function for setting notes in the invoice state.
@@ -500,7 +599,10 @@ const invoiceSlice = createSlice({
      * @returns {Object} The updated invoice state with the modified notes.
      */
     setNotes: (state, action) => {
-      return updateInvoiceData(state, { isEditing: state.isEditing, data: { notes: action.payload } });
+      return updateInvoiceData(state, {
+        isEditing: state.isEditing,
+        data: { notes: action.payload },
+      });
     },
     /**
      * Reducer function for setting the editing mode in the invoice state.
@@ -523,7 +625,8 @@ const invoiceSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchInvoiceFromId.fulfilled, (state, action) => {
-        const { _id, invoiceNumber, user, client, products, date } = action.payload;
+        const { _id, invoiceNumber, user, client, products, date } =
+          action.payload;
         state.editInvoice = {
           ...state.editInvoice,
           _id,
