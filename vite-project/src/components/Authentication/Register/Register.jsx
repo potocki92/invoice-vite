@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { LoginStyled } from "../Login/Login.styled";
-import { InputsForm } from "../../Common/InputField/Input.styled";
+import { ErrorMessage, InputsForm } from "../../Common/InputField/Input.styled";
 import { DefaultButton } from "../../buttons.styled";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 import LinkedinAuth from "../LinkedinAuth/LinkedinAuth";
 import { inputsRegister } from "./inputs";
 import { getIcon } from "../../../utils/getIcon";
+import { selectError } from "../../../redux/auth/selectors";
+
 /**
  * Component for user registration.
  *
@@ -16,12 +18,14 @@ import { getIcon } from "../../../utils/getIcon";
  * @param {Function} props.setShowRegister - Function to control the visibility of the registration form
  * @returns {JSX.Element} - Rendered component
  */
-const Register = () => {
+const Register = ({ setShowRegister }) => {
   const dispatch = useDispatch();
+  const error = useSelector(selectError);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    error: "", // Add an error state for displaying server errors
   });
   const { name, email, password } = formData;
 
@@ -43,23 +47,28 @@ const Register = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (name && email && password) {
-      dispatch(
-        register({
-          name,
-          email,
-          password,
-        })
-      );
-      setFormData({ name: "", email: "", password: "" });
+    const result = await dispatch(
+      register({
+        name,
+        email,
+        password,
+      })
+    );
+
+    if (result.payload.success) {
       setShowRegister(false);
     } else {
-      alert("invalid");
+      console.log(result.payload),
+        setFormData({
+          ...formData,
+          error: "An error occurred. Please try again.",
+        });
     }
   };
 
   return (
     <LoginStyled>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         {inputsRegister.map((input) => (
           <InputField

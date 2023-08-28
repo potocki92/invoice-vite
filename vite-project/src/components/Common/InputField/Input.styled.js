@@ -22,7 +22,7 @@ export const InputsContent = styled.div`
 export const InputsContainer = styled.div`
   position: relative;
   display: flex;
-  align-items: flex-start; 
+  align-items: flex-start;
   width: 100%;
   padding: 0 9px 0 9px;
 
@@ -46,7 +46,6 @@ export const InputsContainer = styled.div`
     gap: 10px;
   }
   @media (min-width: 1024px) {
-    
     &.full-33 {
       width: 33.33%;
     }
@@ -110,28 +109,21 @@ export const Input = styled.input`
   transition: outline-color 500ms;
   margin: 10px 0;
   &:is(:focus, :valid) {
-    outline-color: #008060
+    outline-color: #008060;
   }
-  &:focus + ${InputSpan}, &:valid + ${InputSpan}{
+  &:focus + ${InputSpan}, &:valid + ${InputSpan}, &.has-content + ${InputSpan} {
     padding-inline: 5px;
-    translate: 10px -14px;
+    translate: 10px -2px;
     scale: 0.8;
-    background-color: #fff
-  }
-
-  &.has-content + ${InputSpan} {
-    padding-inline: 5px;
-    translate: 10px -14px;
-    scale: 0.8;
-    background-color: #fff
+    background-color: #fff;
   }
 `;
 
 export const Icon = styled.div`
-position: absolute;
-height: 100%;
-display: flex;
-justify-content: center;
-align-items: center;
-width: 40px;
-`
+  position: absolute;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+`;

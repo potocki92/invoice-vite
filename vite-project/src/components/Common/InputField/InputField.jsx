@@ -48,7 +48,7 @@ const InputField = (props) => {
           onChange(e);
         }}
       />
-        <InputSpan for={id} className={isFloating(value)}>{label}</InputSpan>
+        <InputSpan for={id}>{label}</InputSpan>
       <Icon>
         {icon}
       </Icon>
