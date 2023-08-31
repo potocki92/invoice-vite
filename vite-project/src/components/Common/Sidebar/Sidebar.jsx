@@ -1,23 +1,6 @@
 import { Link } from "react-router-dom";
-import { ReactComponent as DashboardIcon } from "@assets/images/svg/dashboard.svg";
-import { ReactComponent as AddInvoiceIcon } from "@assets/images/svg/addInvoice.svg";
-import { ReactComponent as ClientsIcon } from "@assets/images/svg/clients.svg";
-import {
-  BurgerIcon,
-  MobileSidebar,
-  SidebarButton,
-  SidebarItem,
-  SidebarList,
-  SidebarNavlink,
-  SidebarSpan,
-  SidebarStyled,
-  SidebarTitle,
-  ToggleMenuButton,
-} from "./Sidebar.styled";
 import { HomeOutline, PersonOutline } from 'react-ionicons'
-import styles from "./Sidebar.module.css"
 import { useState } from "react";
-import UserMenu from "@components/Common/UserMenu/UserMenu";
 
 /**
  * Represents a sidebar navigation component that provides links to different sections of the application.
@@ -123,41 +106,37 @@ const Sidebar = ({ setLoginUser }) => {
           handleLinkClick={handleLinkClick}
         />
       </SidebarStyled> */}
-  <div className={`${isClick ? "hidden" : ""} z-10 relative w-[300px] h-full bg-[#4b5bf9] border-l-[5px] border-[#4b5bf9]` } >
-      <ul className="absolute top-0 left-0 w-full pt-10 pl-[5px]">
-        <li 
-        className={`${activeIndex === 0 ? "bg-[#FBFCFF] text-red" : ""} relative w-full rounded-r-[20px] list`}
-        onClick={() => handleItemClick(0)}>
-          <b className="[&>*:nth-child(1)]:absolute"></b>
-          <b></b>
-          <a className="flex w-full relative block text-[#FBFCFF]" href="#">
-            <span className="relative block min-w-[60px] h-[60px] leading-[70px] text-center">
+  <div className={`${isClick ? "hidden" : ""} sm:block z-10 relative w-[100vw] sm:w-[300px] h-full bg-[#4b5bf9] border-l-[5px] border-[#4b5bf9]` } >
+      <ul className="absolute top-0 left-0 w-full pt-10 pl-[5px] mt-[45px]">
+        <li className={`${activeIndex === 0 ? "bg-[#FBFCFF]" : ""} relative w-full rounded-l-[20px] list`} onClick={() => handleItemClick(0)}>
+          <b className={`${activeIndex === 0 ? "block" : "hidden"} absolute top-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-br-[20px]`}></b>
+          <b className={`${activeIndex === 0 ? "block" : "hidden"} absolute bottom-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-tr-[20px]`}></b>
+          <Link className={`${activeIndex === 0 ? "text-[#333]" : "text-[#FBFCFF]"} flex w-full relative block`} to={""} onClick={handleLinkClick}>
+            <span className="relative flex justify-center items-center min-w-[60px] h-[60px] leading-[70px] text-center">
               <HomeOutline
                 color={"currentColor"}
                 style={{ fontSize: "1.5em"}}
               />
             </span>
-            <span className={styles.title}>HOME</span>
-          </a>
+            <span className={"relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal"}>HOME</span>
+          </Link>
         </li>
-        <li 
-        className={`${activeIndex === 1 ? styles.active : ""} list`}
-        onClick={() => handleItemClick(1)}>
-          <b></b>
-          <b></b>
-          <a href="#">
-            <span className={styles.icon}>
+        <li className={`${activeIndex === 1 ? "bg-[#FBFCFF]" : ""} relative w-full rounded-l-[20px] list`} onClick={() => handleItemClick(1)}>
+          <b className={`${activeIndex === 1 ? "block" : "hidden"} absolute top-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-br-[20px]`}></b>
+          <b className={`${activeIndex === 1 ? "block" : "hidden"} absolute bottom-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-tr-[20px]`}></b>
+          <Link className={`${activeIndex === 1 ? "text-[#333]" : "text-[#FBFCFF]"} flex w-full relative block`} to={`invoice`} onClick={handleLinkClick}>
+            <span className="relative flex justify-center items-center min-w-[60px] h-[60px] leading-[70px] text-center">
               <PersonOutline
                 color={"currentColor"}
                 style={{ fontSize: "1.5em"}}
                 />
             </span>
-            <span className={styles.title}>PROFILE</span>
-          </a>
+            <span className={"relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal"}>Create Invoice</span>
+          </Link>
         </li>
       </ul>
       </div>
-      <div className={styles.toggle} onClick={handleBurgerClick}></div>
+      <div className={`${isClick ? "bg-[#4b5bf9]" : "bg-[#FBFCFF]"} sm:hidden z-20 fixed top-[20px] right-[20px] w-[50px] h-[50px] rounded-[10px] cursor-pointer`} onClick={handleBurgerClick}></div>
     </div>
   );
 };
