@@ -8,7 +8,11 @@ import { InvoiceContainer } from "./Invoice.styled";
 import InvoicePreview from "@components/Invoice/InvoicePreview/InvoicePreview";
 import { DefaultButton } from "@components/buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { setEditingMode, setInvoice, setUserDetails } from "@redux/invoices/single/slice";
+import {
+  setEditingMode,
+  setInvoice,
+  setUserDetails,
+} from "@redux/invoices/single/slice";
 import { fetchUser } from "@redux/user/operations";
 import { selectUser } from "@redux/user/selectors";
 import { addInvoice } from "@redux/invoices/all/operations";
@@ -31,10 +35,15 @@ const Invoices = () => {
 
   const dispatch = useDispatch();
   const invoice = useSelector(selectInvoice);
-  dispatch(setEditingMode(false))
+  dispatch(setEditingMode(false));
   const user = useSelector(selectUser);
   const [currentMonthInvoices, setCurrentMonthInvoices] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [showInvoicePreview, setShowInvoicePreview] = useState(false);
+
+  const handleShowInvoicePreview = () => {
+    setShowInvoicePreview(!showInvoicePreview);
+  };
   /**
    * Validates whether the new invoice data is valid.
    * @returns {boolean} - true if the form data is valid, false otherwise.
@@ -58,7 +67,7 @@ const Invoices = () => {
    * @returns {void}
    */
   useEffect(() => {
-      dispatch(fetchUser());
+    dispatch(fetchUser());
   }, [dispatch]);
 
   useEffect(() => {
@@ -80,8 +89,8 @@ const Invoices = () => {
       // Send a POST request to add a new invoice to the server
       const newInvoice = {
         ...invoice,
-        _id: new Types.ObjectId()
-      }
+        _id: new Types.ObjectId(),
+      };
       dispatch(addInvoice(newInvoice))
         .then((res) => {
           console.log("Invoice has been saved to the database.");
@@ -139,12 +148,16 @@ const Invoices = () => {
         </div>
       </StyledBox>
       <InvoiceContainer>
-        <InvoiceInputs buttonComponent={DefaultButton} handleSave={handleSave}>
+        <InvoiceInputs
+          buttonComponent={DefaultButton}
+          handleSave={handleSave}
+          handleShowInvoicePreview={handleShowInvoicePreview}
+        >
           <DefaultButton className="edit" onClick={handleSave}>
             Save
           </DefaultButton>
         </InvoiceInputs>
-        <InvoicePreview invoice={invoice} />
+        {showInvoicePreview ? <InvoicePreview invoice={invoice} /> : null}
       </InvoiceContainer>
     </div>
   );

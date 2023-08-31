@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Icon, Input, InputSpan, InputsContainer } from "./Input.styled";
-import isFloating from "../../../utils/isFloating";
 import { useSelector } from "react-redux";
 import { ModalButton } from "../Modal/Modal.styled";
 import { HiUser } from "react-icons/hi";
@@ -55,12 +54,16 @@ const InputField = (props) => {
         id={id}
         className={`${isForm ? "forms" : ""} ${value ? "has-content" : ""}`}
         {...inputProps}
-        value={getValueByDataKey(invoice, data) === undefined ? value : getValueByDataKey(invoice, data)}
+        value={
+          getValueByDataKey(invoice, data) === undefined
+            ? value
+            : getValueByDataKey(invoice, data)
+        }
         onChange={(e) => {
           onChange(e);
         }}
       />
-      <InputSpan for={id}>{label}</InputSpan>
+      <InputSpan htmlFor={id}>{label}</InputSpan>
       <Icon>{icon}</Icon>
       {isInLogged && inputProps.modal ? (
         <ModalButton onClick={() => setShowModal(true)}>
