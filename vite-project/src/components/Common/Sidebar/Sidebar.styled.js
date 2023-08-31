@@ -66,7 +66,6 @@ export const SidebarButton = styled.button`
 `;
 
 export const SidebarSpan = styled.span`
-  font-family: "Nunito";
   font-style: normal;
   font-weight: 700;
   font-size: 18px;

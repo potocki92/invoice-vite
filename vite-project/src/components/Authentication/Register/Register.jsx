@@ -5,8 +5,6 @@ import { DefaultButton } from "../../buttons.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
-import GoogleAuth from "../GoogleAuth/GoogleAuth";
-import LinkedinAuth from "../LinkedinAuth/LinkedinAuth";
 import { inputsRegister } from "./inputs";
 import { getIcon } from "../../../utils/getIcon";
 import { selectError } from "../../../redux/auth/selectors";
@@ -84,8 +82,6 @@ const Register = ({ setShowRegister }) => {
         <DefaultButton type="submit" value="Register">
           Create An Account
         </DefaultButton>
-        <GoogleAuth isRegister={true} />
-        <LinkedinAuth />
       </InputsForm>
     </LoginStyled>
   );
