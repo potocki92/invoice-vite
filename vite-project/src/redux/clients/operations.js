@@ -17,7 +17,6 @@ export const fetchClients = createAsyncThunk(
     setAuthHeader(token);
     try {
       const response = await axios.get("/clients");
-      console.log("Fetched clients:", response.data);
       return response.data;
     } catch (error) {
       console.error(error);

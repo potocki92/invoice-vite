@@ -18,15 +18,28 @@ import { selectIsLoggedIn } from "../../../redux/auth/selectors";
 const InputField = (props) => {
   const [showModal, setShowModal] = useState(false);
   const editingMode = useSelector((state) => state.invoice.isEditing);
-  const isInLogged = useSelector(selectIsLoggedIn)
+  const isInLogged = useSelector(selectIsLoggedIn);
   const invoice = !editingMode
-  ? useSelector((state) => state.invoice.invoice)
-  : useSelector((state) => state.invoice.editInvoice);
-  const { markup, label, onChange, handleProductChange, containerClass, id, data,modalData, value, isForm, icon, ...inputProps } = props;
+    ? useSelector((state) => state.invoice.invoice)
+    : useSelector((state) => state.invoice.editInvoice);
+  const {
+    markup,
+    label,
+    onChange,
+    handleProductChange,
+    containerClass,
+    id,
+    data,
+    modalData,
+    value,
+    isForm,
+    icon,
+    ...inputProps
+  } = props;
 
   const getValueByDataKey = (obj, key) => {
     if (key) {
-      const keys = key.split('.');
+      const keys = key.split(".");
       let value = obj;
       for (const k of keys) {
         value = value[k];
@@ -35,40 +48,37 @@ const InputField = (props) => {
       return value;
     }
   };
-  
+
   return (
     <InputsContainer className={`${isForm ? "forms" : ""} ${containerClass}`}>
       <Input
         id={id}
-        className={`${isForm ? "forms" : ""
-        } ${value ? "has-content" : ""}`}
+        className={`${isForm ? "forms" : ""} ${value ? "has-content" : ""}`}
         {...inputProps}
-        value={getValueByDataKey(invoice, data)}
+        value={getValueByDataKey(invoice, data) === undefined ? value : getValueByDataKey(invoice, data)}
         onChange={(e) => {
           onChange(e);
         }}
       />
-        <InputSpan for={id}>{label}</InputSpan>
-      <Icon>
-        {icon}
-      </Icon>
+      <InputSpan for={id}>{label}</InputSpan>
+      <Icon>{icon}</Icon>
       {isInLogged && inputProps.modal ? (
         <ModalButton onClick={() => setShowModal(true)}>
           <HiUser size={25} />
         </ModalButton>
       ) : null}
       {showModal &&
-            createPortal(
-              <Modal
-                handleChange={handleProductChange}
-                markup={markup}
-                headerText={"Products"}
-                data={modalData}
-                onClose={() => setShowModal(false)}
-                className={showModal ? "show" : ""}
-              />,
-              document.body
-            )}
+        createPortal(
+          <Modal
+            handleChange={handleProductChange}
+            markup={markup}
+            headerText={"Products"}
+            data={modalData}
+            onClose={() => setShowModal(false)}
+            className={showModal ? "show" : ""}
+          />,
+          document.body
+        )}
     </InputsContainer>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "@components/Product/ProductCard/ProductCard";
 import { InvoiceInputsContainer, TextArea } from "./InvoiceInputs.styled";
-import isFloating from "@utils/isFloating";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import clientCardMarkup from "@markups/clientCardMarkup";
 import {
@@ -75,7 +74,6 @@ import { selectIsLoggedIn } from "../../../redux/auth/selectors";
  * @returns {JSX.Element} - Rendered component
  */
 const InvoiceInputs = ({ children }) => {
-  const [showModal, setShowModal] = useState(false);
   const isInLogged = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
   const editingMode = useSelector((state) => state.invoice.isEditing);

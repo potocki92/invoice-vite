@@ -94,16 +94,16 @@ export const InputSpan = styled.label`
   position: absolute;
   top: 0;
   left: 30px;
-  translate: 10px 20px;
+  translate: 22px 24px;
   transition: translate 500ms, scale 500ms;
 `;
 
 export const Input = styled.input`
   font: inherit;
   width: 100%;
-  padding: 10px 40px;
+  padding: 15px 40px;
   border: none;
-  border-radius: 4px;
+  border-radius: 2px;
   outline: 1px solid black;
   background-color: transparent;
   transition: outline-color 500ms;

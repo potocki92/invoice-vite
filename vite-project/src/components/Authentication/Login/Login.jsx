@@ -5,9 +5,6 @@ import { DefaultButton } from "../../buttons.styled";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
-import GoogleAuth from "../GoogleAuth/GoogleAuth";
-import { LinkedIn } from "react-linkedin-login-oauth2";
-import LinkedinAuth from "../LinkedinAuth/LinkedinAuth";
 import { inputsLogin } from "./inputs";
 import { getIcon } from "../../../utils/getIcon";
 /**
@@ -73,8 +70,6 @@ const Login = () => {
         <DefaultButton type="submit" value="Login">
           LogIn
         </DefaultButton>
-        <GoogleAuth isRegister={false} />
-        <LinkedinAuth />
       </InputsForm>
     </LoginStyled>
   );
