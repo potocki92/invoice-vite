@@ -38,22 +38,33 @@ const Sidebar = ({ setLoginUser }) => {
 
   const array = [
     {
-      "title": "asdasd",
+      "link": "",
+      "title": "HOME",
     },
     {
-      "title": "asdasd",
+      "link": "invoice",
+      "title": "CREATE INVOICE",
     },
     {
-      "title": "asdasd",
+      "link": "products",
+      "title": "PRODUCTS",
+    },
+    {
+      "link": "clients",
+      "title": "CLIENTS",
+    },
+    {
+      "link": "user",
+      "title": "USER",
     }
   ]
   return (
     <div>
-      {array.map((a) => {
-        <SidebarList title={a.title}/>
-      })}
   <div className={`${isClick ? "" : "hidden"} sm:block z-10 relative w-[100vw] sm:w-[300px] h-full bg-[#4b5bf9] border-l-[5px] border-[#4b5bf9]` } >
       <ul className="absolute top-0 left-0 w-full pt-10 pl-[5px] mt-[45px]">
+      {array.map((a, index) => (
+        <SidebarList title={a.title} activeIndex={activeIndex} handleItemClick={handleItemClick} handleLinkClick={handleLinkClick} link={a.link} index={index}/>
+      ))}
         <li className={`${activeIndex === 0 ? "bg-[#FBFCFF]" : ""} relative w-full rounded-l-[20px] list`} onClick={() => handleItemClick(0)}>
           <b className={`${activeIndex === 0 ? "block" : "hidden"} absolute top-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-br-[20px]`}></b>
           <b className={`${activeIndex === 0 ? "block" : "hidden"} absolute bottom-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-tr-[20px]`}></b>
@@ -70,7 +81,7 @@ const Sidebar = ({ setLoginUser }) => {
         <li className={`${activeIndex === 1 ? "bg-[#FBFCFF]" : ""} relative w-full rounded-l-[20px] list`} onClick={() => handleItemClick(1)}>
           <b className={`${activeIndex === 1 ? "block" : "hidden"} absolute top-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-br-[20px]`}></b>
           <b className={`${activeIndex === 1 ? "block" : "hidden"} absolute bottom-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-tr-[20px]`}></b>
-          <Link className={`${activeIndex === 1 ? "text-[#333]" : "text-[#FBFCFF]"} flex w-full relative block`} to={`invoice`} onClick={handleLinkClick}>
+          <Link className={`${activeIndex === 1 ? "text-[#333]" : "text-[#FBFCFF]"} flex w-full relative block`} to={"invoice"} onClick={handleLinkClick}>
             <span className="relative flex justify-center items-center min-w-[60px] h-[60px] leading-[70px] text-center">
               <PersonOutline
                 color={"currentColor"}
