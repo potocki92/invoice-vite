@@ -72,18 +72,15 @@ const Sidebar = ({ setLoginUser }) => {
     <div>
       <div
         className={`${
-          isClick ? "" : "w-[0vw]"
-        } transition-width duration-300 ease-in-out sm:block z-10 relative w-[100vw] sm:w-[300px] h-full bg-[#4b5bf9] border-l-[5px] border-[#4b5bf9]`}
+          isClick ? "" : "w-[0]"
+        } transition-width duration-300 ease-in-out sm:block z-10 relative w-[100vw] sm:w-[300px] h-full bg-[#4b5bf9] border-[#4b5bf9]`}
       >
-        <ul
-          className={`${
-            isClick ? "" : "hidden"
-          } absolute top-0 left-0 w-full pt-10 pl-[5px] mt-[45px]`}
-        >
+        <ul className={`absolute top-0 left-0 w-full pt-10 pl-[5px] mt-[45px]`}>
           {sidebarListArray.map((list, index) => (
             <SidebarList
               {...list}
               activeIndex={activeIndex}
+              isClick={isClick}
               handleItemClick={handleItemClick}
               handleLinkClick={handleLinkClick}
               index={index}

@@ -8,6 +8,7 @@ const SidebarList = (props) => {
     link,
     index,
     icon,
+    isClick
   } = props;
 
   return (
@@ -35,12 +36,16 @@ const SidebarList = (props) => {
           to={link}
           onClick={handleLinkClick}
         >
-          <span className="relative flex justify-center items-center min-w-[60px] h-[60px] leading-[70px] text-center">
+          <span className={`${
+            isClick ? "" : "hidden"
+          } relative flex sm:flex justify-center items-center min-w-[60px] h-[60px] leading-[70px] text-center`}>
             {icon}
           </span>
           <span
             className={
-              "relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal"
+              `${
+                isClick ? "" : "hidden"
+              } sm:block relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal`
             }
           >
             {title}
