@@ -1,25 +1,16 @@
-import { Link } from "react-router-dom";
-import { ReactComponent as DashboardIcon } from "@assets/images/svg/dashboard.svg";
-import { ReactComponent as AddInvoiceIcon } from "@assets/images/svg/addInvoice.svg";
-import { ReactComponent as ClientsIcon } from "@assets/images/svg/clients.svg";
 import {
-  BurgerIcon,
-  MobileSidebar,
-  SidebarButton,
-  SidebarItem,
-  SidebarList,
-  SidebarNavlink,
-  SidebarSpan,
-  SidebarStyled,
-  SidebarTitle,
-  ToggleMenuButton,
-} from "./Sidebar.styled";
+  HomeOutline,
+  PersonOutline,
+  CreateOutline,
+  PeopleOutline,
+  ServerOutline,
+} from "react-ionicons";
 import { useState } from "react";
-import UserMenu from "@components/Common/UserMenu/UserMenu";
+import SidebarList from "./SidebarList/SidebarList";
 
 /**
  * Represents a sidebar navigation component that provides links to different sections of the application.
- * 
+ *
  * @component
  * @param {Object} props - The component props.
  * @param {function} props.setLoginUser - Function to set the logged-in user.
@@ -44,79 +35,66 @@ const Sidebar = ({ setLoginUser }) => {
   const handleLinkClick = () => {
     setIsClick(false);
   };
+  const [activeIndex, setActiveIndex] = useState(0); // State to keep track of the active index
+
+  const handleItemClick = (index) => {
+    setActiveIndex(index);
+  };
+
+  const sidebarListArray = [
+    {
+      link: "",
+      title: "HOME",
+      icon: <HomeOutline color={"currentColor"} />,
+    },
+    {
+      link: "invoice",
+      title: "CREATE INVOICE",
+      icon: <CreateOutline color={"currentColor"} />,
+    },
+    {
+      link: "products",
+      title: "PRODUCTS",
+      icon: <ServerOutline color={"currentColor"} />,
+    },
+    {
+      link: "clients",
+      title: "CLIENTS",
+      icon: <PeopleOutline color={"currentColor"} />,
+    },
+    {
+      link: "user",
+      title: "USER",
+      icon: <PersonOutline color={"currentColor"} />,
+    },
+  ];
   return (
-    <>
-      <MobileSidebar>
-        <ToggleMenuButton onClick={handleBurgerClick}>
-          <BurgerIcon className={isClick ? "active" : ""}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </BurgerIcon>
-        </ToggleMenuButton>
-      </MobileSidebar>
-      <SidebarStyled className={`${isClick ? "menu-open" : ""}`}>
-        <SidebarTitle>InvCom</SidebarTitle>
-        <SidebarNavlink>
-          <SidebarList>
-            <Link to={""} onClick={handleLinkClick}>
-              <SidebarItem>
-                <SidebarButton>
-                  <svg className="sidebar__svg" width={"32px"} height={"32px"}>
-                    <DashboardIcon />
-                  </svg>
-                  <SidebarSpan>Dashboard</SidebarSpan>
-                </SidebarButton>
-              </SidebarItem>
-            </Link>
-            <Link to={`invoice`} onClick={handleLinkClick}>
-              <SidebarItem>
-                <SidebarButton>
-                  <svg className="sidebar__svg" width={"32px"} height={"32px"}>
-                    <AddInvoiceIcon />
-                  </svg>
-                  <SidebarSpan>Create Invoice</SidebarSpan>
-                </SidebarButton>
-              </SidebarItem>
-            </Link>
-            <Link to={`products`} onClick={handleLinkClick}>
-              <SidebarItem>
-                <SidebarButton>
-                  <svg className="sidebar__svg" width={"32px"} height={"32px"}>
-                    <DashboardIcon />
-                  </svg>
-                  <SidebarSpan>Products</SidebarSpan>
-                </SidebarButton>
-              </SidebarItem>
-            </Link>
-            <Link to={`clients`} onClick={handleLinkClick}>
-              <SidebarItem>
-                <SidebarButton>
-                  <svg className="sidebar__svg" width={"32px"} height={"32px"}>
-                    <ClientsIcon />
-                  </svg>
-                  <SidebarSpan>Clients</SidebarSpan>
-                </SidebarButton>
-              </SidebarItem>
-            </Link>
-            <Link to={`user`} onClick={handleLinkClick}>
-              <SidebarItem>
-                <SidebarButton>
-                  <svg className="sidebar__svg" width={"32px"} height={"32px"}>
-                    <ClientsIcon />
-                  </svg>
-                  <SidebarSpan>User</SidebarSpan>
-                </SidebarButton>
-              </SidebarItem>
-            </Link>
-          </SidebarList>
-        </SidebarNavlink>
-        <UserMenu
-          setLoginUser={setLoginUser}
-          handleLinkClick={handleLinkClick}
-        />
-      </SidebarStyled>
-    </>
+    <div>
+      <div
+        className={`${
+          isClick ? "" : "w-[0]"
+        } transition-width duration-300 ease-in-out sm:block z-10 relative w-[100vw] sm:w-[300px] h-full bg-[#4b5bf9] border-[#4b5bf9]`}
+      >
+        <ul className={`absolute top-0 left-0 w-full pt-10 pl-[5px] mt-[45px]`}>
+          {sidebarListArray.map((list, index) => (
+            <SidebarList
+              {...list}
+              activeIndex={activeIndex}
+              isClick={isClick}
+              handleItemClick={handleItemClick}
+              handleLinkClick={handleLinkClick}
+              index={index}
+            />
+          ))}
+        </ul>
+      </div>
+      <div
+        className={`${
+          isClick ? "bg-[#FBFCFF]" : "bg-[#4b5bf9]"
+        } sm:hidden z-20 fixed top-[20px] right-[20px] w-[50px] h-[50px] rounded-[10px] cursor-pointer`}
+        onClick={handleBurgerClick}
+      ></div>
+    </div>
   );
 };
 

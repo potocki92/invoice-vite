@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ProductCard from "@components/Product/ProductCard/ProductCard";
 import { InvoiceInputsContainer, TextArea } from "./InvoiceInputs.styled";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -73,7 +73,7 @@ import { selectIsLoggedIn } from "../../../redux/auth/selectors";
  * @param {ReactNode} props.children - Optional React children elements
  * @returns {JSX.Element} - Rendered component
  */
-const InvoiceInputs = ({ children }) => {
+const InvoiceInputs = ({ children, handleShowInvoicePreview }) => {
   const isInLogged = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
   const editingMode = useSelector((state) => state.invoice.isEditing);
@@ -256,9 +256,17 @@ const InvoiceInputs = ({ children }) => {
       <InfoWrapper title={"Products:"} />
       {!isInLogged ? (
         <InputsContent>
-          {invoice?.products?.items.map((product, index) => (
-            <ProductCard key={product._id} index={index} product={product} />
-          ))}
+          {invoice?.products?.items.map(
+            (product, index) => (
+              (
+                <ProductCard
+                  key={product._id}
+                  index={index}
+                  product={product}
+                />
+              )
+            )
+          )}
         </InputsContent>
       ) : (
         <InputsContent>
@@ -302,7 +310,7 @@ const InvoiceInputs = ({ children }) => {
           </PDFDownloadLink>
           {children}
         </InputsContainer>
-        <ButtonPDFReview />
+        <ButtonPDFReview onClick={handleShowInvoicePreview} />
         <InputsContainer></InputsContainer>
       </InputsContent>
     </InvoiceInputsContainer>
