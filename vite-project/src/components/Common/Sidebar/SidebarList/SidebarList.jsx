@@ -49,7 +49,7 @@ const SidebarList = (props) => {
             className={
               `${
                 isClick ? "" : "hidden"
-              } sm:block relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal`
+              } sm:hidden md:block relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal`
             }
           >
             {title}

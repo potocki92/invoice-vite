@@ -13,7 +13,7 @@ import { MyContext } from "../Sidebar/Context";
       <>
         <button className={`${
                 isClick ? "flex" : "hidden"
-              } sm:flex z-10 absolute bottom-0 w-[50px] h-[50px] justify-center items-center text-[#FBFCFF] rounded-[10px]`} onClick={() => dispatch(logOut())}>
+              } sm:flex z-10 absolute pl-[10px] bottom-0 w-[60px] h-[60px] justify-center items-center text-[#FBFCFF] rounded-[10px]`} onClick={() => dispatch(logOut())}>
             <span>
                 <ExitOutline color={"currentColor"}/>
             </span>
