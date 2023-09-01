@@ -17,7 +17,7 @@ const Homepage = ({ setLoginUser, user }) => {
                 <p>Your ID: {user._id}</p>
             </div>
         ) : (
-      <div className="homepage__content">
+      <div className={`w-full`}>
             <UserMenu setLoginUser={setLoginUser} />
             <Outlet />
           </div>

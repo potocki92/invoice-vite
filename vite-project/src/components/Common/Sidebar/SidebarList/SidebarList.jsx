@@ -1,16 +1,20 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { MyContext } from "../Context";
+
 const SidebarList = (props) => {
   const {
     title,
-    activeIndex,
-    handleItemClick,
-    handleLinkClick,
     link,
     index,
     icon,
-    isClick
   } = props;
-
+  const {
+    activeIndex,
+    handleItemClick,
+    handleLinkClick,
+    isClick,
+  } = useContext(MyContext)
   return (
     <>
       <li
