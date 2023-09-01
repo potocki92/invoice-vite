@@ -20,7 +20,7 @@ const SidebarList = (props) => {
       <li
         className={`${
           activeIndex === index ? "bg-[#FBFCFF]" : ""
-        } relative w-full rounded-l-[20px] list`}
+        } h-[60px] relative w-full rounded-l-[20px] list`}
         onClick={() => handleItemClick(index)}
       >
         <b

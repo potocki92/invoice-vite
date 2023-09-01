@@ -9,6 +9,7 @@ import { useState } from "react";
 import SidebarList from "./SidebarList/SidebarList";
 import LogoutButton from "../Buttons/LogoutButton";
 import { MyContext } from "./Context";
+import SidebarButton from "./SidebarButton/SidebarButton";
 
 /**
  * Represents a sidebar navigation component that provides links to different sections of the application.
@@ -72,7 +73,7 @@ const Sidebar = () => {
     }
     ];
   return (
-    <MyContext.Provider value={{activeIndex, isClick, handleItemClick, handleLinkClick}}>
+    <MyContext.Provider value={{activeIndex, isClick, handleItemClick, handleLinkClick, handleBurgerClick}}>
     <div>
       <div
         className={`${
@@ -88,15 +89,8 @@ const Sidebar = () => {
             ))}
         </ul>
       </div>
-      <div
-        className={`${
-          isClick ? "bg-[#FBFCFF]" : "bg-[#4b5bf9]"
-        } sm:hidden z-20 fixed top-[20px] right-[25px] w-[50px] h-[50px] rounded-[10px] cursor-pointer`}
-        onClick={handleBurgerClick}
-        ></div>
-      
+        <SidebarButton/>
         <LogoutButton/>
-        
     </div>
         </MyContext.Provider>
   );
