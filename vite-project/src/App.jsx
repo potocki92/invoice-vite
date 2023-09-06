@@ -12,17 +12,17 @@ import { refreshUser } from "@redux/auth/operations";
 import { RestrictedRoute } from "./RestrictedRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import { useAuth } from "./hooks/useAuth";
-
-import Home from "@pages/home/Home"
-import Homepage from "@pages/homepage/Homepage"
-import Invoices from "@pages/invoice/Invoices"
+import Homepage from "@pages/homepage/Homepage";
+import Invoices from "@pages/invoice/Invoices";
 import User from "@pages/user/User";
 import Clients from "@pages/clients/Clients";
-import Products from "@pages/products/Products"
+import Products from "@pages/products/Products";
 const Authentication = lazy(() =>
   import("@components/Authentication/Authentication")
 );
 import InvoiceEdit from "@pages/invoice/edit/InvoiceEdit";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Home from "./pages/home/Home";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,12 +37,22 @@ function App() {
   return isRefreshing ? (
     <b>Refreshing user...</b>
   ) : (
-    <div className="App">
+    <div className="App flex flex-col min-h-screen bg-[#0C0A09]">
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
+            <Route path={`${homeLink}/home`} element={<Home />} initial />
             <Route
               path={`${homeLink}/login`}
+              element={
+                <RestrictedRoute
+                  redirectTo={`${homeLink}/`}
+                  component={<Authentication setLoginUser={setLoginUser} />}
+                />
+              }
+            />
+            <Route
+              path={`${homeLink}/signup`}
               element={
                 <RestrictedRoute
                   redirectTo={`${homeLink}/`}
@@ -54,20 +64,20 @@ function App() {
               path={`${homeLink}/`}
               element={
                 <PrivateRoute
-                  redirectTo={`${homeLink}/login`}
+                  redirectTo={`${homeLink}/home`}
                   component={
                     <Homepage setLoginUser={setLoginUser} user={user} />
                   }
                 />
               }
             >
-              <Route path="" element={<Home />} />
+              <Route path="" element={<Dashboard />} />
               <Route path="invoice" element={<Invoices />} />
 
               <Route path="invoice/:invoiceId" element={<InvoiceEdit />} />
               <Route path="products" element={<Products />} />
               <Route path="clients" element={<Clients />} />
-              <Route path="user" element={<User />}/>
+              <Route path="user" element={<User />} />
             </Route>
             <Route path="/*" element={<Navigate to={homeLink} replace />} />
           </Routes>

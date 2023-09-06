@@ -13,7 +13,8 @@ import {
   FormHeader,
   Wrapper,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
-import LinkedinAuth from "./LinkedinAuth/LinkedinAuth";
+import { useLocation } from "react-router-dom";
+import { homeLink } from "../../utils/linkConfig";
 /**
  * Authentication component.
  * @component
@@ -25,8 +26,16 @@ import LinkedinAuth from "./LinkedinAuth/LinkedinAuth";
  * )
  */
 const Authentication = () => {
+  const location = useLocation();
   const [showRegister, setShowRegister] = useState(false);
 
+  useEffect(() => {
+    if (location.pathname === `${homeLink}/signup`) {
+      setShowRegister(true);
+    } else if (location.pathname === `${homeLink}/login`) {
+      setShowRegister(false);
+    }
+  }, [location.pathname]);
   const handleAfterClick = () => {
     setShowRegister(!showRegister);
   };

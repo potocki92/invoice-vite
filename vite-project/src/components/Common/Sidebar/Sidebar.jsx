@@ -48,7 +48,7 @@ const Sidebar = () => {
   const sidebarListArray = [
     {
       link: "",
-      title: "HOME",
+      title: "DASHBOARD",
       icon: <HomeOutline color={"currentColor"} />,
     },
     {
