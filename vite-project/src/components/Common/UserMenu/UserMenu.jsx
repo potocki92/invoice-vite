@@ -4,6 +4,7 @@ import { ReactComponent as LogoffIcon } from "@assets/images/svg/logout.svg";
 import { homeLink } from "@utils/linkConfig";
 import { useDispatch } from "react-redux";
 import { logOut } from "@redux/auth/operations";
+import LogoutButton from "../Buttons/LogoutButton";
 
 /**
  * Represents a user menu component that provides links to the user profile and logout functionality.
@@ -21,9 +22,6 @@ const UserMenu = ({ handleLinkClick }) => {
       <Link to={`${homeLink}/user`} onClick={handleLinkClick}>
         <UserLogo />
       </Link>
-      <UserLogoutButton onClick={() => dispatch(logOut())}>
-        <LogoffIcon />
-      </UserLogoutButton>
     </UserMenuStyled>
   );
 };

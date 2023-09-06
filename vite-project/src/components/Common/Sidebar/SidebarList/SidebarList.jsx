@@ -1,22 +1,26 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { MyContext } from "../Context";
+
 const SidebarList = (props) => {
   const {
     title,
-    activeIndex,
-    handleItemClick,
-    handleLinkClick,
     link,
     index,
     icon,
-    isClick
   } = props;
-
+  const {
+    activeIndex,
+    handleItemClick,
+    handleLinkClick,
+    isClick,
+  } = useContext(MyContext)
   return (
     <>
       <li
         className={`${
           activeIndex === index ? "bg-[#FBFCFF]" : ""
-        } relative w-full rounded-l-[20px] list`}
+        } h-[60px] relative w-full rounded-l-[20px] list`}
         onClick={() => handleItemClick(index)}
       >
         <b
@@ -45,7 +49,7 @@ const SidebarList = (props) => {
             className={
               `${
                 isClick ? "" : "hidden"
-              } sm:block relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal`
+              } sm:hidden md:block relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal`
             }
           >
             {title}
