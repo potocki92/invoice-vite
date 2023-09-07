@@ -4,7 +4,7 @@ import { homeLink } from "../../utils/linkConfig";
 const Home = () => {
   return (
     <>
-      <header className="sticky top-0 z-40 bg-background">
+      <header className="sticky top-0 z-40 bg-[#0C0A09] border-b">
         <div className="flex items-center justify-between h-16 px-4 space-x-4 md:container">
           <div className="flex gap-6 md:gap-10">
             <a className="flex items-center space-x-2" href="/">
@@ -48,7 +48,7 @@ const Home = () => {
           </div>
         </div>
       </header>
-      <body className="flex-1">
+      <main className="flex-1">
         <div className="container flex flex-col items-center px-4 pb-4 pt-16">
           <div className="pt-6 pb-8 space-y-6 md:pb-12 md:pt-10">
             <div className="flex w-full mx-auto max-w-[64rem] flex-col items-center gap-4 text-center">
@@ -94,7 +94,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </body>
+      </main>
       <footer className="px-4 bg-[#0C0A09] flex items-center justify-end w-full py-6 mt-auto lg:pt-24">
         <span className="text-xs font-[600] text-[#B8B3AF]">
           Build by

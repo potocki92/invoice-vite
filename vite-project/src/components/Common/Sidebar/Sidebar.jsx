@@ -21,7 +21,7 @@ import SidebarButton from "./SidebarButton/SidebarButton";
  */
 const Sidebar = () => {
   const [isClick, setIsClick] = useState(false);
-  
+
   /**
    * Toggles the sidebar menu when the burger icon is clicked.
    * @function
@@ -70,29 +70,36 @@ const Sidebar = () => {
       link: "user",
       title: "USER",
       icon: <PersonOutline color={"currentColor"} />,
-    }
-    ];
+    },
+  ];
   return (
-    <MyContext.Provider value={{activeIndex, isClick, handleItemClick, handleLinkClick, handleBurgerClick}}>
-    <div>
-      <div
-        className={`${
-          isClick ? "w-[calc(100vw-10px)]" : ""
-        } transition-width duration-300 ease-in-out sm:block z-10 relative w-0 sm:w-[70px] md:w-[300px] h-full bg-[#4b5bf9] border-[#4b5bf9]`}
-      >
-        <ul className={`absolute flex flex-col top-0 left-0 h-full w-full pt-[85px] pl-[5px]`}>
-          {sidebarListArray.map((list, index) => (
-            <SidebarList
-            {...list}
-            index={index}
-            />
+    <MyContext.Provider
+      value={{
+        activeIndex,
+        isClick,
+        handleItemClick,
+        handleLinkClick,
+        handleBurgerClick,
+      }}
+    >
+      <aside className="absolute h-full">
+        <div
+          className={`${
+            isClick ? "w-[calc(100vw-10px)]" : ""
+          } transition-width duration-300 ease-in-out sm:block z-10 relative w-0 sm:w-[70px] md:w-[300px] h-full bg-[#4b5bf9] border-[#4b5bf9]`}
+        >
+          <ul
+            className={`absolute flex flex-col top-0 left-0 h-full w-full pt-[85px] pl-[5px]`}
+          >
+            {sidebarListArray.map((list, index) => (
+              <SidebarList {...list} index={index} />
             ))}
-        </ul>
-      </div>
-        <SidebarButton/>
-        <LogoutButton/>
-    </div>
-        </MyContext.Provider>
+          </ul>
+        </div>
+        <SidebarButton />
+        <LogoutButton />
+      </aside>
+    </MyContext.Provider>
   );
 };
 

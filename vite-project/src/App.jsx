@@ -37,11 +37,19 @@ function App() {
   return isRefreshing ? (
     <b>Refreshing user...</b>
   ) : (
-    <div className="App flex flex-col min-h-screen bg-[#0C0A09]">
+    <div className="flex flex-col min-h-screen bg-[#0C0A09]">
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path={`${homeLink}/home`} element={<Home />} initial />
+            <Route
+              path={`${homeLink}/home`}
+              element={
+                <RestrictedRoute
+                  redirectTo={`${homeLink}/`}
+                  component={<Home />}
+                />
+              }
+            />
             <Route
               path={`${homeLink}/login`}
               element={
