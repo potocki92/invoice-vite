@@ -37,7 +37,7 @@ function App() {
   return isRefreshing ? (
     <b>Refreshing user...</b>
   ) : (
-    <div className="App flex flex-col min-h-screen bg-[#0C0A09]">
+    <div className="flex flex-col h-full min-h-screen bg-[#0C0A09]">
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>

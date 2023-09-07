@@ -74,7 +74,7 @@ const Sidebar = () => {
     ];
   return (
     <MyContext.Provider value={{activeIndex, isClick, handleItemClick, handleLinkClick, handleBurgerClick}}>
-    <div>
+    <aside className="absolute sm:relative h-full">
       <div
         className={`${
           isClick ? "w-[calc(100vw-10px)]" : ""
@@ -91,7 +91,7 @@ const Sidebar = () => {
       </div>
         <SidebarButton/>
         <LogoutButton/>
-    </div>
+    </aside>
         </MyContext.Provider>
   );
 };
