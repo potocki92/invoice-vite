@@ -41,7 +41,15 @@ function App() {
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path={`${homeLink}/home`} element={<Home />} initial />
+            <Route
+              path={`${homeLink}/home`}
+              element={
+                <RestrictedRoute
+                  redirectTo={`${homeLink}/`}
+                  component={<Home />}
+                />
+              }
+            />
             <Route
               path={`${homeLink}/login`}
               element={

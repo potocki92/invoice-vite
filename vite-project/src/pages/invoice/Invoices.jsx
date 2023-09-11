@@ -139,7 +139,7 @@ const Invoices = () => {
   }, [invoice]);
 
   return (
-    <div className="container section is-flex col">
+    <div className="container is-flex col">
       <StyledBox>
         <div className="invoice__home-logo">
           <Link to={`/invoice-vite`}>

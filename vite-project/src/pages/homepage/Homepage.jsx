@@ -15,7 +15,7 @@ const Homepage = ({ setLoginUser, user }) => {
             <p>Your ID: {user._id}</p>
           </div>
         ) : (
-          <div className={`w-full overflow-auto`}>
+          <div className={`w-full overflow-auto pt-5`}>
             <Outlet />
           </div>
         )}
