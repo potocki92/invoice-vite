@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/auth/operations";
 import InputField from "../../Common/InputField/InputField";
 import { inputsLogin } from "./inputs";
-import { getIcon } from "../../../utils/getIcon";
 /**
  * Represents a login component that allows users to log in.
  * @param {Object} props - Component props.
@@ -53,7 +52,7 @@ const Login = () => {
   };
 
   return (
-    <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+    <div className="pt-5 px-5 mx-auto max-w-md flex w-full h-full flex-col justify-center space-y-6 sm:w-[350px]">
       <div className="flex flex-col space-y-2 text-center">
         <h1 className="text-2xl font-semibold tracking-tight text-[#FBFCFF]">
           Welcome back
@@ -63,7 +62,7 @@ const Login = () => {
         </p>
       </div>
       <div className="grid gap-5">
-        <form>
+        <form onSubmit={(e) => onSubmit(e)}>
           <div className="grid gap-3">
             <ul className="grid gap-3">
               <li className="flex flex-col space-y-1">
@@ -74,14 +73,17 @@ const Login = () => {
                   Email
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border border-[#FBFCFF] bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-[#FBFCFF] flex h-10 w-full rounded-md border border-[#292424] bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder-[#B8B3AF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   id="email"
                   placeholder="johndoe@example.com"
                   autoCorrect="off"
                   type="email"
-                  value
                   name="email"
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
                 />
+                <p className="px-1 text-xs font-[500] text-red-500/90"></p>
               </li>
               <li className="flex flex-col space-y-1">
                 <label
@@ -91,21 +93,34 @@ const Login = () => {
                   Password
                 </label>
                 <input
-                  className="flex h-10 w-full rounded-md border border-[#FBFCFF] bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-[#FBFCFF] flex h-10 w-full rounded-md border border-[#292424] bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder-[#B8B3AF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   id="password"
                   placeholder="*****"
                   autoCorrect="off"
                   type="password"
-                  value
                   name="password"
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
                 />
+                <p className="px-1 text-xs font-[500] text-red-500/90"></p>
               </li>
             </ul>
-            <button className="text-[#FBFCFF] bg-[#EA580C] inline-flex items-center justify-center rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+            <button className="text-[#FBFCFF] bg-[#EA580C] inline-flex items-center justify-center rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" type="submit" >
               Sign In with Email
             </button>
           </div>
         </form>
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-[#292424]"></span>
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="px-2 bg-[#0C0A09] text-[#B8B3AF]">OR</span>
+          </div>
+        </div>
+        <div className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-[#292424] h-10 px-4 py-2">
+        </div>
       </div>
       {/* {error && <ErrorMessage>{error}</ErrorMessage>}
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>

@@ -6,12 +6,9 @@ import InvoiceInputs from "../Invoice/InvoiceInputs/InvoiceInputs";
 import FormsWrapper from "../Common/FormsWrapper/FormsWrapper";
 import {
   AuthenticationInputsContent,
-  AuthenticationStyled,
 } from "./Authentication.styled";
 import {
-  FormContainer,
   FormHeader,
-  Wrapper,
 } from "../Common/FormsWrapper/FormsWrapper.styled";
 import { useLocation } from "react-router-dom";
 import { homeLink } from "../../utils/linkConfig";
@@ -63,15 +60,48 @@ const Authentication = () => {
   }, []);
   return (
     <div className="min-h-screen">
-      <div className="container grid flex-col items-center justify-center h-screen lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <div className="relative flex items-center w-full h-full sm:h-[550px] sm:w-[400px]">
-          <FormHeader
-            className={`${showRegister ? "register" : ""}`}
-            onClick={handleAfterClick}
-          ></FormHeader>
+      <div className="md:container flex flex-col items-center justify-center h-screen lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="relative flex flex-col items-center w-full h-full sm:h-[550px] sm:w-[400px]">
+
+          <div className="w-full flex">
+
+          <button
+              className={`flex justify-center w-[50%] h-[60px] relative block ${showRegister ? "bg-[#0C0A09]  text-[#FBFCFF]": "bg-[#FBFCFF]  text-[#0C0A09]"}`}
+              onClick={handleAfterClick}
+              >
+              <b
+            className={`absolute bottom-[0] h-[20px] w-full ${showRegister ? "bg-[#0C0A09] before:bg-[#0C0A09]": "bg-[#0C0A09] before:bg-[#FBFCFF]"}  before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full  before:rounded-br-[20px]`}
+            ></b>
+            <b
+            className={`absolute top-[0] h-[20px] w-full ${showRegister ? "bg-[#FBFCFF] after:bg-[#0C0A09]": "bg-[#FBFCFF] after:bg-[#FBFCFF]"} after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:rounded-tr-[20px]`}
+            ></b>
+            <span
+              className={`md:block relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal font-semibold`}
+              >
+                Sign Up
+            </span>
+          </button>
+          <button
+              className={`flex justify-center w-[50%] h-[60px] relative block ${showRegister ? "bg-[#FBFCFF] text-[#0C0A09]": "bg-[#0C0A09] text-[#FBFCFF]"} `}
+              onClick={handleAfterClick}
+            >
+              <b
+            className={`absolute bottom-[0] h-[20px] w-full ${showRegister ? "bg-[#0C0A09] before:bg-[#FBFCFF]": "bg-[#0C0A09] before:bg-[#0C0A09]"}  bg-[#0C0A09] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#0C0A09] before:rounded-bl-[20px]`}
+          ></b>
+          <b
+            className={`absolute top-[0] h-[20px] w-full ${showRegister ? "bg-[#FBFCFF] after:bg-[#FBFCFF]": "bg-[#0C0A09] after:bg-[#0C0A09]"}  bg-[#FBFCFF] after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-[#0C0A09] after:rounded-tl-[20px]`}
+            ></b>
+            <span
+              className={`md:block relative block pl-[10px] h-[60px] leading-[60px] whitespace-normal font-semibold`}
+            >
+              Sign In
+            </span>
+          </button>
+          </div>
+          
           {showRegister ? (
             <Register setShowRegister={setShowRegister} />
-          ) : (
+            ) : (
             <Login />
           )}
         </div>

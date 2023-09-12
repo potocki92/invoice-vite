@@ -40,8 +40,8 @@ function App() {
     <b>Refreshing user...</b>
   ) : (
     <div
-      className={`flex flex-col h-full min-h-screen ${
-        isHome ? "bg-[#0C0A09]" : "bg-[#0C0A09]"
+      className={`flex flex-col ${
+        isHome ? "min-h-screen bg-[#0C0A09]" : "h-full bg-[#0C0A09]"
       } `}
     >
       <Router>

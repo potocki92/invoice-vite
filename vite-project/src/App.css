@@ -18,6 +18,9 @@ span {
   list-style: none;
   text-decoration: none;
 }
+input:autofill {
+  background: #0C0A09;
+}
 a {
   color: #fff;
 }

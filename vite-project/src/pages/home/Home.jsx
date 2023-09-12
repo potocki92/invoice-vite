@@ -11,7 +11,7 @@ const Home = () => {
   }, [setIsHome]);
   return (
     <>
-      <header className="sticky top-0 z-40 bg-background">
+      <header className="sticky top-0 z-40 bg-background border-b border-[#292524]">
         <div className="flex items-center justify-between h-16 px-4 space-x-4 md:container">
           <div className="flex gap-6 md:gap-10">
             <a className="flex items-center space-x-2" href="/">
@@ -79,13 +79,13 @@ const Home = () => {
                 <button className="text-[#FBFCFF] inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  text-primary-foreground  h-10 px-4 py-2 bg-[#EA580C]">
                   <Link to={`${homeLink}/signup`}>Get Started</Link>
                 </button>
-                <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                <button className="inline-flex items-center justify-center border-[#292524] border-solid border-1 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                   <Link to={`${homeLink}/login`}>Login</Link>
                 </button>
               </div>
             </div>
           </div>
-          <div className="pt-6">
+          <div className="pt-6 border-t border-[#292524]">
             <h3 className="text-xl text-[#FBFCFF] font-semibold tracking-wide text-center text-foreground">
               About Project
             </h3>

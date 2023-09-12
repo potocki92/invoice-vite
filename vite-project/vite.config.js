@@ -7,7 +7,6 @@ export default defineConfig({
   base: "/invoice-vite",
   plugins: [react(),svgr({
     svgrOptions: {
-      
     }
   })],
   server: {
