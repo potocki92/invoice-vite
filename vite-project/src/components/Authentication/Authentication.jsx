@@ -15,6 +15,8 @@ import {
 } from "../Common/FormsWrapper/FormsWrapper.styled";
 import { useLocation } from "react-router-dom";
 import { homeLink } from "../../utils/linkConfig";
+import { useDispatch } from "react-redux";
+import { setIsHome } from "../../redux/home/slice";
 /**
  * Authentication component.
  * @component
@@ -26,9 +28,13 @@ import { homeLink } from "../../utils/linkConfig";
  * )
  */
 const Authentication = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const [showRegister, setShowRegister] = useState(false);
 
+  useEffect(() => {
+    dispatch(setIsHome(false));
+  }, [setIsHome]);
   useEffect(() => {
     if (location.pathname === `${homeLink}/signup`) {
       setShowRegister(true);
@@ -56,26 +62,24 @@ const Authentication = () => {
     });
   }, []);
   return (
-    <AuthenticationStyled>
-      <FormsWrapper>
-        <FormContainer>
-          <Wrapper>
-            <FormHeader
-              className={`${showRegister ? "register" : ""}`}
-              onClick={handleAfterClick}
-            ></FormHeader>
-            {showRegister ? (
-              <Register setShowRegister={setShowRegister} />
-            ) : (
-              <Login />
-            )}
-          </Wrapper>
-        </FormContainer>
-      </FormsWrapper>
+    <div className="min-h-screen">
+      <div className="container grid flex-col items-center justify-center h-screen lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="relative flex items-center w-full h-full sm:h-[550px] sm:w-[400px]">
+          <FormHeader
+            className={`${showRegister ? "register" : ""}`}
+            onClick={handleAfterClick}
+          ></FormHeader>
+          {showRegister ? (
+            <Register setShowRegister={setShowRegister} />
+          ) : (
+            <Login />
+          )}
+        </div>
+      </div>
       <AuthenticationInputsContent>
-        <InvoiceInputs />
+        {/* <InvoiceInputs /> */}
       </AuthenticationInputsContent>
-    </AuthenticationStyled>
+    </div>
   );
 };
 

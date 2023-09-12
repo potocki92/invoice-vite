@@ -18,12 +18,12 @@ const SidebarList = (props) => {
           <b
             className={`${
               activeIndex === index ? "block" : "hidden"
-            } absolute top-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-br-[20px]`}
+            } absolute top-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#353535] before:rounded-br-[20px]`}
           ></b>
           <b
             className={`${
               activeIndex === index ? "block" : "hidden"
-            } absolute bottom-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#4b5bf9] before:rounded-tr-[20px]`}
+            } absolute bottom-[-20px] h-[20px] w-full bg-[#FBFCFF] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#353535] before:rounded-tr-[20px]`}
           ></b>
           <div
             className={`${

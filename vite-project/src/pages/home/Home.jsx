@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import { homeLink } from "../../utils/linkConfig";
+import { useEffect } from "react";
+import { setIsHome } from "../../redux/home/slice";
+import { useDispatch } from "react-redux";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setIsHome(true));
+  }, [setIsHome]);
   return (
     <>
       <header className="sticky top-0 z-40 bg-background">
