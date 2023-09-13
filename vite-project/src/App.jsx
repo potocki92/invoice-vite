@@ -41,7 +41,7 @@ function App() {
   ) : (
     <div
       className={`flex flex-col ${
-        isHome ? "min-h-screen bg-[#0C0A09]" : "h-full bg-[#0C0A09]"
+        isHome ? "min-h-screen bg-[#0C0A09]" : "h-full bg-[#FBFCFF]"
       } `}
     >
       <Router>
