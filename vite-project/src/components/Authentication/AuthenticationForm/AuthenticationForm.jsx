@@ -13,7 +13,7 @@ const AuthenticationForm = (props) => {
                 {data.label}
               </label>
               <input
-                className="text-[#FBFCFF] flex h-10 w-full rounded-md border border-[#292424] bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder-[#B8B3AF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="text-[#FBFCFF] flex h-10 w-full rounded-md border border-[#B8B3AF] bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder-[#B8B3AF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 id={data.name}
                 placeholder={data.placeholder}
                 autoCorrect="off"

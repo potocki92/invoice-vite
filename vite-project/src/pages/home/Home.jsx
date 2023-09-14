@@ -16,7 +16,7 @@ const Home = () => {
           <div className="flex gap-6 md:gap-10">
             <a className="flex items-center space-x-2" href="/">
               <svg
-                class="w-6 block"
+                className="w-6 block"
                 viewBox="0 0 113 113"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -30,8 +30,8 @@ const Home = () => {
                   fill="#F4F4F5"
                 ></path>
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M90.506 32.3292C96.1534 32.3292 100.732 36.9079 100.732 42.5553C100.732 48.2027 96.1534 52.7814 90.506 52.7814C84.8586 52.7814 80.2798 48.2027 80.2798 42.5553C80.2798 36.9079 84.8499 32.3292 90.506 32.3292Z"
                   fill="#F4F4F5"
                 ></path>
@@ -44,9 +44,9 @@ const Home = () => {
                     y2="6.6813"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.04" stop-color="#F57F2D"></stop>
-                    <stop offset="0.5" stop-color="#E47225"></stop>
-                    <stop offset="0.91" stop-color="#EF452C"></stop>
+                    <stop offset="0.04" stopColor="#F57F2D"></stop>
+                    <stop offset="0.5" stopColor="#E47225"></stop>
+                    <stop offset="0.91" stopColor="#EF452C"></stop>
                   </linearGradient>
                 </defs>
               </svg>

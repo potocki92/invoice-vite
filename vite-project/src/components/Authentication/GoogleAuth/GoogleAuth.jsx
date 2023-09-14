@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { GoogleLoginButton } from "react-social-login-buttons";
 import { LoginSocialGoogle } from "reactjs-social-login";
 import { register } from "../../../redux/auth/operations";
+import { FcGoogle } from "react-icons/fc";
 const GoogleAuth = (isRegister) => {
   const dispatch = useDispatch();
   const clientId =
@@ -28,23 +28,24 @@ const GoogleAuth = (isRegister) => {
     }
   };
   return (
-    <div id="signInButton">
-      <LoginSocialGoogle
-        client_id={clientId}
-        scope="openid profile email"
-        discoveryDocs="claims_supported"
-        access_type="offline"
-        onResolve={({ provider, data }) => {
-          console.log(provider, data);
-        }}
-        onReject={(err) => {
-          console.log(err);
-        }}
-        onSuccess={onSuccess}
-      >
-        <GoogleLoginButton />
-      </LoginSocialGoogle>
-    </div>
+    <LoginSocialGoogle
+      className="cursor-pointer inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-[#292424] bg-[#FBFCFF] h-10 px-4 py-2 gap-[10px]"
+      id="signInButton"
+      client_id={clientId}
+      scope="openid profile email"
+      discoveryDocs="claims_supported"
+      access_type="offline"
+      onResolve={({ provider, data }) => {
+        console.log(provider, data);
+      }}
+      onReject={(err) => {
+        console.log(err);
+      }}
+      onSuccess={onSuccess}
+    >
+      <FcGoogle size="20px" />
+      <span className="font-semibold">Continue with Google</span>
+    </LoginSocialGoogle>
   );
 };
 

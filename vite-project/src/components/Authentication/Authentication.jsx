@@ -55,28 +55,28 @@ const Authentication = () => {
   }, []);
   return (
     <div className="min-h-screen">
-      <div className="md:container flex flex-col items-center justify-center h-screen lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <div className="relative flex flex-col items-center w-full h-full sm:h-[670px] sm:w-[400px] bg-[#0C0A09]">
+      <div className="md:container mx-auto flex flex-col items-center justify-center h-screen lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="relative flex flex-col items-center min-w-[265px] w-full h-full sm:h-[670px] sm:w-[400px] bg-[#353535]">
           <div className="w-full flex">
             <button
               className={`flex justify-center w-[50%] h-[60px] relative block ${
                 showRegister
-                  ? "bg-[#0C0A09]  text-[#FBFCFF]"
-                  : "bg-[#FBFCFF]  text-[#0C0A09]"
+                  ? "bg-[#353535]  text-[#FBFCFF]"
+                  : "bg-[#FBFCFF]  text-[#353535]"
               }`}
               onClick={handleAfterClick}
             >
               <b
                 className={`absolute bottom-[0] h-[20px] w-full ${
                   showRegister
-                    ? "bg-[#0C0A09] before:bg-[#0C0A09]"
-                    : "bg-[#0C0A09] before:bg-[#FBFCFF]"
+                    ? "bg-[#353535] before:bg-[#353535]"
+                    : "bg-[#353535] before:bg-[#FBFCFF]"
                 }  before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full  before:rounded-br-[20px]`}
               ></b>
               <b
                 className={`absolute top-[0] h-[20px] w-full ${
                   showRegister
-                    ? "bg-[#FBFCFF] after:bg-[#0C0A09]"
+                    ? "bg-[#FBFCFF] after:bg-[#353535]"
                     : "bg-[#FBFCFF] after:bg-[#FBFCFF]"
                 } after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:rounded-tr-[20px]`}
               ></b>
@@ -89,23 +89,23 @@ const Authentication = () => {
             <button
               className={`flex justify-center w-[50%] h-[60px] relative block ${
                 showRegister
-                  ? "bg-[#FBFCFF] text-[#0C0A09]"
-                  : "bg-[#0C0A09] text-[#FBFCFF]"
+                  ? "bg-[#FBFCFF] text-[#353535]"
+                  : "bg-[#353535] text-[#FBFCFF]"
               } `}
               onClick={handleAfterClick}
             >
               <b
                 className={`absolute bottom-[0] h-[20px] w-full ${
                   showRegister
-                    ? "bg-[#0C0A09] before:bg-[#FBFCFF]"
-                    : "bg-[#0C0A09] before:bg-[#0C0A09]"
-                }  bg-[#0C0A09] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#0C0A09] before:rounded-bl-[20px]`}
+                    ? "bg-[#353535] before:bg-[#FBFCFF]"
+                    : "bg-[#353535] before:bg-[#353535]"
+                }  bg-[#353535] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#0C0A09] before:rounded-bl-[20px]`}
               ></b>
               <b
                 className={`absolute top-[0] h-[20px] w-full ${
                   showRegister
                     ? "bg-[#FBFCFF] after:bg-[#FBFCFF]"
-                    : "bg-[#0C0A09] after:bg-[#0C0A09]"
+                    : "bg-[#353535] after:bg-[#353535]"
                 }  bg-[#FBFCFF] after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-[#0C0A09] after:rounded-tl-[20px]`}
               ></b>
               <span

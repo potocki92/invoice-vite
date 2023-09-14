@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../../redux/auth/operations";
 import { selectError } from "../../../redux/auth/selectors";
 import AuthenticationForm from "../AuthenticationForm/AuthenticationForm";
-
+import GoogleAuth from "../GoogleAuth/GoogleAuth";
 /**
  * Component for user registration.
  *
@@ -100,13 +100,14 @@ const Register = ({ setShowRegister }) => {
         />
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-[#292424]"></span>
+            <span className="w-full border-t border-[#B8B3AF]"></span>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="px-2 bg-[#0C0A09] text-[#B8B3AF]">OR</span>
+            <span className="px-2 bg-[#353535] text-[#B8B3AF]">OR</span>
           </div>
         </div>
-        <div className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-[#292424] h-10 px-4 py-2"></div>
+
+        <GoogleAuth />
       </div>
       {/* <LoginStyled>
       {error && <ErrorMessage>{error}</ErrorMessage>}
