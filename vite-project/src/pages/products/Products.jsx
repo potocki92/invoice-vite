@@ -8,6 +8,7 @@ import { homeLink } from "@utils/linkConfig";
 import { DefaultButton } from "@components/buttons.styled";
 import { addProduct, deleteProduct, fetchProducts } from "@redux/products/operations";
 import { selectAllProducts } from "@redux/products/selectors";
+import HeadingPage from "../../components/Common/HeadingPage/HeadingPage";
 
 /**
 Component for managing products.
@@ -72,7 +73,7 @@ const Products = () => {
   return (
     <div className="container">
       <div className="invoice__home-logo">
-        <h1>Products</h1>
+        <HeadingPage title={"Products"}/>
         {products && <p>There are total {products.length} products</p>}
       </div>
       <Link to={homeLink}>

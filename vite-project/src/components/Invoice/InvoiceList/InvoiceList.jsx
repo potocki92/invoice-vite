@@ -14,7 +14,7 @@ const InvoiceList = ({ invoices, onDelete }) => {
   const reversedInvoices = [...invoices].reverse();
 
   return (
-    <InvoiceListStyled>
+    <InvoiceListStyled className="gap-1">
       {reversedInvoices?.map((invoice) => (
         <InvoiceItem key={invoice._id} invoice={invoice} onDelete={onDelete} />
       ))}

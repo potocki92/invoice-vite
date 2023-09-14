@@ -4,6 +4,7 @@ import { homeLink } from "@utils/linkConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, updateUser } from "../../redux/user/operations";
 import { selectUser } from "../../redux/user/selectors";
+import HeadingPage from "../../components/Common/HeadingPage/HeadingPage";
 
 const User = () => {
   let { id } = useParams();
@@ -78,10 +79,11 @@ const User = () => {
 
   return (
     <div className="container">
+      
+      <HeadingPage title={"User"}/>
       <Link to={homeLink}>
         <button className="button back_button">Go Back</button>
       </Link>
-      User {id}
       <div className="form__group">
         <p>Your name:</p>
         <input

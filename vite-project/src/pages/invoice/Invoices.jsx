@@ -17,6 +17,7 @@ import { fetchUser } from "@redux/user/operations";
 import { selectUser } from "@redux/user/selectors";
 import { addInvoice } from "@redux/invoices/all/operations";
 import { selectInvoice } from "@redux/invoices/single/selectors";
+import HeadingPage from "../../components/Common/HeadingPage/HeadingPage";
 
 /**
  * This component displays the invoice list, form to add a new invoice, and the button to download an invoice as a PDF.
@@ -142,6 +143,7 @@ const Invoices = () => {
     <div className="container is-flex col">
       <StyledBox>
         <div className="invoice__home-logo">
+            <HeadingPage title={"Create Invoice"}/>
           <Link to={`/invoice-vite`}>
             <DefaultButton className="back">Go Back</DefaultButton>
           </Link>

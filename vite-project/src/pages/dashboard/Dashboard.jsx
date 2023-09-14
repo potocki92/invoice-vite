@@ -9,6 +9,7 @@ import {
   selectError,
   selectIsLoading,
 } from "@redux/invoices/all/selectors";
+import HeadingPage from "../../components/Common/HeadingPage/HeadingPage";
 const Dashboard = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
@@ -49,10 +50,7 @@ const Dashboard = () => {
   return (
     <div className="container max-w-full">
       <div className="invoice__home">
-        <div className="invoice__home-logo">
-          <h1>Invoice</h1>
-          {invoices && <p>There are total {invoices.length} invoices</p>}
-        </div>
+        <HeadingPage title={"INVOICE"}/>
       </div>
       {isLoading ? (
         <p>Loading...</p>

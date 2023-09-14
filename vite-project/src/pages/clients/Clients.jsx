@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAllClients } from "@redux/clients/selectors";
 import { deleteClient, fetchClients } from "@redux/clients/operations";
 import { selectToken } from "@redux/auth/selectors";
+import HeadingPage from "../../components/Common/HeadingPage/HeadingPage";
 
 /**
  * Represents the Clients component, which manages clients data.
@@ -32,7 +33,8 @@ const Clients = () => {
   return (
     <div className="container">
       <div className="invoice__home-logo">
-        <h1>Customers</h1>
+        
+      <HeadingPage title={"Customers"}/>
         {clients && <p>There are total {clients.length} clients</p>}
       </div>
       <Link to={homeLink}>
