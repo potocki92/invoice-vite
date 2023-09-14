@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import { homeLink } from "./utils/linkConfig";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { refreshUser } from "@redux/auth/operations";
 import { RestrictedRoute } from "./RestrictedRoute";
 import { PrivateRoute } from "./PrivateRoute";
@@ -23,9 +23,11 @@ const Authentication = lazy(() =>
 import InvoiceEdit from "@pages/invoice/edit/InvoiceEdit";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Home from "./pages/home/Home";
+import { selectIsHome } from "./redux/home/selectors";
 
 function App() {
   const dispatch = useDispatch();
+  const isHome = useSelector(selectIsHome);
   const { isRefreshing } = useAuth();
 
   useEffect(() => {
@@ -37,7 +39,11 @@ function App() {
   return isRefreshing ? (
     <b>Refreshing user...</b>
   ) : (
-    <div className="flex flex-col min-h-screen bg-[#0C0A09]">
+    <div
+      className={`flex flex-col ${
+        isHome ? "min-h-screen bg-[#0C0A09]" : "h-full bg-[#FBFCFF]"
+      } `}
+    >
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>

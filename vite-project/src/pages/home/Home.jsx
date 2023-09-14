@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
 import { homeLink } from "../../utils/linkConfig";
+import { useEffect } from "react";
+import { setIsHome } from "../../redux/home/slice";
+import { useDispatch } from "react-redux";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setIsHome(true));
+  }, [setIsHome]);
   return (
     <>
-      <header className="sticky top-0 z-40 bg-[#0C0A09] border-b">
+      <header className="sticky top-0 z-40 bg-background border-b border-[#292524]">
         <div className="flex items-center justify-between h-16 px-4 space-x-4 md:container">
           <div className="flex gap-6 md:gap-10">
             <a className="flex items-center space-x-2" href="/">
               <svg
-                class="w-6 block"
+                className="w-6 block"
                 viewBox="0 0 113 113"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -23,8 +30,8 @@ const Home = () => {
                   fill="#F4F4F5"
                 ></path>
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M90.506 32.3292C96.1534 32.3292 100.732 36.9079 100.732 42.5553C100.732 48.2027 96.1534 52.7814 90.506 52.7814C84.8586 52.7814 80.2798 48.2027 80.2798 42.5553C80.2798 36.9079 84.8499 32.3292 90.506 32.3292Z"
                   fill="#F4F4F5"
                 ></path>
@@ -37,9 +44,9 @@ const Home = () => {
                     y2="6.6813"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.04" stop-color="#F57F2D"></stop>
-                    <stop offset="0.5" stop-color="#E47225"></stop>
-                    <stop offset="0.91" stop-color="#EF452C"></stop>
+                    <stop offset="0.04" stopColor="#F57F2D"></stop>
+                    <stop offset="0.5" stopColor="#E47225"></stop>
+                    <stop offset="0.91" stopColor="#EF452C"></stop>
                   </linearGradient>
                 </defs>
               </svg>
@@ -72,13 +79,13 @@ const Home = () => {
                 <button className="text-[#FBFCFF] inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  text-primary-foreground  h-10 px-4 py-2 bg-[#EA580C]">
                   <Link to={`${homeLink}/signup`}>Get Started</Link>
                 </button>
-                <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                <button className="inline-flex items-center justify-center border-[#292524] border-solid border-1 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                   <Link to={`${homeLink}/login`}>Login</Link>
                 </button>
               </div>
             </div>
           </div>
-          <div className="pt-6">
+          <div className="pt-6 border-t border-[#292524]">
             <h3 className="text-xl text-[#FBFCFF] font-semibold tracking-wide text-center text-foreground">
               About Project
             </h3>

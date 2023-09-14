@@ -18,6 +18,14 @@ span {
   list-style: none;
   text-decoration: none;
 }
+input:autofill {
+  background: #0c0a09;
+  color: white;
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #353535 inset !important;
+  -webkit-text-fill-color: #fbfcff;
+}
 a {
   color: #fff;
 }

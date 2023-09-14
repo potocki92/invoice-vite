@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { LoginStyled } from "./Login.styled";
-import { ErrorMessage, InputsForm } from "../../Common/InputField/Input.styled";
-import { DefaultButton } from "../../buttons.styled";
+import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/auth/operations";
-import InputField from "../../Common/InputField/InputField";
-import { inputsLogin } from "./inputs";
-import { getIcon } from "../../../utils/getIcon";
+import AuthenticationForm from "../AuthenticationForm/AuthenticationForm";
+import GoogleAuth from "../GoogleAuth/GoogleAuth";
 /**
  * Represents a login component that allows users to log in.
  * @param {Object} props - Component props.
@@ -51,10 +48,69 @@ const Login = () => {
       });
     }
   };
+  const data = [
+    {
+      name: "email",
+      label: "Email",
+      placeholder: "johndoe@example.com",
+      type: "email",
+    },
+    {
+      name: "password",
+      label: "Password",
+      placeholder: "*****",
+      type: "password",
+    },
+  ];
+  const onSuccess = async (res) => {
+    console.log("Login success: ", res.profileObj);
 
+    if (!isRegister) {
+      isRegister = true;
+    }
+    try {
+      await dispatch(
+        register({
+          googleId: res.profileObj.googleId,
+          email: res.profileObj.email,
+          name: res.profileObj.name,
+        })
+      );
+    } catch (error) {
+      console.error("Błąd podczas rejestracji:", error);
+    } finally {
+      isRegister = false;
+    }
+  };
   return (
-    <LoginStyled>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+    <div className="pt-5 px-5 mx-auto max-w-md flex w-full h-full flex-col justify-center space-y-6 sm:w-[350px]">
+      <div className="flex flex-col space-y-2 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight text-[#FBFCFF]">
+          Welcome back
+        </h1>
+        <p className="text-sm text-[#B8B3AF]">
+          Enter your email to sign in to your account
+        </p>
+      </div>
+      <div className="grid gap-5">
+        <AuthenticationForm
+          onSubmit={onSubmit}
+          onChange={onChange}
+          formData={data}
+          buttonText={"Sign In with Email"}
+          error={error}
+        />
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-[#B8B3AF]"></span>
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="px-2 bg-[#353535] text-[#B8B3AF]">OR</span>
+          </div>
+        </div>
+        <GoogleAuth text={"Continue with Google"} />
+      </div>
+      {/* {error && <ErrorMessage>{error}</ErrorMessage>}
       <InputsForm className="authentication" onSubmit={(e) => onSubmit(e)}>
         {inputsLogin.map((input) => (
           <InputField
@@ -70,8 +126,8 @@ const Login = () => {
         <DefaultButton type="submit" value="Login">
           LogIn
         </DefaultButton>
-      </InputsForm>
-    </LoginStyled>
+      </InputsForm> */}
+    </div>
   );
 };
 

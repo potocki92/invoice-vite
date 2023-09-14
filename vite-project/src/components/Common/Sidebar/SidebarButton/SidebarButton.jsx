@@ -9,7 +9,7 @@ import { MyContext } from "../Context";
         onClick={handleBurgerClick}>
              <div className={`tham ${isClick ? "tham-active" : ""} tham-e-squeeze tham-w-8 hover:opacity-100`}>
   <div class="tham-box">
-    <div className={`tham-inner ${isClick ? "bg-[#FBFCFF]" : "bg-[#4b5bf9]"}`} />
+    <div className={`tham-inner ${isClick ? "bg-[#FBFCFF]" : "bg-[#353535]"}`} />
   </div>
 </div>
       </div>

@@ -82,11 +82,11 @@ const Sidebar = () => {
         handleBurgerClick,
       }}
     >
-      <aside className="absolute h-full">
+      <aside className="absolute sm:relative h-full">
         <div
           className={`${
             isClick ? "w-[calc(100vw-10px)]" : ""
-          } transition-width duration-300 ease-in-out sm:block z-10 relative w-0 sm:w-[70px] md:w-[300px] h-full bg-[#4b5bf9] border-[#4b5bf9]`}
+          } transition-width duration-300 ease-in-out sm:block z-10 relative w-0 sm:w-[70px] md:w-[300px] h-full bg-[#353535] border-[#4b5bf9]`}
         >
           <ul
             className={`absolute flex flex-col top-0 left-0 h-full w-full pt-[85px] pl-[5px]`}

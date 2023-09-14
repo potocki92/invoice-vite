@@ -11,9 +11,9 @@ import { FormsWrapperStyled } from './FormsWrapper.styled'
  */
 const FormsWrapper = ({children}) => {
   return (
-    <FormsWrapperStyled>
+    <div>
         {children}
-    </FormsWrapperStyled>
+    </div>
   )
 }
 
