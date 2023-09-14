@@ -7,7 +7,7 @@ const Homepage = ({ setLoginUser, user }) => {
 
   return (
     <Fragment>
-      <main className="homepage">
+      <main className="homepage min-h-screen">
         <Sidebar setLoginUser={setLoginUser} />
         {location.pathname === "/invoice-vite/" && user && user._id ? (
           <div>
